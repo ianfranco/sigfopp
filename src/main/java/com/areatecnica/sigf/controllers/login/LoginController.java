@@ -207,8 +207,8 @@ public class LoginController implements java.io.Serializable {
             JsfUtil.addSuccessMessage("Su sessión ha expirado");
 
             CommonPage.removeStaff(usuario);
-            EventBus eventBus = EventBusFactory.getDefault().eventBus();
-            eventBus.publish("/counter", String.valueOf(CommonPage.getUsuarioList().size()));
+            /*EventBus eventBus = EventBusFactory.getDefault().eventBus();
+            eventBus.publish("/counter", String.valueOf(CommonPage.getUsuarioList().size()));*/
             loggedIn = false;
             usuario = null;
             FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
