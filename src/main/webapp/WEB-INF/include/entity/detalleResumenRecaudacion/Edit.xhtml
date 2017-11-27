@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleResumenRecaudacionEditDlg" widgetVar="DetalleResumenRecaudacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDetalleResumenRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleResumenRecaudacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleResumenRecaudacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDetalleResumenRecaudacionLabel_detalleResumenRecaudacionId}" for="detalleResumenRecaudacionId" />
+                        <h:outputText id="detalleResumenRecaudacionId" value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionId}" />
+
+                        <p:outputLabel value="#{bundle.EditDetalleResumenRecaudacionLabel_detalleResumenRecaudacionCantidadEfectivo}" for="detalleResumenRecaudacionCantidadEfectivo" />
+                        <p:inputText id="detalleResumenRecaudacionCantidadEfectivo" value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionCantidadEfectivo}" title="#{bundle.EditDetalleResumenRecaudacionTitle_detalleResumenRecaudacionCantidadEfectivo}" required="true" requiredMessage="#{bundle.EditDetalleResumenRecaudacionRequiredMessage_detalleResumenRecaudacionCantidadEfectivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleResumenRecaudacionLabel_detalleResumenRecaudacionTotalEfectivo}" for="detalleResumenRecaudacionTotalEfectivo" />
+                        <p:inputText id="detalleResumenRecaudacionTotalEfectivo" value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionTotalEfectivo}" title="#{bundle.EditDetalleResumenRecaudacionTitle_detalleResumenRecaudacionTotalEfectivo}" required="true" requiredMessage="#{bundle.EditDetalleResumenRecaudacionRequiredMessage_detalleResumenRecaudacionTotalEfectivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleResumenRecaudacionLabel_detalleResumenRecaudacionIdEfectivoCaja}" for="detalleResumenRecaudacionIdEfectivoCaja" />
+                        <p:selectOneMenu id="detalleResumenRecaudacionIdEfectivoCaja" value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionIdEfectivoCaja}" required="true" requiredMessage="#{bundle.EditDetalleResumenRecaudacionRequiredMessage_detalleResumenRecaudacionIdEfectivoCaja}" converter="efectivoCajaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{efectivoCajaController.items}"
+                                           var="detalleResumenRecaudacionIdEfectivoCajaItem"
+                                           itemValue="#{detalleResumenRecaudacionIdEfectivoCajaItem}"
+                                           itemLabel="#{detalleResumenRecaudacionIdEfectivoCajaItem.efectivoCajaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditDetalleResumenRecaudacionLabel_detalleResumenRecaudacionIdResumen}" for="detalleResumenRecaudacionIdResumen" />
+                        <p:selectOneMenu id="detalleResumenRecaudacionIdResumen" value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionIdResumen}" required="true" requiredMessage="#{bundle.EditDetalleResumenRecaudacionRequiredMessage_detalleResumenRecaudacionIdResumen}" converter="resumenRecaudacionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{resumenRecaudacionController.items}"
+                                           var="detalleResumenRecaudacionIdResumenItem"
+                                           itemValue="#{detalleResumenRecaudacionIdResumenItem}"
+                                           itemLabel="#{detalleResumenRecaudacionIdResumenItem.resumenRecaudacionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleResumenRecaudacionController.save}" value="#{bundle.Save}" update="display,:DetalleResumenRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleResumenRecaudacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DetalleResumenRecaudacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

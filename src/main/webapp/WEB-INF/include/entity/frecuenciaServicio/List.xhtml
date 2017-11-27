@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="FrecuenciaServicioListForm">
+
+        <p:panel header="#{bundle.ListFrecuenciaServicioTitle}">
+            <p:contextMenu id="FrecuenciaServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('FrecuenciaServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('FrecuenciaServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('FrecuenciaServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('FrecuenciaServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_frecuenciaServicioIdPeriodo}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.prepareFrecuenciaServicioIdPeriodo}" update=":PeriodoFrecuenciaViewForm" oncomplete="PF('PeriodoFrecuenciaViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.frecuenciaServicioIdPeriodo}"/>  
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_frecuenciaServicioIdServicio}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.prepareFrecuenciaServicioIdServicio}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.frecuenciaServicioIdServicio}"/>  
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_frecuenciaServicioIdTipoDemanda}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.prepareFrecuenciaServicioIdTipoDemanda}" update=":TipoDemandaViewForm" oncomplete="PF('TipoDemandaViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.frecuenciaServicioIdTipoDemanda}"/>  
+                <p:menuitem value="#{bundle.FrecuenciaServicioMenuItem_frecuenciaServicioIdTipoDia}" icon="ui-icon-search"  actionListener="#{frecuenciaServicioController.prepareFrecuenciaServicioIdTipoDia}" update=":TipoDiaFrecuenciaViewForm" oncomplete="PF('TipoDiaFrecuenciaViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected.frecuenciaServicioIdTipoDia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{frecuenciaServicioController.items}"
+                         lazy="false"
+                         rowKey="#{item.frecuenciaServicioId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{frecuenciaServicioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{frecuenciaServicioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.frecuenciaServicioId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FrecuenciaServicioDataTableContextMenu" listener="#{frecuenciaServicioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FrecuenciaServicioDataTableContextMenu" listener="#{frecuenciaServicioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{frecuenciaServicioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('FrecuenciaServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.frecuenciaServicioId}" filterBy="#{item.frecuenciaServicioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_frecuenciaServicioId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.frecuenciaServicioId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.frecuenciaServicioNumeroBuses}" filterBy="#{item.frecuenciaServicioNumeroBuses}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_frecuenciaServicioNumeroBuses}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.frecuenciaServicioNumeroBuses}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.frecuenciaServicioFechaIngreso}" filterBy="#{item.frecuenciaServicioFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_frecuenciaServicioFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.frecuenciaServicioFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.frecuenciaServicioIdPeriodo.periodoFrecuenciaId}" filterBy="#{item.frecuenciaServicioIdPeriodo.periodoFrecuenciaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_frecuenciaServicioIdPeriodo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.frecuenciaServicioIdPeriodo.periodoFrecuenciaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.frecuenciaServicioIdServicio.servicioId}" filterBy="#{item.frecuenciaServicioIdServicio.servicioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_frecuenciaServicioIdServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.frecuenciaServicioIdServicio.servicioId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.frecuenciaServicioIdTipoDemanda.tipoDemandaId}" filterBy="#{item.frecuenciaServicioIdTipoDemanda.tipoDemandaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_frecuenciaServicioIdTipoDemanda}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.frecuenciaServicioIdTipoDemanda.tipoDemandaId}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.frecuenciaServicioIdTipoDia.tipoDiaFrecuenciaId}" filterBy="#{item.frecuenciaServicioIdTipoDia.tipoDiaFrecuenciaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListFrecuenciaServicioTitle_frecuenciaServicioIdTipoDia}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.frecuenciaServicioIdTipoDia.tipoDiaFrecuenciaId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{frecuenciaServicioController.prepareCreate}" update=":FrecuenciaServicioCreateForm" oncomplete="PF('FrecuenciaServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":FrecuenciaServicioViewForm" oncomplete="PF('FrecuenciaServicioViewDialog').show()" disabled="#{empty frecuenciaServicioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":FrecuenciaServicioEditForm" oncomplete="PF('FrecuenciaServicioEditDialog').show()" disabled="#{empty frecuenciaServicioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{frecuenciaServicioController.delete}" update=":growl,datalist" disabled="#{empty frecuenciaServicioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

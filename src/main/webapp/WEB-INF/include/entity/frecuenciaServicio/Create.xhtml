@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FrecuenciaServicioCreateDlg" widgetVar="FrecuenciaServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateFrecuenciaServicioTitle}" closeOnEscape="true">
+
+            <h:form id="FrecuenciaServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{frecuenciaServicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateFrecuenciaServicioLabel_frecuenciaServicioNumeroBuses}" for="frecuenciaServicioNumeroBuses" />
+                        <p:inputText id="frecuenciaServicioNumeroBuses" value="#{frecuenciaServicioController.selected.frecuenciaServicioNumeroBuses}" title="#{bundle.CreateFrecuenciaServicioTitle_frecuenciaServicioNumeroBuses}" required="true" requiredMessage="#{bundle.CreateFrecuenciaServicioRequiredMessage_frecuenciaServicioNumeroBuses}"/>
+
+                        <p:outputLabel value="#{bundle.CreateFrecuenciaServicioLabel_frecuenciaServicioFechaIngreso}" for="frecuenciaServicioFechaIngreso" />
+                        <p:calendar id="frecuenciaServicioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{frecuenciaServicioController.selected.frecuenciaServicioFechaIngreso}" title="#{bundle.CreateFrecuenciaServicioTitle_frecuenciaServicioFechaIngreso}" required="true" requiredMessage="#{bundle.CreateFrecuenciaServicioRequiredMessage_frecuenciaServicioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateFrecuenciaServicioLabel_frecuenciaServicioIdPeriodo}" for="frecuenciaServicioIdPeriodo" />
+                        <p:selectOneMenu id="frecuenciaServicioIdPeriodo" value="#{frecuenciaServicioController.selected.frecuenciaServicioIdPeriodo}" required="true" requiredMessage="#{bundle.CreateFrecuenciaServicioRequiredMessage_frecuenciaServicioIdPeriodo}" converter="periodoFrecuenciaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{periodoFrecuenciaController.items}"
+                                           var="frecuenciaServicioIdPeriodoItem"
+                                           itemValue="#{frecuenciaServicioIdPeriodoItem}"
+                                           itemLabel="#{frecuenciaServicioIdPeriodoItem.periodoFrecuenciaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateFrecuenciaServicioLabel_frecuenciaServicioIdServicio}" for="frecuenciaServicioIdServicio" />
+                        <p:selectOneMenu id="frecuenciaServicioIdServicio" value="#{frecuenciaServicioController.selected.frecuenciaServicioIdServicio}" required="true" requiredMessage="#{bundle.CreateFrecuenciaServicioRequiredMessage_frecuenciaServicioIdServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{servicioController.items}"
+                                           var="frecuenciaServicioIdServicioItem"
+                                           itemValue="#{frecuenciaServicioIdServicioItem}"
+                                           itemLabel="#{frecuenciaServicioIdServicioItem.servicioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateFrecuenciaServicioLabel_frecuenciaServicioIdTipoDemanda}" for="frecuenciaServicioIdTipoDemanda" />
+                        <p:selectOneMenu id="frecuenciaServicioIdTipoDemanda" value="#{frecuenciaServicioController.selected.frecuenciaServicioIdTipoDemanda}" required="true" requiredMessage="#{bundle.CreateFrecuenciaServicioRequiredMessage_frecuenciaServicioIdTipoDemanda}" converter="tipoDemandaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoDemandaController.items}"
+                                           var="frecuenciaServicioIdTipoDemandaItem"
+                                           itemValue="#{frecuenciaServicioIdTipoDemandaItem}"
+                                           itemLabel="#{frecuenciaServicioIdTipoDemandaItem.tipoDemandaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateFrecuenciaServicioLabel_frecuenciaServicioIdTipoDia}" for="frecuenciaServicioIdTipoDia" />
+                        <p:selectOneMenu id="frecuenciaServicioIdTipoDia" value="#{frecuenciaServicioController.selected.frecuenciaServicioIdTipoDia}" required="true" requiredMessage="#{bundle.CreateFrecuenciaServicioRequiredMessage_frecuenciaServicioIdTipoDia}" converter="tipoDiaFrecuenciaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoDiaFrecuenciaController.items}"
+                                           var="frecuenciaServicioIdTipoDiaItem"
+                                           itemValue="#{frecuenciaServicioIdTipoDiaItem}"
+                                           itemLabel="#{frecuenciaServicioIdTipoDiaItem.tipoDiaFrecuenciaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{frecuenciaServicioController.saveNew}" value="#{bundle.Save}" update="display,:FrecuenciaServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FrecuenciaServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('FrecuenciaServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

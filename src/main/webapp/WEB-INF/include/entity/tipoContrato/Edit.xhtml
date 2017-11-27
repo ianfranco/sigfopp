@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoContratoEditDlg" widgetVar="TipoContratoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoContratoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoContratoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoContratoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoContratoLabel_tipoContratoId}" for="tipoContratoId" />
+                        <h:outputText id="tipoContratoId" value="#{tipoContratoController.selected.tipoContratoId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoContratoLabel_tipoContratoNombre}" for="tipoContratoNombre" />
+                        <p:inputText id="tipoContratoNombre" value="#{tipoContratoController.selected.tipoContratoNombre}" title="#{bundle.EditTipoContratoTitle_tipoContratoNombre}" required="true" requiredMessage="#{bundle.EditTipoContratoRequiredMessage_tipoContratoNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoContratoLabel_tipoContratoFechaIngreso}" for="tipoContratoFechaIngreso" />
+                        <p:calendar id="tipoContratoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoContratoController.selected.tipoContratoFechaIngreso}" title="#{bundle.EditTipoContratoTitle_tipoContratoFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoContratoRequiredMessage_tipoContratoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoContratoController.save}" value="#{bundle.Save}" update="display,:TipoContratoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoContratoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoContratoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

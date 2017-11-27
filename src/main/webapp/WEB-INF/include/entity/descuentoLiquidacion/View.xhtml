@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DescuentoLiquidacionViewDlg" widgetVar="DescuentoLiquidacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDescuentoLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="DescuentoLiquidacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{descuentoLiquidacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionId}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionId}" title="#{bundle.ViewDescuentoLiquidacionTitle_descuentoLiquidacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionIdRelacionLaboral}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionIdRelacionLaboral}" title="#{bundle.ViewDescuentoLiquidacionTitle_descuentoLiquidacionIdRelacionLaboral}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionFecha}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionFecha}" title="#{bundle.ViewDescuentoLiquidacionTitle_descuentoLiquidacionFecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionMonto}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionMonto}" title="#{bundle.ViewDescuentoLiquidacionTitle_descuentoLiquidacionMonto}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionDescripcion}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionDescripcion}" title="#{bundle.ViewDescuentoLiquidacionTitle_descuentoLiquidacionDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionFechaIngreso}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionFechaIngreso}" title="#{bundle.ViewDescuentoLiquidacionTitle_descuentoLiquidacionFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionIdDescuentoTrabajador}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionIdDescuentoTrabajador.descuentoTrabajadorDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoLiquidacionLabel_descuentoLiquidacionIdLiquidacionSueldo}"/>
+                        <h:outputText value="#{descuentoLiquidacionController.selected.descuentoLiquidacionIdLiquidacionSueldo.liquidacionSueldoId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DescuentoLiquidacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

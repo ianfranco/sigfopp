@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SindicatoListForm">
+
+        <p:panel header="#{bundle.ListSindicatoTitle}">
+            <p:contextMenu id="SindicatoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('SindicatoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('SindicatoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('SindicatoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('SindicatoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.SindicatoMenuItem_trabajadorList}" icon="ui-icon-search"  action="#{sindicatoController.navigateTrabajadorList}" disabled="#{empty sindicatoController.selected.trabajadorList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{sindicatoController.items}"
+                         lazy="false"
+                         rowKey="#{item.sindicatoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{sindicatoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{sindicatoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.sindicatoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SindicatoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SindicatoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SindicatoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.sindicatoId}" filterBy="#{item.sindicatoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSindicatoTitle_sindicatoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sindicatoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sindicatoNombre}" filterBy="#{item.sindicatoNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSindicatoTitle_sindicatoNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sindicatoNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sindicatoCuota}" filterBy="#{item.sindicatoCuota}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSindicatoTitle_sindicatoCuota}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sindicatoCuota}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{sindicatoController.prepareCreate}" update=":SindicatoCreateForm" oncomplete="PF('SindicatoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":SindicatoViewForm" oncomplete="PF('SindicatoViewDialog').show()" disabled="#{empty sindicatoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SindicatoEditForm" oncomplete="PF('SindicatoEditDialog').show()" disabled="#{empty sindicatoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sindicatoController.delete}" update=":growl,datalist" disabled="#{empty sindicatoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

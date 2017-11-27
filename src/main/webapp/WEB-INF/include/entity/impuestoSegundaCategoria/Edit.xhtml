@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ImpuestoSegundaCategoriaEditDlg" widgetVar="ImpuestoSegundaCategoriaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditImpuestoSegundaCategoriaTitle}" closeOnEscape="true">
+
+            <h:form id="ImpuestoSegundaCategoriaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{impuestoSegundaCategoriaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaId}" for="impuestoSegundaCategoriaId" />
+                        <h:outputText id="impuestoSegundaCategoriaId" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaId}" />
+
+                        <p:outputLabel value="#{bundle.EditImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaDesde}" for="impuestoSegundaCategoriaDesde" />
+                        <p:inputText id="impuestoSegundaCategoriaDesde" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaDesde}" title="#{bundle.EditImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaDesde}" required="true" requiredMessage="#{bundle.EditImpuestoSegundaCategoriaRequiredMessage_impuestoSegundaCategoriaDesde}"/>
+
+                        <p:outputLabel value="#{bundle.EditImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaHasta}" for="impuestoSegundaCategoriaHasta" />
+                        <p:inputText id="impuestoSegundaCategoriaHasta" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaHasta}" title="#{bundle.EditImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaHasta}" required="true" requiredMessage="#{bundle.EditImpuestoSegundaCategoriaRequiredMessage_impuestoSegundaCategoriaHasta}"/>
+
+                        <p:outputLabel value="#{bundle.EditImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaFactor}" for="impuestoSegundaCategoriaFactor" />
+                        <p:inputText id="impuestoSegundaCategoriaFactor" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaFactor}" title="#{bundle.EditImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaFactor}"/>
+
+                        <p:outputLabel value="#{bundle.EditImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaRebaja}" for="impuestoSegundaCategoriaRebaja" />
+                        <p:inputText id="impuestoSegundaCategoriaRebaja" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaRebaja}" title="#{bundle.EditImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaRebaja}"/>
+
+                        <p:outputLabel value="#{bundle.EditImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaFechaIngreso}" for="impuestoSegundaCategoriaFechaIngreso" />
+                        <p:calendar id="impuestoSegundaCategoriaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaFechaIngreso}" title="#{bundle.EditImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaFechaIngreso}" required="true" requiredMessage="#{bundle.EditImpuestoSegundaCategoriaRequiredMessage_impuestoSegundaCategoriaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{impuestoSegundaCategoriaController.save}" value="#{bundle.Save}" update="display,:ImpuestoSegundaCategoriaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ImpuestoSegundaCategoriaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ImpuestoSegundaCategoriaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

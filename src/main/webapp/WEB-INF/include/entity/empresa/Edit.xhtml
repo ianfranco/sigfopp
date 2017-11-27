@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EmpresaEditDlg" widgetVar="EmpresaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEmpresaTitle}" closeOnEscape="true">
+
+            <h:form id="EmpresaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{empresaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEmpresaLabel_empresaId}" for="empresaId" />
+                        <h:outputText id="empresaId" value="#{empresaController.selected.empresaId}" />
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaRut}" for="empresaRut" />
+                        <p:inputText id="empresaRut" value="#{empresaController.selected.empresaRut}" title="#{bundle.EditEmpresaTitle_empresaRut}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaRut}" size="9" maxlength="9"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaNombre}" for="empresaNombre" />
+                        <p:inputText id="empresaNombre" value="#{empresaController.selected.empresaNombre}" title="#{bundle.EditEmpresaTitle_empresaNombre}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaGiro}" for="empresaGiro" />
+                        <p:inputText id="empresaGiro" value="#{empresaController.selected.empresaGiro}" title="#{bundle.EditEmpresaTitle_empresaGiro}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaGiro}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaDireccion}" for="empresaDireccion" />
+                        <p:inputText id="empresaDireccion" value="#{empresaController.selected.empresaDireccion}" title="#{bundle.EditEmpresaTitle_empresaDireccion}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaTelefono}" for="empresaTelefono" />
+                        <p:inputText id="empresaTelefono" value="#{empresaController.selected.empresaTelefono}" title="#{bundle.EditEmpresaTitle_empresaTelefono}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaCelular}" for="empresaCelular" />
+                        <p:inputText id="empresaCelular" value="#{empresaController.selected.empresaCelular}" title="#{bundle.EditEmpresaTitle_empresaCelular}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaEmail}" for="empresaEmail" />
+                        <p:inputText id="empresaEmail" value="#{empresaController.selected.empresaEmail}" title="#{bundle.EditEmpresaTitle_empresaEmail}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaPorcentajeMutual}" for="empresaPorcentajeMutual" />
+                        <p:inputText id="empresaPorcentajeMutual" value="#{empresaController.selected.empresaPorcentajeMutual}" title="#{bundle.EditEmpresaTitle_empresaPorcentajeMutual}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaPorcentajeMutual}"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaAportePatronal}" for="empresaAportePatronal" />
+                        <p:inputText id="empresaAportePatronal" value="#{empresaController.selected.empresaAportePatronal}" title="#{bundle.EditEmpresaTitle_empresaAportePatronal}"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaFechaIngreso}" for="empresaFechaIngreso" />
+                        <p:calendar id="empresaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{empresaController.selected.empresaFechaIngreso}" title="#{bundle.EditEmpresaTitle_empresaFechaIngreso}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaIdCajaCompensacion}" for="empresaIdCajaCompensacion" />
+                        <p:selectOneMenu id="empresaIdCajaCompensacion" value="#{empresaController.selected.empresaIdCajaCompensacion}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaIdCajaCompensacion}" converter="cajaCompensacionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cajaCompensacionController.items}"
+                                           var="empresaIdCajaCompensacionItem"
+                                           itemValue="#{empresaIdCajaCompensacionItem}"
+                                           itemLabel="#{empresaIdCajaCompensacionItem.cajaCompensacionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaIdCuentaBancaria}" for="empresaIdCuentaBancaria" />
+                        <p:selectOneMenu id="empresaIdCuentaBancaria" value="#{empresaController.selected.empresaIdCuentaBancaria}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaIdCuentaBancaria}" converter="cuentaBancariaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cuentaBancariaController.items}"
+                                           var="empresaIdCuentaBancariaItem"
+                                           itemValue="#{empresaIdCuentaBancariaItem}"
+                                           itemLabel="#{empresaIdCuentaBancariaItem.cuentaBancariaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditEmpresaLabel_empresaIdMutual}" for="empresaIdMutual" />
+                        <p:selectOneMenu id="empresaIdMutual" value="#{empresaController.selected.empresaIdMutual}" required="true" requiredMessage="#{bundle.EditEmpresaRequiredMessage_empresaIdMutual}" converter="mutualConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{mutualController.items}"
+                                           var="empresaIdMutualItem"
+                                           itemValue="#{empresaIdMutualItem}"
+                                           itemLabel="#{empresaIdMutualItem.mutualId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{empresaController.save}" value="#{bundle.Save}" update="display,:EmpresaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpresaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EmpresaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

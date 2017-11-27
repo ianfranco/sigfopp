@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaBoletoCreateDlg" widgetVar="VentaBoletoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Venta de Boleto" closeOnEscape="true">
+
+            <h:form id="VentaBoletoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{ventaBoletoRecaudacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Guía" for="ventaBoletoIdGuia" />
+                        <p:selectOneMenu id="ventaBoletoIdGuia" value="#{ventaBoletoRecaudacionController.selected.ventaBoletoIdGuia}" required="true" requiredMessage="#{bundle.CreateVentaBoletoRequiredMessage_ventaBoletoIdGuia}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{guiaController.items}"
+                                           var="ventaBoletoIdGuiaItem"
+                                           itemValue="#{ventaBoletoIdGuiaItem}"
+                                           itemLabel="#{ventaBoletoIdGuiaItem.guiaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Boleto" for="ventaBoletoIdInventarioCaja" />
+                        <p:selectOneMenu style="margin-right: 5px; margin-bottom: -2px;" id="idBoleto" value="#{ventaBoletoRecaudacionController.boletoItem}" requiredMessage="Debe seleccionar el tipo de boleto" required="true" converter="omnifaces.SelectItemsConverter" >
+                            <f:selectItem itemLabel="Seleccionar"/>                                
+                            <f:selectItems value="#{boletoController.items}"
+                                           var="boletoItem"
+                                           itemValue="#{boletoItem}"
+                                           itemLabel="#{boletoItem.boletoNombre}"
+                                           />
+                            <p:ajax event="valueChange" listener="#{ventaBoletoRecaudacionController.handleBoletoChange(event)}" update="ventaBoletoIdInventarioCaja"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Inventario" for="ventaBoletoIdInventarioCaja" />
+                        <p:selectOneMenu id="ventaBoletoIdInventarioCaja" value="#{ventaBoletoRecaudacionController.selected.ventaBoletoIdInventarioCaja}" required="true" requiredMessage="#{bundle.CreateVentaBoletoRequiredMessage_ventaBoletoIdInventarioCaja}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ventaBoletoRecaudacionController.inventarioCajaList}"
+                                           var="ventaBoletoIdInventarioCajaItem"
+                                           itemValue="#{ventaBoletoIdInventarioCajaItem}"
+                                           itemLabel="#{ventaBoletoIdInventarioCajaItem.inventarioCajaIdentificador} #{ventaBoletoIdInventarioCajaItem.inventarioCajaSerie}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Valor" for="ventaBoletoValorVentaBoleto" />
+                        <p:inputText id="ventaBoletoValorVentaBoleto" value="#{ventaBoletoRecaudacionController.selected.ventaBoletoValorVentaBoleto}" title="#{bundle.CreateVentaBoletoTitle_ventaBoletoValorVentaBoleto}" required="true" requiredMessage="#{bundle.CreateVentaBoletoRequiredMessage_ventaBoletoValorVentaBoleto}"/>
+
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaBoletoRecaudacionController.saveNew}" value="#{bundle.Save}" update="display,:VentaBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaBoletoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

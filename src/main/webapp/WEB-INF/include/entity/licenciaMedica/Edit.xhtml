@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LicenciaMedicaEditDlg" widgetVar="LicenciaMedicaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditLicenciaMedicaTitle}" closeOnEscape="true">
+
+            <h:form id="LicenciaMedicaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{licenciaMedicaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaId}" for="licenciaMedicaId" />
+                        <h:outputText id="licenciaMedicaId" value="#{licenciaMedicaController.selected.licenciaMedicaId}" />
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaNumero}" for="licenciaMedicaNumero" />
+                        <p:inputText id="licenciaMedicaNumero" value="#{licenciaMedicaController.selected.licenciaMedicaNumero}" title="#{bundle.EditLicenciaMedicaTitle_licenciaMedicaNumero}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaFechaRecepcion}" for="licenciaMedicaFechaRecepcion" />
+                        <p:calendar id="licenciaMedicaFechaRecepcion" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaRecepcion}" title="#{bundle.EditLicenciaMedicaTitle_licenciaMedicaFechaRecepcion}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_licenciaMedicaFechaRecepcion}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaFechaEmision}" for="licenciaMedicaFechaEmision" />
+                        <p:calendar id="licenciaMedicaFechaEmision" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaEmision}" title="#{bundle.EditLicenciaMedicaTitle_licenciaMedicaFechaEmision}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_licenciaMedicaFechaEmision}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaFechaDesdeReposo}" for="licenciaMedicaFechaDesdeReposo" />
+                        <p:calendar id="licenciaMedicaFechaDesdeReposo" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaDesdeReposo}" title="#{bundle.EditLicenciaMedicaTitle_licenciaMedicaFechaDesdeReposo}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_licenciaMedicaFechaDesdeReposo}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaFechaHastaReposo}" for="licenciaMedicaFechaHastaReposo" />
+                        <p:calendar id="licenciaMedicaFechaHastaReposo" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaHastaReposo}" title="#{bundle.EditLicenciaMedicaTitle_licenciaMedicaFechaHastaReposo}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_licenciaMedicaFechaHastaReposo}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaDiagnosticoLicencia}" for="licenciaMedicaDiagnosticoLicencia" />
+                        <p:inputText id="licenciaMedicaDiagnosticoLicencia" value="#{licenciaMedicaController.selected.licenciaMedicaDiagnosticoLicencia}" title="#{bundle.EditLicenciaMedicaTitle_licenciaMedicaDiagnosticoLicencia}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaFechaIngreso}" for="licenciaMedicaFechaIngreso" />
+                        <p:calendar id="licenciaMedicaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{licenciaMedicaController.selected.licenciaMedicaFechaIngreso}" title="#{bundle.EditLicenciaMedicaTitle_licenciaMedicaFechaIngreso}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_licenciaMedicaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditLicenciaMedicaLabel_licenciaMedicaIdTrabajador}" for="licenciaMedicaIdTrabajador" />
+                        <p:selectOneMenu id="licenciaMedicaIdTrabajador" value="#{licenciaMedicaController.selected.licenciaMedicaIdTrabajador}" required="true" requiredMessage="#{bundle.EditLicenciaMedicaRequiredMessage_licenciaMedicaIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="licenciaMedicaIdTrabajadorItem"
+                                           itemValue="#{licenciaMedicaIdTrabajadorItem}"
+                                           itemLabel="#{licenciaMedicaIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{licenciaMedicaController.save}" value="#{bundle.Save}" update="display,:LicenciaMedicaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LicenciaMedicaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LicenciaMedicaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

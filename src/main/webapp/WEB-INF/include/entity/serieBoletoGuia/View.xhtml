@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SerieBoletoGuiaViewDlg" widgetVar="SerieBoletoGuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewSerieBoletoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="SerieBoletoGuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{serieBoletoGuiaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaId}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaId}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaId}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaNumeroVuelta}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaNumeroVuelta}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaNumeroVuelta}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaValorSerieBoleto}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaValorSerieBoleto}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaValorSerieBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaSerieBoleto}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaSerieBoleto}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaSerieBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaTerminoBoleto}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaTerminoBoleto}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaTerminoBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaCantidadBoleto}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaCantidadBoleto}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaCantidadBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaTotalBoleto}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaTotalBoleto}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaTotalBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaNuevoBoleto}"/>
+                        <h:selectBooleanCheckbox id="serieBoletoGuiaNuevoBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaNuevoBoleto}" title="#{bundle.EditSerieBoletoGuiaTitle_serieBoletoGuiaNuevoBoleto}" required="true" requiredMessage="#{bundle.EditSerieBoletoGuiaRequiredMessage_serieBoletoGuiaNuevoBoleto}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaFechaIngreso}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaFechaIngreso}" title="#{bundle.ViewSerieBoletoGuiaTitle_serieBoletoGuiaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaIdBoleto}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaIdBoleto.boletoId}"/>
+
+                        <h:outputText value="#{bundle.ViewSerieBoletoGuiaLabel_serieBoletoGuiaIdGuia}"/>
+                        <h:outputText value="#{serieBoletoGuiaController.selected.serieBoletoGuiaIdGuia.guiaId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('SerieBoletoGuiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

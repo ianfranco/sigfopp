@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CentroCostoEditDlg" widgetVar="CentroCostoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCentroCostoTitle}" closeOnEscape="true">
+
+            <h:form id="CentroCostoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{centroCostoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCentroCostoLabel_centroCostoId}" for="centroCostoId" />
+                        <h:outputText id="centroCostoId" value="#{centroCostoController.selected.centroCostoId}" />
+
+                        <p:outputLabel value="#{bundle.EditCentroCostoLabel_centroCostoNombre}" for="centroCostoNombre" />
+                        <p:inputText id="centroCostoNombre" value="#{centroCostoController.selected.centroCostoNombre}" title="#{bundle.EditCentroCostoTitle_centroCostoNombre}" required="true" requiredMessage="#{bundle.EditCentroCostoRequiredMessage_centroCostoNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditCentroCostoLabel_centroCostoFechaIngreso}" for="centroCostoFechaIngreso" />
+                        <p:calendar id="centroCostoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{centroCostoController.selected.centroCostoFechaIngreso}" title="#{bundle.EditCentroCostoTitle_centroCostoFechaIngreso}" required="true" requiredMessage="#{bundle.EditCentroCostoRequiredMessage_centroCostoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{centroCostoController.save}" value="#{bundle.Save}" update="display,:CentroCostoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CentroCostoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CentroCostoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

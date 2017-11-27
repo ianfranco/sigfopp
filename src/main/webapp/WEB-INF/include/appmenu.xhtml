@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{bundle.Maintenance}">
+                    <p:menuitem value="#{bundle.AbonoBusHeading}..." outcome="/abonoBus/index" />
+                    <p:menuitem value="#{bundle.AbonoLiquidacionHeading}..." outcome="/abonoLiquidacion/index" />
+                    <p:menuitem value="#{bundle.AdministracionMensualHeading}..." outcome="/administracionMensual/index" />
+                    <p:menuitem value="#{bundle.AsignacionFamiliarHeading}..." outcome="/asignacionFamiliar/index" />
+                    <p:menuitem value="#{bundle.BancoHeading}..." outcome="/banco/index" />
+                    <p:menuitem value="#{bundle.BoletoHeading}..." outcome="/boleto/index" />
+                    <p:menuitem value="#{bundle.BusHeading}..." outcome="/bus/index" />
+                    <p:menuitem value="#{bundle.BusServicioHeading}..." outcome="/busServicio/index" />
+                    <p:menuitem value="#{bundle.CajaCompensacionHeading}..." outcome="/cajaCompensacion/index" />
+                    <p:menuitem value="#{bundle.CajaTerminalHeading}..." outcome="/cajaTerminal/index" />
+                    <p:menuitem value="#{bundle.CalleHeading}..." outcome="/calle/index" />
+                    <p:menuitem value="#{bundle.CalleServicioHeading}..." outcome="/calleServicio/index" />
+                    <p:menuitem value="#{bundle.CargaRetroactivaHeading}..." outcome="/cargaRetroactiva/index" />
+                    <p:menuitem value="#{bundle.CargaTrabajadorHeading}..." outcome="/cargaTrabajador/index" />
+                    <p:menuitem value="#{bundle.CargoBusHeading}..." outcome="/cargoBus/index" />
+                    <p:menuitem value="#{bundle.CargoLiquidacionHeading}..." outcome="/cargoLiquidacion/index" />
+                    <p:menuitem value="#{bundle.CausalFiniquitoHeading}..." outcome="/causalFiniquito/index" />
+                    <p:menuitem value="#{bundle.CentroCostoHeading}..." outcome="/centroCosto/index" />
+                    <p:menuitem value="#{bundle.CiudadHeading}..." outcome="/ciudad/index" />
+                    <p:menuitem value="#{bundle.CompraBoletoHeading}..." outcome="/compraBoleto/index" />
+                    <p:menuitem value="#{bundle.CompraCombustibleHeading}..." outcome="/compraCombustible/index" />
+                    <p:menuitem value="#{bundle.ComunaHeading}..." outcome="/comuna/index" />
+                    <p:menuitem value="#{bundle.ContratoUnidadHeading}..." outcome="/contratoUnidad/index" />
+                    <p:menuitem value="#{bundle.ControlHeading}..." outcome="/control/index" />
+                    <p:menuitem value="#{bundle.ControlAsistenciaHeading}..." outcome="/controlAsistencia/index" />
+                    <p:menuitem value="#{bundle.ControlHorarioServicioHeading}..." outcome="/controlHorarioServicio/index" />
+                    <p:menuitem value="#{bundle.ControlServicioHeading}..." outcome="/controlServicio/index" />
+                    <p:menuitem value="#{bundle.CtvResumenHeading}..." outcome="/ctvResumen/index" />
+                    <p:menuitem value="#{bundle.CuentaBancariaHeading}..." outcome="/cuentaBancaria/index" />
+                    <p:menuitem value="#{bundle.DepartamentoHeading}..." outcome="/departamento/index" />
+                    <p:menuitem value="#{bundle.DescuentoLiquidacionHeading}..." outcome="/descuentoLiquidacion/index" />
+                    <p:menuitem value="#{bundle.DescuentoTrabajadorHeading}..." outcome="/descuentoTrabajador/index" />
+                    <p:menuitem value="#{bundle.DespachoHeading}..." outcome="/despacho/index" />
+                    <p:menuitem value="#{bundle.DetalleBilletesCtvHeading}..." outcome="/detalleBilletesCtv/index" />
+                    <p:menuitem value="#{bundle.DetalleCompraBoletoHeading}..." outcome="/detalleCompraBoleto/index" />
+                    <p:menuitem value="#{bundle.DetalleIntervalosMensualHeading}..." outcome="/detalleIntervalosMensual/index" />
+                    <p:menuitem value="#{bundle.DetalleMetalicoCtvHeading}..." outcome="/detalleMetalicoCtv/index" />
+                    <p:menuitem value="#{bundle.DetalleResumenRecaudacionHeading}..." outcome="/detalleResumenRecaudacion/index" />
+                    <p:menuitem value="#{bundle.DiaFestivoHeading}..." outcome="/diaFestivo/index" />
+                    <p:menuitem value="#{bundle.EfectivoCajaHeading}..." outcome="/efectivoCaja/index" />
+                    <p:menuitem value="#{bundle.EgresoHeading}..." outcome="/egreso/index" />
+                    <p:menuitem value="#{bundle.EgresoBusHeading}..." outcome="/egresoBus/index" />
+                    <p:menuitem value="#{bundle.EgresoCajaTerminalHeading}..." outcome="/egresoCajaTerminal/index" />
+                    <p:menuitem value="#{bundle.EgresoFlotaHeading}..." outcome="/egresoFlota/index" />
+                    <p:menuitem value="#{bundle.EgresoGuiaHeading}..." outcome="/egresoGuia/index" />
+                    <p:menuitem value="#{bundle.EgresoRecaudacionHeading}..." outcome="/egresoRecaudacion/index" />
+                    <p:menuitem value="#{bundle.EmpresaHeading}..." outcome="/empresa/index" />
+                    <p:menuitem value="#{bundle.EstadoBusHeading}..." outcome="/estadoBus/index" />
+                    <p:menuitem value="#{bundle.EstadoCivilHeading}..." outcome="/estadoCivil/index" />
+                    <p:menuitem value="#{bundle.EstadoGuiaHeading}..." outcome="/estadoGuia/index" />
+                    <p:menuitem value="#{bundle.FechaHeading}..." outcome="/fecha/index" />
+                    <p:menuitem value="#{bundle.FeriadoLegalHeading}..." outcome="/feriadoLegal/index" />
+                    <p:menuitem value="#{bundle.FiniquitoRelacionLaboralHeading}..." outcome="/finiquitoRelacionLaboral/index" />
+                    <p:menuitem value="#{bundle.FlotaHeading}..." outcome="/flota/index" />
+                    <p:menuitem value="#{bundle.FormaPagoHeading}..." outcome="/formaPago/index" />
+                    <p:menuitem value="#{bundle.FrecuenciaServicioHeading}..." outcome="/frecuenciaServicio/index" />
+                    <p:menuitem value="#{bundle.GastoAdministracionMensualHeading}..." outcome="/gastoAdministracionMensual/index" />
+                    <p:menuitem value="#{bundle.GuiaHeading}..." outcome="/guia/index" />
+                    <p:menuitem value="#{bundle.HaberLiquidacionHeading}..." outcome="/haberLiquidacion/index" />
+                    <p:menuitem value="#{bundle.HaberTrabajadorHeading}..." outcome="/haberTrabajador/index" />
+                    <p:menuitem value="#{bundle.HoraExtraTrabajadorHeading}..." outcome="/horaExtraTrabajador/index" />
+                    <p:menuitem value="#{bundle.HorarioJornadaHeading}..." outcome="/horarioJornada/index" />
+                    <p:menuitem value="#{bundle.HorarioServicioHeading}..." outcome="/horarioServicio/index" />
+                    <p:menuitem value="#{bundle.ImpuestoSegundaCategoriaHeading}..." outcome="/impuestoSegundaCategoria/index" />
+                    <p:menuitem value="#{bundle.InstitucionApvHeading}..." outcome="/institucionApv/index" />
+                    <p:menuitem value="#{bundle.InstitucionPrevisionHeading}..." outcome="/institucionPrevision/index" />
+                    <p:menuitem value="#{bundle.InstitucionSaludHeading}..." outcome="/institucionSalud/index" />
+                    <p:menuitem value="#{bundle.IntervalosAdministracionHeading}..." outcome="/intervalosAdministracion/index" />
+                    <p:menuitem value="#{bundle.InventarioCajaHeading}..." outcome="/inventarioCaja/index" />
+                    <p:menuitem value="#{bundle.InventarioInternoHeading}..." outcome="/inventarioInterno/index" />
+                    <p:menuitem value="#{bundle.JornadaLaboralHeading}..." outcome="/jornadaLaboral/index" />
+                    <p:menuitem value="#{bundle.JornadaTrabajadorHeading}..." outcome="/jornadaTrabajador/index" />
+                    <p:menuitem value="#{bundle.LicenciaMedicaHeading}..." outcome="/licenciaMedica/index" />
+                    <p:menuitem value="#{bundle.LiquidacionEmpresaHeading}..." outcome="/liquidacionEmpresa/index" />
+                    <p:menuitem value="#{bundle.LiquidacionSueldoHeading}..." outcome="/liquidacionSueldo/index" />
+                    <p:menuitem value="#{bundle.LogHeading}..." outcome="/log/index" />
+                    <p:menuitem value="#{bundle.MarcaBusHeading}..." outcome="/marcaBus/index" />
+                    <p:menuitem value="#{bundle.MetodoPagoHeading}..." outcome="/metodoPago/index" />
+                    <p:menuitem value="#{bundle.ModeloMarcaBusHeading}..." outcome="/modeloMarcaBus/index" />
+                    <p:menuitem value="#{bundle.MonedaPactadaInstitucionSaludHeading}..." outcome="/monedaPactadaInstitucionSalud/index" />
+                    <p:menuitem value="#{bundle.MutualHeading}..." outcome="/mutual/index" />
+                    <p:menuitem value="#{bundle.NumeralSurtidorHeading}..." outcome="/numeralSurtidor/index" />
+                    <p:menuitem value="#{bundle.ObservacionTrabajadorHeading}..." outcome="/observacionTrabajador/index" />
+                    <p:menuitem value="#{bundle.OperadorTransporteHeading}..." outcome="/operadorTransporte/index" />
+                    <p:menuitem value="#{bundle.ParametroCesantiaHeading}..." outcome="/parametroCesantia/index" />
+                    <p:menuitem value="#{bundle.ParametroInterpolacionHeading}..." outcome="/parametroInterpolacion/index" />
+                    <p:menuitem value="#{bundle.ParentescoCargaHeading}..." outcome="/parentescoCarga/index" />
+                    <p:menuitem value="#{bundle.PeriodoFrecuenciaHeading}..." outcome="/periodoFrecuencia/index" />
+                    <p:menuitem value="#{bundle.PrecioCombustibleHeading}..." outcome="/precioCombustible/index" />
+                    <p:menuitem value="#{bundle.PrivilegioHeading}..." outcome="/privilegio/index" />
+                    <p:menuitem value="#{bundle.ProcesoRecaudacionHeading}..." outcome="/procesoRecaudacion/index" />
+                    <p:menuitem value="#{bundle.ReconocimientoDeudaHeading}..." outcome="/reconocimientoDeuda/index" />
+                    <p:menuitem value="#{bundle.RegionHeading}..." outcome="/region/index" />
+                    <p:menuitem value="#{bundle.RegistroMinutoHeading}..." outcome="/registroMinuto/index" />
+                    <p:menuitem value="#{bundle.RelacionLaboralHeading}..." outcome="/relacionLaboral/index" />
+                    <p:menuitem value="#{bundle.RepresentanteEmpresaHeading}..." outcome="/representanteEmpresa/index" />
+                    <p:menuitem value="#{bundle.RepresentanteLegalHeading}..." outcome="/representanteLegal/index" />
+                    <p:menuitem value="#{bundle.ResumenRecaudacionHeading}..." outcome="/resumenRecaudacion/index" />
+                    <p:menuitem value="#{bundle.RolHeading}..." outcome="/rol/index" />
+                    <p:menuitem value="#{bundle.RolPrivilegioHeading}..." outcome="/rolPrivilegio/index" />
+                    <p:menuitem value="#{bundle.SerieBoletoGuiaHeading}..." outcome="/serieBoletoGuia/index" />
+                    <p:menuitem value="#{bundle.ServicioHeading}..." outcome="/servicio/index" />
+                    <p:menuitem value="#{bundle.SindicatoHeading}..." outcome="/sindicato/index" />
+                    <p:menuitem value="#{bundle.SueldoBaseHeading}..." outcome="/sueldoBase/index" />
+                    <p:menuitem value="#{bundle.SurtidorHeading}..." outcome="/surtidor/index" />
+                    <p:menuitem value="#{bundle.TarifaServicioHeading}..." outcome="/tarifaServicio/index" />
+                    <p:menuitem value="#{bundle.TerminalHeading}..." outcome="/terminal/index" />
+                    <p:menuitem value="#{bundle.TipoAbonoHeading}..." outcome="/tipoAbono/index" />
+                    <p:menuitem value="#{bundle.TipoCargaFamiliarHeading}..." outcome="/tipoCargaFamiliar/index" />
+                    <p:menuitem value="#{bundle.TipoCargoHeading}..." outcome="/tipoCargo/index" />
+                    <p:menuitem value="#{bundle.TipoCombustibleHeading}..." outcome="/tipoCombustible/index" />
+                    <p:menuitem value="#{bundle.TipoContratoHeading}..." outcome="/tipoContrato/index" />
+                    <p:menuitem value="#{bundle.TipoControlHeading}..." outcome="/tipoControl/index" />
+                    <p:menuitem value="#{bundle.TipoCotizacionTrabajadorHeading}..." outcome="/tipoCotizacionTrabajador/index" />
+                    <p:menuitem value="#{bundle.TipoCuentaBancoHeading}..." outcome="/tipoCuentaBanco/index" />
+                    <p:menuitem value="#{bundle.TipoDemandaHeading}..." outcome="/tipoDemanda/index" />
+                    <p:menuitem value="#{bundle.TipoDescuentoTrabajadorHeading}..." outcome="/tipoDescuentoTrabajador/index" />
+                    <p:menuitem value="#{bundle.TipoDiaFrecuenciaHeading}..." outcome="/tipoDiaFrecuencia/index" />
+                    <p:menuitem value="#{bundle.TipoEstacionalidadHeading}..." outcome="/tipoEstacionalidad/index" />
+                    <p:menuitem value="#{bundle.TipoHaberTrabajadorHeading}..." outcome="/tipoHaberTrabajador/index" />
+                    <p:menuitem value="#{bundle.TipoInstitucionApvHeading}..." outcome="/tipoInstitucionApv/index" />
+                    <p:menuitem value="#{bundle.TipoLineaHeading}..." outcome="/tipoLinea/index" />
+                    <p:menuitem value="#{bundle.TipoMovimientoPersonalHeading}..." outcome="/tipoMovimientoPersonal/index" />
+                    <p:menuitem value="#{bundle.TipoNominaHeading}..." outcome="/tipoNomina/index" />
+                    <p:menuitem value="#{bundle.TipoObservacionHeading}..." outcome="/tipoObservacion/index" />
+                    <p:menuitem value="#{bundle.TipoTrabajadorHeading}..." outcome="/tipoTrabajador/index" />
+                    <p:menuitem value="#{bundle.TopeHeading}..." outcome="/tope/index" />
+                    <p:menuitem value="#{bundle.TrabajadorHeading}..." outcome="/trabajador/index" />
+                    <p:menuitem value="#{bundle.TrabajadorAdicionalSaludHeading}..." outcome="/trabajadorAdicionalSalud/index" />
+                    <p:menuitem value="#{bundle.UnidadNegocioHeading}..." outcome="/unidadNegocio/index" />
+                    <p:menuitem value="#{bundle.UsuarioHeading}..." outcome="/usuario/index" />
+                    <p:menuitem value="#{bundle.ValorFijoHeading}..." outcome="/valorFijo/index" />
+                    <p:menuitem value="#{bundle.ValorMinutoHeading}..." outcome="/valorMinuto/index" />
+                    <p:menuitem value="#{bundle.ValorRolloUnidadHeading}..." outcome="/valorRolloUnidad/index" />
+                    <p:menuitem value="#{bundle.ValorUfHeading}..." outcome="/valorUf/index" />
+                    <p:menuitem value="#{bundle.ValorUtmHeading}..." outcome="/valorUtm/index" />
+                    <p:menuitem value="#{bundle.VentaBoletoHeading}..." outcome="/ventaBoleto/index" />
+                    <p:menuitem value="#{bundle.VentaCombustibleHeading}..." outcome="/ventaCombustible/index" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <h:form id="EgresoFlotaListForm" class="form-height">
+        <p:panel>
+            <f:facet name="header">
+                Egresos x Flotas
+            </f:facet>
+            <p:panelGrid columns="5" style="margin-bottom: 10px;width: 100%;">
+                <h:outputLabel value="Flota" for="busIdFlota" />
+                <p:selectOneMenu id="busIdFlota" value="#{egresoFlotaController.flota}" required="true" requiredMessage="Debe seleccionar la Flota" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{flotaController.items}"
+                                   var="busIdFlotaItem"
+                                   itemValue="#{busIdFlotaItem}"
+                                   itemLabel="#{busIdFlotaItem.flotaNombre}"
+
+                                   />
+                </p:selectOneMenu>
+                <p:commandButton value="Buscar" id="addButton" actionListener="#{egresoFlotaController.find(event)}" styleClass="ui-priority-primary" update="datalist, growl" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>                
+            </p:panelGrid>
+            <p:dataTable id="datalist"
+                         value="#{egresoFlotaController.model}"
+                         widgetVar="datalist"
+                         var="item"
+                         rowKey="#{item.egresoFlotaId}"
+                         selection="#{egresoFlotaController.selected}"
+                         selectionMode="single"
+                         rowIndexVar="rowIndex"
+                         draggableRows="true" 
+                         emptyMessage="No se han encontrado registros">
+
+                <p:ajax event="rowReorder" listener="#{egresoFlotaController.onRowReorder}" update=":growl" process="@none" partialSubmit="true" />
+                <p:ajax event="rowSelect"   update="deleteButton, :growl" listener="#{egresoFlotaController.selectEgresoFlota}" global="false"/>
+                <p:ajax event="rowUnselect" update="deleteButton" listener="#{egresoFlotaController.resetParents}" global="false"/>  
+
+                <f:facet name="header">
+                    Detalle x Flota: #{egresoFlotaController.flota.flotaNombre}
+                </f:facet>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputLabel value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.egresoFlotaIdEgreso.egresoNombre}" filterBy="#{item.egresoFlotaIdEgreso.egresoNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="Egreso"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.egresoFlotaIdEgreso.egresoNombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.egresoFlotaValorDefecto}" filterBy="#{item.egresoFlotaValorDefecto}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Valor x Defecto" />
+                    </f:facet>
+                    <p:inputNumber value="#{item.egresoFlotaValorDefecto}"  decimalPlaces="0" symbol="$ "/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoFlotaPorcentaje}" filterBy="#{item.egresoFlotaPorcentaje}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="% Porcentaje" />
+                    </f:facet>
+                    <p:inputNumber value="#{item.egresoFlotaPorcentaje}"  decimalPlaces="0"/>
+                </p:column>
+
+                <p:column sortBy="#{item.egresoFlotaActivo}" filterBy="#{item.egresoFlotaActivo}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Activo"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox id="egresoFlotaActivo" value="#{item.egresoFlotaActivo}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaActivo}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaActivo}" />
+                </p:column>
+
+                <p:column sortBy="#{item.lastUpdate}" filterBy="#{item.lastUpdate}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="F.Ingreso"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.lastUpdate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputLabel>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-save" value="Guardar" update="datalist, :growl" disabled="#{empty egresoFlotaController.flota}" actionListener="#{egresoFlotaController.save}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Actualizar los egresos?" icon="fa fa-warning"/>
+                    </p:commandButton>
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="Agregar" actionListener="#{egresoFlotaController.prepareCreate}" update=":EgresoFlotaEditForm" disabled="#{empty egresoFlotaController.flota}" oncomplete="PF('EgresoFlotaEditDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="Eliminar" actionListener="#{egresoFlotaController.delete}" update=":growl,datalist" disabled="#{empty egresoFlotaController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </f:facet>
+
+            </p:dataTable>
+        </p:panel>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

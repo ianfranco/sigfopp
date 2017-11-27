@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UnidadNegocioViewDlg" widgetVar="UnidadNegocioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewUnidadNegocioTitle}" closeOnEscape="true">
+
+            <h:form id="UnidadNegocioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{unidadNegocioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_unidadNegocioId}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.unidadNegocioId}" title="#{bundle.ViewUnidadNegocioTitle_unidadNegocioId}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_unidadNegocioNombre}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.unidadNegocioNombre}" title="#{bundle.ViewUnidadNegocioTitle_unidadNegocioNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_unidadNegocioNumero}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.unidadNegocioNumero}" title="#{bundle.ViewUnidadNegocioTitle_unidadNegocioNumero}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_unidadNegocioFolio}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.unidadNegocioFolio}" title="#{bundle.ViewUnidadNegocioTitle_unidadNegocioFolio}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_unidadNegocioFechaIngreso}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.unidadNegocioFechaIngreso}" title="#{bundle.ViewUnidadNegocioTitle_unidadNegocioFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_unidadNegocioIdOperadorTransporte}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.unidadNegocioIdOperadorTransporte.operadorTransporteId}"/>
+
+                        <h:outputText value="#{bundle.ViewUnidadNegocioLabel_unidadNegocioIdRegion}"/>
+                        <h:outputText value="#{unidadNegocioController.selected.unidadNegocioIdRegion.regionId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('UnidadNegocioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

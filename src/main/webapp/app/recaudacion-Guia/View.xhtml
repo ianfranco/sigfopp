@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaViewDlg" widgetVar="GuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="GuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:focus context="guiaFolio"/>
+
+                            <p:column style="font-weight: bold;">Folio:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <h:outputLabel id="guiaFolio" value="#{digitacionGuiaController.selected.guiaFolio}" title="#{bundle.CreateGuiaTitle_guiaFolio}" />                                    
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Empresario:</p:column>
+                            <p:column rowspan="1" style="font-weight: bold;width: 250px;"><p:outputLabel value="#{digitacionGuiaController.selected.guiaIdBus.busIdEmpresa.empresaNombre}" id="guiaIdBusEmpresario" /></p:column>
+                        </p:row>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">Fecha:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <h:outputLabel id="guiaFecha" value="#{digitacionGuiaController.selected.guiaFecha}" title="#{bundle.CreateGuiaTitle_guiaFecha}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputLabel>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Flota:</p:column>
+                            <p:column rowspan="1"><h:outputLabel value="#{digitacionGuiaController.selected.guiaIdBus.busIdFlota.flotaNombre}" id="guiaIdBusFlota" /></p:column>
+                        </p:row>
+
+                        <!-- SEGUNDA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Bus:</p:column>
+                            <p:column><h:outputLabel id="guiaIdBus" value="#{digitacionGuiaController.selected.guiaIdBus.busNumero}" />                                    
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">PPU:</p:column>
+                            <p:column rowspan="1"><h:outputLabel value="#{digitacionGuiaController.selected.guiaIdBus.busPatente}" id="guiaIdBusPatente" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Conductor</p:column>
+                            <p:column style="font-weight: bold;">
+                                <h:outputLabel id="guiaIdTrabajador" value="#{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorCodigo}" />                                
+                            </p:column>
+
+                            <p:column style="font-weight: bold;" rowspan="1">Conductor:</p:column>
+                            <p:column rowspan="1"><h:outputLabel value="#{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorNombres} #{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorApellidoPaterno} #{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorApellidoMaterno}" id="guiaIdTrabajadorNombre" /></p:column>
+                        </p:row>
+                        <!-- CUARTA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Vueltas</p:column>
+                            <p:column>
+                                <h:outputLabel id="guiaNumeroVueltas" value="#{digitacionGuiaController.selected.guiaNumeroVueltas}"/>
+                            </p:column>
+                            <p:column style="font-weight: bold;" rowspan="1">Rut:</p:column>
+                            <p:column rowspan="1"><h:outputLabel value="#{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorRut}" id="guiaIdTrabajadorRut" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;">Turno</p:column>
+                            <p:column>
+                                <h:outputLabel id="guiaTurno" value="#{digitacionGuiaController.selected.guiaTurno}"/>
+                            </p:column>
+                            <p:column style="font-weight: bold;"/>
+                            <p:column style="font-weight: bold;"/>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Total Ingresos: 
+                            </p:column>
+                            <p:column  colspan="4" style="background: #e5e5e5">
+                                <h:outputLabel id="guiaIngresos" value="#{digitacionGuiaController.selected.guiaTotalIngresos}"/>                                    
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="text-align: center;font-weight: bold;font-weight: 15px;" colspan="4" >Egresos</p:column>
+                        </p:row>
+
+
+                        <ui:repeat value="#{digitacionGuiaController.egresoGuiaList}" var="egreso" >
+                            <p:row >
+                                <p:column style="font-weight: bold;" colspan="2"/>
+                                <p:column style="font-weight: bold;" >#{egreso.egresoGuiaIdEgreso.egresoNombre}</p:column>
+                                <p:column style="font-weight: bold;" >
+                                    <h:outputLabel styleClass="clase" id="egresoGuiaMonto" value="#{egreso.egresoGuiaMonto}" />                                        
+                                </p:column>
+                            </p:row>
+                        </ui:repeat>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Total Egresos
+                            </p:column>
+                            <p:column colspan="4" style="text-align: left;background: #e5e5e5;">
+                                <h:outputLabel styleClass="clase2" id="guiaEgresos" value="#{digitacionGuiaController.selected.guiaTotalEgresos}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Saldo 
+                            </p:column>
+                            <p:column  colspan="4" style="text-align: left;background: #e5e5e5;">
+                                <h:outputLabel styleClass="clase2" id="guiaSaldo" value="#{digitacionGuiaController.selected.guiaSaldo}"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="background: #e5e5e5;">
+
+                            </p:column>
+
+                        </p:row>
+                    </p:panelGrid>
+                </h:panelGroup>
+                <p:column  style="background: #e5e5e5;">                                
+                    <p:commandButton value="Cerrar" oncomplete="PF('GuiaViewDialog').hide()" update="display" process="@this" immediate="true" resetValues="true" styleClass="btn btn-primary"/>
+                </p:column>
+                <p:commandButton id="printButton" value="Imprimir" type="button" icon="ui-icon-print" styleClass="btn btn-primary" disabled="#{empty digitacionGuiaController.cajaRecaudacion}">
+                    <p:printer target="display" />
+                </p:commandButton>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

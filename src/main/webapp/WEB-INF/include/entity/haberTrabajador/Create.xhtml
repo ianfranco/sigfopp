@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HaberTrabajadorCreateDlg" widgetVar="HaberTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHaberTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HaberTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{haberTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorFechaInicio}" for="haberTrabajadorFechaInicio" />
+                        <p:calendar id="haberTrabajadorFechaInicio" pattern="MM/dd/yyyy" value="#{haberTrabajadorController.selected.haberTrabajadorFechaInicio}" title="#{bundle.CreateHaberTrabajadorTitle_haberTrabajadorFechaInicio}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorFechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorFechaTermino}" for="haberTrabajadorFechaTermino" />
+                        <p:calendar id="haberTrabajadorFechaTermino" pattern="MM/dd/yyyy" value="#{haberTrabajadorController.selected.haberTrabajadorFechaTermino}" title="#{bundle.CreateHaberTrabajadorTitle_haberTrabajadorFechaTermino}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorFechaTermino}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorCuotaActual}" for="haberTrabajadorCuotaActual" />
+                        <p:inputText id="haberTrabajadorCuotaActual" value="#{haberTrabajadorController.selected.haberTrabajadorCuotaActual}" title="#{bundle.CreateHaberTrabajadorTitle_haberTrabajadorCuotaActual}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorCuotaActual}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorTotalCuotas}" for="haberTrabajadorTotalCuotas" />
+                        <p:inputText id="haberTrabajadorTotalCuotas" value="#{haberTrabajadorController.selected.haberTrabajadorTotalCuotas}" title="#{bundle.CreateHaberTrabajadorTitle_haberTrabajadorTotalCuotas}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorTotalCuotas}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorMontoFijo}" for="haberTrabajadorMontoFijo" />
+                        <p:inputText id="haberTrabajadorMontoFijo" value="#{haberTrabajadorController.selected.haberTrabajadorMontoFijo}" title="#{bundle.CreateHaberTrabajadorTitle_haberTrabajadorMontoFijo}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorMontoFijo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorDescripcion}" for="haberTrabajadorDescripcion" />
+                        <p:inputText id="haberTrabajadorDescripcion" value="#{haberTrabajadorController.selected.haberTrabajadorDescripcion}" title="#{bundle.CreateHaberTrabajadorTitle_haberTrabajadorDescripcion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorActivo}" for="haberTrabajadorActivo" />
+                        <p:selectBooleanCheckbox id="haberTrabajadorActivo" value="#{haberTrabajadorController.selected.haberTrabajadorActivo}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorActivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorFechaIngreso}" for="haberTrabajadorFechaIngreso" />
+                        <p:calendar id="haberTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{haberTrabajadorController.selected.haberTrabajadorFechaIngreso}" title="#{bundle.CreateHaberTrabajadorTitle_haberTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorIdHaber}" for="haberTrabajadorIdHaber" />
+                        <p:selectOneMenu id="haberTrabajadorIdHaber" value="#{haberTrabajadorController.selected.haberTrabajadorIdHaber}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorIdHaber}" converter="tipoHaberTrabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoHaberTrabajadorController.items}"
+                                           var="haberTrabajadorIdHaberItem"
+                                           itemValue="#{haberTrabajadorIdHaberItem}"
+                                           itemLabel="#{haberTrabajadorIdHaberItem.tipoHaberTrabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateHaberTrabajadorLabel_haberTrabajadorIdTrabajador}" for="haberTrabajadorIdTrabajador" />
+                        <p:selectOneMenu id="haberTrabajadorIdTrabajador" value="#{haberTrabajadorController.selected.haberTrabajadorIdTrabajador}" required="true" requiredMessage="#{bundle.CreateHaberTrabajadorRequiredMessage_haberTrabajadorIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="haberTrabajadorIdTrabajadorItem"
+                                           itemValue="#{haberTrabajadorIdTrabajadorItem}"
+                                           itemLabel="#{haberTrabajadorIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{haberTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:HaberTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HaberTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HaberTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

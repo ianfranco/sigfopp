@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="HoraExtraTrabajadorEditDlg" widgetVar="HoraExtraTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditHoraExtraTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HoraExtraTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{horaExtraTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditHoraExtraTrabajadorLabel_horaExtraTrabajadorId}" for="horaExtraTrabajadorId" />
+                        <h:outputText id="horaExtraTrabajadorId" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorId}" />
+
+                        <p:outputLabel value="#{bundle.EditHoraExtraTrabajadorLabel_horaExtraTrabajadorCantidad}" for="horaExtraTrabajadorCantidad" />
+                        <p:inputText id="horaExtraTrabajadorCantidad" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorCantidad}" title="#{bundle.EditHoraExtraTrabajadorTitle_horaExtraTrabajadorCantidad}" required="true" requiredMessage="#{bundle.EditHoraExtraTrabajadorRequiredMessage_horaExtraTrabajadorCantidad}"/>
+
+                        <p:outputLabel value="#{bundle.EditHoraExtraTrabajadorLabel_horaExtraTrabajadorFecha}" for="horaExtraTrabajadorFecha" />
+                        <p:calendar id="horaExtraTrabajadorFecha" pattern="MM/dd/yyyy" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorFecha}" title="#{bundle.EditHoraExtraTrabajadorTitle_horaExtraTrabajadorFecha}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditHoraExtraTrabajadorLabel_horaExtraTrabajadorFechaIngreso}" for="horaExtraTrabajadorFechaIngreso" />
+                        <p:calendar id="horaExtraTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorFechaIngreso}" title="#{bundle.EditHoraExtraTrabajadorTitle_horaExtraTrabajadorFechaIngreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditHoraExtraTrabajadorLabel_horaExtraTrabajadorIdTrabajador}" for="horaExtraTrabajadorIdTrabajador" />
+                        <p:selectOneMenu id="horaExtraTrabajadorIdTrabajador" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorIdTrabajador}" required="true" requiredMessage="#{bundle.EditHoraExtraTrabajadorRequiredMessage_horaExtraTrabajadorIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="horaExtraTrabajadorIdTrabajadorItem"
+                                           itemValue="#{horaExtraTrabajadorIdTrabajadorItem}"
+                                           itemLabel="#{horaExtraTrabajadorIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{horaExtraTrabajadorController.save}" value="#{bundle.Save}" update="display,:HoraExtraTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HoraExtraTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HoraExtraTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

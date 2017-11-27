@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="GuiaEditDlg" widgetVar="GuiaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="GuiaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="GuiaTabView">
+
+                        <p:tab id="GuiaTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{guiaController.selected != null}">
+
+                                <h:outputLabel value="#{bundle.EditGuiaLabel_guiaId}" for="guiaId" />
+                                <h:outputText id="guiaId" value="#{guiaController.selected.guiaId}" />
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaFolio}" for="guiaFolio" />
+                                <p:inputText id="guiaFolio" value="#{guiaController.selected.guiaFolio}" title="#{bundle.EditGuiaTitle_guiaFolio}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaFolio}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaFecha}" for="guiaFecha" />
+                                <p:calendar id="guiaFecha" pattern="MM/dd/yyyy" value="#{guiaController.selected.guiaFecha}" title="#{bundle.EditGuiaTitle_guiaFecha}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaFecha}" showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaRecaudacion}" for="guiaRecaudacion" />
+                                <p:calendar id="guiaRecaudacion" pattern="MM/dd/yyyy" value="#{guiaController.selected.guiaRecaudacion}" title="#{bundle.EditGuiaTitle_guiaRecaudacion}"  showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaTotalIngresos}" for="guiaTotalIngresos" />
+                                <p:inputText id="guiaTotalIngresos" value="#{guiaController.selected.guiaTotalIngresos}" title="#{bundle.EditGuiaTitle_guiaTotalIngresos}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaTotalEgresos}" for="guiaTotalEgresos" />
+                                <p:inputText id="guiaTotalEgresos" value="#{guiaController.selected.guiaTotalEgresos}" title="#{bundle.EditGuiaTitle_guiaTotalEgresos}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaViajeEspecial}" for="guiaViajeEspecial" />
+                                <p:inputText id="guiaViajeEspecial" value="#{guiaController.selected.guiaViajeEspecial}" title="#{bundle.EditGuiaTitle_guiaViajeEspecial}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaOtrosIngresos}" for="guiaOtrosIngresos" />
+                                <p:inputText id="guiaOtrosIngresos" value="#{guiaController.selected.guiaOtrosIngresos}" title="#{bundle.EditGuiaTitle_guiaOtrosIngresos}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaSaldo}" for="guiaSaldo" />
+                                <p:inputText id="guiaSaldo" value="#{guiaController.selected.guiaSaldo}" title="#{bundle.EditGuiaTitle_guiaSaldo}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaSaldo}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaNumeroVueltas}" for="guiaNumeroVueltas" />
+                                <p:inputText id="guiaNumeroVueltas" value="#{guiaController.selected.guiaNumeroVueltas}" title="#{bundle.EditGuiaTitle_guiaNumeroVueltas}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaTurno}" for="guiaTurno" />
+                                <p:inputText id="guiaTurno" value="#{guiaController.selected.guiaTurno}" title="#{bundle.EditGuiaTitle_guiaTurno}"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaObservacion}" for="guiaObservacion" />
+                                <p:inputText id="guiaObservacion" value="#{guiaController.selected.guiaObservacion}" title="#{bundle.EditGuiaTitle_guiaObservacion}" size="100" maxlength="100"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaRecaudada}" for="guiaRecaudada" />
+                                <p:selectBooleanCheckbox id="guiaRecaudada" value="#{guiaController.selected.guiaRecaudada}" />
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaFechaIngreso}" for="guiaFechaIngreso" />
+                                <p:calendar id="guiaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{guiaController.selected.guiaFechaIngreso}" title="#{bundle.EditGuiaTitle_guiaFechaIngreso}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaFechaIngreso}" showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaIdBus}" for="guiaIdBus" />
+                                <p:selectOneMenu id="guiaIdBus" value="#{guiaController.selected.guiaIdBus}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaIdBus}" converter="busConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{busController.items}"
+                                                   var="guiaIdBusItem"
+                                                   itemValue="#{guiaIdBusItem}"
+                                                   itemLabel="#{guiaIdBusItem.busId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaIdEstado}" for="guiaIdEstado" />
+                                <p:selectOneMenu id="guiaIdEstado" value="#{guiaController.selected.guiaIdEstado}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaIdEstado}" converter="estadoGuiaConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{estadoGuiaController.items}"
+                                                   var="guiaIdEstadoItem"
+                                                   itemValue="#{guiaIdEstadoItem}"
+                                                   itemLabel="#{guiaIdEstadoItem.estadoGuiaId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaIdCajaTerminal}" for="guiaIdCajaTerminal" />
+                                <p:selectOneMenu id="guiaIdCajaTerminal" value="#{guiaController.selected.guiaIdCajaTerminal}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaIdCajaTerminal}" converter="cajaTerminalConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{cajaTerminalController.items}"
+                                                   var="guiaIdCajaTerminalItem"
+                                                   itemValue="#{guiaIdCajaTerminalItem}"
+                                                   itemLabel="#{guiaIdCajaTerminalItem.cajaTerminalId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.EditGuiaLabel_guiaIdTrabajador}" for="guiaIdTrabajador" />
+                                <p:selectOneMenu id="guiaIdTrabajador" value="#{guiaController.selected.guiaIdTrabajador}" required="true" requiredMessage="#{bundle.EditGuiaRequiredMessage_guiaIdTrabajador}" converter="trabajadorConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{trabajadorController.items}"
+                                                   var="guiaIdTrabajadorItem"
+                                                   itemValue="#{guiaIdTrabajadorItem}"
+                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{guiaController.save}" value="#{bundle.Save}" update="display,:GuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GuiaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

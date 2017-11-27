@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlViewDlg" widgetVar="ControlViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewControlTitle}" closeOnEscape="true">
+
+            <h:form id="ControlViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{controlController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewControlLabel_controlId}"/>
+                        <h:outputText value="#{controlController.selected.controlId}" title="#{bundle.ViewControlTitle_controlId}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_controlNombre}"/>
+                        <h:outputText value="#{controlController.selected.controlNombre}" title="#{bundle.ViewControlTitle_controlNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_controlLatitud}"/>
+                        <h:outputText value="#{controlController.selected.controlLatitud}" title="#{bundle.ViewControlTitle_controlLatitud}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_controlLongitud}"/>
+                        <h:outputText value="#{controlController.selected.controlLongitud}" title="#{bundle.ViewControlTitle_controlLongitud}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_controlRadio}"/>
+                        <h:outputText value="#{controlController.selected.controlRadio}" title="#{bundle.ViewControlTitle_controlRadio}"/>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_controlFechaIngreso}"/>
+                        <h:outputText value="#{controlController.selected.controlFechaIngreso}" title="#{bundle.ViewControlTitle_controlFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewControlLabel_controlIdTipoControl}"/>
+                        <h:outputText value="#{controlController.selected.controlIdTipoControl.tipoControlId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ControlViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

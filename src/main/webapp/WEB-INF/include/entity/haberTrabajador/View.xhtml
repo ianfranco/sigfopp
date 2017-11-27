@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HaberTrabajadorViewDlg" widgetVar="HaberTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewHaberTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HaberTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{haberTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorId}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorId}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorFechaInicio}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorFechaInicio}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorFechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorFechaTermino}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorFechaTermino}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorFechaTermino}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorCuotaActual}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorCuotaActual}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorCuotaActual}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorTotalCuotas}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorTotalCuotas}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorTotalCuotas}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorMontoFijo}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorMontoFijo}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorMontoFijo}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorDescripcion}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorDescripcion}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorActivo}"/>
+                        <h:selectBooleanCheckbox id="haberTrabajadorActivo" value="#{haberTrabajadorController.selected.haberTrabajadorActivo}" title="#{bundle.EditHaberTrabajadorTitle_haberTrabajadorActivo}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorRequiredMessage_haberTrabajadorActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorFechaIngreso}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorFechaIngreso}" title="#{bundle.ViewHaberTrabajadorTitle_haberTrabajadorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorIdHaber}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorIdHaber.tipoHaberTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewHaberTrabajadorLabel_haberTrabajadorIdTrabajador}"/>
+                        <h:outputText value="#{haberTrabajadorController.selected.haberTrabajadorIdTrabajador.trabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('HaberTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

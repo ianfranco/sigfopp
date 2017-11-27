@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ReconocimientoDeudaEditDlg" widgetVar="ReconocimientoDeudaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditReconocimientoDeudaTitle}" closeOnEscape="true">
+
+            <h:form id="ReconocimientoDeudaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{reconocimientoDeudaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditReconocimientoDeudaLabel_reconocimientoDeudaId}" for="reconocimientoDeudaId" />
+                        <h:outputText id="reconocimientoDeudaId" value="#{reconocimientoDeudaController.selected.reconocimientoDeudaId}" />
+
+                        <p:outputLabel value="#{bundle.EditReconocimientoDeudaLabel_reconocimientoDeudaMontoReconocimiento}" for="reconocimientoDeudaMontoReconocimiento" />
+                        <p:inputText id="reconocimientoDeudaMontoReconocimiento" value="#{reconocimientoDeudaController.selected.reconocimientoDeudaMontoReconocimiento}" title="#{bundle.EditReconocimientoDeudaTitle_reconocimientoDeudaMontoReconocimiento}" required="true" requiredMessage="#{bundle.EditReconocimientoDeudaRequiredMessage_reconocimientoDeudaMontoReconocimiento}"/>
+
+                        <p:outputLabel value="#{bundle.EditReconocimientoDeudaLabel_reconocimientoDeudaDescripcionReconocimiento}" for="reconocimientoDeudaDescripcionReconocimiento" />
+                        <p:inputText id="reconocimientoDeudaDescripcionReconocimiento" value="#{reconocimientoDeudaController.selected.reconocimientoDeudaDescripcionReconocimiento}" title="#{bundle.EditReconocimientoDeudaTitle_reconocimientoDeudaDescripcionReconocimiento}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditReconocimientoDeudaLabel_reconocimientoDeudaFechaIngreso}" for="reconocimientoDeudaFechaIngreso" />
+                        <p:calendar id="reconocimientoDeudaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{reconocimientoDeudaController.selected.reconocimientoDeudaFechaIngreso}" title="#{bundle.EditReconocimientoDeudaTitle_reconocimientoDeudaFechaIngreso}" required="true" requiredMessage="#{bundle.EditReconocimientoDeudaRequiredMessage_reconocimientoDeudaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditReconocimientoDeudaLabel_reconocimientoDeudaFechaActualizacion}" for="reconocimientoDeudaFechaActualizacion" />
+                        <p:calendar id="reconocimientoDeudaFechaActualizacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{reconocimientoDeudaController.selected.reconocimientoDeudaFechaActualizacion}" title="#{bundle.EditReconocimientoDeudaTitle_reconocimientoDeudaFechaActualizacion}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditReconocimientoDeudaLabel_reconocimientoDeudaIdEmpresa}" for="reconocimientoDeudaIdEmpresa" />
+                        <p:selectOneMenu id="reconocimientoDeudaIdEmpresa" value="#{reconocimientoDeudaController.selected.reconocimientoDeudaIdEmpresa}" required="true" requiredMessage="#{bundle.EditReconocimientoDeudaRequiredMessage_reconocimientoDeudaIdEmpresa}" converter="empresaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empresaController.items}"
+                                           var="reconocimientoDeudaIdEmpresaItem"
+                                           itemValue="#{reconocimientoDeudaIdEmpresaItem}"
+                                           itemLabel="#{reconocimientoDeudaIdEmpresaItem.empresaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditReconocimientoDeudaLabel_reconocimientoDeudaIdTrabajador}" for="reconocimientoDeudaIdTrabajador" />
+                        <p:selectOneMenu id="reconocimientoDeudaIdTrabajador" value="#{reconocimientoDeudaController.selected.reconocimientoDeudaIdTrabajador}" required="true" requiredMessage="#{bundle.EditReconocimientoDeudaRequiredMessage_reconocimientoDeudaIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="reconocimientoDeudaIdTrabajadorItem"
+                                           itemValue="#{reconocimientoDeudaIdTrabajadorItem}"
+                                           itemLabel="#{reconocimientoDeudaIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{reconocimientoDeudaController.save}" value="#{bundle.Save}" update="display,:ReconocimientoDeudaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ReconocimientoDeudaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ReconocimientoDeudaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

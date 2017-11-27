@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EgresoFlotaListForm">
+
+        <p:panel header="#{bundle.ListEgresoFlotaTitle}">
+            <p:contextMenu id="EgresoFlotaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EgresoFlotaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EgresoFlotaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EgresoFlotaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EgresoFlotaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.EgresoFlotaMenuItem_egresoFlotaIdEgreso}" icon="ui-icon-search"  actionListener="#{egresoFlotaController.prepareEgresoFlotaIdEgreso}" update=":EgresoViewForm" oncomplete="PF('EgresoViewDialog').show()" disabled="#{empty egresoFlotaController.selected.egresoFlotaIdEgreso}"/>  
+                <p:menuitem value="#{bundle.EgresoFlotaMenuItem_egresoFlotaIdFlota}" icon="ui-icon-search"  actionListener="#{egresoFlotaController.prepareEgresoFlotaIdFlota}" update=":FlotaViewForm" oncomplete="PF('FlotaViewDialog').show()" disabled="#{empty egresoFlotaController.selected.egresoFlotaIdFlota}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{egresoFlotaController.items}"
+                         lazy="false"
+                         rowKey="#{item.egresoFlotaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{egresoFlotaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{egresoFlotaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.egresoFlotaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoFlotaDataTableContextMenu" listener="#{egresoFlotaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoFlotaDataTableContextMenu" listener="#{egresoFlotaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{egresoFlotaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EgresoFlotaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.egresoFlotaId}" filterBy="#{item.egresoFlotaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoFlotaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoFlotaValorDefecto}" filterBy="#{item.egresoFlotaValorDefecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaValorDefecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoFlotaValorDefecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoFlotaPorcentaje}" filterBy="#{item.egresoFlotaPorcentaje}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaPorcentaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoFlotaPorcentaje}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoFlotaNumeroOrden}" filterBy="#{item.egresoFlotaNumeroOrden}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaNumeroOrden}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoFlotaNumeroOrden}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoFlotaActivo}" filterBy="#{item.egresoFlotaActivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaActivo}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="egresoFlotaActivo" value="#{item.egresoFlotaActivo}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaActivo}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaActivo}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoFlotaFechaIngreso}" filterBy="#{item.egresoFlotaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoFlotaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.egresoFlotaFechaActualizacion}" filterBy="#{item.egresoFlotaFechaActualizacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaFechaActualizacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoFlotaFechaActualizacion}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.egresoFlotaIdEgreso.egresoId}" filterBy="#{item.egresoFlotaIdEgreso.egresoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaIdEgreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoFlotaIdEgreso.egresoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.egresoFlotaIdFlota.flotaId}" filterBy="#{item.egresoFlotaIdFlota.flotaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoFlotaTitle_egresoFlotaIdFlota}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoFlotaIdFlota.flotaId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{egresoFlotaController.prepareCreate}" update=":EgresoFlotaCreateForm" oncomplete="PF('EgresoFlotaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":EgresoFlotaViewForm" oncomplete="PF('EgresoFlotaViewDialog').show()" disabled="#{empty egresoFlotaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EgresoFlotaEditForm" oncomplete="PF('EgresoFlotaEditDialog').show()" disabled="#{empty egresoFlotaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{egresoFlotaController.delete}" update=":growl,datalist" disabled="#{empty egresoFlotaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

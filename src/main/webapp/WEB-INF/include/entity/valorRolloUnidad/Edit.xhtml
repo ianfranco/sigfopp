@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ValorRolloUnidadEditDlg" widgetVar="ValorRolloUnidadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditValorRolloUnidadTitle}" closeOnEscape="true">
+
+            <h:form id="ValorRolloUnidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{valorRolloUnidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditValorRolloUnidadLabel_valorRolloUnidadId}" for="valorRolloUnidadId" />
+                        <h:outputText id="valorRolloUnidadId" value="#{valorRolloUnidadController.selected.valorRolloUnidadId}" />
+
+                        <p:outputLabel value="#{bundle.EditValorRolloUnidadLabel_valorRolloUnidadCompra}" for="valorRolloUnidadCompra" />
+                        <p:inputText id="valorRolloUnidadCompra" value="#{valorRolloUnidadController.selected.valorRolloUnidadCompra}" title="#{bundle.EditValorRolloUnidadTitle_valorRolloUnidadCompra}" required="true" requiredMessage="#{bundle.EditValorRolloUnidadRequiredMessage_valorRolloUnidadCompra}"/>
+
+                        <p:outputLabel value="#{bundle.EditValorRolloUnidadLabel_valorRolloUnidadVenta}" for="valorRolloUnidadVenta" />
+                        <p:inputText id="valorRolloUnidadVenta" value="#{valorRolloUnidadController.selected.valorRolloUnidadVenta}" title="#{bundle.EditValorRolloUnidadTitle_valorRolloUnidadVenta}" required="true" requiredMessage="#{bundle.EditValorRolloUnidadRequiredMessage_valorRolloUnidadVenta}"/>
+
+                        <p:outputLabel value="#{bundle.EditValorRolloUnidadLabel_valorRolloUnidadIdUnidad}" for="valorRolloUnidadIdUnidad" />
+                        <p:selectOneMenu id="valorRolloUnidadIdUnidad" value="#{valorRolloUnidadController.selected.valorRolloUnidadIdUnidad}" required="true" requiredMessage="#{bundle.EditValorRolloUnidadRequiredMessage_valorRolloUnidadIdUnidad}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="valorRolloUnidadIdUnidadItem"
+                                           itemValue="#{valorRolloUnidadIdUnidadItem}"
+                                           itemLabel="#{valorRolloUnidadIdUnidadItem.unidadNegocioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorRolloUnidadController.save}" value="#{bundle.Save}" update="display,:ValorRolloUnidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorRolloUnidadEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorRolloUnidadEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

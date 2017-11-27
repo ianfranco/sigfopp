@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="InventarioInternoEditDlg" widgetVar="InventarioInternoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditInventarioInternoTitle}" closeOnEscape="true">
+
+            <h:form id="InventarioInternoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{inventarioInternoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditInventarioInternoLabel_inventarioInternoId}" for="inventarioInternoId" />
+                        <h:outputText id="inventarioInternoId" value="#{inventarioInternoController.selected.inventarioInternoId}" />
+
+                        <p:outputLabel value="#{bundle.EditInventarioInternoLabel_inventarioInternoSerie}" for="inventarioInternoSerie" />
+                        <p:inputText id="inventarioInternoSerie" value="#{inventarioInternoController.selected.inventarioInternoSerie}" title="#{bundle.EditInventarioInternoTitle_inventarioInternoSerie}" required="true" requiredMessage="#{bundle.EditInventarioInternoRequiredMessage_inventarioInternoSerie}"/>
+
+                        <p:outputLabel value="#{bundle.EditInventarioInternoLabel_inventarioInternoIdentificador}" for="inventarioInternoIdentificador" />
+                        <p:inputText id="inventarioInternoIdentificador" value="#{inventarioInternoController.selected.inventarioInternoIdentificador}" title="#{bundle.EditInventarioInternoTitle_inventarioInternoIdentificador}" required="true" requiredMessage="#{bundle.EditInventarioInternoRequiredMessage_inventarioInternoIdentificador}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditInventarioInternoLabel_inventarioInternoEstado}" for="inventarioInternoEstado" />
+                        <p:selectBooleanCheckbox id="inventarioInternoEstado" value="#{inventarioInternoController.selected.inventarioInternoEstado}" required="true" requiredMessage="#{bundle.EditInventarioInternoRequiredMessage_inventarioInternoEstado}"/>
+
+                        <p:outputLabel value="#{bundle.EditInventarioInternoLabel_inventarioInternoFechaIngreso}" for="inventarioInternoFechaIngreso" />
+                        <p:calendar id="inventarioInternoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{inventarioInternoController.selected.inventarioInternoFechaIngreso}" title="#{bundle.EditInventarioInternoTitle_inventarioInternoFechaIngreso}" required="true" requiredMessage="#{bundle.EditInventarioInternoRequiredMessage_inventarioInternoFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditInventarioInternoLabel_inventarioInternoIdBoleto}" for="inventarioInternoIdBoleto" />
+                        <p:selectOneMenu id="inventarioInternoIdBoleto" value="#{inventarioInternoController.selected.inventarioInternoIdBoleto}" required="true" requiredMessage="#{bundle.EditInventarioInternoRequiredMessage_inventarioInternoIdBoleto}" converter="boletoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{boletoController.items}"
+                                           var="inventarioInternoIdBoletoItem"
+                                           itemValue="#{inventarioInternoIdBoletoItem}"
+                                           itemLabel="#{inventarioInternoIdBoletoItem.boletoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{inventarioInternoController.save}" value="#{bundle.Save}" update="display,:InventarioInternoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InventarioInternoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InventarioInternoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

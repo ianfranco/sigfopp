@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DetalleIntervalosMensualListForm">
+
+        <p:panel header="#{bundle.ListDetalleIntervalosMensualTitle}">
+            <p:contextMenu id="DetalleIntervalosMensualDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DetalleIntervalosMensualListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DetalleIntervalosMensualListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DetalleIntervalosMensualListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DetalleIntervalosMensualListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.DetalleIntervalosMensualMenuItem_detalleIntervalosMensualIdAdministracion}" icon="ui-icon-search"  actionListener="#{detalleIntervalosMensualController.prepareDetalleIntervalosMensualIdAdministracion}" update=":AdministracionMensualViewForm" oncomplete="PF('AdministracionMensualViewDialog').show()" disabled="#{empty detalleIntervalosMensualController.selected.detalleIntervalosMensualIdAdministracion}"/>  
+                <p:menuitem value="#{bundle.DetalleIntervalosMensualMenuItem_detalleIntervalosMensualIdIntervaloAdministracion}" icon="ui-icon-search"  actionListener="#{detalleIntervalosMensualController.prepareDetalleIntervalosMensualIdIntervaloAdministracion}" update=":IntervalosAdministracionViewForm" oncomplete="PF('IntervalosAdministracionViewDialog').show()" disabled="#{empty detalleIntervalosMensualController.selected.detalleIntervalosMensualIdIntervaloAdministracion}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{detalleIntervalosMensualController.items}"
+                         lazy="false"
+                         rowKey="#{item.detalleIntervalosMensualId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{detalleIntervalosMensualController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{detalleIntervalosMensualController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.detalleIntervalosMensualId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleIntervalosMensualDataTableContextMenu" listener="#{detalleIntervalosMensualController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleIntervalosMensualDataTableContextMenu" listener="#{detalleIntervalosMensualController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{detalleIntervalosMensualController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DetalleIntervalosMensualListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.detalleIntervalosMensualId}" filterBy="#{item.detalleIntervalosMensualId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleIntervalosMensualTitle_detalleIntervalosMensualId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleIntervalosMensualId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleIntervalosMensualNumeroBuses}" filterBy="#{item.detalleIntervalosMensualNumeroBuses}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleIntervalosMensualTitle_detalleIntervalosMensualNumeroBuses}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleIntervalosMensualNumeroBuses}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleIntervalosMensualIdAdministracion.administracionMensualId}" filterBy="#{item.detalleIntervalosMensualIdAdministracion.administracionMensualId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleIntervalosMensualTitle_detalleIntervalosMensualIdAdministracion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleIntervalosMensualIdAdministracion.administracionMensualId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleIntervalosMensualIdIntervaloAdministracion.intervalosAdministracionId}" filterBy="#{item.detalleIntervalosMensualIdIntervaloAdministracion.intervalosAdministracionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleIntervalosMensualTitle_detalleIntervalosMensualIdIntervaloAdministracion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleIntervalosMensualIdIntervaloAdministracion.intervalosAdministracionId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{detalleIntervalosMensualController.prepareCreate}" update=":DetalleIntervalosMensualCreateForm" oncomplete="PF('DetalleIntervalosMensualCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DetalleIntervalosMensualViewForm" oncomplete="PF('DetalleIntervalosMensualViewDialog').show()" disabled="#{empty detalleIntervalosMensualController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DetalleIntervalosMensualEditForm" oncomplete="PF('DetalleIntervalosMensualEditDialog').show()" disabled="#{empty detalleIntervalosMensualController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{detalleIntervalosMensualController.delete}" update=":growl,datalist" disabled="#{empty detalleIntervalosMensualController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

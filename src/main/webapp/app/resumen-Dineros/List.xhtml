@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form id="ResumenDinerosListForm" class="form-height">
+        <p:panel id="panelDineros" header="Dineros Recaudados x Mes">
+            <p:panelGrid columns="9" style="width: 100%;margin-bottom: 10px;">
+                <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" style="text-align: right;"/>
+                <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{resumenDinerosController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{resumenDinerosController.cajaRecaudacionList}"
+                                   var="cajaId"
+                                   itemValue="#{cajaId}"
+                                   itemLabel="#{cajaId.cajaRecaudacionNombre}"
+                                   />
+                    <p:ajax event="valueChange" update="procesoRecaudacion" listener="#{resumenDinerosController.handleCajaRecaudacionChange(event)}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel value="Proceso:" for="procesoRecaudacion" style="text-align: right;"/>
+                <p:selectOneMenu id="procesoRecaudacion" value="#{resumenDinerosController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el proceso" converter="omnifaces.SelectItemsConverter" >
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{resumenDinerosController.procesoRecaudacionList}"
+                                   var="procesoItem"
+                                   itemValue="#{procesoItem}"
+                                   itemLabel="#{procesoItem.procesoRecaudacionNombre}"
+                                   />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="mes" value="Seleccionar:" />
+                <p:selectOneMenu id="mes" value="#{resumenDinerosController.mes}" style="width:125px">
+                    <f:selectItem itemLabel="Enero" itemValue="1" />
+                    <f:selectItem itemLabel="Febrero" itemValue="2" />
+                    <f:selectItem itemLabel="Marzo" itemValue="3" />
+                    <f:selectItem itemLabel="Abril" itemValue="4" />
+                    <f:selectItem itemLabel="Mayo" itemValue="5" />
+                    <f:selectItem itemLabel="Junio" itemValue="6" />
+                    <f:selectItem itemLabel="Julio" itemValue="7" />
+                    <f:selectItem itemLabel="Agosto" itemValue="8" />
+                    <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                    <f:selectItem itemLabel="Octubre" itemValue="10" />
+                    <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                    <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="anio" value="Año:" />
+                <p:inputText id="anio" value="#{resumenDinerosController.anio}" size="5" />
+
+                <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Recaudación" update="growl, schedule" styleClass="btn btn-primary" style="width:150px" actionListener="#{resumenDinerosController.load}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                </p:commandButton>
+            </p:panelGrid>
+
+            <p:panelGrid columnClasses="value">
+                <p:schedule 
+                    id="schedule" 
+                    leftHeaderTemplate=""
+                    rightHeaderTemplate=""
+                    value="#{resumenDinerosController.eventModel}" 
+                    widgetVar="myschedule"
+                    locale="es" 
+                    initialDate="#{resumenDinerosController.from}"
+                    minTime=""
+                    style="font-size: xx-large;">
+                    <p:ajax event="dateSelect" listener="#{resumenDinerosController.onDateSelect}"  />
+                    <p:ajax event="eventSelect" listener="#{resumenDinerosController.onEventSelect}" update=":ResumenDinerosDialogForm" oncomplete="PF('DialogResumenCreateDialog').show();" />
+                    <p:ajax event="eventMove" listener="#{resumenDinerosController.onEventMove}" update="growl" />
+                    <p:ajax event="eventResize" listener="#{resumenDinerosController.onEventResize}" update="growl" />
+                </p:schedule>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <p:commandButton id="printButton" value="Imprimir" type="button" icon="ui-icon-print" styleClass="btn btn-primary">
+                    <p:printer target="schedule"/>
+                </p:commandButton> 
+            </f:facet>
+        </p:panel>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+</ui:composition>

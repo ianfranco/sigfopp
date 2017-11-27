@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RecaudacionMinutoViewDlg" widgetVar="RecaudacionMinutoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewVentaCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="RecaudacionMinutoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" columnClasses="column, , column" rendered="#{recaudacionCombustibleController.selected != null}">
+
+                        <h:outputText value="Folio:"/>
+                        <h:outputText value="#{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustibleNumeroBoleta}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleId}"/>
+
+                        <h:outputText value="Fecha Venta:"/>
+                        <h:outputText value="#{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleFecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                        <h:outputText value="N° Bus:"/>
+                        <h:outputText value="#{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustibleIdBus.busNumero}"/>
+                        
+                        <h:outputText value="PPU:"/>
+                        <h:outputText value="#{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustibleIdBus.busPatente}"/>
+                        
+                        <h:outputText value="Operador:"/>
+                        <h:outputText value="#{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustibleIdBus.busIdUnidadNegocio.unidadNegocioIdOperadorTransporte.operadorTransporteNombre}"/>
+
+                        <h:outputText value="N° Litros:"/>
+                        <h:outputText value="#{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustibleCantidad}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleCantidad}"/>
+
+                        <h:outputText value="Precio:"/>
+                        <h:outputText value="#{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustiblePrecio}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleValorCombustible}"/>
+
+                        <h:outputText value="Total:"/>
+                        <h:outputText value="$ #{recaudacionCombustibleController.selected.recaudacionCombustibleIdVentaCombustible.ventaCombustibleTotal}">
+                            <f:convertNumber currencyCode="$" />
+                        </h:outputText>
+
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('RecaudacionMinutoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

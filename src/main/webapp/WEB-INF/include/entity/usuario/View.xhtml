@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioViewDlg" widgetVar="UsuarioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioId}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioId}" title="#{bundle.ViewUsuarioTitle_usuarioId}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioRut}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioRut}" title="#{bundle.ViewUsuarioTitle_usuarioRut}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioPass}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioPass}" title="#{bundle.ViewUsuarioTitle_usuarioPass}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioNombres}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioNombres}" title="#{bundle.ViewUsuarioTitle_usuarioNombres}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioApellidoPaterno}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioApellidoPaterno}" title="#{bundle.ViewUsuarioTitle_usuarioApellidoPaterno}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioApellidoMaterno}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioApellidoMaterno}" title="#{bundle.ViewUsuarioTitle_usuarioApellidoMaterno}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioEmail}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioEmail}" title="#{bundle.ViewUsuarioTitle_usuarioEmail}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioActivo}"/>
+                        <h:selectBooleanCheckbox id="usuarioActivo" value="#{usuarioController.selected.usuarioActivo}" title="#{bundle.EditUsuarioTitle_usuarioActivo}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioFechaIngreso}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioFechaIngreso}" title="#{bundle.ViewUsuarioTitle_usuarioFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioIdRol}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioIdRol.rolDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewUsuarioLabel_usuarioIdTerminal}"/>
+                        <h:outputText value="#{usuarioController.selected.usuarioIdTerminal.terminalId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('UsuarioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

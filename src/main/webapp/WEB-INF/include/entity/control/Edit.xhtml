@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ControlEditDlg" widgetVar="ControlEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditControlTitle}" closeOnEscape="true">
+
+            <h:form id="ControlEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{controlController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditControlLabel_controlId}" for="controlId" />
+                        <h:outputText id="controlId" value="#{controlController.selected.controlId}" />
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_controlNombre}" for="controlNombre" />
+                        <p:inputText id="controlNombre" value="#{controlController.selected.controlNombre}" title="#{bundle.EditControlTitle_controlNombre}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_controlNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_controlLatitud}" for="controlLatitud" />
+                        <p:inputText id="controlLatitud" value="#{controlController.selected.controlLatitud}" title="#{bundle.EditControlTitle_controlLatitud}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_controlLatitud}"/>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_controlLongitud}" for="controlLongitud" />
+                        <p:inputText id="controlLongitud" value="#{controlController.selected.controlLongitud}" title="#{bundle.EditControlTitle_controlLongitud}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_controlLongitud}"/>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_controlRadio}" for="controlRadio" />
+                        <p:inputText id="controlRadio" value="#{controlController.selected.controlRadio}" title="#{bundle.EditControlTitle_controlRadio}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_controlRadio}"/>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_controlFechaIngreso}" for="controlFechaIngreso" />
+                        <p:calendar id="controlFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{controlController.selected.controlFechaIngreso}" title="#{bundle.EditControlTitle_controlFechaIngreso}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_controlFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditControlLabel_controlIdTipoControl}" for="controlIdTipoControl" />
+                        <p:selectOneMenu id="controlIdTipoControl" value="#{controlController.selected.controlIdTipoControl}" required="true" requiredMessage="#{bundle.EditControlRequiredMessage_controlIdTipoControl}" converter="tipoControlConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoControlController.items}"
+                                           var="controlIdTipoControlItem"
+                                           itemValue="#{controlIdTipoControlItem}"
+                                           itemLabel="#{controlIdTipoControlItem.tipoControlId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlController.save}" value="#{bundle.Save}" update="display,:ControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

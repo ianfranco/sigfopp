@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UnidadNegocioEditDlg" widgetVar="UnidadNegocioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditUnidadNegocioTitle}" closeOnEscape="true">
+
+            <h:form id="UnidadNegocioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{unidadNegocioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditUnidadNegocioLabel_unidadNegocioId}" for="unidadNegocioId" />
+                        <h:outputText id="unidadNegocioId" value="#{unidadNegocioController.selected.unidadNegocioId}" />
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_unidadNegocioNombre}" for="unidadNegocioNombre" />
+                        <p:inputText id="unidadNegocioNombre" value="#{unidadNegocioController.selected.unidadNegocioNombre}" title="#{bundle.EditUnidadNegocioTitle_unidadNegocioNombre}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_unidadNegocioNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_unidadNegocioNumero}" for="unidadNegocioNumero" />
+                        <p:inputText id="unidadNegocioNumero" value="#{unidadNegocioController.selected.unidadNegocioNumero}" title="#{bundle.EditUnidadNegocioTitle_unidadNegocioNumero}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_unidadNegocioNumero}"/>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_unidadNegocioFolio}" for="unidadNegocioFolio" />
+                        <p:inputText id="unidadNegocioFolio" value="#{unidadNegocioController.selected.unidadNegocioFolio}" title="#{bundle.EditUnidadNegocioTitle_unidadNegocioFolio}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_unidadNegocioFechaIngreso}" for="unidadNegocioFechaIngreso" />
+                        <p:calendar id="unidadNegocioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{unidadNegocioController.selected.unidadNegocioFechaIngreso}" title="#{bundle.EditUnidadNegocioTitle_unidadNegocioFechaIngreso}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_unidadNegocioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_unidadNegocioIdOperadorTransporte}" for="unidadNegocioIdOperadorTransporte" />
+                        <p:selectOneMenu id="unidadNegocioIdOperadorTransporte" value="#{unidadNegocioController.selected.unidadNegocioIdOperadorTransporte}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_unidadNegocioIdOperadorTransporte}" converter="operadorTransporteConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{operadorTransporteController.items}"
+                                           var="unidadNegocioIdOperadorTransporteItem"
+                                           itemValue="#{unidadNegocioIdOperadorTransporteItem}"
+                                           itemLabel="#{unidadNegocioIdOperadorTransporteItem.operadorTransporteId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditUnidadNegocioLabel_unidadNegocioIdRegion}" for="unidadNegocioIdRegion" />
+                        <p:selectOneMenu id="unidadNegocioIdRegion" value="#{unidadNegocioController.selected.unidadNegocioIdRegion}" required="true" requiredMessage="#{bundle.EditUnidadNegocioRequiredMessage_unidadNegocioIdRegion}" converter="regionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{regionController.items}"
+                                           var="unidadNegocioIdRegionItem"
+                                           itemValue="#{unidadNegocioIdRegionItem}"
+                                           itemLabel="#{unidadNegocioIdRegionItem.regionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{unidadNegocioController.save}" value="#{bundle.Save}" update="display,:UnidadNegocioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UnidadNegocioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UnidadNegocioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

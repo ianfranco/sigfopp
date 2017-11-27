@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaCombustibleCreateDlg" widgetVar="VentaCombustibleCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVentaCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="VentaCombustibleCreateForm">
+
+                <h:panelGroup id="display" rendered="#{ventaCombustibleController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateVentaCombustibleLabel_ventaCombustibleFecha}" for="ventaCombustibleFecha" />
+                        <p:calendar id="ventaCombustibleFecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventaCombustibleController.selected.ventaCombustibleFecha}" title="#{bundle.CreateVentaCombustibleTitle_ventaCombustibleFecha}" required="true" requiredMessage="#{bundle.CreateVentaCombustibleRequiredMessage_ventaCombustibleFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateVentaCombustibleLabel_ventaCombustibleValor}" for="ventaCombustibleValor" />
+                        <p:inputText id="ventaCombustibleValor" value="#{ventaCombustibleController.selected.ventaCombustibleValor}" title="#{bundle.CreateVentaCombustibleTitle_ventaCombustibleValor}" required="true" requiredMessage="#{bundle.CreateVentaCombustibleRequiredMessage_ventaCombustibleValor}"/>
+
+                        <p:outputLabel value="#{bundle.CreateVentaCombustibleLabel_ventaCombustibleCantidad}" for="ventaCombustibleCantidad" />
+                        <p:inputText id="ventaCombustibleCantidad" value="#{ventaCombustibleController.selected.ventaCombustibleCantidad}" title="#{bundle.CreateVentaCombustibleTitle_ventaCombustibleCantidad}" required="true" requiredMessage="#{bundle.CreateVentaCombustibleRequiredMessage_ventaCombustibleCantidad}"/>
+
+                        <p:outputLabel value="#{bundle.CreateVentaCombustibleLabel_ventaCombustibleValorCombustible}" for="ventaCombustibleValorCombustible" />
+                        <p:inputText id="ventaCombustibleValorCombustible" value="#{ventaCombustibleController.selected.ventaCombustibleValorCombustible}" title="#{bundle.CreateVentaCombustibleTitle_ventaCombustibleValorCombustible}"/>
+
+                        <p:outputLabel value="#{bundle.CreateVentaCombustibleLabel_ventaCombustibleIdGuia}" for="ventaCombustibleIdGuia" />
+                        <p:selectOneMenu id="ventaCombustibleIdGuia" value="#{ventaCombustibleController.selected.ventaCombustibleIdGuia}" required="true" requiredMessage="#{bundle.CreateVentaCombustibleRequiredMessage_ventaCombustibleIdGuia}" converter="guiaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{guiaController.items}"
+                                           var="ventaCombustibleIdGuiaItem"
+                                           itemValue="#{ventaCombustibleIdGuiaItem}"
+                                           itemLabel="#{ventaCombustibleIdGuiaItem.guiaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateVentaCombustibleLabel_ventaCombustibleIdSurtidor}" for="ventaCombustibleIdSurtidor" />
+                        <p:selectOneMenu id="ventaCombustibleIdSurtidor" value="#{ventaCombustibleController.selected.ventaCombustibleIdSurtidor}" required="true" requiredMessage="#{bundle.CreateVentaCombustibleRequiredMessage_ventaCombustibleIdSurtidor}" converter="surtidorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{surtidorController.items}"
+                                           var="ventaCombustibleIdSurtidorItem"
+                                           itemValue="#{ventaCombustibleIdSurtidorItem}"
+                                           itemLabel="#{ventaCombustibleIdSurtidorItem.surtidorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaCombustibleController.saveNew}" value="#{bundle.Save}" update="display,:VentaCombustibleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaCombustibleCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaCombustibleCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

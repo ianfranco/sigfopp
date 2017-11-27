@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="HaberTrabajadorListForm">
+
+        <p:panel header="#{bundle.ListHaberTrabajadorTitle}">
+            <p:contextMenu id="HaberTrabajadorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('HaberTrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('HaberTrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('HaberTrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('HaberTrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.HaberTrabajadorMenuItem_haberTrabajadorIdHaber}" icon="ui-icon-search"  actionListener="#{haberTrabajadorController.prepareHaberTrabajadorIdHaber}" update=":TipoHaberTrabajadorViewForm" oncomplete="PF('TipoHaberTrabajadorViewDialog').show()" disabled="#{empty haberTrabajadorController.selected.haberTrabajadorIdHaber}"/>  
+                <p:menuitem value="#{bundle.HaberTrabajadorMenuItem_haberTrabajadorIdTrabajador}" icon="ui-icon-search"  actionListener="#{haberTrabajadorController.prepareHaberTrabajadorIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty haberTrabajadorController.selected.haberTrabajadorIdTrabajador}"/>  
+                <p:menuitem value="#{bundle.HaberTrabajadorMenuItem_haberLiquidacionList}" icon="ui-icon-search"  action="#{haberTrabajadorController.navigateHaberLiquidacionList}" disabled="#{empty haberTrabajadorController.selected.haberLiquidacionList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{haberTrabajadorController.items}"
+                         lazy="false"
+                         rowKey="#{item.haberTrabajadorId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{haberTrabajadorController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{haberTrabajadorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.haberTrabajadorId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:HaberTrabajadorDataTableContextMenu" listener="#{haberTrabajadorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:HaberTrabajadorDataTableContextMenu" listener="#{haberTrabajadorController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{haberTrabajadorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('HaberTrabajadorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.haberTrabajadorId}" filterBy="#{item.haberTrabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.haberTrabajadorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.haberTrabajadorFechaInicio}" filterBy="#{item.haberTrabajadorFechaInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorFechaInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.haberTrabajadorFechaInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.haberTrabajadorFechaTermino}" filterBy="#{item.haberTrabajadorFechaTermino}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorFechaTermino}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.haberTrabajadorFechaTermino}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.haberTrabajadorCuotaActual}" filterBy="#{item.haberTrabajadorCuotaActual}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorCuotaActual}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.haberTrabajadorCuotaActual}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.haberTrabajadorTotalCuotas}" filterBy="#{item.haberTrabajadorTotalCuotas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorTotalCuotas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.haberTrabajadorTotalCuotas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.haberTrabajadorMontoFijo}" filterBy="#{item.haberTrabajadorMontoFijo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorMontoFijo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.haberTrabajadorMontoFijo}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.haberTrabajadorDescripcion}" filterBy="#{item.haberTrabajadorDescripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorDescripcion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.haberTrabajadorDescripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.haberTrabajadorActivo}" filterBy="#{item.haberTrabajadorActivo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorActivo}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="haberTrabajadorActivo" value="#{item.haberTrabajadorActivo}" title="#{bundle.EditHaberTrabajadorTitle_haberTrabajadorActivo}" required="true" requiredMessage="#{bundle.EditHaberTrabajadorRequiredMessage_haberTrabajadorActivo}" disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.haberTrabajadorFechaIngreso}" filterBy="#{item.haberTrabajadorFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.haberTrabajadorFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.haberTrabajadorIdHaber.tipoHaberTrabajadorId}" filterBy="#{item.haberTrabajadorIdHaber.tipoHaberTrabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorIdHaber}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.haberTrabajadorIdHaber.tipoHaberTrabajadorId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.haberTrabajadorIdTrabajador.trabajadorId}" filterBy="#{item.haberTrabajadorIdTrabajador.trabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListHaberTrabajadorTitle_haberTrabajadorIdTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.haberTrabajadorIdTrabajador.trabajadorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{haberTrabajadorController.prepareCreate}" update=":HaberTrabajadorCreateForm" oncomplete="PF('HaberTrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":HaberTrabajadorViewForm" oncomplete="PF('HaberTrabajadorViewDialog').show()" disabled="#{empty haberTrabajadorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":HaberTrabajadorEditForm" oncomplete="PF('HaberTrabajadorEditDialog').show()" disabled="#{empty haberTrabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{haberTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty haberTrabajadorController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

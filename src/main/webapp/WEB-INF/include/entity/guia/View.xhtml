@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaViewDlg" widgetVar="GuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="GuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="GuiaTabView">
+
+                        <p:tab id="GuiaTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{guiaController.selected != null}">
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaId}"/>
+                                <h:outputText value="#{guiaController.selected.guiaId}" title="#{bundle.ViewGuiaTitle_guiaId}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaFolio}"/>
+                                <h:outputText value="#{guiaController.selected.guiaFolio}" title="#{bundle.ViewGuiaTitle_guiaFolio}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaFecha}"/>
+                                <h:outputText value="#{guiaController.selected.guiaFecha}" title="#{bundle.ViewGuiaTitle_guiaFecha}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaRecaudacion}"/>
+                                <h:outputText value="#{guiaController.selected.guiaRecaudacion}" title="#{bundle.ViewGuiaTitle_guiaRecaudacion}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaTotalIngresos}"/>
+                                <h:outputText value="#{guiaController.selected.guiaTotalIngresos}" title="#{bundle.ViewGuiaTitle_guiaTotalIngresos}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaTotalEgresos}"/>
+                                <h:outputText value="#{guiaController.selected.guiaTotalEgresos}" title="#{bundle.ViewGuiaTitle_guiaTotalEgresos}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaViajeEspecial}"/>
+                                <h:outputText value="#{guiaController.selected.guiaViajeEspecial}" title="#{bundle.ViewGuiaTitle_guiaViajeEspecial}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaOtrosIngresos}"/>
+                                <h:outputText value="#{guiaController.selected.guiaOtrosIngresos}" title="#{bundle.ViewGuiaTitle_guiaOtrosIngresos}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaSaldo}"/>
+                                <h:outputText value="#{guiaController.selected.guiaSaldo}" title="#{bundle.ViewGuiaTitle_guiaSaldo}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaNumeroVueltas}"/>
+                                <h:outputText value="#{guiaController.selected.guiaNumeroVueltas}" title="#{bundle.ViewGuiaTitle_guiaNumeroVueltas}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaTurno}"/>
+                                <h:outputText value="#{guiaController.selected.guiaTurno}" title="#{bundle.ViewGuiaTitle_guiaTurno}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaObservacion}"/>
+                                <h:outputText value="#{guiaController.selected.guiaObservacion}" title="#{bundle.ViewGuiaTitle_guiaObservacion}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaRecaudada}"/>
+                                <h:selectBooleanCheckbox id="guiaRecaudada" value="#{guiaController.selected.guiaRecaudada}" title="#{bundle.EditGuiaTitle_guiaRecaudada}"  disabled="true"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaFechaIngreso}"/>
+                                <h:outputText value="#{guiaController.selected.guiaFechaIngreso}" title="#{bundle.ViewGuiaTitle_guiaFechaIngreso}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaIdBus}"/>
+                                <h:outputText value="#{guiaController.selected.guiaIdBus.busId}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaIdEstado}"/>
+                                <h:outputText value="#{guiaController.selected.guiaIdEstado.estadoGuiaId}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaIdCajaTerminal}"/>
+                                <h:outputText value="#{guiaController.selected.guiaIdCajaTerminal.cajaTerminalId}"/>
+
+                                <h:outputText value="#{bundle.ViewGuiaLabel_guiaIdTrabajador}"/>
+                                <h:outputText value="#{guiaController.selected.guiaIdTrabajador.trabajadorId}"/>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('GuiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

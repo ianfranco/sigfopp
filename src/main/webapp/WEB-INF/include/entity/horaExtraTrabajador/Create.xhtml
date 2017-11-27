@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HoraExtraTrabajadorCreateDlg" widgetVar="HoraExtraTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHoraExtraTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HoraExtraTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{horaExtraTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHoraExtraTrabajadorLabel_horaExtraTrabajadorCantidad}" for="horaExtraTrabajadorCantidad" />
+                        <p:inputText id="horaExtraTrabajadorCantidad" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorCantidad}" title="#{bundle.CreateHoraExtraTrabajadorTitle_horaExtraTrabajadorCantidad}" required="true" requiredMessage="#{bundle.CreateHoraExtraTrabajadorRequiredMessage_horaExtraTrabajadorCantidad}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHoraExtraTrabajadorLabel_horaExtraTrabajadorFecha}" for="horaExtraTrabajadorFecha" />
+                        <p:calendar id="horaExtraTrabajadorFecha" pattern="MM/dd/yyyy" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorFecha}" title="#{bundle.CreateHoraExtraTrabajadorTitle_horaExtraTrabajadorFecha}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHoraExtraTrabajadorLabel_horaExtraTrabajadorFechaIngreso}" for="horaExtraTrabajadorFechaIngreso" />
+                        <p:calendar id="horaExtraTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorFechaIngreso}" title="#{bundle.CreateHoraExtraTrabajadorTitle_horaExtraTrabajadorFechaIngreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHoraExtraTrabajadorLabel_horaExtraTrabajadorIdTrabajador}" for="horaExtraTrabajadorIdTrabajador" />
+                        <p:selectOneMenu id="horaExtraTrabajadorIdTrabajador" value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorIdTrabajador}" required="true" requiredMessage="#{bundle.CreateHoraExtraTrabajadorRequiredMessage_horaExtraTrabajadorIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="horaExtraTrabajadorIdTrabajadorItem"
+                                           itemValue="#{horaExtraTrabajadorIdTrabajadorItem}"
+                                           itemLabel="#{horaExtraTrabajadorIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{horaExtraTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:HoraExtraTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HoraExtraTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HoraExtraTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

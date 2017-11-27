@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="NumeralSurtidorListForm">
+
+        <p:panel header="#{bundle.ListNumeralSurtidorTitle}">
+            <p:contextMenu id="NumeralSurtidorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('NumeralSurtidorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('NumeralSurtidorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('NumeralSurtidorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('NumeralSurtidorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.NumeralSurtidorMenuItem_numeralSurtidorIdSurtidor}" icon="ui-icon-search"  actionListener="#{numeralSurtidorController.prepareNumeralSurtidorIdSurtidor}" update=":SurtidorViewForm" oncomplete="PF('SurtidorViewDialog').show()" disabled="#{empty numeralSurtidorController.selected.numeralSurtidorIdSurtidor}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{numeralSurtidorController.items}"
+                         lazy="false"
+                         rowKey="#{item.numeralSurtidorId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{numeralSurtidorController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{numeralSurtidorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.numeralSurtidorId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:NumeralSurtidorDataTableContextMenu" listener="#{numeralSurtidorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:NumeralSurtidorDataTableContextMenu" listener="#{numeralSurtidorController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{numeralSurtidorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('NumeralSurtidorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.numeralSurtidorId}" filterBy="#{item.numeralSurtidorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNumeralSurtidorTitle_numeralSurtidorId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeralSurtidorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeralSurtidorFechaNumeral}" filterBy="#{item.numeralSurtidorFechaNumeral}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNumeralSurtidorTitle_numeralSurtidorFechaNumeral}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeralSurtidorFechaNumeral}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeralSurtidorNumeralInicial}" filterBy="#{item.numeralSurtidorNumeralInicial}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNumeralSurtidorTitle_numeralSurtidorNumeralInicial}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeralSurtidorNumeralInicial}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeralSurtidorNumeralFinal}" filterBy="#{item.numeralSurtidorNumeralFinal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNumeralSurtidorTitle_numeralSurtidorNumeralFinal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeralSurtidorNumeralFinal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeralSurtidorIndicadorMuestra}" filterBy="#{item.numeralSurtidorIndicadorMuestra}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNumeralSurtidorTitle_numeralSurtidorIndicadorMuestra}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeralSurtidorIndicadorMuestra}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeralSurtidorFechaIngreso}" filterBy="#{item.numeralSurtidorFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNumeralSurtidorTitle_numeralSurtidorFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeralSurtidorFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.numeralSurtidorIdSurtidor.surtidorId}" filterBy="#{item.numeralSurtidorIdSurtidor.surtidorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListNumeralSurtidorTitle_numeralSurtidorIdSurtidor}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.numeralSurtidorIdSurtidor.surtidorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{numeralSurtidorController.prepareCreate}" update=":NumeralSurtidorCreateForm" oncomplete="PF('NumeralSurtidorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":NumeralSurtidorViewForm" oncomplete="PF('NumeralSurtidorViewDialog').show()" disabled="#{empty numeralSurtidorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":NumeralSurtidorEditForm" oncomplete="PF('NumeralSurtidorEditDialog').show()" disabled="#{empty numeralSurtidorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{numeralSurtidorController.delete}" update=":growl,datalist" disabled="#{empty numeralSurtidorController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

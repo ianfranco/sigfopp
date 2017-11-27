@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DepartamentoEditDlg" widgetVar="DepartamentoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDepartamentoTitle}" closeOnEscape="true">
+
+            <h:form id="DepartamentoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{departamentoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDepartamentoLabel_departamentoId}" for="departamentoId" />
+                        <h:outputText id="departamentoId" value="#{departamentoController.selected.departamentoId}" />
+
+                        <p:outputLabel value="#{bundle.EditDepartamentoLabel_departamentoNombre}" for="departamentoNombre" />
+                        <p:inputText id="departamentoNombre" value="#{departamentoController.selected.departamentoNombre}" title="#{bundle.EditDepartamentoTitle_departamentoNombre}" required="true" requiredMessage="#{bundle.EditDepartamentoRequiredMessage_departamentoNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditDepartamentoLabel_departamentoActivo}" for="departamentoActivo" />
+                        <p:selectBooleanCheckbox id="departamentoActivo" value="#{departamentoController.selected.departamentoActivo}" required="true" requiredMessage="#{bundle.EditDepartamentoRequiredMessage_departamentoActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditDepartamentoLabel_departamentoFechaIngreso}" for="departamentoFechaIngreso" />
+                        <p:calendar id="departamentoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{departamentoController.selected.departamentoFechaIngreso}" title="#{bundle.EditDepartamentoTitle_departamentoFechaIngreso}" required="true" requiredMessage="#{bundle.EditDepartamentoRequiredMessage_departamentoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{departamentoController.save}" value="#{bundle.Save}" update="display,:DepartamentoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DepartamentoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DepartamentoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SurtidorListForm">
+
+        <p:panel header="#{bundle.ListSurtidorTitle}">
+            <p:contextMenu id="SurtidorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('SurtidorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('SurtidorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('SurtidorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('SurtidorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.SurtidorMenuItem_surtidorIdTerminal}" icon="ui-icon-search"  actionListener="#{surtidorController.prepareSurtidorIdTerminal}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty surtidorController.selected.surtidorIdTerminal}"/>  
+                <p:menuitem value="#{bundle.SurtidorMenuItem_ventaCombustibleList}" icon="ui-icon-search"  action="#{surtidorController.navigateVentaCombustibleList}" disabled="#{empty surtidorController.selected.ventaCombustibleList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.SurtidorMenuItem_numeralSurtidorList}" icon="ui-icon-search"  action="#{surtidorController.navigateNumeralSurtidorList}" disabled="#{empty surtidorController.selected.numeralSurtidorList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{surtidorController.items}"
+                         lazy="false"
+                         rowKey="#{item.surtidorId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{surtidorController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{surtidorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.surtidorId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SurtidorDataTableContextMenu" listener="#{surtidorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SurtidorDataTableContextMenu" listener="#{surtidorController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{surtidorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SurtidorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.surtidorId}" filterBy="#{item.surtidorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSurtidorTitle_surtidorId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.surtidorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.surtidorIdentificador}" filterBy="#{item.surtidorIdentificador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSurtidorTitle_surtidorIdentificador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.surtidorIdentificador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.surtidorObservaciones}" filterBy="#{item.surtidorObservaciones}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSurtidorTitle_surtidorObservaciones}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.surtidorObservaciones}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.surtidorFechaIngreso}" filterBy="#{item.surtidorFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSurtidorTitle_surtidorFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.surtidorFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.surtidorIdTerminal.terminalId}" filterBy="#{item.surtidorIdTerminal.terminalId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSurtidorTitle_surtidorIdTerminal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.surtidorIdTerminal.terminalId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{surtidorController.prepareCreate}" update=":SurtidorCreateForm" oncomplete="PF('SurtidorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":SurtidorViewForm" oncomplete="PF('SurtidorViewDialog').show()" disabled="#{empty surtidorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SurtidorEditForm" oncomplete="PF('SurtidorEditDialog').show()" disabled="#{empty surtidorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{surtidorController.delete}" update=":growl,datalist" disabled="#{empty surtidorController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContratoUnidadCreateDlg" widgetVar="ContratoUnidadCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateContratoUnidadTitle}" closeOnEscape="true">
+
+            <h:form id="ContratoUnidadCreateForm">
+
+                <h:panelGroup id="display" rendered="#{contratoUnidadController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_contratoUnidadIdentificador}" for="contratoUnidadIdentificador" />
+                        <p:inputText id="contratoUnidadIdentificador" value="#{contratoUnidadController.selected.contratoUnidadIdentificador}" title="#{bundle.CreateContratoUnidadTitle_contratoUnidadIdentificador}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_contratoUnidadIdentificador}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_contratoUnidadDesde}" for="contratoUnidadDesde" />
+                        <p:calendar id="contratoUnidadDesde" pattern="MM/dd/yyyy" value="#{contratoUnidadController.selected.contratoUnidadDesde}" title="#{bundle.CreateContratoUnidadTitle_contratoUnidadDesde}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_contratoUnidadDesde}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_contratoUnidadHasta}" for="contratoUnidadHasta" />
+                        <p:calendar id="contratoUnidadHasta" pattern="MM/dd/yyyy" value="#{contratoUnidadController.selected.contratoUnidadHasta}" title="#{bundle.CreateContratoUnidadTitle_contratoUnidadHasta}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_contratoUnidadHasta}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_contratoUnidadNombre}" for="contratoUnidadNombre" />
+                        <p:inputText id="contratoUnidadNombre" value="#{contratoUnidadController.selected.contratoUnidadNombre}" title="#{bundle.CreateContratoUnidadTitle_contratoUnidadNombre}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_contratoUnidadNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_contratoUnidadDescripcion}" for="contratoUnidadDescripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="contratoUnidadDescripcion" value="#{contratoUnidadController.selected.contratoUnidadDescripcion}" title="#{bundle.CreateContratoUnidadTitle_contratoUnidadDescripcion}" />
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_contratoUnidadFechaIngreso}" for="contratoUnidadFechaIngreso" />
+                        <p:calendar id="contratoUnidadFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{contratoUnidadController.selected.contratoUnidadFechaIngreso}" title="#{bundle.CreateContratoUnidadTitle_contratoUnidadFechaIngreso}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_contratoUnidadFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateContratoUnidadLabel_contratoUnidadIdUnidadNegocio}" for="contratoUnidadIdUnidadNegocio" />
+                        <p:selectOneMenu id="contratoUnidadIdUnidadNegocio" value="#{contratoUnidadController.selected.contratoUnidadIdUnidadNegocio}" required="true" requiredMessage="#{bundle.CreateContratoUnidadRequiredMessage_contratoUnidadIdUnidadNegocio}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="contratoUnidadIdUnidadNegocioItem"
+                                           itemValue="#{contratoUnidadIdUnidadNegocioItem}"
+                                           itemLabel="#{contratoUnidadIdUnidadNegocioItem.unidadNegocioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contratoUnidadController.saveNew}" value="#{bundle.Save}" update="display,:ContratoUnidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ContratoUnidadCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ContratoUnidadCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

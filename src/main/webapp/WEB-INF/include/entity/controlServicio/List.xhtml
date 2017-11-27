@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ControlServicioListForm">
+
+        <p:panel header="#{bundle.ListControlServicioTitle}">
+            <p:contextMenu id="ControlServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ControlServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ControlServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ControlServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ControlServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ControlServicioMenuItem_controlServicioIdControl}" icon="ui-icon-search"  actionListener="#{controlServicioController.prepareControlServicioIdControl}" update=":ControlViewForm" oncomplete="PF('ControlViewDialog').show()" disabled="#{empty controlServicioController.selected.controlServicioIdControl}"/>  
+                <p:menuitem value="#{bundle.ControlServicioMenuItem_controlServicioIdServicio}" icon="ui-icon-search"  actionListener="#{controlServicioController.prepareControlServicioIdServicio}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty controlServicioController.selected.controlServicioIdServicio}"/>  
+                <p:menuitem value="#{bundle.ControlServicioMenuItem_controlHorarioServicioList}" icon="ui-icon-search"  action="#{controlServicioController.navigateControlHorarioServicioList}" disabled="#{empty controlServicioController.selected.controlHorarioServicioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{controlServicioController.items}"
+                         lazy="false"
+                         rowKey="#{item.controlServicioIdControlServicio}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{controlServicioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{controlServicioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.controlServicioIdControlServicio}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ControlServicioDataTableContextMenu" listener="#{controlServicioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ControlServicioDataTableContextMenu" listener="#{controlServicioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{controlServicioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ControlServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.controlServicioIdControlServicio}" filterBy="#{item.controlServicioIdControlServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlServicioTitle_controlServicioIdControlServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlServicioIdControlServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlServicioTiempo}" filterBy="#{item.controlServicioTiempo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlServicioTitle_controlServicioTiempo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlServicioTiempo}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlServicioNumeroOrden}" filterBy="#{item.controlServicioNumeroOrden}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlServicioTitle_controlServicioNumeroOrden}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlServicioNumeroOrden}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlServicioFechaIngreso}" filterBy="#{item.controlServicioFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlServicioTitle_controlServicioFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlServicioFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlServicioIdControl.controlId}" filterBy="#{item.controlServicioIdControl.controlId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlServicioTitle_controlServicioIdControl}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlServicioIdControl.controlId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlServicioIdServicio.servicioId}" filterBy="#{item.controlServicioIdServicio.servicioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlServicioTitle_controlServicioIdServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlServicioIdServicio.servicioId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{controlServicioController.prepareCreate}" update=":ControlServicioCreateForm" oncomplete="PF('ControlServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ControlServicioViewForm" oncomplete="PF('ControlServicioViewDialog').show()" disabled="#{empty controlServicioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ControlServicioEditForm" oncomplete="PF('ControlServicioEditDialog').show()" disabled="#{empty controlServicioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{controlServicioController.delete}" update=":growl,datalist" disabled="#{empty controlServicioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

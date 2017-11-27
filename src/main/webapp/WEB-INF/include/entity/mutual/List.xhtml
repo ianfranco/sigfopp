@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="MutualListForm">
+
+        <p:panel header="#{bundle.ListMutualTitle}">
+            <p:contextMenu id="MutualDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('MutualListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('MutualListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('MutualListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('MutualListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.MutualMenuItem_empresaList}" icon="ui-icon-search"  action="#{mutualController.navigateEmpresaList}" disabled="#{empty mutualController.selected.empresaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{mutualController.items}"
+                         lazy="false"
+                         rowKey="#{item.mutualId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{mutualController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{mutualController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.mutualId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:MutualDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:MutualDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('MutualListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.mutualId}" filterBy="#{item.mutualId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListMutualTitle_mutualId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mutualId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mutualNombre}" filterBy="#{item.mutualNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListMutualTitle_mutualNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mutualNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mutualComision}" filterBy="#{item.mutualComision}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListMutualTitle_mutualComision}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mutualComision}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mutualPorcentajeDescuento}" filterBy="#{item.mutualPorcentajeDescuento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListMutualTitle_mutualPorcentajeDescuento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mutualPorcentajeDescuento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.mutualFechaIngreso}" filterBy="#{item.mutualFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListMutualTitle_mutualFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mutualFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{mutualController.prepareCreate}" update=":MutualCreateForm" oncomplete="PF('MutualCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":MutualViewForm" oncomplete="PF('MutualViewDialog').show()" disabled="#{empty mutualController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MutualEditForm" oncomplete="PF('MutualEditDialog').show()" disabled="#{empty mutualController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{mutualController.delete}" update=":growl,datalist" disabled="#{empty mutualController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Guía" closeOnEscape="true">
+
+            <h:form id="GuiaCreateForm" onkeypress="return event.keyCode != 13">
+                <h:panelGroup id="display" rendered="#{digitacionGuiaController.selected != null}">
+                    <p:panelGrid>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:focus context="guiaFolio"/>
+
+                            <p:column style="font-weight: bold;">Folio:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:inputNumber emptyValue="zero" id="guiaFolio" value="#{digitacionGuiaController.selected.guiaFolio}" title="#{bundle.CreateGuiaTitle_guiaFolio}" required="true" requiredMessage="Debe ingresar el folio" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)" minValue="1">
+                                    <p:ajax event="valueChange" listener="#{digitacionGuiaController.findFolio}" update="growl, guiaFolio"/>
+                                </p:inputNumber>                                
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Empresario:</p:column>
+                            <p:column rowspan="1" style="font-weight: bold;width: 250px;"><p:outputLabel value="#{digitacionGuiaController.selected.guiaIdBus.busIdEmpresa.empresaNombre}" id="guiaIdBusEmpresario" /></p:column>
+                        </p:row>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">Fecha:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:calendar id="guiaFecha" pattern="dd/MM/yyyy" value="#{digitacionGuiaController.selected.guiaFecha}" title="#{bundle.CreateGuiaTitle_guiaFecha}" required="true" requiredMessage="Debe ingresar la Fecha de la Guía"  locale="es" onfocus="this.setSelectionRange(0, 2)">
+                                    <p:ajax event="valueChange" listener="#{digitacionGuiaController.handleBusChange(event)}" update="guiaTurno, growl"/>
+                                </p:calendar>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Flota:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{digitacionGuiaController.selected.guiaIdBus.busIdFlota.flotaNombre}" id="guiaIdBusFlota" /></p:column>
+                        </p:row>
+
+                        <!-- SEGUNDA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Bus:</p:column>
+                            <p:column><p:selectOneMenu id="guiaIdBus" value="#{digitacionGuiaController.selected.guiaIdBus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{digitacionGuiaController.busesList}"
+                                                   var="guiaIdBusItem"
+                                                   itemValue="#{guiaIdBusItem}"
+                                                   itemLabel="#{guiaIdBusItem.busNumero}"
+                                                   />
+                                    <p:ajax event="valueChange" update="guiaIdBusPatente, guiaIdBusEmpresario, guiaIdBusFlota, guiaTurno, growl" listener="#{digitacionGuiaController.handleBusChange(event)}" global="false"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">PPU:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{digitacionGuiaController.selected.guiaIdBus.busPatente}" id="guiaIdBusPatente" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Conductor</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:selectOneMenu id="guiaIdTrabajador" value="#{digitacionGuiaController.selected.guiaIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Conductor" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{trabajadorController.items}"
+                                                   var="guiaIdTrabajadorItem"
+                                                   itemValue="#{guiaIdTrabajadorItem}"
+                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                                   />
+                                    <p:ajax event="valueChange" update="guiaIdTrabajadorNombre, guiaIdTrabajadorRut" global="false"/>
+                                </p:selectOneMenu>
+                            </p:column>
+
+                            <p:column style="font-weight: bold;" rowspan="1">Conductor:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorNombres} #{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorApellidoPaterno} #{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorApellidoMaterno}" id="guiaIdTrabajadorNombre" /></p:column>
+                        </p:row>
+                        <!-- CUARTA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Vueltas</p:column>
+                            <p:column>
+                                <p:inputNumber emptyValue="zero" id="guiaNumeroVueltas" value="#{digitacionGuiaController.selected.guiaNumeroVueltas}" title="#{bundle.CreateGuiaTitle_guiaNumeroVueltas}" onfocus="this.setSelectionRange(0, this.value.length)" decimalPlaces="0" minValue="0"/>
+                            </p:column>
+                            <p:column style="font-weight: bold;" rowspan="1">Rut:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{digitacionGuiaController.selected.guiaIdTrabajador.trabajadorRut}" id="guiaIdTrabajadorRut" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;">Turno</p:column>
+                            <p:column>
+                                <p:inputNumber emptyValue="zero" minValue="0" id="guiaTurno" value="#{digitacionGuiaController.selected.guiaTurno}" title="#{bundle.CreateGuiaTitle_guiaNumeroVueltas}" onfocus="this.setSelectionRange(0, this.value.length)" decimalPlaces="0"/>
+                            </p:column>
+                            <p:column style="font-weight: bold;"/>
+                            <p:column style="font-weight: bold;"/>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Total Ingresos: 
+                            </p:column>
+                            <p:column  colspan="4" style="background: #e5e5e5">
+                                <p:inputNumber emptyValue="zero" minValue="0" id="guiaIngresos" value="#{digitacionGuiaController.selected.guiaTotalIngresos}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)" symbol="$ ">
+                                    <p:ajax event="blur" update="growl, @(.clase), @(.clase2)" listener="#{digitacionGuiaController.setEgresosVariables}" global="false"/>
+                                </p:inputNumber>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="text-align: center;font-weight: bold;font-weight: 15px;" colspan="4" >Egresos</p:column>
+                        </p:row>
+
+
+                        <ui:repeat value="#{digitacionGuiaController.egresoGuiaList}" var="egreso" >
+                            <p:row >
+                                <p:column style="font-weight: bold;" colspan="2"/>
+                                <p:column style="font-weight: bold;" >#{egreso.egresoGuiaIdEgreso.egresoNombre}</p:column>
+                                <p:column style="font-weight: bold;" >
+                                    <p:inputNumber emptyValue="zero" minValue="0" styleClass="clase" id="egresoGuiaMonto" value="#{egreso.egresoGuiaMonto}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)" symbol="$ ">
+                                        <p:ajax event="valueChange" update="growl, @(.clase2)" listener="#{digitacionGuiaController.setTotal}" global="false"></p:ajax>
+                                    </p:inputNumber>                                    
+                                </p:column>
+                            </p:row>
+                        </ui:repeat>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Total Egresos
+                            </p:column>
+                            <p:column colspan="4" style="text-align: left;background: #e5e5e5;">
+                                <p:inputNumber emptyValue="zero" minValue="0" styleClass="clase2" id="guiaEgresos" value="#{digitacionGuiaController.selected.guiaTotalEgresos}" onfocus="this.setSelectionRange(0, this.value.length)" decimalPlaces="0" symbol="$ "/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Saldo 
+                            </p:column>
+                            <p:column  colspan="4" style="text-align: left;background: #e5e5e5;">
+                                <p:inputNumber emptyValue="zero" minValue="0" styleClass="clase2" id="guiaSaldo" value="#{digitacionGuiaController.selected.guiaSaldo}" onfocus="this.setSelectionRange(0, this.value.length)" decimalPlaces="0" symbol="$ "/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="background: #e5e5e5;">
+
+                            </p:column>
+                            <p:column  style="background: #e5e5e5;">
+                                <p:commandButton actionListener="#{digitacionGuiaController.saveNew}" value="#{bundle.Save}" update="display,:GuiaListForm:datalist,:growl" styleClass="btn btn-primary">
+                                    <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Ingresar nueva Guía?" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="Cerrar" oncomplete="PF('GuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true" styleClass="btn btn-primary"/>
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

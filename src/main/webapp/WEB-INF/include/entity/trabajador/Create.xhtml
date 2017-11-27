@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TrabajadorCreateDlg" widgetVar="TrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{trabajadorController.selected != null}">
+                    <p:tabView id="TrabajadorTabView">
+
+                        <p:tab id="TrabajadorTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorCodigo}" for="trabajadorCodigo" />
+                                <p:inputText id="trabajadorCodigo" value="#{trabajadorController.selected.trabajadorCodigo}" title="#{bundle.CreateTrabajadorTitle_trabajadorCodigo}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorCodigo}"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorRut}" for="trabajadorRut" />
+                                <p:inputText id="trabajadorRut" value="#{trabajadorController.selected.trabajadorRut}" title="#{bundle.CreateTrabajadorTitle_trabajadorRut}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorRut}" size="9" maxlength="9"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorNombres}" for="trabajadorNombres" />
+                                <p:inputText id="trabajadorNombres" value="#{trabajadorController.selected.trabajadorNombres}" title="#{bundle.CreateTrabajadorTitle_trabajadorNombres}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorNombres}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorApellidoPaterno}" for="trabajadorApellidoPaterno" />
+                                <p:inputText id="trabajadorApellidoPaterno" value="#{trabajadorController.selected.trabajadorApellidoPaterno}" title="#{bundle.CreateTrabajadorTitle_trabajadorApellidoPaterno}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorApellidoPaterno}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorApellidoMaterno}" for="trabajadorApellidoMaterno" />
+                                <p:inputText id="trabajadorApellidoMaterno" value="#{trabajadorController.selected.trabajadorApellidoMaterno}" title="#{bundle.CreateTrabajadorTitle_trabajadorApellidoMaterno}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorApellidoMaterno}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorFechaNacimiento}" for="trabajadorFechaNacimiento" />
+                                <p:calendar id="trabajadorFechaNacimiento" pattern="MM/dd/yyyy" value="#{trabajadorController.selected.trabajadorFechaNacimiento}" title="#{bundle.CreateTrabajadorTitle_trabajadorFechaNacimiento}"  showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorNacionalidad}" for="trabajadorNacionalidad" />
+                                <p:selectBooleanCheckbox id="trabajadorNacionalidad" value="#{trabajadorController.selected.trabajadorNacionalidad}" />
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorSexo}" for="trabajadorSexo" />
+                                <p:selectBooleanCheckbox id="trabajadorSexo" value="#{trabajadorController.selected.trabajadorSexo}" />
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorCalle}" for="trabajadorCalle" />
+                                <p:inputText id="trabajadorCalle" value="#{trabajadorController.selected.trabajadorCalle}" title="#{bundle.CreateTrabajadorTitle_trabajadorCalle}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorNumeroDireccion}" for="trabajadorNumeroDireccion" />
+                                <p:inputText id="trabajadorNumeroDireccion" value="#{trabajadorController.selected.trabajadorNumeroDireccion}" title="#{bundle.CreateTrabajadorTitle_trabajadorNumeroDireccion}" size="45" maxlength="45"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorTelefonoFijo}" for="trabajadorTelefonoFijo" />
+                                <p:inputText id="trabajadorTelefonoFijo" value="#{trabajadorController.selected.trabajadorTelefonoFijo}" title="#{bundle.CreateTrabajadorTitle_trabajadorTelefonoFijo}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorCelular}" for="trabajadorCelular" />
+                                <p:inputText id="trabajadorCelular" value="#{trabajadorController.selected.trabajadorCelular}" title="#{bundle.CreateTrabajadorTitle_trabajadorCelular}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorEmail}" for="trabajadorEmail" />
+                                <p:inputText id="trabajadorEmail" value="#{trabajadorController.selected.trabajadorEmail}" title="#{bundle.CreateTrabajadorTitle_trabajadorEmail}" size="255" maxlength="255"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorNumeroCargas}" for="trabajadorNumeroCargas" />
+                                <p:inputText id="trabajadorNumeroCargas" value="#{trabajadorController.selected.trabajadorNumeroCargas}" title="#{bundle.CreateTrabajadorTitle_trabajadorNumeroCargas}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorNumeroCargas}"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorMontoSalud}" for="trabajadorMontoSalud" />
+                                <p:inputText id="trabajadorMontoSalud" value="#{trabajadorController.selected.trabajadorMontoSalud}" title="#{bundle.CreateTrabajadorTitle_trabajadorMontoSalud}"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorFormaPagoApv}" for="trabajadorFormaPagoApv" />
+                                <p:selectBooleanCheckbox id="trabajadorFormaPagoApv" value="#{trabajadorController.selected.trabajadorFormaPagoApv}" />
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorMontoApv}" for="trabajadorMontoApv" />
+                                <p:inputText id="trabajadorMontoApv" value="#{trabajadorController.selected.trabajadorMontoApv}" title="#{bundle.CreateTrabajadorTitle_trabajadorMontoApv}"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorSubsidioJoven}" for="trabajadorSubsidioJoven" />
+                                <p:selectBooleanCheckbox id="trabajadorSubsidioJoven" value="#{trabajadorController.selected.trabajadorSubsidioJoven}" />
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorCesantia}" for="trabajadorCesantia" />
+                                <p:selectBooleanCheckbox id="trabajadorCesantia" value="#{trabajadorController.selected.trabajadorCesantia}" />
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorContratado}" for="trabajadorContratado" />
+                                <p:selectBooleanCheckbox id="trabajadorContratado" value="#{trabajadorController.selected.trabajadorContratado}" />
+
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab id="TrabajadorTab2" title="#{bundle.TabHeaderPrefix} 2">
+                            <p:panelGrid columns="2" columnClasses="column">
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorFechaIngreso}" for="trabajadorFechaIngreso" />
+                                <p:calendar id="trabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{trabajadorController.selected.trabajadorFechaIngreso}" title="#{bundle.CreateTrabajadorTitle_trabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorFechaIngreso}" showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdInstitucionApv}" for="trabajadorIdInstitucionApv" />
+                                <p:selectOneMenu id="trabajadorIdInstitucionApv" value="#{trabajadorController.selected.trabajadorIdInstitucionApv}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdInstitucionApv}" converter="institucionApvConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{institucionApvController.items}"
+                                                   var="trabajadorIdInstitucionApvItem"
+                                                   itemValue="#{trabajadorIdInstitucionApvItem}"
+                                                   itemLabel="#{trabajadorIdInstitucionApvItem.institucionApvId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdAsignacionFamiliar}" for="trabajadorIdAsignacionFamiliar" />
+                                <p:selectOneMenu id="trabajadorIdAsignacionFamiliar" value="#{trabajadorController.selected.trabajadorIdAsignacionFamiliar}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdAsignacionFamiliar}" converter="asignacionFamiliarConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{asignacionFamiliarController.items}"
+                                                   var="trabajadorIdAsignacionFamiliarItem"
+                                                   itemValue="#{trabajadorIdAsignacionFamiliarItem}"
+                                                   itemLabel="#{trabajadorIdAsignacionFamiliarItem.asignacionFamiliarId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdCentroCosto}" for="trabajadorIdCentroCosto" />
+                                <p:selectOneMenu id="trabajadorIdCentroCosto" value="#{trabajadorController.selected.trabajadorIdCentroCosto}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdCentroCosto}" converter="centroCostoConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{centroCostoController.items}"
+                                                   var="trabajadorIdCentroCostoItem"
+                                                   itemValue="#{trabajadorIdCentroCostoItem}"
+                                                   itemLabel="#{trabajadorIdCentroCostoItem.centroCostoId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdComuna}" for="trabajadorIdComuna" />
+                                <p:selectOneMenu id="trabajadorIdComuna" value="#{trabajadorController.selected.trabajadorIdComuna}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdComuna}" converter="comunaConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{comunaController.items}"
+                                                   var="trabajadorIdComunaItem"
+                                                   itemValue="#{trabajadorIdComunaItem}"
+                                                   itemLabel="#{trabajadorIdComunaItem.comunaId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdTipoCotizacionTrabajador}" for="trabajadorIdTipoCotizacionTrabajador" />
+                                <p:selectOneMenu id="trabajadorIdTipoCotizacionTrabajador" value="#{trabajadorController.selected.trabajadorIdTipoCotizacionTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdTipoCotizacionTrabajador}" converter="tipoCotizacionTrabajadorConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{tipoCotizacionTrabajadorController.items}"
+                                                   var="trabajadorIdTipoCotizacionTrabajadorItem"
+                                                   itemValue="#{trabajadorIdTipoCotizacionTrabajadorItem}"
+                                                   itemLabel="#{trabajadorIdTipoCotizacionTrabajadorItem.tipoCotizacionTrabajadorId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdCuentaBancaria}" for="trabajadorIdCuentaBancaria" />
+                                <p:selectOneMenu id="trabajadorIdCuentaBancaria" value="#{trabajadorController.selected.trabajadorIdCuentaBancaria}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdCuentaBancaria}" converter="cuentaBancariaConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{cuentaBancariaController.items}"
+                                                   var="trabajadorIdCuentaBancariaItem"
+                                                   itemValue="#{trabajadorIdCuentaBancariaItem}"
+                                                   itemLabel="#{trabajadorIdCuentaBancariaItem.cuentaBancariaId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdEstadoCivil}" for="trabajadorIdEstadoCivil" />
+                                <p:selectOneMenu id="trabajadorIdEstadoCivil" value="#{trabajadorController.selected.trabajadorIdEstadoCivil}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdEstadoCivil}" converter="estadoCivilConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{estadoCivilController.items}"
+                                                   var="trabajadorIdEstadoCivilItem"
+                                                   itemValue="#{trabajadorIdEstadoCivilItem}"
+                                                   itemLabel="#{trabajadorIdEstadoCivilItem.estadoCivilId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdFormaPago}" for="trabajadorIdFormaPago" />
+                                <p:selectOneMenu id="trabajadorIdFormaPago" value="#{trabajadorController.selected.trabajadorIdFormaPago}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdFormaPago}" converter="formaPagoConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{formaPagoController.items}"
+                                                   var="trabajadorIdFormaPagoItem"
+                                                   itemValue="#{trabajadorIdFormaPagoItem}"
+                                                   itemLabel="#{trabajadorIdFormaPagoItem.formaPagoId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdInstitucionPrevision}" for="trabajadorIdInstitucionPrevision" />
+                                <p:selectOneMenu id="trabajadorIdInstitucionPrevision" value="#{trabajadorController.selected.trabajadorIdInstitucionPrevision}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdInstitucionPrevision}" converter="institucionPrevisionConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{institucionPrevisionController.items}"
+                                                   var="trabajadorIdInstitucionPrevisionItem"
+                                                   itemValue="#{trabajadorIdInstitucionPrevisionItem}"
+                                                   itemLabel="#{trabajadorIdInstitucionPrevisionItem.institucionPrevisionId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdInstitucionSalud}" for="trabajadorIdInstitucionSalud" />
+                                <p:selectOneMenu id="trabajadorIdInstitucionSalud" value="#{trabajadorController.selected.trabajadorIdInstitucionSalud}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdInstitucionSalud}" converter="institucionSaludConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{institucionSaludController.items}"
+                                                   var="trabajadorIdInstitucionSaludItem"
+                                                   itemValue="#{trabajadorIdInstitucionSaludItem}"
+                                                   itemLabel="#{trabajadorIdInstitucionSaludItem.institucionSaludId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdSindicato}" for="trabajadorIdSindicato" />
+                                <p:selectOneMenu id="trabajadorIdSindicato" value="#{trabajadorController.selected.trabajadorIdSindicato}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdSindicato}" converter="sindicatoConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{sindicatoController.items}"
+                                                   var="trabajadorIdSindicatoItem"
+                                                   itemValue="#{trabajadorIdSindicatoItem}"
+                                                   itemLabel="#{trabajadorIdSindicatoItem.sindicatoId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.CreateTrabajadorLabel_trabajadorIdTerminal}" for="trabajadorIdTerminal" />
+                                <p:selectOneMenu id="trabajadorIdTerminal" value="#{trabajadorController.selected.trabajadorIdTerminal}" required="true" requiredMessage="#{bundle.CreateTrabajadorRequiredMessage_trabajadorIdTerminal}" converter="terminalConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{terminalController.items}"
+                                                   var="trabajadorIdTerminalItem"
+                                                   itemValue="#{trabajadorIdTerminalItem}"
+                                                   itemLabel="#{trabajadorIdTerminalItem.terminalId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{trabajadorController.saveNew}" value="#{bundle.Save}" update="display,:TrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <h:form id="ServicioListForm" class="form-height">
+
+        <p:contextMenu id="ServicioDataTableContextMenu" for="datalist:datalist">  
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ServicioListForm:datalist:datalist:viewButton').click();" icon="ui-icon-search"/>
+            <p:separator/>
+        </p:contextMenu>
+
+        <coco:datatable id="datalist"
+                        value="#{servicioController.items}"
+                        rowKey="#{item.servicioId}"
+                        selection="#{servicioController.selected}"
+                        filtered="#{servicioController.filtered}"
+                        rowselect=":ServicioListForm:datalist:datalist:viewButton,:ServicioListForm:ServicioDataTableContextMenu"
+                        rowDblselect="document.getElementById('ServicioListForm:datalist:datalist:viewButton').click()"
+                        contextMenu=":ServicioListForm:datalist:datalist:viewButton"
+                        selectListener="#{servicioController.resetParents()}"
+                        >
+
+            <p:ajax event="colResize" listener="#{servicioController.onResize}"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <h:outputText value="Servicios"/>   
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="pull-right">
+                            <p:columnToggler datasource="datalist" trigger="toggler">
+                                <p:ajax event="toggle" listener="#{servicioController.onToggle}" />
+                            </p:columnToggler>
+                            <p:commandButton id="toggler" type="button" value="#{bundle.Columns}" class="btn-primary" icon="fa fa-list"/>                            
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column  style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputLabel value="#{rowIndex+1}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.servicioNumeroServicio}" filterBy="#{item.servicioNumeroServicio}">
+                <f:facet name="header">
+                    <h:outputText value="N°"/>
+                </f:facet>
+                <h:outputLabel value="#{item.servicioNumeroServicio}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.servicioFolio}" filterBy="#{item.servicioFolio}">
+                <f:facet name="header">
+                    <h:outputText value="Folio"/>
+                </f:facet>
+                <h:outputLabel value="#{item.servicioFolio}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.servicioNombre}" filterBy="#{item.servicioNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputLabel value="#{item.servicioNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.servicioIdTerminal.terminalNombre}" filterBy="#{item.servicioIdTerminal.terminalNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Terminal"/>
+                </f:facet>
+                <h:outputLabel value="#{item.servicioIdTerminal.terminalNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.servicioIdUnidad.unidadNegocioId}" filterBy="#{item.servicioIdUnidad.unidadNegocioId}">
+                <f:facet name="header">
+                    <h:outputText value="Unidad"/>
+                </f:facet>
+                <h:outputLabel value="#{item.servicioIdUnidad.unidadNegocioId}"/>
+            </p:column>
+
+
+
+            <!--
+                                
+            -->
+            <!--
+                                <p:column sortBy="#{item.servicioFechaIngreso}" filterBy="#{item.servicioFechaIngreso}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListServicioTitle_servicioFechaIngreso}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.servicioFechaIngreso}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+            
+            <p:column sortBy="#{item.servicioOrigen}" filterBy="#{item.servicioOrigen}">
+                <f:facet name="header">
+                    <h:outputText value="Origen"/>
+                </f:facet>
+                <h:outputText value="#{item.servicioOrigen}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.servicioDestino}" filterBy="#{item.servicioDestino}">
+                <f:facet name="header">
+                    <h:outputText value="Destino"/>
+                </f:facet>
+                <h:outputText value="#{item.servicioDestino}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.servicioLongitud}" filterBy="#{item.servicioLongitud}">
+                <f:facet name="header">
+                    <h:outputText value="Longitud"/>
+                </f:facet>
+                <h:outputText value="#{item.servicioLongitud}"/>
+            </p:column>
+            -->
+            <!--
+                                
+            -->
+            <!--
+                                
+            -->
+
+            <f:facet name="{buttons}">
+                <div class="footer-left">
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty servicioController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                </div>
+            </f:facet>
+
+        </coco:datatable>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+    
+    <p:dialog id="ServicioViewDlg" widgetVar="ServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Ficha Servicio" closeOnEscape="true">
+
+            <h:form id="ServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{servicioController.selected != null}">
+
+                        <h:outputText value="#"/>
+                        <h:outputText value="#{servicioController.selected.servicioId}" title="#{bundle.ViewServicioTitle_servicioId}"/>
+
+                        <h:outputText value="N°"/>
+                        <h:outputText value="#{servicioController.selected.servicioNumeroServicio}" title="#{bundle.ViewServicioTitle_servicioNumeroServicio}"/>
+
+                        <h:outputText value="Folio"/>
+                        <h:outputText value="#{servicioController.selected.servicioFolio}" title="#{bundle.ViewServicioTitle_servicioFolio}"/>
+
+                        <h:outputText value="Nombre"/>
+                        <h:outputText value="#{servicioController.selected.servicioNombre}" title="#{bundle.ViewServicioTitle_servicioNombre}"/>
+
+                        <h:outputText value="Terminal"/>
+                        <h:outputText value="#{servicioController.selected.servicioIdTerminal.terminalNombre}"/>
+
+                        <h:outputText value="Unidad"/>
+                        <h:outputText value="#{servicioController.selected.servicioIdUnidad.unidadNegocioNumero}"/>
+                        
+                        <h:outputText value="Origen"/>
+                        <h:outputText value="#{servicioController.selected.servicioOrigen}" title="#{bundle.ViewServicioTitle_servicioOrigen}"/>
+
+                        <h:outputText value="Destino"/>
+                        <h:outputText value="#{servicioController.selected.servicioDestino}" title="#{bundle.ViewServicioTitle_servicioDestino}"/>
+
+                        <h:outputText value="Longitud"/>
+                        <h:outputText value="#{servicioController.selected.servicioLongitud}" title="#{bundle.ViewServicioTitle_servicioLongitud}"/>
+                        
+                        <h:outputText value="F.Ingreso"/>
+                        <h:outputText value="#{servicioController.selected.servicioFechaIngreso}" title="#{bundle.ViewServicioTitle_servicioFechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+</ui:composition>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CausalFiniquitoEditDlg" widgetVar="CausalFiniquitoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCausalFiniquitoTitle}" closeOnEscape="true">
+
+            <h:form id="CausalFiniquitoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{causalFiniquitoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCausalFiniquitoLabel_causalFiniquitoId}" for="causalFiniquitoId" />
+                        <h:outputText id="causalFiniquitoId" value="#{causalFiniquitoController.selected.causalFiniquitoId}" />
+
+                        <p:outputLabel value="#{bundle.EditCausalFiniquitoLabel_causalFiniquitoCodigo}" for="causalFiniquitoCodigo" />
+                        <p:inputText id="causalFiniquitoCodigo" value="#{causalFiniquitoController.selected.causalFiniquitoCodigo}" title="#{bundle.EditCausalFiniquitoTitle_causalFiniquitoCodigo}" required="true" requiredMessage="#{bundle.EditCausalFiniquitoRequiredMessage_causalFiniquitoCodigo}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditCausalFiniquitoLabel_causalFiniquitoDescripcion}" for="causalFiniquitoDescripcion" />
+                        <p:inputText id="causalFiniquitoDescripcion" value="#{causalFiniquitoController.selected.causalFiniquitoDescripcion}" title="#{bundle.EditCausalFiniquitoTitle_causalFiniquitoDescripcion}" required="true" requiredMessage="#{bundle.EditCausalFiniquitoRequiredMessage_causalFiniquitoDescripcion}" size="250" maxlength="250"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{causalFiniquitoController.save}" value="#{bundle.Save}" update="display,:CausalFiniquitoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CausalFiniquitoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CausalFiniquitoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

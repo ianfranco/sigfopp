@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DescuentoTrabajadorCreateDlg" widgetVar="DescuentoTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDescuentoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="DescuentoTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{descuentoTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorFechaInicio}" for="descuentoTrabajadorFechaInicio" />
+                        <p:calendar id="descuentoTrabajadorFechaInicio" pattern="MM/dd/yyyy" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorFechaInicio}" title="#{bundle.CreateDescuentoTrabajadorTitle_descuentoTrabajadorFechaInicio}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorFechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorFechaTermino}" for="descuentoTrabajadorFechaTermino" />
+                        <p:calendar id="descuentoTrabajadorFechaTermino" pattern="MM/dd/yyyy" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorFechaTermino}" title="#{bundle.CreateDescuentoTrabajadorTitle_descuentoTrabajadorFechaTermino}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorFechaTermino}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorCuotaActual}" for="descuentoTrabajadorCuotaActual" />
+                        <p:inputText id="descuentoTrabajadorCuotaActual" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorCuotaActual}" title="#{bundle.CreateDescuentoTrabajadorTitle_descuentoTrabajadorCuotaActual}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorCuotaActual}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorTotalCuotas}" for="descuentoTrabajadorTotalCuotas" />
+                        <p:inputText id="descuentoTrabajadorTotalCuotas" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorTotalCuotas}" title="#{bundle.CreateDescuentoTrabajadorTitle_descuentoTrabajadorTotalCuotas}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorTotalCuotas}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorMontoFijo}" for="descuentoTrabajadorMontoFijo" />
+                        <p:inputText id="descuentoTrabajadorMontoFijo" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorMontoFijo}" title="#{bundle.CreateDescuentoTrabajadorTitle_descuentoTrabajadorMontoFijo}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorMontoFijo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorDescripcion}" for="descuentoTrabajadorDescripcion" />
+                        <p:inputText id="descuentoTrabajadorDescripcion" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorDescripcion}" title="#{bundle.CreateDescuentoTrabajadorTitle_descuentoTrabajadorDescripcion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorActivo}" for="descuentoTrabajadorActivo" />
+                        <p:selectBooleanCheckbox id="descuentoTrabajadorActivo" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorActivo}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorActivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorFechaIngreso}" for="descuentoTrabajadorFechaIngreso" />
+                        <p:calendar id="descuentoTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorFechaIngreso}" title="#{bundle.CreateDescuentoTrabajadorTitle_descuentoTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorIdDescuento}" for="descuentoTrabajadorIdDescuento" />
+                        <p:selectOneMenu id="descuentoTrabajadorIdDescuento" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorIdDescuento}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorIdDescuento}" converter="tipoDescuentoTrabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoDescuentoTrabajadorController.items}"
+                                           var="descuentoTrabajadorIdDescuentoItem"
+                                           itemValue="#{descuentoTrabajadorIdDescuentoItem}"
+                                           itemLabel="#{descuentoTrabajadorIdDescuentoItem.tipoDescuentoTrabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoTrabajadorLabel_descuentoTrabajadorIdTrabajador}" for="descuentoTrabajadorIdTrabajador" />
+                        <p:selectOneMenu id="descuentoTrabajadorIdTrabajador" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorIdTrabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoTrabajadorRequiredMessage_descuentoTrabajadorIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="descuentoTrabajadorIdTrabajadorItem"
+                                           itemValue="#{descuentoTrabajadorIdTrabajadorItem}"
+                                           itemLabel="#{descuentoTrabajadorIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{descuentoTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:DescuentoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DescuentoTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DescuentoTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

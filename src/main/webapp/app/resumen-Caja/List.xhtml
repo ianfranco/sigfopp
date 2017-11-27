@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:panel>
+        <f:facet name="header">
+            Resumen Recaudación 
+        </f:facet>
+
+        <h:form id="selector" class="form-height">
+            <p:panelGrid columns="7" style="width: 100%;margin-bottom: 10px;">
+                <h:outputLabel value="F. Recaudación:" for="fechaRecaudacion" style="text-align: right;"/>
+                <p:calendar id="fechaRecaudacion" value="#{recaudacionGeneralController.fechaRecaudacion}" locale="es" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe seleccionar la fecha"/>
+
+                <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" style="text-align: right;"/>
+                <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{recaudacionGeneralController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{recaudacionGeneralController.cajaRecaudacionItems}"
+                                   var="cajaId"
+                                   itemValue="#{cajaId}"
+                                   itemLabel="#{cajaId.cajaRecaudacionNombre}"
+                                   />                    
+                </p:selectOneMenu>
+
+                <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="@(.clase), GuiaListForm:datalist, growl" styleClass="btn btn-primary" style="width:120px" actionListener="#{recaudacionGeneralController.load}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                </p:commandButton>
+            </p:panelGrid>
+        </h:form>
+    </p:panel>
+
+    <h:form id="GuiaListForm">        
+        <h:panelGrid>
+            <p:dataTable id="datalist"                         
+                         value="#{recaudacionGeneralController.columnModelItems}"   
+                         scrollHeight="500" 
+                         scrollable="false"                         
+                         widgetVar="datalistWidget"
+                         var="item"
+                         selection="single"
+                         rowKey="#{item.nombre}"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado registros"                         
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                         style="width: 100%;margin-top: 10px;">
+
+                <f:facet name="header">
+                    Resumen Dineros: #{recaudacionGeneralController.cajaRecaudacion.cajaRecaudacionNombre} Fecha: <p:outputLabel value="#{recaudacionGeneralController.fechaRecaudacion}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:outputLabel>
+                </f:facet>
+
+                <p:column style="text-align: center; font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.nombre}" footerText="Totales:" style="text-align: center; font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="Item"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.valor}" footerText="#{recaudacionGeneralController.getFormatValue(recaudacionGeneralController.totalResumenRecaudacion)}" style="text-align: center; font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="Valor"/>
+                    </f:facet>
+                    <h:outputText value="#{recaudacionGeneralController.getFormatValue(item.valor)}"/>
+                </p:column>
+
+            </p:dataTable>
+        </h:panelGrid>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

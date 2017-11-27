@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FiniquitoRelacionLaboralViewDlg" widgetVar="FiniquitoRelacionLaboralViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewFiniquitoRelacionLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="FiniquitoRelacionLaboralViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{finiquitoRelacionLaboralController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralId}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralId}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralId}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralFechaFiniquito}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralFechaFiniquito}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralFechaFiniquito}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralMontoFiniquito}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralMontoFiniquito}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralMontoFiniquito}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralAniosServicio}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralAniosServicio}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralAniosServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralAniosAdicionales}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralAniosAdicionales}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralAniosAdicionales}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralFechaIngreso}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralFechaIngreso}" title="#{bundle.ViewFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralIdCausalFiniquito}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralIdCausalFiniquito.causalFiniquitoDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralIdRelacionLaboral}"/>
+                        <h:outputText value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralIdRelacionLaboral.relacionLaboralId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('FiniquitoRelacionLaboralViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

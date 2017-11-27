@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MutualEditDlg" widgetVar="MutualEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditMutualTitle}" closeOnEscape="true">
+
+            <h:form id="MutualEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{mutualController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditMutualLabel_mutualId}" for="mutualId" />
+                        <h:outputText id="mutualId" value="#{mutualController.selected.mutualId}" />
+
+                        <p:outputLabel value="#{bundle.EditMutualLabel_mutualNombre}" for="mutualNombre" />
+                        <p:inputText id="mutualNombre" value="#{mutualController.selected.mutualNombre}" title="#{bundle.EditMutualTitle_mutualNombre}" required="true" requiredMessage="#{bundle.EditMutualRequiredMessage_mutualNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditMutualLabel_mutualComision}" for="mutualComision" />
+                        <p:inputText id="mutualComision" value="#{mutualController.selected.mutualComision}" title="#{bundle.EditMutualTitle_mutualComision}"/>
+
+                        <p:outputLabel value="#{bundle.EditMutualLabel_mutualPorcentajeDescuento}" for="mutualPorcentajeDescuento" />
+                        <p:inputText id="mutualPorcentajeDescuento" value="#{mutualController.selected.mutualPorcentajeDescuento}" title="#{bundle.EditMutualTitle_mutualPorcentajeDescuento}" required="true" requiredMessage="#{bundle.EditMutualRequiredMessage_mutualPorcentajeDescuento}"/>
+
+                        <p:outputLabel value="#{bundle.EditMutualLabel_mutualFechaIngreso}" for="mutualFechaIngreso" />
+                        <p:calendar id="mutualFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{mutualController.selected.mutualFechaIngreso}" title="#{bundle.EditMutualTitle_mutualFechaIngreso}" required="true" requiredMessage="#{bundle.EditMutualRequiredMessage_mutualFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{mutualController.save}" value="#{bundle.Save}" update="display,:MutualListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MutualEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('MutualEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

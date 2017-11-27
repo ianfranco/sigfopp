@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EfectivoCajaEditDlg" widgetVar="EfectivoCajaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEfectivoCajaTitle}" closeOnEscape="true">
+
+            <h:form id="EfectivoCajaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{efectivoCajaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEfectivoCajaLabel_efectivoCajaId}" for="efectivoCajaId" />
+                        <h:outputText id="efectivoCajaId" value="#{efectivoCajaController.selected.efectivoCajaId}" />
+
+                        <p:outputLabel value="#{bundle.EditEfectivoCajaLabel_efectivoCajaValorEfectivo}" for="efectivoCajaValorEfectivo" />
+                        <p:inputText id="efectivoCajaValorEfectivo" value="#{efectivoCajaController.selected.efectivoCajaValorEfectivo}" title="#{bundle.EditEfectivoCajaTitle_efectivoCajaValorEfectivo}" required="true" requiredMessage="#{bundle.EditEfectivoCajaRequiredMessage_efectivoCajaValorEfectivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditEfectivoCajaLabel_efectivoCajaFechaIngreso}" for="efectivoCajaFechaIngreso" />
+                        <p:calendar id="efectivoCajaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{efectivoCajaController.selected.efectivoCajaFechaIngreso}" title="#{bundle.EditEfectivoCajaTitle_efectivoCajaFechaIngreso}" required="true" requiredMessage="#{bundle.EditEfectivoCajaRequiredMessage_efectivoCajaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditEfectivoCajaLabel_efectivoCajaIdMetodoPago}" for="efectivoCajaIdMetodoPago" />
+                        <p:selectOneMenu id="efectivoCajaIdMetodoPago" value="#{efectivoCajaController.selected.efectivoCajaIdMetodoPago}" required="true" requiredMessage="#{bundle.EditEfectivoCajaRequiredMessage_efectivoCajaIdMetodoPago}" converter="metodoPagoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{metodoPagoController.items}"
+                                           var="efectivoCajaIdMetodoPagoItem"
+                                           itemValue="#{efectivoCajaIdMetodoPagoItem}"
+                                           itemLabel="#{efectivoCajaIdMetodoPagoItem.metodoPagoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{efectivoCajaController.save}" value="#{bundle.Save}" update="display,:EfectivoCajaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EfectivoCajaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EfectivoCajaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

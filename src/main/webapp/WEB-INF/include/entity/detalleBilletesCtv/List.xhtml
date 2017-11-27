@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DetalleBilletesCtvListForm">
+
+        <p:panel header="#{bundle.ListDetalleBilletesCtvTitle}">
+            <p:contextMenu id="DetalleBilletesCtvDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DetalleBilletesCtvListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DetalleBilletesCtvListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DetalleBilletesCtvListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DetalleBilletesCtvListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.DetalleBilletesCtvMenuItem_detalleBilletesCtvIdCtvResumen}" icon="ui-icon-search"  actionListener="#{detalleBilletesCtvController.prepareDetalleBilletesCtvIdCtvResumen}" update=":CtvResumenViewForm" oncomplete="PF('CtvResumenViewDialog').show()" disabled="#{empty detalleBilletesCtvController.selected.detalleBilletesCtvIdCtvResumen}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{detalleBilletesCtvController.items}"
+                         lazy="false"
+                         rowKey="#{item.detalleBilletesCtvId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{detalleBilletesCtvController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{detalleBilletesCtvController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.detalleBilletesCtvId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleBilletesCtvDataTableContextMenu" listener="#{detalleBilletesCtvController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleBilletesCtvDataTableContextMenu" listener="#{detalleBilletesCtvController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{detalleBilletesCtvController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DetalleBilletesCtvListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.detalleBilletesCtvId}" filterBy="#{item.detalleBilletesCtvId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleBilletesCtvTitle_detalleBilletesCtvId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleBilletesCtvId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleBilletesCtvNumeroSello}" filterBy="#{item.detalleBilletesCtvNumeroSello}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleBilletesCtvTitle_detalleBilletesCtvNumeroSello}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleBilletesCtvNumeroSello}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleBilletesCtvNumeroBolsa}" filterBy="#{item.detalleBilletesCtvNumeroBolsa}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleBilletesCtvTitle_detalleBilletesCtvNumeroBolsa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleBilletesCtvNumeroBolsa}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleBilletesCtvDocumentos}" filterBy="#{item.detalleBilletesCtvDocumentos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleBilletesCtvTitle_detalleBilletesCtvDocumentos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleBilletesCtvDocumentos}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleBilletesCtvEfectivo}" filterBy="#{item.detalleBilletesCtvEfectivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleBilletesCtvTitle_detalleBilletesCtvEfectivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleBilletesCtvEfectivo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleBilletesCtvTotalBolsa}" filterBy="#{item.detalleBilletesCtvTotalBolsa}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleBilletesCtvTitle_detalleBilletesCtvTotalBolsa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleBilletesCtvTotalBolsa}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.detalleBilletesCtvIdCtvResumen.ctvResumenId}" filterBy="#{item.detalleBilletesCtvIdCtvResumen.ctvResumenId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDetalleBilletesCtvTitle_detalleBilletesCtvIdCtvResumen}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.detalleBilletesCtvIdCtvResumen.ctvResumenId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{detalleBilletesCtvController.prepareCreate}" update=":DetalleBilletesCtvCreateForm" oncomplete="PF('DetalleBilletesCtvCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DetalleBilletesCtvViewForm" oncomplete="PF('DetalleBilletesCtvViewDialog').show()" disabled="#{empty detalleBilletesCtvController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DetalleBilletesCtvEditForm" oncomplete="PF('DetalleBilletesCtvEditDialog').show()" disabled="#{empty detalleBilletesCtvController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{detalleBilletesCtvController.delete}" update=":growl,datalist" disabled="#{empty detalleBilletesCtvController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

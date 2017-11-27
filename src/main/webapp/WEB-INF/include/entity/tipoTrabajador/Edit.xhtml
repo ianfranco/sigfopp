@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoTrabajadorEditDlg" widgetVar="TipoTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoTrabajadorLabel_tipoTrabajadorId}" for="tipoTrabajadorId" />
+                        <h:outputText id="tipoTrabajadorId" value="#{tipoTrabajadorController.selected.tipoTrabajadorId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoTrabajadorLabel_tipoTrabajadorNombre}" for="tipoTrabajadorNombre" />
+                        <p:inputText id="tipoTrabajadorNombre" value="#{tipoTrabajadorController.selected.tipoTrabajadorNombre}" title="#{bundle.EditTipoTrabajadorTitle_tipoTrabajadorNombre}" required="true" requiredMessage="#{bundle.EditTipoTrabajadorRequiredMessage_tipoTrabajadorNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoTrabajadorLabel_tipoTrabajadorFechaIngreso}" for="tipoTrabajadorFechaIngreso" />
+                        <p:calendar id="tipoTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoTrabajadorController.selected.tipoTrabajadorFechaIngreso}" title="#{bundle.EditTipoTrabajadorTitle_tipoTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoTrabajadorRequiredMessage_tipoTrabajadorFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoTrabajadorController.save}" value="#{bundle.Save}" update="display,:TipoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

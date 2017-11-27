@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ResumenRecaudacionEditDlg" widgetVar="ResumenRecaudacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditResumenRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="ResumenRecaudacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{resumenRecaudacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditResumenRecaudacionLabel_resumenRecaudacionId}" for="resumenRecaudacionId" />
+                        <h:outputText id="resumenRecaudacionId" value="#{resumenRecaudacionController.selected.resumenRecaudacionId}" />
+
+                        <p:outputLabel value="#{bundle.EditResumenRecaudacionLabel_resumenRecaudacionFechaRecaudacion}" for="resumenRecaudacionFechaRecaudacion" />
+                        <p:calendar id="resumenRecaudacionFechaRecaudacion" pattern="MM/dd/yyyy" value="#{resumenRecaudacionController.selected.resumenRecaudacionFechaRecaudacion}" title="#{bundle.EditResumenRecaudacionTitle_resumenRecaudacionFechaRecaudacion}" required="true" requiredMessage="#{bundle.EditResumenRecaudacionRequiredMessage_resumenRecaudacionFechaRecaudacion}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditResumenRecaudacionLabel_resumenRecaudacionTotalRecaudacion}" for="resumenRecaudacionTotalRecaudacion" />
+                        <p:inputText id="resumenRecaudacionTotalRecaudacion" value="#{resumenRecaudacionController.selected.resumenRecaudacionTotalRecaudacion}" title="#{bundle.EditResumenRecaudacionTitle_resumenRecaudacionTotalRecaudacion}" required="true" requiredMessage="#{bundle.EditResumenRecaudacionRequiredMessage_resumenRecaudacionTotalRecaudacion}"/>
+
+                        <p:outputLabel value="#{bundle.EditResumenRecaudacionLabel_resumenRecaudacionFechaIngreso}" for="resumenRecaudacionFechaIngreso" />
+                        <p:calendar id="resumenRecaudacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{resumenRecaudacionController.selected.resumenRecaudacionFechaIngreso}" title="#{bundle.EditResumenRecaudacionTitle_resumenRecaudacionFechaIngreso}" required="true" requiredMessage="#{bundle.EditResumenRecaudacionRequiredMessage_resumenRecaudacionFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditResumenRecaudacionLabel_resumenRecaudacionIdCaja}" for="resumenRecaudacionIdCaja" />
+                        <p:selectOneMenu id="resumenRecaudacionIdCaja" value="#{resumenRecaudacionController.selected.resumenRecaudacionIdCaja}" required="true" requiredMessage="#{bundle.EditResumenRecaudacionRequiredMessage_resumenRecaudacionIdCaja}" converter="cajaTerminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cajaTerminalController.items}"
+                                           var="resumenRecaudacionIdCajaItem"
+                                           itemValue="#{resumenRecaudacionIdCajaItem}"
+                                           itemLabel="#{resumenRecaudacionIdCajaItem.cajaTerminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{resumenRecaudacionController.save}" value="#{bundle.Save}" update="display,:ResumenRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ResumenRecaudacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ResumenRecaudacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

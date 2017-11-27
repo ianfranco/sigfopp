@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TrabajadorListForm">
+
+        <p:panel header="#{bundle.ListTrabajadorTitle}">
+            <p:contextMenu id="TrabajadorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_haberTrabajadorList}" icon="ui-icon-search"  action="#{trabajadorController.navigateHaberTrabajadorList}" disabled="#{empty trabajadorController.selected.haberTrabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_cargaTrabajadorList}" icon="ui-icon-search"  action="#{trabajadorController.navigateCargaTrabajadorList}" disabled="#{empty trabajadorController.selected.cargaTrabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorAdicionalSaludList}" icon="ui-icon-search"  action="#{trabajadorController.navigateTrabajadorAdicionalSaludList}" disabled="#{empty trabajadorController.selected.trabajadorAdicionalSaludList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_despachoList}" icon="ui-icon-search"  action="#{trabajadorController.navigateDespachoList}" disabled="#{empty trabajadorController.selected.despachoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_liquidacionSueldoList}" icon="ui-icon-search"  action="#{trabajadorController.navigateLiquidacionSueldoList}" disabled="#{empty trabajadorController.selected.liquidacionSueldoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdInstitucionApv}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdInstitucionApv}" update=":InstitucionApvViewForm" oncomplete="PF('InstitucionApvViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdInstitucionApv}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdAsignacionFamiliar}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdAsignacionFamiliar}" update=":AsignacionFamiliarViewForm" oncomplete="PF('AsignacionFamiliarViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdAsignacionFamiliar}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdCentroCosto}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdCentroCosto}" update=":CentroCostoViewForm" oncomplete="PF('CentroCostoViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdCentroCosto}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdComuna}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdComuna}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdComuna}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdTipoCotizacionTrabajador}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdTipoCotizacionTrabajador}" update=":TipoCotizacionTrabajadorViewForm" oncomplete="PF('TipoCotizacionTrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdTipoCotizacionTrabajador}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdCuentaBancaria}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdCuentaBancaria}" update=":CuentaBancariaViewForm" oncomplete="PF('CuentaBancariaViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdCuentaBancaria}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdEstadoCivil}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdEstadoCivil}" update=":EstadoCivilViewForm" oncomplete="PF('EstadoCivilViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdEstadoCivil}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdFormaPago}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdFormaPago}" update=":FormaPagoViewForm" oncomplete="PF('FormaPagoViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdFormaPago}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdInstitucionPrevision}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdInstitucionPrevision}" update=":InstitucionPrevisionViewForm" oncomplete="PF('InstitucionPrevisionViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdInstitucionPrevision}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdInstitucionSalud}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdInstitucionSalud}" update=":InstitucionSaludViewForm" oncomplete="PF('InstitucionSaludViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdInstitucionSalud}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdSindicato}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdSindicato}" update=":SindicatoViewForm" oncomplete="PF('SindicatoViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdSindicato}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_trabajadorIdTerminal}" icon="ui-icon-search"  actionListener="#{trabajadorController.prepareTrabajadorIdTerminal}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty trabajadorController.selected.trabajadorIdTerminal}"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_reconocimientoDeudaList}" icon="ui-icon-search"  action="#{trabajadorController.navigateReconocimientoDeudaList}" disabled="#{empty trabajadorController.selected.reconocimientoDeudaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_relacionLaboralList}" icon="ui-icon-search"  action="#{trabajadorController.navigateRelacionLaboralList}" disabled="#{empty trabajadorController.selected.relacionLaboralList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_cargaRetroactivaList}" icon="ui-icon-search"  action="#{trabajadorController.navigateCargaRetroactivaList}" disabled="#{empty trabajadorController.selected.cargaRetroactivaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_licenciaMedicaList}" icon="ui-icon-search"  action="#{trabajadorController.navigateLicenciaMedicaList}" disabled="#{empty trabajadorController.selected.licenciaMedicaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_horaExtraTrabajadorList}" icon="ui-icon-search"  action="#{trabajadorController.navigateHoraExtraTrabajadorList}" disabled="#{empty trabajadorController.selected.horaExtraTrabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_descuentoTrabajadorList}" icon="ui-icon-search"  action="#{trabajadorController.navigateDescuentoTrabajadorList}" disabled="#{empty trabajadorController.selected.descuentoTrabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_guiaList}" icon="ui-icon-search"  action="#{trabajadorController.navigateGuiaList}" disabled="#{empty trabajadorController.selected.guiaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_feriadoLegalList}" icon="ui-icon-search"  action="#{trabajadorController.navigateFeriadoLegalList}" disabled="#{empty trabajadorController.selected.feriadoLegalList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_jornadaTrabajadorList}" icon="ui-icon-search"  action="#{trabajadorController.navigateJornadaTrabajadorList}" disabled="#{empty trabajadorController.selected.jornadaTrabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_controlAsistenciaList}" icon="ui-icon-search"  action="#{trabajadorController.navigateControlAsistenciaList}" disabled="#{empty trabajadorController.selected.controlAsistenciaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TrabajadorMenuItem_observacionTrabajadorList}" icon="ui-icon-search"  action="#{trabajadorController.navigateObservacionTrabajadorList}" disabled="#{empty trabajadorController.selected.observacionTrabajadorList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{trabajadorController.items}"
+                         lazy="false"
+                         rowKey="#{item.trabajadorId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{trabajadorController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{trabajadorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.trabajadorId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TrabajadorDataTableContextMenu" listener="#{trabajadorController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{trabajadorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TrabajadorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.trabajadorId}" filterBy="#{item.trabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajadorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajadorCodigo}" filterBy="#{item.trabajadorCodigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorCodigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajadorCodigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajadorRut}" filterBy="#{item.trabajadorRut}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorRut}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajadorRut}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajadorNombres}" filterBy="#{item.trabajadorNombres}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorNombres}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajadorNombres}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajadorApellidoPaterno}" filterBy="#{item.trabajadorApellidoPaterno}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorApellidoPaterno}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajadorApellidoPaterno}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trabajadorApellidoMaterno}" filterBy="#{item.trabajadorApellidoMaterno}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorApellidoMaterno}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trabajadorApellidoMaterno}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.trabajadorFechaNacimiento}" filterBy="#{item.trabajadorFechaNacimiento}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorFechaNacimiento}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorFechaNacimiento}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorNacionalidad}" filterBy="#{item.trabajadorNacionalidad}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorNacionalidad}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="trabajadorNacionalidad" value="#{item.trabajadorNacionalidad}" title="#{bundle.EditTrabajadorTitle_trabajadorNacionalidad}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorSexo}" filterBy="#{item.trabajadorSexo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorSexo}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="trabajadorSexo" value="#{item.trabajadorSexo}" title="#{bundle.EditTrabajadorTitle_trabajadorSexo}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorCalle}" filterBy="#{item.trabajadorCalle}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorCalle}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorCalle}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorNumeroDireccion}" filterBy="#{item.trabajadorNumeroDireccion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorNumeroDireccion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorNumeroDireccion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorTelefonoFijo}" filterBy="#{item.trabajadorTelefonoFijo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorTelefonoFijo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorTelefonoFijo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorCelular}" filterBy="#{item.trabajadorCelular}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorCelular}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorCelular}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorEmail}" filterBy="#{item.trabajadorEmail}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorEmail}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorEmail}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorNumeroCargas}" filterBy="#{item.trabajadorNumeroCargas}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorNumeroCargas}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorNumeroCargas}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorMontoSalud}" filterBy="#{item.trabajadorMontoSalud}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorMontoSalud}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorMontoSalud}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorFormaPagoApv}" filterBy="#{item.trabajadorFormaPagoApv}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorFormaPagoApv}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="trabajadorFormaPagoApv" value="#{item.trabajadorFormaPagoApv}" title="#{bundle.EditTrabajadorTitle_trabajadorFormaPagoApv}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorMontoApv}" filterBy="#{item.trabajadorMontoApv}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorMontoApv}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorMontoApv}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorSubsidioJoven}" filterBy="#{item.trabajadorSubsidioJoven}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorSubsidioJoven}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="trabajadorSubsidioJoven" value="#{item.trabajadorSubsidioJoven}" title="#{bundle.EditTrabajadorTitle_trabajadorSubsidioJoven}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorCesantia}" filterBy="#{item.trabajadorCesantia}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorCesantia}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="trabajadorCesantia" value="#{item.trabajadorCesantia}" title="#{bundle.EditTrabajadorTitle_trabajadorCesantia}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorContratado}" filterBy="#{item.trabajadorContratado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorContratado}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="trabajadorContratado" value="#{item.trabajadorContratado}" title="#{bundle.EditTrabajadorTitle_trabajadorContratado}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorFechaIngreso}" filterBy="#{item.trabajadorFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdInstitucionApv.institucionApvId}" filterBy="#{item.trabajadorIdInstitucionApv.institucionApvId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdInstitucionApv}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdInstitucionApv.institucionApvId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdAsignacionFamiliar.asignacionFamiliarId}" filterBy="#{item.trabajadorIdAsignacionFamiliar.asignacionFamiliarId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdAsignacionFamiliar}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdAsignacionFamiliar.asignacionFamiliarId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdCentroCosto.centroCostoId}" filterBy="#{item.trabajadorIdCentroCosto.centroCostoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdCentroCosto}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdCentroCosto.centroCostoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdComuna.comunaId}" filterBy="#{item.trabajadorIdComuna.comunaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdComuna}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdComuna.comunaId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdTipoCotizacionTrabajador.tipoCotizacionTrabajadorId}" filterBy="#{item.trabajadorIdTipoCotizacionTrabajador.tipoCotizacionTrabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdTipoCotizacionTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdTipoCotizacionTrabajador.tipoCotizacionTrabajadorId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdCuentaBancaria.cuentaBancariaId}" filterBy="#{item.trabajadorIdCuentaBancaria.cuentaBancariaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdCuentaBancaria}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdCuentaBancaria.cuentaBancariaId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdEstadoCivil.estadoCivilId}" filterBy="#{item.trabajadorIdEstadoCivil.estadoCivilId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdEstadoCivil}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdEstadoCivil.estadoCivilId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdFormaPago.formaPagoId}" filterBy="#{item.trabajadorIdFormaPago.formaPagoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdFormaPago}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdFormaPago.formaPagoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdInstitucionPrevision.institucionPrevisionId}" filterBy="#{item.trabajadorIdInstitucionPrevision.institucionPrevisionId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdInstitucionPrevision}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdInstitucionPrevision.institucionPrevisionId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdInstitucionSalud.institucionSaludId}" filterBy="#{item.trabajadorIdInstitucionSalud.institucionSaludId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdInstitucionSalud}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdInstitucionSalud.institucionSaludId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdSindicato.sindicatoId}" filterBy="#{item.trabajadorIdSindicato.sindicatoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdSindicato}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdSindicato.sindicatoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.trabajadorIdTerminal.terminalId}" filterBy="#{item.trabajadorIdTerminal.terminalId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTrabajadorTitle_trabajadorIdTerminal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.trabajadorIdTerminal.terminalId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{trabajadorController.prepareCreate}" update=":TrabajadorCreateForm" oncomplete="PF('TrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty trabajadorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TrabajadorEditForm" oncomplete="PF('TrabajadorEditDialog').show()" disabled="#{empty trabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{trabajadorController.delete}" update=":growl,datalist" disabled="#{empty trabajadorController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

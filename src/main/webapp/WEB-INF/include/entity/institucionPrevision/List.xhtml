@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="InstitucionPrevisionListForm">
+
+        <p:panel header="#{bundle.ListInstitucionPrevisionTitle}">
+            <p:contextMenu id="InstitucionPrevisionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('InstitucionPrevisionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('InstitucionPrevisionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('InstitucionPrevisionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('InstitucionPrevisionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.InstitucionPrevisionMenuItem_trabajadorList}" icon="ui-icon-search"  action="#{institucionPrevisionController.navigateTrabajadorList}" disabled="#{empty institucionPrevisionController.selected.trabajadorList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{institucionPrevisionController.items}"
+                         lazy="false"
+                         rowKey="#{item.institucionPrevisionId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{institucionPrevisionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{institucionPrevisionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.institucionPrevisionId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstitucionPrevisionDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InstitucionPrevisionDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('InstitucionPrevisionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.institucionPrevisionId}" filterBy="#{item.institucionPrevisionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInstitucionPrevisionTitle_institucionPrevisionId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.institucionPrevisionId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.institucionPrevisionNombre}" filterBy="#{item.institucionPrevisionNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInstitucionPrevisionTitle_institucionPrevisionNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.institucionPrevisionNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.institucionPrevisionComision}" filterBy="#{item.institucionPrevisionComision}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInstitucionPrevisionTitle_institucionPrevisionComision}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.institucionPrevisionComision}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.institucionPrevisionPorcentajeDescuento}" filterBy="#{item.institucionPrevisionPorcentajeDescuento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInstitucionPrevisionTitle_institucionPrevisionPorcentajeDescuento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.institucionPrevisionPorcentajeDescuento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.institucionPrevisionFechaIngreso}" filterBy="#{item.institucionPrevisionFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInstitucionPrevisionTitle_institucionPrevisionFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.institucionPrevisionFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.institucionPrevisionFechaActualizacion}" filterBy="#{item.institucionPrevisionFechaActualizacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInstitucionPrevisionTitle_institucionPrevisionFechaActualizacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.institucionPrevisionFechaActualizacion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{institucionPrevisionController.prepareCreate}" update=":InstitucionPrevisionCreateForm" oncomplete="PF('InstitucionPrevisionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":InstitucionPrevisionViewForm" oncomplete="PF('InstitucionPrevisionViewDialog').show()" disabled="#{empty institucionPrevisionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InstitucionPrevisionEditForm" oncomplete="PF('InstitucionPrevisionEditDialog').show()" disabled="#{empty institucionPrevisionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{institucionPrevisionController.delete}" update=":growl,datalist" disabled="#{empty institucionPrevisionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

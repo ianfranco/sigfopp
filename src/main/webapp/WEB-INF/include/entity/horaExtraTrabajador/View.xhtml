@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HoraExtraTrabajadorViewDlg" widgetVar="HoraExtraTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewHoraExtraTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="HoraExtraTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{horaExtraTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_horaExtraTrabajadorId}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorId}" title="#{bundle.ViewHoraExtraTrabajadorTitle_horaExtraTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_horaExtraTrabajadorCantidad}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorCantidad}" title="#{bundle.ViewHoraExtraTrabajadorTitle_horaExtraTrabajadorCantidad}"/>
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_horaExtraTrabajadorFecha}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorFecha}" title="#{bundle.ViewHoraExtraTrabajadorTitle_horaExtraTrabajadorFecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_horaExtraTrabajadorFechaIngreso}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorFechaIngreso}" title="#{bundle.ViewHoraExtraTrabajadorTitle_horaExtraTrabajadorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewHoraExtraTrabajadorLabel_horaExtraTrabajadorIdTrabajador}"/>
+                        <h:outputText value="#{horaExtraTrabajadorController.selected.horaExtraTrabajadorIdTrabajador.trabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('HoraExtraTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

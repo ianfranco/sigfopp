@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RolPrivilegioEditDlg" widgetVar="RolPrivilegioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRolPrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="RolPrivilegioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{rolPrivilegioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRolPrivilegioLabel_rolPrivilegioId}" for="rolPrivilegioId" />
+                        <h:outputText id="rolPrivilegioId" value="#{rolPrivilegioController.selected.rolPrivilegioId}" />
+
+                        <p:outputLabel value="#{bundle.EditRolPrivilegioLabel_rolPrivilegioIdPrivilegio}" for="rolPrivilegioIdPrivilegio" />
+                        <p:selectOneMenu id="rolPrivilegioIdPrivilegio" value="#{rolPrivilegioController.selected.rolPrivilegioIdPrivilegio}" required="true" requiredMessage="#{bundle.EditRolPrivilegioRequiredMessage_rolPrivilegioIdPrivilegio}" converter="privilegioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{privilegioController.items}"
+                                           var="rolPrivilegioIdPrivilegioItem"
+                                           itemValue="#{rolPrivilegioIdPrivilegioItem}"
+                                           itemLabel="#{rolPrivilegioIdPrivilegioItem.privilegioDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditRolPrivilegioLabel_rolPrivilegioIdRol}" for="rolPrivilegioIdRol" />
+                        <p:selectOneMenu id="rolPrivilegioIdRol" value="#{rolPrivilegioController.selected.rolPrivilegioIdRol}" required="true" requiredMessage="#{bundle.EditRolPrivilegioRequiredMessage_rolPrivilegioIdRol}" converter="rolConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="rolPrivilegioIdRolItem"
+                                           itemValue="#{rolPrivilegioIdRolItem}"
+                                           itemLabel="#{rolPrivilegioIdRolItem.rolDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolPrivilegioController.save}" value="#{bundle.Save}" update="display,:RolPrivilegioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RolPrivilegioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RolPrivilegioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

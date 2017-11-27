@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicenciaMedicaCreateDlg" widgetVar="LicenciaMedicaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateLicenciaMedicaTitle}" closeOnEscape="true">
+
+            <h:form id="LicenciaMedicaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{licenciaMedicaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaNumero}" for="licenciaMedicaNumero" />
+                        <p:inputText id="licenciaMedicaNumero" value="#{licenciaMedicaController.selected.licenciaMedicaNumero}" title="#{bundle.CreateLicenciaMedicaTitle_licenciaMedicaNumero}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaFechaRecepcion}" for="licenciaMedicaFechaRecepcion" />
+                        <p:calendar id="licenciaMedicaFechaRecepcion" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaRecepcion}" title="#{bundle.CreateLicenciaMedicaTitle_licenciaMedicaFechaRecepcion}" required="true" requiredMessage="#{bundle.CreateLicenciaMedicaRequiredMessage_licenciaMedicaFechaRecepcion}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaFechaEmision}" for="licenciaMedicaFechaEmision" />
+                        <p:calendar id="licenciaMedicaFechaEmision" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaEmision}" title="#{bundle.CreateLicenciaMedicaTitle_licenciaMedicaFechaEmision}" required="true" requiredMessage="#{bundle.CreateLicenciaMedicaRequiredMessage_licenciaMedicaFechaEmision}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaFechaDesdeReposo}" for="licenciaMedicaFechaDesdeReposo" />
+                        <p:calendar id="licenciaMedicaFechaDesdeReposo" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaDesdeReposo}" title="#{bundle.CreateLicenciaMedicaTitle_licenciaMedicaFechaDesdeReposo}" required="true" requiredMessage="#{bundle.CreateLicenciaMedicaRequiredMessage_licenciaMedicaFechaDesdeReposo}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaFechaHastaReposo}" for="licenciaMedicaFechaHastaReposo" />
+                        <p:calendar id="licenciaMedicaFechaHastaReposo" pattern="MM/dd/yyyy" value="#{licenciaMedicaController.selected.licenciaMedicaFechaHastaReposo}" title="#{bundle.CreateLicenciaMedicaTitle_licenciaMedicaFechaHastaReposo}" required="true" requiredMessage="#{bundle.CreateLicenciaMedicaRequiredMessage_licenciaMedicaFechaHastaReposo}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaDiagnosticoLicencia}" for="licenciaMedicaDiagnosticoLicencia" />
+                        <p:inputText id="licenciaMedicaDiagnosticoLicencia" value="#{licenciaMedicaController.selected.licenciaMedicaDiagnosticoLicencia}" title="#{bundle.CreateLicenciaMedicaTitle_licenciaMedicaDiagnosticoLicencia}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaFechaIngreso}" for="licenciaMedicaFechaIngreso" />
+                        <p:calendar id="licenciaMedicaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{licenciaMedicaController.selected.licenciaMedicaFechaIngreso}" title="#{bundle.CreateLicenciaMedicaTitle_licenciaMedicaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateLicenciaMedicaRequiredMessage_licenciaMedicaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateLicenciaMedicaLabel_licenciaMedicaIdTrabajador}" for="licenciaMedicaIdTrabajador" />
+                        <p:selectOneMenu id="licenciaMedicaIdTrabajador" value="#{licenciaMedicaController.selected.licenciaMedicaIdTrabajador}" required="true" requiredMessage="#{bundle.CreateLicenciaMedicaRequiredMessage_licenciaMedicaIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="licenciaMedicaIdTrabajadorItem"
+                                           itemValue="#{licenciaMedicaIdTrabajadorItem}"
+                                           itemLabel="#{licenciaMedicaIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{licenciaMedicaController.saveNew}" value="#{bundle.Save}" update="display,:LicenciaMedicaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LicenciaMedicaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LicenciaMedicaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

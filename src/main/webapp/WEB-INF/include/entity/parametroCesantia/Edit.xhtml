@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ParametroCesantiaEditDlg" widgetVar="ParametroCesantiaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditParametroCesantiaTitle}" closeOnEscape="true">
+
+            <h:form id="ParametroCesantiaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{parametroCesantiaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditParametroCesantiaLabel_parametroCesantiaId}" for="parametroCesantiaId" />
+                        <h:outputText id="parametroCesantiaId" value="#{parametroCesantiaController.selected.parametroCesantiaId}" />
+
+                        <p:outputLabel value="#{bundle.EditParametroCesantiaLabel_parametroCesantiaEmpleador}" for="parametroCesantiaEmpleador" />
+                        <p:inputText id="parametroCesantiaEmpleador" value="#{parametroCesantiaController.selected.parametroCesantiaEmpleador}" title="#{bundle.EditParametroCesantiaTitle_parametroCesantiaEmpleador}" required="true" requiredMessage="#{bundle.EditParametroCesantiaRequiredMessage_parametroCesantiaEmpleador}"/>
+
+                        <p:outputLabel value="#{bundle.EditParametroCesantiaLabel_parametroCesantiaTrabajador}" for="parametroCesantiaTrabajador" />
+                        <p:inputText id="parametroCesantiaTrabajador" value="#{parametroCesantiaController.selected.parametroCesantiaTrabajador}" title="#{bundle.EditParametroCesantiaTitle_parametroCesantiaTrabajador}" required="true" requiredMessage="#{bundle.EditParametroCesantiaRequiredMessage_parametroCesantiaTrabajador}"/>
+
+                        <p:outputLabel value="#{bundle.EditParametroCesantiaLabel_parametroCesantiaFechaIngreso}" for="parametroCesantiaFechaIngreso" />
+                        <p:calendar id="parametroCesantiaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{parametroCesantiaController.selected.parametroCesantiaFechaIngreso}" title="#{bundle.EditParametroCesantiaTitle_parametroCesantiaFechaIngreso}" required="true" requiredMessage="#{bundle.EditParametroCesantiaRequiredMessage_parametroCesantiaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditParametroCesantiaLabel_parametroCesantiaFechaActualizacion}" for="parametroCesantiaFechaActualizacion" />
+                        <p:calendar id="parametroCesantiaFechaActualizacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{parametroCesantiaController.selected.parametroCesantiaFechaActualizacion}" title="#{bundle.EditParametroCesantiaTitle_parametroCesantiaFechaActualizacion}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{parametroCesantiaController.save}" value="#{bundle.Save}" update="display,:ParametroCesantiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ParametroCesantiaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ParametroCesantiaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

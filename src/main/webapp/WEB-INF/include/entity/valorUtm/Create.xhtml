@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ValorUtmCreateDlg" widgetVar="ValorUtmCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateValorUtmTitle}" closeOnEscape="true">
+
+            <h:form id="ValorUtmCreateForm">
+
+                <h:panelGroup id="display" rendered="#{valorUtmController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateValorUtmLabel_valorUtmFecha}" for="valorUtmFecha" />
+                        <p:calendar id="valorUtmFecha" pattern="MM/dd/yyyy" value="#{valorUtmController.selected.valorUtmFecha}" title="#{bundle.CreateValorUtmTitle_valorUtmFecha}" required="true" requiredMessage="#{bundle.CreateValorUtmRequiredMessage_valorUtmFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateValorUtmLabel_valorUtmMonto}" for="valorUtmMonto" />
+                        <p:inputText id="valorUtmMonto" value="#{valorUtmController.selected.valorUtmMonto}" title="#{bundle.CreateValorUtmTitle_valorUtmMonto}" required="true" requiredMessage="#{bundle.CreateValorUtmRequiredMessage_valorUtmMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateValorUtmLabel_valorUtmFechaIngreso}" for="valorUtmFechaIngreso" />
+                        <p:calendar id="valorUtmFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{valorUtmController.selected.valorUtmFechaIngreso}" title="#{bundle.CreateValorUtmTitle_valorUtmFechaIngreso}" required="true" requiredMessage="#{bundle.CreateValorUtmRequiredMessage_valorUtmFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorUtmController.saveNew}" value="#{bundle.Save}" update="display,:ValorUtmListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorUtmCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorUtmCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

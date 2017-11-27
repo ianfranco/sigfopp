@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrecioCombustibleViewDlg" widgetVar="PrecioCombustibleViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewPrecioCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="PrecioCombustibleViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{precioCombustibleController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewPrecioCombustibleLabel_precioCombustibleId}"/>
+                        <h:outputText value="#{precioCombustibleController.selected.precioCombustibleId}" title="#{bundle.ViewPrecioCombustibleTitle_precioCombustibleId}"/>
+
+                        <h:outputText value="#{bundle.ViewPrecioCombustibleLabel_precioCombustibleFechaPrecioCombustible}"/>
+                        <h:outputText value="#{precioCombustibleController.selected.precioCombustibleFechaPrecioCombustible}" title="#{bundle.ViewPrecioCombustibleTitle_precioCombustibleFechaPrecioCombustible}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPrecioCombustibleLabel_precioCombustibleFechaIngreso}"/>
+                        <h:outputText value="#{precioCombustibleController.selected.precioCombustibleFechaIngreso}" title="#{bundle.ViewPrecioCombustibleTitle_precioCombustibleFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewPrecioCombustibleLabel_precioCombustibleIdTipoCombustible}"/>
+                        <h:outputText value="#{precioCombustibleController.selected.precioCombustibleIdTipoCombustible.tipoCombustibleId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('PrecioCombustibleViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

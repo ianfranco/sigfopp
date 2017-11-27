@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoAbonoCreateDlg" widgetVar="TipoAbonoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoAbonoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoAbonoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoAbonoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_tipoAbonoNombre}" for="tipoAbonoNombre" />
+                        <p:inputText id="tipoAbonoNombre" value="#{tipoAbonoController.selected.tipoAbonoNombre}" title="#{bundle.CreateTipoAbonoTitle_tipoAbonoNombre}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_tipoAbonoNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_tipoAbonoMontoDefecto}" for="tipoAbonoMontoDefecto" />
+                        <p:inputText id="tipoAbonoMontoDefecto" value="#{tipoAbonoController.selected.tipoAbonoMontoDefecto}" title="#{bundle.CreateTipoAbonoTitle_tipoAbonoMontoDefecto}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_tipoAbonoMontoDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoAbonoLabel_tipoAbonoFechaIngreso}" for="tipoAbonoFechaIngreso" />
+                        <p:calendar id="tipoAbonoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoAbonoController.selected.tipoAbonoFechaIngreso}" title="#{bundle.CreateTipoAbonoTitle_tipoAbonoFechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoAbonoRequiredMessage_tipoAbonoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoAbonoController.saveNew}" value="#{bundle.Save}" update="display,:TipoAbonoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoAbonoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoAbonoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

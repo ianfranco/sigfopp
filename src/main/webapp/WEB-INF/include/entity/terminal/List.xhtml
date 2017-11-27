@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TerminalListForm">
+
+        <p:panel header="#{bundle.ListTerminalTitle}">
+            <p:contextMenu id="TerminalDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TerminalListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TerminalListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TerminalListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TerminalListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TerminalMenuItem_cajaTerminalList}" icon="ui-icon-search"  action="#{terminalController.navigateCajaTerminalList}" disabled="#{empty terminalController.selected.cajaTerminalList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_surtidorList}" icon="ui-icon-search"  action="#{terminalController.navigateSurtidorList}" disabled="#{empty terminalController.selected.surtidorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_usuarioList}" icon="ui-icon-search"  action="#{terminalController.navigateUsuarioList}" disabled="#{empty terminalController.selected.usuarioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_liquidacionSueldoList}" icon="ui-icon-search"  action="#{terminalController.navigateLiquidacionSueldoList}" disabled="#{empty terminalController.selected.liquidacionSueldoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_trabajadorList}" icon="ui-icon-search"  action="#{terminalController.navigateTrabajadorList}" disabled="#{empty terminalController.selected.trabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_busList}" icon="ui-icon-search"  action="#{terminalController.navigateBusList}" disabled="#{empty terminalController.selected.busList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_relacionLaboralList}" icon="ui-icon-search"  action="#{terminalController.navigateRelacionLaboralList}" disabled="#{empty terminalController.selected.relacionLaboralList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_servicioList}" icon="ui-icon-search"  action="#{terminalController.navigateServicioList}" disabled="#{empty terminalController.selected.servicioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TerminalMenuItem_terminalIdComuna}" icon="ui-icon-search"  actionListener="#{terminalController.prepareTerminalIdComuna}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty terminalController.selected.terminalIdComuna}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{terminalController.items}"
+                         lazy="false"
+                         rowKey="#{item.terminalId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{terminalController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{terminalController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.terminalId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TerminalDataTableContextMenu" listener="#{terminalController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TerminalDataTableContextMenu" listener="#{terminalController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{terminalController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TerminalListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.terminalId}" filterBy="#{item.terminalId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTerminalTitle_terminalId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminalId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminalNombre}" filterBy="#{item.terminalNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTerminalTitle_terminalNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminalNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminalDireccion}" filterBy="#{item.terminalDireccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTerminalTitle_terminalDireccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminalDireccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminalSuperficie}" filterBy="#{item.terminalSuperficie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTerminalTitle_terminalSuperficie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminalSuperficie}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminalTelefono}" filterBy="#{item.terminalTelefono}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTerminalTitle_terminalTelefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminalTelefono}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.terminalEmail}" filterBy="#{item.terminalEmail}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTerminalTitle_terminalEmail}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.terminalEmail}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.terminalUbicacionLongitud}" filterBy="#{item.terminalUbicacionLongitud}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTerminalTitle_terminalUbicacionLongitud}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.terminalUbicacionLongitud}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.terminalUbicacionLatitud}" filterBy="#{item.terminalUbicacionLatitud}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTerminalTitle_terminalUbicacionLatitud}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.terminalUbicacionLatitud}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.terminalFechaIngreso}" filterBy="#{item.terminalFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTerminalTitle_terminalFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.terminalFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.terminalIdComuna.comunaId}" filterBy="#{item.terminalIdComuna.comunaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListTerminalTitle_terminalIdComuna}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.terminalIdComuna.comunaId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{terminalController.prepareCreate}" update=":TerminalCreateForm" oncomplete="PF('TerminalCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty terminalController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TerminalEditForm" oncomplete="PF('TerminalEditDialog').show()" disabled="#{empty terminalController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{terminalController.delete}" update=":growl,datalist" disabled="#{empty terminalController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

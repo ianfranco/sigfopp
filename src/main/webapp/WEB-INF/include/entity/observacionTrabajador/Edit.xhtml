@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ObservacionTrabajadorEditDlg" widgetVar="ObservacionTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditObservacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="ObservacionTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{observacionTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_observacionTrabajadorId}" for="observacionTrabajadorId" />
+                        <h:outputText id="observacionTrabajadorId" value="#{observacionTrabajadorController.selected.observacionTrabajadorId}" />
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_observacionTrabajadorFecha}" for="observacionTrabajadorFecha" />
+                        <p:calendar id="observacionTrabajadorFecha" pattern="MM/dd/yyyy" value="#{observacionTrabajadorController.selected.observacionTrabajadorFecha}" title="#{bundle.EditObservacionTrabajadorTitle_observacionTrabajadorFecha}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_observacionTrabajadorFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_observacionTrabajadorDescripcion}" for="observacionTrabajadorDescripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="observacionTrabajadorDescripcion" value="#{observacionTrabajadorController.selected.observacionTrabajadorDescripcion}" title="#{bundle.EditObservacionTrabajadorTitle_observacionTrabajadorDescripcion}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_observacionTrabajadorDescripcion}"/>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_observacionTrabajadorDetalle}" for="observacionTrabajadorDetalle" />
+                        <p:inputText id="observacionTrabajadorDetalle" value="#{observacionTrabajadorController.selected.observacionTrabajadorDetalle}" title="#{bundle.EditObservacionTrabajadorTitle_observacionTrabajadorDetalle}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_observacionTrabajadorDetalle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_observacionTrabajadorFechaIngreso}" for="observacionTrabajadorFechaIngreso" />
+                        <p:calendar id="observacionTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{observacionTrabajadorController.selected.observacionTrabajadorFechaIngreso}" title="#{bundle.EditObservacionTrabajadorTitle_observacionTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_observacionTrabajadorFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_observacionTrabajadorIdTipoObservacion}" for="observacionTrabajadorIdTipoObservacion" />
+                        <p:selectOneMenu id="observacionTrabajadorIdTipoObservacion" value="#{observacionTrabajadorController.selected.observacionTrabajadorIdTipoObservacion}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_observacionTrabajadorIdTipoObservacion}" converter="tipoObservacionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoObservacionController.items}"
+                                           var="observacionTrabajadorIdTipoObservacionItem"
+                                           itemValue="#{observacionTrabajadorIdTipoObservacionItem}"
+                                           itemLabel="#{observacionTrabajadorIdTipoObservacionItem.tipoObservacionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditObservacionTrabajadorLabel_observacionTrabajadorIdTrabajador}" for="observacionTrabajadorIdTrabajador" />
+                        <p:selectOneMenu id="observacionTrabajadorIdTrabajador" value="#{observacionTrabajadorController.selected.observacionTrabajadorIdTrabajador}" required="true" requiredMessage="#{bundle.EditObservacionTrabajadorRequiredMessage_observacionTrabajadorIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="observacionTrabajadorIdTrabajadorItem"
+                                           itemValue="#{observacionTrabajadorIdTrabajadorItem}"
+                                           itemLabel="#{observacionTrabajadorIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{observacionTrabajadorController.save}" value="#{bundle.Save}" update="display,:ObservacionTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ObservacionTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ObservacionTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

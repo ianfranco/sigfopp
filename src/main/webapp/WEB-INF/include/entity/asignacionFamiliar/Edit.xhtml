@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AsignacionFamiliarEditDlg" widgetVar="AsignacionFamiliarEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAsignacionFamiliarTitle}" closeOnEscape="true">
+
+            <h:form id="AsignacionFamiliarEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{asignacionFamiliarController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_asignacionFamiliarId}" for="asignacionFamiliarId" />
+                        <h:outputText id="asignacionFamiliarId" value="#{asignacionFamiliarController.selected.asignacionFamiliarId}" />
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_asignacionFamiliarCodigo}" for="asignacionFamiliarCodigo" />
+                        <p:inputText id="asignacionFamiliarCodigo" value="#{asignacionFamiliarController.selected.asignacionFamiliarCodigo}" title="#{bundle.EditAsignacionFamiliarTitle_asignacionFamiliarCodigo}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_asignacionFamiliarCodigo}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_asignacionFamiliarTramo}" for="asignacionFamiliarTramo" />
+                        <p:inputText id="asignacionFamiliarTramo" value="#{asignacionFamiliarController.selected.asignacionFamiliarTramo}" title="#{bundle.EditAsignacionFamiliarTitle_asignacionFamiliarTramo}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_asignacionFamiliarTramo}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_asignacionFamiliarMonto}" for="asignacionFamiliarMonto" />
+                        <p:inputText id="asignacionFamiliarMonto" value="#{asignacionFamiliarController.selected.asignacionFamiliarMonto}" title="#{bundle.EditAsignacionFamiliarTitle_asignacionFamiliarMonto}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_asignacionFamiliarMonto}"/>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_asignacionFamiliarDesde}" for="asignacionFamiliarDesde" />
+                        <p:inputText id="asignacionFamiliarDesde" value="#{asignacionFamiliarController.selected.asignacionFamiliarDesde}" title="#{bundle.EditAsignacionFamiliarTitle_asignacionFamiliarDesde}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_asignacionFamiliarDesde}"/>
+
+                        <p:outputLabel value="#{bundle.EditAsignacionFamiliarLabel_asignacionFamiliarHasta}" for="asignacionFamiliarHasta" />
+                        <p:inputText id="asignacionFamiliarHasta" value="#{asignacionFamiliarController.selected.asignacionFamiliarHasta}" title="#{bundle.EditAsignacionFamiliarTitle_asignacionFamiliarHasta}" required="true" requiredMessage="#{bundle.EditAsignacionFamiliarRequiredMessage_asignacionFamiliarHasta}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{asignacionFamiliarController.save}" value="#{bundle.Save}" update="display,:AsignacionFamiliarListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AsignacionFamiliarEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AsignacionFamiliarEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

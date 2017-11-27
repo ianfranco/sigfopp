@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BoletoViewDlg" widgetVar="BoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="BoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{boletoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewBoletoLabel_boletoId}"/>
+                        <h:outputText value="#{boletoController.selected.boletoId}" title="#{bundle.ViewBoletoTitle_boletoId}"/>
+
+                        <h:outputText value="#{bundle.ViewBoletoLabel_boletoNombre}"/>
+                        <h:outputText value="#{boletoController.selected.boletoNombre}" title="#{bundle.ViewBoletoTitle_boletoNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewBoletoLabel_boletoActivo}"/>
+                        <h:selectBooleanCheckbox id="boletoActivo" value="#{boletoController.selected.boletoActivo}" title="#{bundle.EditBoletoTitle_boletoActivo}" required="true" requiredMessage="#{bundle.EditBoletoRequiredMessage_boletoActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewBoletoLabel_boletoFechaIngreso}"/>
+                        <h:outputText value="#{boletoController.selected.boletoFechaIngreso}" title="#{bundle.ViewBoletoTitle_boletoFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('BoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

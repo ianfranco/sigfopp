@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleIntervalosMensualEditDlg" widgetVar="DetalleIntervalosMensualEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDetalleIntervalosMensualTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleIntervalosMensualEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleIntervalosMensualController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDetalleIntervalosMensualLabel_detalleIntervalosMensualId}" for="detalleIntervalosMensualId" />
+                        <h:outputText id="detalleIntervalosMensualId" value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualId}" />
+
+                        <p:outputLabel value="#{bundle.EditDetalleIntervalosMensualLabel_detalleIntervalosMensualNumeroBuses}" for="detalleIntervalosMensualNumeroBuses" />
+                        <p:inputText id="detalleIntervalosMensualNumeroBuses" value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualNumeroBuses}" title="#{bundle.EditDetalleIntervalosMensualTitle_detalleIntervalosMensualNumeroBuses}" required="true" requiredMessage="#{bundle.EditDetalleIntervalosMensualRequiredMessage_detalleIntervalosMensualNumeroBuses}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleIntervalosMensualLabel_detalleIntervalosMensualIdAdministracion}" for="detalleIntervalosMensualIdAdministracion" />
+                        <p:selectOneMenu id="detalleIntervalosMensualIdAdministracion" value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualIdAdministracion}" required="true" requiredMessage="#{bundle.EditDetalleIntervalosMensualRequiredMessage_detalleIntervalosMensualIdAdministracion}" converter="administracionMensualConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{administracionMensualController.items}"
+                                           var="detalleIntervalosMensualIdAdministracionItem"
+                                           itemValue="#{detalleIntervalosMensualIdAdministracionItem}"
+                                           itemLabel="#{detalleIntervalosMensualIdAdministracionItem.administracionMensualId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditDetalleIntervalosMensualLabel_detalleIntervalosMensualIdIntervaloAdministracion}" for="detalleIntervalosMensualIdIntervaloAdministracion" />
+                        <p:selectOneMenu id="detalleIntervalosMensualIdIntervaloAdministracion" value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualIdIntervaloAdministracion}" required="true" requiredMessage="#{bundle.EditDetalleIntervalosMensualRequiredMessage_detalleIntervalosMensualIdIntervaloAdministracion}" converter="intervalosAdministracionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{intervalosAdministracionController.items}"
+                                           var="detalleIntervalosMensualIdIntervaloAdministracionItem"
+                                           itemValue="#{detalleIntervalosMensualIdIntervaloAdministracionItem}"
+                                           itemLabel="#{detalleIntervalosMensualIdIntervaloAdministracionItem.intervalosAdministracionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleIntervalosMensualController.save}" value="#{bundle.Save}" update="display,:DetalleIntervalosMensualListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleIntervalosMensualEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DetalleIntervalosMensualEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

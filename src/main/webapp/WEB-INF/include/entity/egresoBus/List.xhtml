@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EgresoBusListForm">
+
+        <p:panel header="#{bundle.ListEgresoBusTitle}">
+            <p:contextMenu id="EgresoBusDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EgresoBusListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EgresoBusListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EgresoBusListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EgresoBusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.EgresoBusMenuItem_egresoBusIdEgreso}" icon="ui-icon-search"  actionListener="#{egresoBusController.prepareEgresoBusIdEgreso}" update=":EgresoViewForm" oncomplete="PF('EgresoViewDialog').show()" disabled="#{empty egresoBusController.selected.egresoBusIdEgreso}"/>  
+                <p:menuitem value="#{bundle.EgresoBusMenuItem_egresoBusIdBus}" icon="ui-icon-search"  actionListener="#{egresoBusController.prepareEgresoBusIdBus}" update=":BusViewForm" oncomplete="PF('BusViewDialog').show()" disabled="#{empty egresoBusController.selected.egresoBusIdBus}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{egresoBusController.items}"
+                         lazy="false"
+                         rowKey="#{item.egresoBusId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{egresoBusController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{egresoBusController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.egresoBusId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoBusDataTableContextMenu" listener="#{egresoBusController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoBusDataTableContextMenu" listener="#{egresoBusController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{egresoBusController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EgresoBusListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.egresoBusId}" filterBy="#{item.egresoBusId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoBusId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoBusValorDefecto}" filterBy="#{item.egresoBusValorDefecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusValorDefecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoBusValorDefecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoBusPorcentaje}" filterBy="#{item.egresoBusPorcentaje}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusPorcentaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoBusPorcentaje}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoBusNumeroOrden}" filterBy="#{item.egresoBusNumeroOrden}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusNumeroOrden}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoBusNumeroOrden}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoBusActivo}" filterBy="#{item.egresoBusActivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusActivo}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="egresoBusActivo" value="#{item.egresoBusActivo}" title="#{bundle.EditEgresoBusTitle_egresoBusActivo}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusActivo}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoBusFechaIngreso}" filterBy="#{item.egresoBusFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoBusFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.egresoBusFechaActualizacion}" filterBy="#{item.egresoBusFechaActualizacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusFechaActualizacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoBusFechaActualizacion}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.egresoBusIdEgreso.egresoId}" filterBy="#{item.egresoBusIdEgreso.egresoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusIdEgreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoBusIdEgreso.egresoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.egresoBusIdBus.busId}" filterBy="#{item.egresoBusIdBus.busId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoBusTitle_egresoBusIdBus}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoBusIdBus.busId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{egresoBusController.prepareCreate}" update=":EgresoBusCreateForm" oncomplete="PF('EgresoBusCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":EgresoBusViewForm" oncomplete="PF('EgresoBusViewDialog').show()" disabled="#{empty egresoBusController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EgresoBusEditForm" oncomplete="PF('EgresoBusEditDialog').show()" disabled="#{empty egresoBusController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{egresoBusController.delete}" update=":growl,datalist" disabled="#{empty egresoBusController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

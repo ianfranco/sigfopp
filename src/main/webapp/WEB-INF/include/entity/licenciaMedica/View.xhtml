@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LicenciaMedicaViewDlg" widgetVar="LicenciaMedicaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewLicenciaMedicaTitle}" closeOnEscape="true">
+
+            <h:form id="LicenciaMedicaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{licenciaMedicaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaId}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaId}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaId}"/>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaNumero}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaNumero}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaNumero}"/>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaFechaRecepcion}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaFechaRecepcion}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaFechaRecepcion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaFechaEmision}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaFechaEmision}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaFechaEmision}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaFechaDesdeReposo}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaFechaDesdeReposo}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaFechaDesdeReposo}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaFechaHastaReposo}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaFechaHastaReposo}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaFechaHastaReposo}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaDiagnosticoLicencia}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaDiagnosticoLicencia}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaDiagnosticoLicencia}"/>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaFechaIngreso}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaFechaIngreso}" title="#{bundle.ViewLicenciaMedicaTitle_licenciaMedicaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLicenciaMedicaLabel_licenciaMedicaIdTrabajador}"/>
+                        <h:outputText value="#{licenciaMedicaController.selected.licenciaMedicaIdTrabajador.trabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('LicenciaMedicaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

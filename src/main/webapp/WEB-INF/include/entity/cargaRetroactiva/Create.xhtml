@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargaRetroactivaCreateDlg" widgetVar="CargaRetroactivaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCargaRetroactivaTitle}" closeOnEscape="true">
+
+            <h:form id="CargaRetroactivaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cargaRetroactivaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCargaRetroactivaLabel_cargaRetroactivaMonto}" for="cargaRetroactivaMonto" />
+                        <p:inputText id="cargaRetroactivaMonto" value="#{cargaRetroactivaController.selected.cargaRetroactivaMonto}" title="#{bundle.CreateCargaRetroactivaTitle_cargaRetroactivaMonto}" required="true" requiredMessage="#{bundle.CreateCargaRetroactivaRequiredMessage_cargaRetroactivaMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargaRetroactivaLabel_cargaRetroactivaFecha}" for="cargaRetroactivaFecha" />
+                        <p:calendar id="cargaRetroactivaFecha" pattern="MM/dd/yyyy" value="#{cargaRetroactivaController.selected.cargaRetroactivaFecha}" title="#{bundle.CreateCargaRetroactivaTitle_cargaRetroactivaFecha}" required="true" requiredMessage="#{bundle.CreateCargaRetroactivaRequiredMessage_cargaRetroactivaFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargaRetroactivaLabel_cargaRetroactivaFechaIngreso}" for="cargaRetroactivaFechaIngreso" />
+                        <p:calendar id="cargaRetroactivaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{cargaRetroactivaController.selected.cargaRetroactivaFechaIngreso}" title="#{bundle.CreateCargaRetroactivaTitle_cargaRetroactivaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateCargaRetroactivaRequiredMessage_cargaRetroactivaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargaRetroactivaLabel_cargaRetroactivaIdCargaTrabajador}" for="cargaRetroactivaIdCargaTrabajador" />
+                        <p:selectOneMenu id="cargaRetroactivaIdCargaTrabajador" value="#{cargaRetroactivaController.selected.cargaRetroactivaIdCargaTrabajador}" required="true" requiredMessage="#{bundle.CreateCargaRetroactivaRequiredMessage_cargaRetroactivaIdCargaTrabajador}" converter="cargaTrabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cargaTrabajadorController.items}"
+                                           var="cargaRetroactivaIdCargaTrabajadorItem"
+                                           itemValue="#{cargaRetroactivaIdCargaTrabajadorItem}"
+                                           itemLabel="#{cargaRetroactivaIdCargaTrabajadorItem.cargaTrabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateCargaRetroactivaLabel_cargaRetroactivaIdTrabajador}" for="cargaRetroactivaIdTrabajador" />
+                        <p:selectOneMenu id="cargaRetroactivaIdTrabajador" value="#{cargaRetroactivaController.selected.cargaRetroactivaIdTrabajador}" required="true" requiredMessage="#{bundle.CreateCargaRetroactivaRequiredMessage_cargaRetroactivaIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="cargaRetroactivaIdTrabajadorItem"
+                                           itemValue="#{cargaRetroactivaIdTrabajadorItem}"
+                                           itemLabel="#{cargaRetroactivaIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargaRetroactivaController.saveNew}" value="#{bundle.Save}" update="display,:CargaRetroactivaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargaRetroactivaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargaRetroactivaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoInstitucionApvEditDlg" widgetVar="TipoInstitucionApvEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoInstitucionApvTitle}" closeOnEscape="true">
+
+            <h:form id="TipoInstitucionApvEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoInstitucionApvController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoInstitucionApvLabel_tipoInstitucionApvId}" for="tipoInstitucionApvId" />
+                        <h:outputText id="tipoInstitucionApvId" value="#{tipoInstitucionApvController.selected.tipoInstitucionApvId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoInstitucionApvLabel_tipoInstitucionApvNombre}" for="tipoInstitucionApvNombre" />
+                        <p:inputText id="tipoInstitucionApvNombre" value="#{tipoInstitucionApvController.selected.tipoInstitucionApvNombre}" title="#{bundle.EditTipoInstitucionApvTitle_tipoInstitucionApvNombre}" required="true" requiredMessage="#{bundle.EditTipoInstitucionApvRequiredMessage_tipoInstitucionApvNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoInstitucionApvLabel_tipoInstitucionApvFechaIngreso}" for="tipoInstitucionApvFechaIngreso" />
+                        <p:calendar id="tipoInstitucionApvFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoInstitucionApvController.selected.tipoInstitucionApvFechaIngreso}" title="#{bundle.EditTipoInstitucionApvTitle_tipoInstitucionApvFechaIngreso}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoInstitucionApvController.save}" value="#{bundle.Save}" update="display,:TipoInstitucionApvListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoInstitucionApvEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoInstitucionApvEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

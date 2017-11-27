@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="HorarioJornadaEditDlg" widgetVar="HorarioJornadaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditHorarioJornadaTitle}" closeOnEscape="true">
+
+            <h:form id="HorarioJornadaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{horarioJornadaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditHorarioJornadaLabel_horarioJornadaId}" for="horarioJornadaId" />
+                        <h:outputText id="horarioJornadaId" value="#{horarioJornadaController.selected.horarioJornadaId}" />
+
+                        <p:outputLabel value="#{bundle.EditHorarioJornadaLabel_horarioJornadaInicioHorario}" for="horarioJornadaInicioHorario" />
+                        <p:calendar id="horarioJornadaInicioHorario" pattern="HH:mm:ss" value="#{horarioJornadaController.selected.horarioJornadaInicioHorario}" title="#{bundle.EditHorarioJornadaTitle_horarioJornadaInicioHorario}" required="true" requiredMessage="#{bundle.EditHorarioJornadaRequiredMessage_horarioJornadaInicioHorario}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditHorarioJornadaLabel_horarioJornadaTerminoHorario}" for="horarioJornadaTerminoHorario" />
+                        <p:calendar id="horarioJornadaTerminoHorario" pattern="HH:mm:ss" value="#{horarioJornadaController.selected.horarioJornadaTerminoHorario}" title="#{bundle.EditHorarioJornadaTitle_horarioJornadaTerminoHorario}" required="true" requiredMessage="#{bundle.EditHorarioJornadaRequiredMessage_horarioJornadaTerminoHorario}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditHorarioJornadaLabel_horarioJornadaHorarioVariable}" for="horarioJornadaHorarioVariable" />
+                        <p:selectBooleanCheckbox id="horarioJornadaHorarioVariable" value="#{horarioJornadaController.selected.horarioJornadaHorarioVariable}" />
+
+                        <p:outputLabel value="#{bundle.EditHorarioJornadaLabel_horarioJornadaFechaIngreso}" for="horarioJornadaFechaIngreso" />
+                        <p:calendar id="horarioJornadaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{horarioJornadaController.selected.horarioJornadaFechaIngreso}" title="#{bundle.EditHorarioJornadaTitle_horarioJornadaFechaIngreso}" required="true" requiredMessage="#{bundle.EditHorarioJornadaRequiredMessage_horarioJornadaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{horarioJornadaController.save}" value="#{bundle.Save}" update="display,:HorarioJornadaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioJornadaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HorarioJornadaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

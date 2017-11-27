@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoCotizacionTrabajadorEditDlg" widgetVar="TipoCotizacionTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoCotizacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCotizacionTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoCotizacionTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoCotizacionTrabajadorLabel_tipoCotizacionTrabajadorId}" for="tipoCotizacionTrabajadorId" />
+                        <h:outputText id="tipoCotizacionTrabajadorId" value="#{tipoCotizacionTrabajadorController.selected.tipoCotizacionTrabajadorId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoCotizacionTrabajadorLabel_tipoCotizacionTrabajadorNombre}" for="tipoCotizacionTrabajadorNombre" />
+                        <p:inputText id="tipoCotizacionTrabajadorNombre" value="#{tipoCotizacionTrabajadorController.selected.tipoCotizacionTrabajadorNombre}" title="#{bundle.EditTipoCotizacionTrabajadorTitle_tipoCotizacionTrabajadorNombre}" required="true" requiredMessage="#{bundle.EditTipoCotizacionTrabajadorRequiredMessage_tipoCotizacionTrabajadorNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoCotizacionTrabajadorLabel_tipoCotizacionTrabajadorFechaIngreso}" for="tipoCotizacionTrabajadorFechaIngreso" />
+                        <p:calendar id="tipoCotizacionTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoCotizacionTrabajadorController.selected.tipoCotizacionTrabajadorFechaIngreso}" title="#{bundle.EditTipoCotizacionTrabajadorTitle_tipoCotizacionTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoCotizacionTrabajadorRequiredMessage_tipoCotizacionTrabajadorFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoCotizacionTrabajadorController.save}" value="#{bundle.Save}" update="display,:TipoCotizacionTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoCotizacionTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoCotizacionTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ParametroCesantiaViewDlg" widgetVar="ParametroCesantiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewParametroCesantiaTitle}" closeOnEscape="true">
+
+            <h:form id="ParametroCesantiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{parametroCesantiaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_parametroCesantiaId}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.parametroCesantiaId}" title="#{bundle.ViewParametroCesantiaTitle_parametroCesantiaId}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_parametroCesantiaEmpleador}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.parametroCesantiaEmpleador}" title="#{bundle.ViewParametroCesantiaTitle_parametroCesantiaEmpleador}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_parametroCesantiaTrabajador}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.parametroCesantiaTrabajador}" title="#{bundle.ViewParametroCesantiaTitle_parametroCesantiaTrabajador}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_parametroCesantiaFechaIngreso}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.parametroCesantiaFechaIngreso}" title="#{bundle.ViewParametroCesantiaTitle_parametroCesantiaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewParametroCesantiaLabel_parametroCesantiaFechaActualizacion}"/>
+                        <h:outputText value="#{parametroCesantiaController.selected.parametroCesantiaFechaActualizacion}" title="#{bundle.ViewParametroCesantiaTitle_parametroCesantiaFechaActualizacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ParametroCesantiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaEditDlg" widgetVar="GuiaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Edición Guía" closeOnEscape="true" closable="false">
+
+            <h:form id="GuiaEditForm">
+                <h:panelGroup id="display" rendered="#{guiaFirstController.auxGuia2 != null}">
+                    <p:panelGrid style="width: 600px;">
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:focus context="guiaFolio"/>
+
+                            <p:column style="font-weight: bold;">Folio:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:inputNumber id="guiaFolio" value="#{guiaFirstController.auxGuia2.guiaFolio}" required="true" requiredMessage="Debe ingresar el Folio de la Guía" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)">
+                                    <p:ajax event="valueChange" listener="#{guiaFirstController.findFolio}" update="growl, guiaFolio"/>
+                                </p:inputNumber>                                
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Empresario:</p:column>
+                            <p:column rowspan="1" style="font-weight: bold;width: 250px;"><p:outputLabel value="#{guiaFirstController.auxGuia2.guiaIdBus.busIdEmpresa.empresaNombre}" id="guiaIdBusEmpresario" /></p:column>
+                        </p:row>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">Fecha:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:outputLabel value="#{guiaFirstController.auxGuia2.guiaFecha}">
+                                    <f:convertDateTime pattern="dd/MM/yy"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Flota:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{guiaFirstController.auxGuia2.guiaIdBus.busIdFlota.flotaNombre}" id="guiaIdBusFlota" /></p:column>
+                        </p:row>
+
+                        <!-- SEGUNDA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Bus:</p:column>
+                            <p:column>
+                                <p:outputLabel id="guiaIdBus" value="#{guiaFirstController.auxGuia2.guiaIdBus.busNumero}" />
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">PPU:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{guiaFirstController.auxGuia2.guiaIdBus.busPatente}" id="guiaIdBusPatente" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Conductor</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:selectOneMenu id="guiaIdTrabajador" value="#{guiaFirstController.auxGuia2.guiaIdTrabajador}"  converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{trabajadorController.items}"
+                                                   var="guiaIdTrabajadorItem"
+                                                   itemValue="#{guiaIdTrabajadorItem}"
+                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                                   />
+                                    <p:ajax event="valueChange" update="guiaIdTrabajadorNombre, guiaIdTrabajadorRut" global="false"/>
+                                </p:selectOneMenu>
+                            </p:column>
+
+                            <p:column style="font-weight: bold;" rowspan="1">Conductor:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{guiaFirstController.auxGuia2.guiaIdTrabajador.trabajadorNombres} #{guiaFirstController.auxGuia2.guiaIdTrabajador.trabajadorApellidoPaterno} #{guiaFirstController.auxGuia2.guiaIdTrabajador.trabajadorApellidoMaterno}" id="guiaIdTrabajadorNombre" /></p:column>
+                        </p:row>
+                        <!-- CUARTA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">Turno</p:column>
+                            <p:column>
+                                <p:inputNumber id="guiaTurno" value="#{guiaFirstController.auxGuia2.guiaTurno}" required="true" requiredMessage="Debe ingresar el Turno" onfocus="this.setSelectionRange(0, this.value.length)" decimalPlaces="0"/>
+                            </p:column>
+                            <p:column style="font-weight: bold;" rowspan="1">Rut:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{guiaFirstController.auxGuia2.guiaIdTrabajador.trabajadorRut}" id="guiaIdTrabajadorRut" /></p:column>
+                        </p:row>                                                                      
+                        <!-- QUINTA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;"></p:column>
+                            <p:column/>
+                            <p:column style="font-weight: bold;" rowspan="1">U.G.I.</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{guiaFirstController.auxGuia.guiaFecha}" id="guiaAuxFecha" ><f:convertDateTime pattern="dd/MM/yy"/></p:outputLabel></p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                    <p:dataTable id="datalist"
+                                 value="#{guiaFirstController.boletoGuiaList}"
+                                 widgetVar="datalist"
+                                 var="item"
+                                 rowKey="#{item.serieBoletoGuiaId}"
+                                 emptyMessage="No se han encontrado registros"
+                                 rowIndexVar="rowIndex"
+                                 style="width: 600px;padding-top: 10px;padding-bottom: 10px;">
+
+                        <f:facet name="header">
+                            Series de Boletos
+                        </f:facet>
+
+                        <p:column style="width: 50px;">
+                            <f:facet name="header">
+                                <h:outputText value="#"/>
+                            </f:facet>
+                            <p:outputLabel value="#{rowIndex+1}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Boleto"/>
+                            </f:facet>
+                            <p:outputLabel value="#{item.serieBoletoGuiaIdVentaBoleto.ventaBoletoIdInventarioCaja.inventarioCajaIdInventarioInterno.inventarioInternoIdBoleto.boletoNombre}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Serie"/>
+                            </f:facet>
+                            <p:outputLabel value="#{item.serieBoletoGuiaIdVentaBoleto.ventaBoletoIdInventarioCaja.inventarioCajaIdentificador}-#{item.serieBoletoGuiaIdVentaBoleto.ventaBoletoIdInventarioCaja.inventarioCajaSerie}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inicio"/>
+                            </f:facet>
+                            <p:outputLabel value="#{item.serieBoletoGuiaInicio}"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Termino"/>
+                            </f:facet>
+                            <p:inputNumber value="#{item.serieBoletoGuiaTermino}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)" size="10"/>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <p:commandButton value="Cerrar" disabled="#{!guiaFirstController.ventaBoletoBusList.contains(item.serieBoletoGuiaIdVentaBoleto.ventaBoletoIdInventarioCaja.inventarioCajaIdInventarioInterno.inventarioInternoIdBoleto)}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:panelGrid columns="1" style="width: 100%;text-align: right;">
+                        <h:panelGroup>
+                            <p:commandButton actionListener="#{guiaFirstController.save}" value="#{bundle.Save}" update="display,:GuiaListForm:datalist,:growl, GuiaEditDlg" styleClass="btn btn-primary" resetValues="true" style="width: 25%">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Editar Guía?" icon="ui-icon-alert"/>
+                            </p:commandButton>
+                            <p:commandButton value="Cerrar" oncomplete="PF('GuiaEditDialog').hide()" update="display, :GuiaListForm:datalist" actionListener="#{guiaFirstController.resetParents}" process="@this" immediate="true" resetValues="true" styleClass="btn btn-primary" style="width: 25%"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

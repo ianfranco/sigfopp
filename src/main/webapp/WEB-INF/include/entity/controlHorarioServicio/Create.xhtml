@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlHorarioServicioCreateDlg" widgetVar="ControlHorarioServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateControlHorarioServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ControlHorarioServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{controlHorarioServicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateControlHorarioServicioLabel_controlHorarioServicioTiempo}" for="controlHorarioServicioTiempo" />
+                        <p:inputText id="controlHorarioServicioTiempo" value="#{controlHorarioServicioController.selected.controlHorarioServicioTiempo}" title="#{bundle.CreateControlHorarioServicioTitle_controlHorarioServicioTiempo}" required="true" requiredMessage="#{bundle.CreateControlHorarioServicioRequiredMessage_controlHorarioServicioTiempo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlHorarioServicioLabel_controlHorarioServicioMulta}" for="controlHorarioServicioMulta" />
+                        <p:inputText id="controlHorarioServicioMulta" value="#{controlHorarioServicioController.selected.controlHorarioServicioMulta}" title="#{bundle.CreateControlHorarioServicioTitle_controlHorarioServicioMulta}" required="true" requiredMessage="#{bundle.CreateControlHorarioServicioRequiredMessage_controlHorarioServicioMulta}"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlHorarioServicioLabel_controlHorarioServicioPeso}" for="controlHorarioServicioPeso" />
+                        <p:inputText id="controlHorarioServicioPeso" value="#{controlHorarioServicioController.selected.controlHorarioServicioPeso}" title="#{bundle.CreateControlHorarioServicioTitle_controlHorarioServicioPeso}" required="true" requiredMessage="#{bundle.CreateControlHorarioServicioRequiredMessage_controlHorarioServicioPeso}"/>
+
+                        <p:outputLabel value="#{bundle.CreateControlHorarioServicioLabel_controlHorarioServicioIdControlServicio}" for="controlHorarioServicioIdControlServicio" />
+                        <p:selectOneMenu id="controlHorarioServicioIdControlServicio" value="#{controlHorarioServicioController.selected.controlHorarioServicioIdControlServicio}" required="true" requiredMessage="#{bundle.CreateControlHorarioServicioRequiredMessage_controlHorarioServicioIdControlServicio}" converter="controlServicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{controlServicioController.items}"
+                                           var="controlHorarioServicioIdControlServicioItem"
+                                           itemValue="#{controlHorarioServicioIdControlServicioItem}"
+                                           itemLabel="#{controlHorarioServicioIdControlServicioItem.controlServicioIdControlServicio.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateControlHorarioServicioLabel_controlHorarioServicioIdHorarioServicio}" for="controlHorarioServicioIdHorarioServicio" />
+                        <p:selectOneMenu id="controlHorarioServicioIdHorarioServicio" value="#{controlHorarioServicioController.selected.controlHorarioServicioIdHorarioServicio}" required="true" requiredMessage="#{bundle.CreateControlHorarioServicioRequiredMessage_controlHorarioServicioIdHorarioServicio}" converter="horarioServicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{horarioServicioController.items}"
+                                           var="controlHorarioServicioIdHorarioServicioItem"
+                                           itemValue="#{controlHorarioServicioIdHorarioServicioItem}"
+                                           itemLabel="#{controlHorarioServicioIdHorarioServicioItem.horarioServicioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlHorarioServicioController.saveNew}" value="#{bundle.Save}" update="display,:ControlHorarioServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlHorarioServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlHorarioServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

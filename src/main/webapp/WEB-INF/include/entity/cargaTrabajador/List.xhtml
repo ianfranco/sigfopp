@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CargaTrabajadorListForm">
+
+        <p:panel header="#{bundle.ListCargaTrabajadorTitle}">
+            <p:contextMenu id="CargaTrabajadorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CargaTrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CargaTrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CargaTrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargaTrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CargaTrabajadorMenuItem_cargaTrabajadorIdParentescoCarga}" icon="ui-icon-search"  actionListener="#{cargaTrabajadorController.prepareCargaTrabajadorIdParentescoCarga}" update=":ParentescoCargaViewForm" oncomplete="PF('ParentescoCargaViewDialog').show()" disabled="#{empty cargaTrabajadorController.selected.cargaTrabajadorIdParentescoCarga}"/>  
+                <p:menuitem value="#{bundle.CargaTrabajadorMenuItem_cargaTrabajadorIdTipoCarga}" icon="ui-icon-search"  actionListener="#{cargaTrabajadorController.prepareCargaTrabajadorIdTipoCarga}" update=":TipoCargaFamiliarViewForm" oncomplete="PF('TipoCargaFamiliarViewDialog').show()" disabled="#{empty cargaTrabajadorController.selected.cargaTrabajadorIdTipoCarga}"/>  
+                <p:menuitem value="#{bundle.CargaTrabajadorMenuItem_cargaTrabajadorIdTrabajador}" icon="ui-icon-search"  actionListener="#{cargaTrabajadorController.prepareCargaTrabajadorIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty cargaTrabajadorController.selected.cargaTrabajadorIdTrabajador}"/>  
+                <p:menuitem value="#{bundle.CargaTrabajadorMenuItem_cargaRetroactivaList}" icon="ui-icon-search"  action="#{cargaTrabajadorController.navigateCargaRetroactivaList}" disabled="#{empty cargaTrabajadorController.selected.cargaRetroactivaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cargaTrabajadorController.items}"
+                         lazy="false"
+                         rowKey="#{item.cargaTrabajadorId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{cargaTrabajadorController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cargaTrabajadorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cargaTrabajadorId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargaTrabajadorDataTableContextMenu" listener="#{cargaTrabajadorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargaTrabajadorDataTableContextMenu" listener="#{cargaTrabajadorController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cargaTrabajadorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CargaTrabajadorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cargaTrabajadorId}" filterBy="#{item.cargaTrabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaTrabajadorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaTrabajadorApellidos}" filterBy="#{item.cargaTrabajadorApellidos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorApellidos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaTrabajadorApellidos}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaTrabajadorNombres}" filterBy="#{item.cargaTrabajadorNombres}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorNombres}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaTrabajadorNombres}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaTrabajadorRut}" filterBy="#{item.cargaTrabajadorRut}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorRut}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaTrabajadorRut}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaTrabajadorFechaNacimiento}" filterBy="#{item.cargaTrabajadorFechaNacimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorFechaNacimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaTrabajadorFechaNacimiento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaTrabajadorActiva}" filterBy="#{item.cargaTrabajadorActiva}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorActiva}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="cargaTrabajadorActiva" value="#{item.cargaTrabajadorActiva}" title="#{bundle.EditCargaTrabajadorTitle_cargaTrabajadorActiva}" required="true" requiredMessage="#{bundle.EditCargaTrabajadorRequiredMessage_cargaTrabajadorActiva}" disabled="true"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.cargaTrabajadorFechaIngreso}" filterBy="#{item.cargaTrabajadorFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargaTrabajadorFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cargaTrabajadorIdParentescoCarga.parentescoCargaId}" filterBy="#{item.cargaTrabajadorIdParentescoCarga.parentescoCargaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorIdParentescoCarga}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargaTrabajadorIdParentescoCarga.parentescoCargaId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cargaTrabajadorIdTipoCarga.tipoCargaFamiliarId}" filterBy="#{item.cargaTrabajadorIdTipoCarga.tipoCargaFamiliarId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorIdTipoCarga}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargaTrabajadorIdTipoCarga.tipoCargaFamiliarId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cargaTrabajadorIdTrabajador.trabajadorId}" filterBy="#{item.cargaTrabajadorIdTrabajador.trabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargaTrabajadorTitle_cargaTrabajadorIdTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargaTrabajadorIdTrabajador.trabajadorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cargaTrabajadorController.prepareCreate}" update=":CargaTrabajadorCreateForm" oncomplete="PF('CargaTrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CargaTrabajadorViewForm" oncomplete="PF('CargaTrabajadorViewDialog').show()" disabled="#{empty cargaTrabajadorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargaTrabajadorEditForm" oncomplete="PF('CargaTrabajadorEditDialog').show()" disabled="#{empty cargaTrabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cargaTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty cargaTrabajadorController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

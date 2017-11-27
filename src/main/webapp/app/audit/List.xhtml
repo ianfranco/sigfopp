@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <h:form id="AuditListForm" class="form-height">
+
+        <p:dataTable id="datalist"
+                     value="#{auditController.lazyList}"
+                     var="item"
+                     rowKey="#{item.id}"
+                     paginator="true"                     
+                     rows="100"
+                     rowsPerPageTemplate="100, 200, 500"
+                     selectionMode="single"
+                     selection="#{auditController.selected}"
+                     paginatorPosition="top"
+                     lazy="true"
+                     widgetVar="datalistWidget"
+                     scrollable="true"
+                     scrollHeight="100%"                     
+                     resizableColumns="true"
+                     liveResize="true"
+                     pageLinks="1"
+                     reflow="true"
+                     filteredValue="#{auditController.filtered}"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+                     currentPageReportTemplate="#{messages.currentPageTemplate}"
+                     rowIndexVar="rowIndex">
+
+            <f:facet name="header">
+                Últimas Acciones 
+            </f:facet>
+
+            <p:column style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputLabel value="#{rowIndex+1}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.auditUser.usuarioNombres}" filterBy="#{item.auditUser.usuarioNombres}">
+                <f:facet name="header">
+                    <h:outputText value="Usuario"/>
+                </f:facet>
+                <h:outputLabel value="#{item.auditUser.usuarioNombres}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.tableName}" filterBy="#{item.tableName}">
+                <f:facet name="header">
+                    <h:outputText value="Tabla"/>
+                </f:facet>
+                <h:outputLabel value="#{item.tableName}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.eventId}" filterBy="#{item.eventId}">
+                <f:facet name="header">
+                    <h:outputText value="Id Registro"/>
+                </f:facet>
+                <h:outputLabel value="#{item.eventId}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.operation}" filterBy="#{item.operation}">
+                <f:facet name="header">
+                    <h:outputText value="Operación"/>
+                </f:facet>
+                <h:outputLabel value="#{item.operation}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.operationTime}" filterBy="#{item.operationTime}">
+                <f:facet name="header">
+                    <h:outputText value="Fecha/Hora"/>
+                </f:facet>
+                <h:outputLabel value="#{item.operationTime}">
+                    <f:convertDateTime pattern="HH:mm:ss dd/MM/yyyy "/>
+                </h:outputLabel>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    Detalle
+                </f:facet>
+                <ui:repeat var="fields" value="#{item.field}">
+                    <h:panelGrid columns="2" style="border-width: 1px">
+                        <h:outputLabel value="# : "/>
+                        <h:outputLabel value="#{fields.id}"/>
+
+                        <h:outputLabel value="Campo : "/>
+                        <h:outputLabel value="#{fields.fieldName}"/>
+
+                        <h:outputLabel value="Valor : "/>
+                        <h:outputLabel value="#{fields.fieldValue}"/>
+                    </h:panelGrid>
+
+                </ui:repeat>
+
+            </p:column>
+
+
+            <f:facet name="{Exporters}">
+
+                <div class="footer-right">
+                    <h:commandLink>
+                        <p:graphicImage name="images/excel.png" width="24"/>
+                        <p:dataExporter type="xls" target="datalist" fileName="DataExport" encoding="CP1254"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage name="images/pdf.png" width="24"/>
+                        <p:dataExporter type="pdf" target="datalist" fileName="DataExport" encoding="CP1254"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage name="images/csv.png" width="24"/>
+                        <p:dataExporter type="csv" target="datalist" fileName="DataExport" encoding="CP1254"/>
+                    </h:commandLink>
+
+                    <h:commandLink>
+                        <p:graphicImage name="images/xml.png" width="24"/>
+                        <p:dataExporter type="xml" target="datalist" fileName="DataExport" encoding="CP1254"/>
+                    </h:commandLink>
+                </div>
+
+            </f:facet>
+
+
+        </p:dataTable>
+
+        <ui:include src="/confirmation.xhtml"/>
+
+    </h:form>
+
+</ui:composition>

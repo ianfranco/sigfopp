@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleBilletesCtvEditDlg" widgetVar="DetalleBilletesCtvEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDetalleBilletesCtvTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleBilletesCtvEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleBilletesCtvController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDetalleBilletesCtvLabel_detalleBilletesCtvId}" for="detalleBilletesCtvId" />
+                        <h:outputText id="detalleBilletesCtvId" value="#{detalleBilletesCtvController.selected.detalleBilletesCtvId}" />
+
+                        <p:outputLabel value="#{bundle.EditDetalleBilletesCtvLabel_detalleBilletesCtvNumeroSello}" for="detalleBilletesCtvNumeroSello" />
+                        <p:inputText id="detalleBilletesCtvNumeroSello" value="#{detalleBilletesCtvController.selected.detalleBilletesCtvNumeroSello}" title="#{bundle.EditDetalleBilletesCtvTitle_detalleBilletesCtvNumeroSello}" required="true" requiredMessage="#{bundle.EditDetalleBilletesCtvRequiredMessage_detalleBilletesCtvNumeroSello}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleBilletesCtvLabel_detalleBilletesCtvNumeroBolsa}" for="detalleBilletesCtvNumeroBolsa" />
+                        <p:inputText id="detalleBilletesCtvNumeroBolsa" value="#{detalleBilletesCtvController.selected.detalleBilletesCtvNumeroBolsa}" title="#{bundle.EditDetalleBilletesCtvTitle_detalleBilletesCtvNumeroBolsa}" required="true" requiredMessage="#{bundle.EditDetalleBilletesCtvRequiredMessage_detalleBilletesCtvNumeroBolsa}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleBilletesCtvLabel_detalleBilletesCtvDocumentos}" for="detalleBilletesCtvDocumentos" />
+                        <p:inputText id="detalleBilletesCtvDocumentos" value="#{detalleBilletesCtvController.selected.detalleBilletesCtvDocumentos}" title="#{bundle.EditDetalleBilletesCtvTitle_detalleBilletesCtvDocumentos}" required="true" requiredMessage="#{bundle.EditDetalleBilletesCtvRequiredMessage_detalleBilletesCtvDocumentos}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleBilletesCtvLabel_detalleBilletesCtvEfectivo}" for="detalleBilletesCtvEfectivo" />
+                        <p:inputText id="detalleBilletesCtvEfectivo" value="#{detalleBilletesCtvController.selected.detalleBilletesCtvEfectivo}" title="#{bundle.EditDetalleBilletesCtvTitle_detalleBilletesCtvEfectivo}" required="true" requiredMessage="#{bundle.EditDetalleBilletesCtvRequiredMessage_detalleBilletesCtvEfectivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleBilletesCtvLabel_detalleBilletesCtvTotalBolsa}" for="detalleBilletesCtvTotalBolsa" />
+                        <p:inputText id="detalleBilletesCtvTotalBolsa" value="#{detalleBilletesCtvController.selected.detalleBilletesCtvTotalBolsa}" title="#{bundle.EditDetalleBilletesCtvTitle_detalleBilletesCtvTotalBolsa}" required="true" requiredMessage="#{bundle.EditDetalleBilletesCtvRequiredMessage_detalleBilletesCtvTotalBolsa}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleBilletesCtvLabel_detalleBilletesCtvIdCtvResumen}" for="detalleBilletesCtvIdCtvResumen" />
+                        <p:selectOneMenu id="detalleBilletesCtvIdCtvResumen" value="#{detalleBilletesCtvController.selected.detalleBilletesCtvIdCtvResumen}" required="true" requiredMessage="#{bundle.EditDetalleBilletesCtvRequiredMessage_detalleBilletesCtvIdCtvResumen}" converter="ctvResumenConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ctvResumenController.items}"
+                                           var="detalleBilletesCtvIdCtvResumenItem"
+                                           itemValue="#{detalleBilletesCtvIdCtvResumenItem}"
+                                           itemLabel="#{detalleBilletesCtvIdCtvResumenItem.ctvResumenId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleBilletesCtvController.save}" value="#{bundle.Save}" update="display,:DetalleBilletesCtvListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleBilletesCtvEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DetalleBilletesCtvEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

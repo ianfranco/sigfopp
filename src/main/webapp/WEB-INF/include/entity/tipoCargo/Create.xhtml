@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoCargoCreateDlg" widgetVar="TipoCargoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoCargoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCargoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoCargoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_tipoCargoNombre}" for="tipoCargoNombre" />
+                        <p:inputText id="tipoCargoNombre" value="#{tipoCargoController.selected.tipoCargoNombre}" title="#{bundle.CreateTipoCargoTitle_tipoCargoNombre}" required="true" requiredMessage="#{bundle.CreateTipoCargoRequiredMessage_tipoCargoNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_tipoCargoMontoDefecto}" for="tipoCargoMontoDefecto" />
+                        <p:inputText id="tipoCargoMontoDefecto" value="#{tipoCargoController.selected.tipoCargoMontoDefecto}" title="#{bundle.CreateTipoCargoTitle_tipoCargoMontoDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoCargoLabel_tipoCargoFechaIngreso}" for="tipoCargoFechaIngreso" />
+                        <p:calendar id="tipoCargoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoCargoController.selected.tipoCargoFechaIngreso}" title="#{bundle.CreateTipoCargoTitle_tipoCargoFechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoCargoRequiredMessage_tipoCargoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoCargoController.saveNew}" value="#{bundle.Save}" update="display,:TipoCargoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoCargoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoCargoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

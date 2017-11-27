@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoDescuentoTrabajadorEditDlg" widgetVar="TipoDescuentoTrabajadorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoDescuentoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDescuentoTrabajadorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoDescuentoTrabajadorController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorId}" for="tipoDescuentoTrabajadorId" />
+                        <h:outputText id="tipoDescuentoTrabajadorId" value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorNombre}" for="tipoDescuentoTrabajadorNombre" />
+                        <p:inputText id="tipoDescuentoTrabajadorNombre" value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorNombre}" title="#{bundle.EditTipoDescuentoTrabajadorTitle_tipoDescuentoTrabajadorNombre}" required="true" requiredMessage="#{bundle.EditTipoDescuentoTrabajadorRequiredMessage_tipoDescuentoTrabajadorNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorMontoDefecto}" for="tipoDescuentoTrabajadorMontoDefecto" />
+                        <p:inputText id="tipoDescuentoTrabajadorMontoDefecto" value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorMontoDefecto}" title="#{bundle.EditTipoDescuentoTrabajadorTitle_tipoDescuentoTrabajadorMontoDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorFechaIngreso}" for="tipoDescuentoTrabajadorFechaIngreso" />
+                        <p:calendar id="tipoDescuentoTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorFechaIngreso}" title="#{bundle.EditTipoDescuentoTrabajadorTitle_tipoDescuentoTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoDescuentoTrabajadorRequiredMessage_tipoDescuentoTrabajadorFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDescuentoTrabajadorController.save}" value="#{bundle.Save}" update="display,:TipoDescuentoTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoDescuentoTrabajadorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoDescuentoTrabajadorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

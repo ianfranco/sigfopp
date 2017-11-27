@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoCajaTerminalCreateDlg" widgetVar="EgresoCajaTerminalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEgresoCajaTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoCajaTerminalCreateForm">
+
+                <h:panelGroup id="display" rendered="#{egresoCajaTerminalController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaTerminalValorDefecto}" for="egresoCajaTerminalValorDefecto" />
+                        <p:inputText id="egresoCajaTerminalValorDefecto" value="#{egresoCajaTerminalController.selected.egresoCajaTerminalValorDefecto}" title="#{bundle.CreateEgresoCajaTerminalTitle_egresoCajaTerminalValorDefecto}" required="true" requiredMessage="#{bundle.CreateEgresoCajaTerminalRequiredMessage_egresoCajaTerminalValorDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaTerminalPorcentaje}" for="egresoCajaTerminalPorcentaje" />
+                        <p:inputText id="egresoCajaTerminalPorcentaje" value="#{egresoCajaTerminalController.selected.egresoCajaTerminalPorcentaje}" title="#{bundle.CreateEgresoCajaTerminalTitle_egresoCajaTerminalPorcentaje}" required="true" requiredMessage="#{bundle.CreateEgresoCajaTerminalRequiredMessage_egresoCajaTerminalPorcentaje}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaTerminalNumeroOrden}" for="egresoCajaTerminalNumeroOrden" />
+                        <p:inputText id="egresoCajaTerminalNumeroOrden" value="#{egresoCajaTerminalController.selected.egresoCajaTerminalNumeroOrden}" title="#{bundle.CreateEgresoCajaTerminalTitle_egresoCajaTerminalNumeroOrden}" required="true" requiredMessage="#{bundle.CreateEgresoCajaTerminalRequiredMessage_egresoCajaTerminalNumeroOrden}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaActivo}" for="egresoCajaActivo" />
+                        <p:selectBooleanCheckbox id="egresoCajaActivo" value="#{egresoCajaTerminalController.selected.egresoCajaActivo}" required="true" requiredMessage="#{bundle.CreateEgresoCajaTerminalRequiredMessage_egresoCajaActivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaTerminalFechaIngreso}" for="egresoCajaTerminalFechaIngreso" />
+                        <p:calendar id="egresoCajaTerminalFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoCajaTerminalController.selected.egresoCajaTerminalFechaIngreso}" title="#{bundle.CreateEgresoCajaTerminalTitle_egresoCajaTerminalFechaIngreso}" required="true" requiredMessage="#{bundle.CreateEgresoCajaTerminalRequiredMessage_egresoCajaTerminalFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaTerminalFechaActualizacion}" for="egresoCajaTerminalFechaActualizacion" />
+                        <p:calendar id="egresoCajaTerminalFechaActualizacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoCajaTerminalController.selected.egresoCajaTerminalFechaActualizacion}" title="#{bundle.CreateEgresoCajaTerminalTitle_egresoCajaTerminalFechaActualizacion}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaTerminalIdEgreso}" for="egresoCajaTerminalIdEgreso" />
+                        <p:selectOneMenu id="egresoCajaTerminalIdEgreso" value="#{egresoCajaTerminalController.selected.egresoCajaTerminalIdEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoCajaTerminalRequiredMessage_egresoCajaTerminalIdEgreso}" converter="egresoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoCajaTerminalIdEgresoItem"
+                                           itemValue="#{egresoCajaTerminalIdEgresoItem}"
+                                           itemLabel="#{egresoCajaTerminalIdEgresoItem.egresoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaTerminalLabel_egresoCajaTerminalIdCajaTerminal}" for="egresoCajaTerminalIdCajaTerminal" />
+                        <p:selectOneMenu id="egresoCajaTerminalIdCajaTerminal" value="#{egresoCajaTerminalController.selected.egresoCajaTerminalIdCajaTerminal}" required="true" requiredMessage="#{bundle.CreateEgresoCajaTerminalRequiredMessage_egresoCajaTerminalIdCajaTerminal}" converter="cajaTerminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cajaTerminalController.items}"
+                                           var="egresoCajaTerminalIdCajaTerminalItem"
+                                           itemValue="#{egresoCajaTerminalIdCajaTerminalItem}"
+                                           itemLabel="#{egresoCajaTerminalIdCajaTerminalItem.cajaTerminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoCajaTerminalController.saveNew}" value="#{bundle.Save}" update="display,:EgresoCajaTerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoCajaTerminalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoCajaTerminalCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <h:form id="EgresoCajaRecaudacionListForm" class="form-height">
+        <p:panel>
+            <f:facet name="header">
+                Procesos x Cajas de Recaudación
+            </f:facet>
+            <p:panelGrid columns="5" style="margin-bottom: 10px;width: 100%;">
+                <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" />
+                <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{cajaProcesoController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{cajaTerminalController.items}"
+                                   var="busIdFlotaItem"
+                                   itemValue="#{busIdFlotaItem}"
+                                   itemLabel="#{busIdFlotaItem.cajaRecaudacionNombre}"
+                                   />
+                </p:selectOneMenu>
+                <p:commandButton value="Buscar" id="addButton" actionListener="#{cajaProcesoController.find(event)}" styleClass="ui-priority-primary" update="datalist, growl" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>                
+            </p:panelGrid>
+            <p:dataTable id="datalist"
+                         value="#{cajaProcesoController.model}"
+                         widgetVar="datalist"
+                         var="item"
+                         rowKey="#{item.cajaProcesoId}"
+                         selection="#{cajaProcesoController.selected}"
+                         selectionMode="single"
+                         rowIndexVar="rowIndex"                         
+                         emptyMessage="No se han encontrado registros">
+
+                <f:facet name="header">
+                    Detalle x Caja #{cajaProcesoController.cajaRecaudacion.cajaRecaudacionNombre}
+                </f:facet>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputLabel value="#{rowIndex+1}"/>
+                </p:column>
+
+                
+                <p:column sortBy="#{item.cajaProcesoIdProceso.procesoRecaudacionNombre}" filterBy="#{item.cajaProcesoIdProceso.procesoRecaudacionNombre}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Proceso"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.cajaProcesoIdProceso.procesoRecaudacionNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaProcesoActivo}" filterBy="#{item.cajaProcesoActivo}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Activo"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox id="cajaProcesoActivo" value="#{item.cajaProcesoActivo}" title="#{myBundle.EditCajaProcesoTitle_cajaProcesoActivo}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.lastUpdate}" filterBy="#{item.lastUpdate}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="F.Ingreso"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.lastUpdate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputLabel>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaProcesoFechaActualizacion}" filterBy="#{item.cajaProcesoFechaActualizacion}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="F.Actualización"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.cajaProcesoFechaActualizacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputLabel>
+                </p:column>
+
+
+                <f:facet name="footer">
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-save" value="Guardar" update="datalist, :growl" disabled="#{empty cajaProcesoController.cajaRecaudacion}" actionListener="#{cajaProcesoController.save}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Actualizar los procesos?" icon="fa fa-warning"/>
+                    </p:commandButton>                    
+                </f:facet>
+
+            </p:dataTable>
+        </p:panel>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

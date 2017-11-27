@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RelacionLaboralViewDlg" widgetVar="RelacionLaboralViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewRelacionLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="RelacionLaboralViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{relacionLaboralController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralId}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralId}" title="#{bundle.ViewRelacionLaboralTitle_relacionLaboralId}"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralFechaInicio}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralFechaInicio}" title="#{bundle.ViewRelacionLaboralTitle_relacionLaboralFechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralFechaFin}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralFechaFin}" title="#{bundle.ViewRelacionLaboralTitle_relacionLaboralFechaFin}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralSueldoBase}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralSueldoBase}" title="#{bundle.ViewRelacionLaboralTitle_relacionLaboralSueldoBase}"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralActivo}"/>
+                        <h:selectBooleanCheckbox id="relacionLaboralActivo" value="#{relacionLaboralController.selected.relacionLaboralActivo}" title="#{bundle.EditRelacionLaboralTitle_relacionLaboralActivo}" required="true" requiredMessage="#{bundle.EditRelacionLaboralRequiredMessage_relacionLaboralActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralFechaIngreso}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralFechaIngreso}" title="#{bundle.ViewRelacionLaboralTitle_relacionLaboralFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralIdTerminal}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralIdTerminal.terminalId}"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralIdTipoContrato}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralIdTipoContrato.tipoContratoId}"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralIdEmpresa}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralIdEmpresa.empresaId}"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralIdOperador}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralIdOperador.operadorTransporteId}"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralIdTrabajador}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralIdTrabajador.trabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewRelacionLaboralLabel_relacionLaboralIdTipoTrabajador}"/>
+                        <h:outputText value="#{relacionLaboralController.selected.relacionLaboralIdTipoTrabajador.tipoTrabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('RelacionLaboralViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

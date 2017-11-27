@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ModeloMarcaBusListForm">
+
+        <p:panel header="#{bundle.ListModeloMarcaBusTitle}">
+            <p:contextMenu id="ModeloMarcaBusDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ModeloMarcaBusListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ModeloMarcaBusListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ModeloMarcaBusListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ModeloMarcaBusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ModeloMarcaBusMenuItem_modeloMarcaBusIdMarca}" icon="ui-icon-search"  actionListener="#{modeloMarcaBusController.prepareModeloMarcaBusIdMarca}" update=":MarcaBusViewForm" oncomplete="PF('MarcaBusViewDialog').show()" disabled="#{empty modeloMarcaBusController.selected.modeloMarcaBusIdMarca}"/>  
+                <p:menuitem value="#{bundle.ModeloMarcaBusMenuItem_busList}" icon="ui-icon-search"  action="#{modeloMarcaBusController.navigateBusList}" disabled="#{empty modeloMarcaBusController.selected.busList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{modeloMarcaBusController.items}"
+                         lazy="false"
+                         rowKey="#{item.modeloMarcaBusId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{modeloMarcaBusController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{modeloMarcaBusController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.modeloMarcaBusId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ModeloMarcaBusDataTableContextMenu" listener="#{modeloMarcaBusController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ModeloMarcaBusDataTableContextMenu" listener="#{modeloMarcaBusController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{modeloMarcaBusController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ModeloMarcaBusListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.modeloMarcaBusId}" filterBy="#{item.modeloMarcaBusId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListModeloMarcaBusTitle_modeloMarcaBusId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modeloMarcaBusId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.modeloMarcaBusNombre}" filterBy="#{item.modeloMarcaBusNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListModeloMarcaBusTitle_modeloMarcaBusNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modeloMarcaBusNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.modeloMarcaBusFechaIngreso}" filterBy="#{item.modeloMarcaBusFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListModeloMarcaBusTitle_modeloMarcaBusFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modeloMarcaBusFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.modeloMarcaBusIdMarca.marcaBusId}" filterBy="#{item.modeloMarcaBusIdMarca.marcaBusId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListModeloMarcaBusTitle_modeloMarcaBusIdMarca}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.modeloMarcaBusIdMarca.marcaBusId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{modeloMarcaBusController.prepareCreate}" update=":ModeloMarcaBusCreateForm" oncomplete="PF('ModeloMarcaBusCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ModeloMarcaBusViewForm" oncomplete="PF('ModeloMarcaBusViewDialog').show()" disabled="#{empty modeloMarcaBusController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ModeloMarcaBusEditForm" oncomplete="PF('ModeloMarcaBusEditDialog').show()" disabled="#{empty modeloMarcaBusController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{modeloMarcaBusController.delete}" update=":growl,datalist" disabled="#{empty modeloMarcaBusController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

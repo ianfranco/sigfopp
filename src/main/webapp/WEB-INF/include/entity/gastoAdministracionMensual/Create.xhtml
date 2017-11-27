@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GastoAdministracionMensualCreateDlg" widgetVar="GastoAdministracionMensualCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateGastoAdministracionMensualTitle}" closeOnEscape="true">
+
+            <h:form id="GastoAdministracionMensualCreateForm">
+
+                <h:panelGroup id="display" rendered="#{gastoAdministracionMensualController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateGastoAdministracionMensualLabel_gastoAdministracionMensualFolio}" for="gastoAdministracionMensualFolio" />
+                        <p:inputText id="gastoAdministracionMensualFolio" value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualFolio}" title="#{bundle.CreateGastoAdministracionMensualTitle_gastoAdministracionMensualFolio}" required="true" requiredMessage="#{bundle.CreateGastoAdministracionMensualRequiredMessage_gastoAdministracionMensualFolio}"/>
+
+                        <p:outputLabel value="#{bundle.CreateGastoAdministracionMensualLabel_gastoAdministracionMensualNombre}" for="gastoAdministracionMensualNombre" />
+                        <p:inputText id="gastoAdministracionMensualNombre" value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualNombre}" title="#{bundle.CreateGastoAdministracionMensualTitle_gastoAdministracionMensualNombre}" required="true" requiredMessage="#{bundle.CreateGastoAdministracionMensualRequiredMessage_gastoAdministracionMensualNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateGastoAdministracionMensualLabel_gastoAdministracionMensualFechaGasto}" for="gastoAdministracionMensualFechaGasto" />
+                        <p:calendar id="gastoAdministracionMensualFechaGasto" pattern="MM/dd/yyyy" value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualFechaGasto}" title="#{bundle.CreateGastoAdministracionMensualTitle_gastoAdministracionMensualFechaGasto}" required="true" requiredMessage="#{bundle.CreateGastoAdministracionMensualRequiredMessage_gastoAdministracionMensualFechaGasto}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateGastoAdministracionMensualLabel_gastoAdministracionMensualValor}" for="gastoAdministracionMensualValor" />
+                        <p:inputText id="gastoAdministracionMensualValor" value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualValor}" title="#{bundle.CreateGastoAdministracionMensualTitle_gastoAdministracionMensualValor}" required="true" requiredMessage="#{bundle.CreateGastoAdministracionMensualRequiredMessage_gastoAdministracionMensualValor}"/>
+
+                        <p:outputLabel value="#{bundle.CreateGastoAdministracionMensualLabel_gastoAdministracionMensualObservacion}" for="gastoAdministracionMensualObservacion" />
+                        <p:inputTextarea rows="4" cols="30" id="gastoAdministracionMensualObservacion" value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualObservacion}" title="#{bundle.CreateGastoAdministracionMensualTitle_gastoAdministracionMensualObservacion}" />
+
+                        <p:outputLabel value="#{bundle.CreateGastoAdministracionMensualLabel_gastoAdministracionMensualFechaIngreso}" for="gastoAdministracionMensualFechaIngreso" />
+                        <p:calendar id="gastoAdministracionMensualFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualFechaIngreso}" title="#{bundle.CreateGastoAdministracionMensualTitle_gastoAdministracionMensualFechaIngreso}" required="true" requiredMessage="#{bundle.CreateGastoAdministracionMensualRequiredMessage_gastoAdministracionMensualFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateGastoAdministracionMensualLabel_gastoAdministracionMensualIdDepartamento}" for="gastoAdministracionMensualIdDepartamento" />
+                        <p:selectOneMenu id="gastoAdministracionMensualIdDepartamento" value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualIdDepartamento}" required="true" requiredMessage="#{bundle.CreateGastoAdministracionMensualRequiredMessage_gastoAdministracionMensualIdDepartamento}" converter="departamentoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{departamentoController.items}"
+                                           var="gastoAdministracionMensualIdDepartamentoItem"
+                                           itemValue="#{gastoAdministracionMensualIdDepartamentoItem}"
+                                           itemLabel="#{gastoAdministracionMensualIdDepartamentoItem.departamentoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{gastoAdministracionMensualController.saveNew}" value="#{bundle.Save}" update="display,:GastoAdministracionMensualListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GastoAdministracionMensualCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GastoAdministracionMensualCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

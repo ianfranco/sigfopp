@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoProcesoRecaudacionEditDlg" widgetVar="EgresoProcesoRecaudacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Agregar Egreso a Proceso: #{egresoProcesoRecaudacionController.procesoRecaudacion.procesoRecaudacionNombre}" closeOnEscape="true">
+
+            <h:form id="EgresoProcesoRecaudacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoProcesoRecaudacionController.selected != null}">
+                        <p:outputLabel value="Egreso" for="egresoCajaRecaudacionIdEgreso" />
+                        <p:selectOneMenu id="egresoCajaRecaudacionIdEgreso" value="#{egresoProcesoRecaudacionController.selected.egresoProcesoRecaudacionIdEgreso}" required="true" requiredMessage="Debe seleccionar el egreso" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoCajaRecaudacionIdEgresoItem"
+                                           itemValue="#{egresoCajaRecaudacionIdEgresoItem}"
+                                           itemLabel="#{egresoCajaRecaudacionIdEgresoItem.egresoNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Valor x Defecto" for="egresoCajaRecaudacionValorDefecto" />
+                        <p:inputText id="egresoCajaRecaudacionValorDefecto" value="#{egresoProcesoRecaudacionController.selected.egresoProcesoRecaudacionValorDefecto}" title="#{bundle.EditEgresoCajaRecaudacionTitle_egresoCajaRecaudacionValorDefecto}" required="true" requiredMessage="Debe ingresar un valor"/>
+
+                        <p:outputLabel value="Porcentaje" for="egresoCajaRecaudacionPorcentaje" />
+                        <p:inputText id="egresoCajaRecaudacionPorcentaje" value="#{egresoProcesoRecaudacionController.selected.egresoProcesoRecaudacionPorcentaje}" title="Debe ingresar un valor" required="true" requiredMessage="Debe ingresar un valor"/>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoProcesoRecaudacionController.saveNew(event)}" value="#{bundle.Save}" update="display,:EgresoProcesoRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoProcesoRecaudacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoProcesoRecaudacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

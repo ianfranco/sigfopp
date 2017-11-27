@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <h:form id="VentaCombustibleListForm" class="form-height">
+
+        <p:contextMenu id="VentaCombustibleDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('VentaCombustibleListForm:datalist:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('VentaCombustibleListForm:datalist:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('VentaCombustibleListForm:datalist:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('VentaCombustibleListForm:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+        </p:contextMenu>
+        <p:panel header="Recaudación Extra" id="resumen" style="padding-bottom: 10px;">
+            <p:panelGrid columns="9" >
+
+                <p:outputLabel value="Fecha" for="fechaRecaudacionPetroleo" />
+                <p:calendar id="fechaRecaudacionPetroleo" pattern="dd/MM/yyyy" value="#{recaudacionExtraController.fechaRecaudacion}" required="true" requiredMessage="Debe seleccionar la fecha" locale="es" >
+                    <p:ajax event="valueChange" update="loadButton"/>
+                </p:calendar>
+
+                <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" style="text-align: right;"/>
+                <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{recaudacionExtraController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{recaudacionExtraController.cajaRecaudacionItems}"
+                                   var="cajaId"
+                                   itemValue="#{cajaId}"
+                                   itemLabel="#{cajaId.cajaRecaudacionNombre}"
+                                   />                    
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Total: "/>
+                <p:outputLabel id="formatTotal" value="#{recaudacionExtraController.getFormatValue(recaudacionExtraController.totalRecaudacion)}" />
+
+                <p:outputLabel value="N° de Recaudación: "/>
+                <p:outputLabel id="numeroRecaudacion" value="#{recaudacionExtraController.items.size()>0?recaudacionExtraController.items.size():0}"/>
+
+                <p:commandButton id="loadButton" styleClass="btn btn-primary" icon="fa fa-search" value="Buscar" update="VentaCombustibleListForm:datalist, formatTotal, numeroRecaudacion, VentaCombustibleListForm:datalist:createButton" actionListener="#{recaudacionExtraController.load}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+
+                <p:outputLabel value="Impresión?: " />
+                <p:selectBooleanCheckbox value="#{recaudacionExtraController.print}" />
+
+            </p:panelGrid>
+
+            <p:dataTable id="datalist"
+                         value="#{recaudacionExtraController.recaudacionExtraDataModel}"                     
+                         selection="#{recaudacionExtraController.selected}"
+                         scrollHeight="500" 
+                         scrollable="false" 
+                         widgetVar="datalistWidget"
+                         var="item"
+                         rowKey="#{item.recaudacionExtraId}"
+                         selectionMode="single"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado registros"
+                         style="padding-top: 10px;">
+
+                <p:ajax event="colResize" listener="#{recaudacionExtraController.onResize}"/>
+                <p:ajax event="rowSelect" update=":VentaCombustibleListForm:ficha, :VentaCombustibleListForm:datalist:createButton,:VentaCombustibleListForm:datalist:viewButton,:VentaCombustibleListForm:datalist:editButton,:VentaCombustibleListForm:datalist:deleteButton,:VentaCombustibleListForm:datalist:printer, :VentaCombustibleListForm:VentaCombustibleDataTableContextMenu" global="false" listener="#{recaudacionExtraController.load}" />
+                <p:ajax event="rowUnselect" update=":VentaCombustibleListForm:ficha, :VentaCombustibleListForm:datalist:createButton,:VentaCombustibleListForm:datalist:viewButton,:VentaCombustibleListForm:datalist:editButton,:VentaCombustibleListForm:datalist:deleteButton,:VentaCombustibleListForm:datalist:printer,:VentaCombustibleListForm:VentaCombustibleDataTableContextMenu" global="false"/>
+
+                <f:facet name="header">
+                    <div class="row row-nomargin">
+                        <div class="col-lg-3">
+                            <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                        </div>
+                        <div class="col-lg-6">
+                            Recaudación al: <p:outputLabel value="#{recaudacionExtraController.fechaRecaudacion}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>                            
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="pull-right">
+                                <h:commandLink value="Excel" styleClass="btn btn-primary" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionExtraController.items}">
+                                    <p:dataExporter type="xls" target="VentaCombustibleListForm:datalist" fileName="Registro de Minutos" pageOnly="true"/>
+                                </h:commandLink>
+                                <h:commandLink value="PDF" styleClass="btn btn-primary" actionListener="#{recaudacionExtraController.exportPdf2(actionEvent)}" id="pdf" target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionExtraController.items}"/>
+                                <h:commandLink value="Impresión" styleClass="btn btn-primary" actionListener="#{recaudacionExtraController.exportPdf2(actionEvent)}"  target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionExtraController.items}">
+                                    <p:printer target="VentaCombustibleListForm:datalist" />
+                                </h:commandLink>
+                            </div>
+                        </div>
+                    </div>
+                </f:facet>
+
+                <f:facet name="header">
+
+                </f:facet>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputLabel value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.recaudacionExtraNombre}" filterBy="#{item.recaudacionExtraNombre}" style="text-align: center; font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.recaudacionExtraNombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.recaudacionExtraMonto}" footerText="#{recaudacionExtraController.getFormatValue(recaudacionExtraController.totalRecaudacion)}" filterBy="#{item.recaudacionExtraMonto}" style="text-align: center; font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="Monto"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.recaudacionExtraMonto}" >
+                        <f:convertNumber currencySymbol="$" />
+                    </h:outputLabel>                
+                </p:column>
+
+                <p:column sortBy="#{item.recaudacionExtraIdRecaudacion.recaudacionHora}" filterBy="#{item.recaudacionExtraIdRecaudacion.recaudacionHora}" style="text-align: center; font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="Hora Recaudación"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.recaudacionExtraIdRecaudacion.recaudacionHora}" >
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputLabel>                
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus" disabled="#{empty recaudacionExtraController.cajaRecaudacion}"  value="#{bundle.Create}" actionListener="#{recaudacionExtraController.prepareCreate(event)}" update=":VentaCombustibleCreateForm" oncomplete="PF('VentaCombustibleCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":VentaCombustibleViewForm" oncomplete="PF('VentaCombustibleViewDialog').show()" disabled="#{empty recaudacionExtraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":VentaCombustibleEditForm" oncomplete="PF('VentaCombustibleEditDialog').show()" disabled="#{empty recaudacionExtraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="Cancelar Recaudación" actionListener="#{recaudacionExtraController.delete}" update=":growl,datalist, :VentaCombustibleListForm:resumen" disabled="#{empty recaudacionExtraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                    <p:commandButton id="printer" value="Imprimir Vale" update=":VentaCombustibleListForm:ficha" icon="fa fa-print" styleClass="btn btn-primary" disabled="#{empty recaudacionExtraController.selected or !recaudacionExtraController.print}">
+                        <p:printer target=":VentaCombustibleListForm:ficha"/>
+                    </p:commandButton>                    
+                    <p:selectBooleanButton id="value1" style="visibility: hidden" styleClass="btn btn-primary" value="#{booleanBarController.status}"  onLabel="Ocultar Deudas"  offLabel="Mostrar Deudas" onIcon="fa fa-arrow-down" offIcon="fa fa-arrow-up">
+                        <p:ajax listener="#{booleanBarController.onChange}" />
+                    </p:selectBooleanButton>
+                </f:facet>
+            </p:dataTable>
+        </p:panel>
+
+        <p:panel id="noprint" style="visibility: hidden">
+            <h:panelGrid id="ficha">
+                <h:outputLabel value="Recaudación Petroleo" style="text-align: center;font-size: 25px; width: 100%;"/>
+                <h:outputLabel value="Ñandu Tur S.A." style="text-align: center;font-size: 15px;width: 100%;"/>
+
+                <h:panelGrid id="f" style="maring-top: 20px;" columns="2">
+                    
+                </h:panelGrid>
+
+                <table style="width:100%">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Monto</th>
+                    </tr>
+                    
+                </table>
+
+            </h:panelGrid>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

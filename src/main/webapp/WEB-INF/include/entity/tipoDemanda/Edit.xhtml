@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoDemandaEditDlg" widgetVar="TipoDemandaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoDemandaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDemandaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoDemandaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoDemandaLabel_tipoDemandaId}" for="tipoDemandaId" />
+                        <h:outputText id="tipoDemandaId" value="#{tipoDemandaController.selected.tipoDemandaId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoDemandaLabel_tipoDemandaNombre}" for="tipoDemandaNombre" />
+                        <p:inputText id="tipoDemandaNombre" value="#{tipoDemandaController.selected.tipoDemandaNombre}" title="#{bundle.EditTipoDemandaTitle_tipoDemandaNombre}" required="true" requiredMessage="#{bundle.EditTipoDemandaRequiredMessage_tipoDemandaNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoDemandaLabel_tipoDemandaFechaIngreso}" for="tipoDemandaFechaIngreso" />
+                        <p:calendar id="tipoDemandaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoDemandaController.selected.tipoDemandaFechaIngreso}" title="#{bundle.EditTipoDemandaTitle_tipoDemandaFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoDemandaRequiredMessage_tipoDemandaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDemandaController.save}" value="#{bundle.Save}" update="display,:TipoDemandaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoDemandaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoDemandaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

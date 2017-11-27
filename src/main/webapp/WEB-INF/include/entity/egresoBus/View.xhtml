@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoBusViewDlg" widgetVar="EgresoBusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoBusTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoBusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoBusController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusId}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusId}" title="#{bundle.ViewEgresoBusTitle_egresoBusId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusValorDefecto}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusValorDefecto}" title="#{bundle.ViewEgresoBusTitle_egresoBusValorDefecto}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusPorcentaje}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusPorcentaje}" title="#{bundle.ViewEgresoBusTitle_egresoBusPorcentaje}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusNumeroOrden}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusNumeroOrden}" title="#{bundle.ViewEgresoBusTitle_egresoBusNumeroOrden}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusActivo}"/>
+                        <h:selectBooleanCheckbox id="egresoBusActivo" value="#{egresoBusController.selected.egresoBusActivo}" title="#{bundle.EditEgresoBusTitle_egresoBusActivo}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusFechaIngreso}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusFechaIngreso}" title="#{bundle.ViewEgresoBusTitle_egresoBusFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusFechaActualizacion}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusFechaActualizacion}" title="#{bundle.ViewEgresoBusTitle_egresoBusFechaActualizacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusIdEgreso}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusIdEgreso.egresoId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoBusLabel_egresoBusIdBus}"/>
+                        <h:outputText value="#{egresoBusController.selected.egresoBusIdBus.busId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoBusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

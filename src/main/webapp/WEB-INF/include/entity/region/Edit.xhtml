@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RegionEditDlg" widgetVar="RegionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRegionTitle}" closeOnEscape="true">
+
+            <h:form id="RegionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{regionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRegionLabel_regionId}" for="regionId" />
+                        <h:outputText id="regionId" value="#{regionController.selected.regionId}" />
+
+                        <p:outputLabel value="#{bundle.EditRegionLabel_regionNumero}" for="regionNumero" />
+                        <p:inputText id="regionNumero" value="#{regionController.selected.regionNumero}" title="#{bundle.EditRegionTitle_regionNumero}" required="true" requiredMessage="#{bundle.EditRegionRequiredMessage_regionNumero}"/>
+
+                        <p:outputLabel value="#{bundle.EditRegionLabel_regionNombre}" for="regionNombre" />
+                        <p:inputText id="regionNombre" value="#{regionController.selected.regionNombre}" title="#{bundle.EditRegionTitle_regionNombre}" required="true" requiredMessage="#{bundle.EditRegionRequiredMessage_regionNombre}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{regionController.save}" value="#{bundle.Save}" update="display,:RegionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RegionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RegionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

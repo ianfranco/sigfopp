@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ObservacionTrabajadorViewDlg" widgetVar="ObservacionTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewObservacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="ObservacionTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{observacionTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewObservacionTrabajadorLabel_observacionTrabajadorId}"/>
+                        <h:outputText value="#{observacionTrabajadorController.selected.observacionTrabajadorId}" title="#{bundle.ViewObservacionTrabajadorTitle_observacionTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewObservacionTrabajadorLabel_observacionTrabajadorFecha}"/>
+                        <h:outputText value="#{observacionTrabajadorController.selected.observacionTrabajadorFecha}" title="#{bundle.ViewObservacionTrabajadorTitle_observacionTrabajadorFecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewObservacionTrabajadorLabel_observacionTrabajadorDescripcion}"/>
+                        <h:outputText value="#{observacionTrabajadorController.selected.observacionTrabajadorDescripcion}" title="#{bundle.ViewObservacionTrabajadorTitle_observacionTrabajadorDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewObservacionTrabajadorLabel_observacionTrabajadorDetalle}"/>
+                        <h:outputText value="#{observacionTrabajadorController.selected.observacionTrabajadorDetalle}" title="#{bundle.ViewObservacionTrabajadorTitle_observacionTrabajadorDetalle}"/>
+
+                        <h:outputText value="#{bundle.ViewObservacionTrabajadorLabel_observacionTrabajadorFechaIngreso}"/>
+                        <h:outputText value="#{observacionTrabajadorController.selected.observacionTrabajadorFechaIngreso}" title="#{bundle.ViewObservacionTrabajadorTitle_observacionTrabajadorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewObservacionTrabajadorLabel_observacionTrabajadorIdTipoObservacion}"/>
+                        <h:outputText value="#{observacionTrabajadorController.selected.observacionTrabajadorIdTipoObservacion.tipoObservacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewObservacionTrabajadorLabel_observacionTrabajadorIdTrabajador}"/>
+                        <h:outputText value="#{observacionTrabajadorController.selected.observacionTrabajadorIdTrabajador.trabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ObservacionTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

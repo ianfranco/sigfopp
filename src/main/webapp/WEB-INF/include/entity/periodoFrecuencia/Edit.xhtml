@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PeriodoFrecuenciaEditDlg" widgetVar="PeriodoFrecuenciaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditPeriodoFrecuenciaTitle}" closeOnEscape="true">
+
+            <h:form id="PeriodoFrecuenciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{periodoFrecuenciaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditPeriodoFrecuenciaLabel_periodoFrecuenciaId}" for="periodoFrecuenciaId" />
+                        <h:outputText id="periodoFrecuenciaId" value="#{periodoFrecuenciaController.selected.periodoFrecuenciaId}" />
+
+                        <p:outputLabel value="#{bundle.EditPeriodoFrecuenciaLabel_periodoFrecuenciaDesde}" for="periodoFrecuenciaDesde" />
+                        <p:calendar id="periodoFrecuenciaDesde" pattern="HH:mm:ss" value="#{periodoFrecuenciaController.selected.periodoFrecuenciaDesde}" title="#{bundle.EditPeriodoFrecuenciaTitle_periodoFrecuenciaDesde}" required="true" requiredMessage="#{bundle.EditPeriodoFrecuenciaRequiredMessage_periodoFrecuenciaDesde}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditPeriodoFrecuenciaLabel_periodoFrecuenciaHasta}" for="periodoFrecuenciaHasta" />
+                        <p:calendar id="periodoFrecuenciaHasta" pattern="HH:mm:ss" value="#{periodoFrecuenciaController.selected.periodoFrecuenciaHasta}" title="#{bundle.EditPeriodoFrecuenciaTitle_periodoFrecuenciaHasta}" required="true" requiredMessage="#{bundle.EditPeriodoFrecuenciaRequiredMessage_periodoFrecuenciaHasta}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditPeriodoFrecuenciaLabel_periodoFrecuenciaFechaIngreso}" for="periodoFrecuenciaFechaIngreso" />
+                        <p:calendar id="periodoFrecuenciaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{periodoFrecuenciaController.selected.periodoFrecuenciaFechaIngreso}" title="#{bundle.EditPeriodoFrecuenciaTitle_periodoFrecuenciaFechaIngreso}" required="true" requiredMessage="#{bundle.EditPeriodoFrecuenciaRequiredMessage_periodoFrecuenciaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{periodoFrecuenciaController.save}" value="#{bundle.Save}" update="display,:PeriodoFrecuenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PeriodoFrecuenciaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PeriodoFrecuenciaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

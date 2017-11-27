@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ControlServicioViewDlg" widgetVar="ControlServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewControlServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ControlServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{controlServicioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_controlServicioIdControlServicio}"/>
+                        <h:outputText value="#{controlServicioController.selected.controlServicioIdControlServicio}" title="#{bundle.ViewControlServicioTitle_controlServicioIdControlServicio}"/>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_controlServicioTiempo}"/>
+                        <h:outputText value="#{controlServicioController.selected.controlServicioTiempo}" title="#{bundle.ViewControlServicioTitle_controlServicioTiempo}">
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_controlServicioNumeroOrden}"/>
+                        <h:outputText value="#{controlServicioController.selected.controlServicioNumeroOrden}" title="#{bundle.ViewControlServicioTitle_controlServicioNumeroOrden}"/>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_controlServicioFechaIngreso}"/>
+                        <h:outputText value="#{controlServicioController.selected.controlServicioFechaIngreso}" title="#{bundle.ViewControlServicioTitle_controlServicioFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_controlServicioIdControl}"/>
+                        <h:outputText value="#{controlServicioController.selected.controlServicioIdControl.controlId}"/>
+
+                        <h:outputText value="#{bundle.ViewControlServicioLabel_controlServicioIdServicio}"/>
+                        <h:outputText value="#{controlServicioController.selected.controlServicioIdServicio.servicioId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ControlServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

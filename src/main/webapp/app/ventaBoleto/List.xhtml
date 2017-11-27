@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+
+    <p:panel header="Venta de Boletos">
+        <h:form id="selector">
+            <p:panelGrid columns="5" style="padding-bottom: 10px;">
+                <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" style="text-align: right;"/>
+                <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{ventaBoletoRecaudacionController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{ventaBoletoRecaudacionController.cajaRecaudacionList}"
+                                   var="cajaId"
+                                   itemValue="#{cajaId}"
+                                   itemLabel="#{cajaId.cajaRecaudacionNombre}"
+                                   />                    
+                </p:selectOneMenu>
+
+                <p:commandButton id="okButton" styleClass="btn btn-primary" icon="fa fa-search" value="Buscar Ventas de Boletos" actionListener="#{ventaBoletoRecaudacionController.load}" update="VentaBoletoListForm:datalist"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()" />
+            </p:panelGrid>
+        </h:form>
+        <h:form id="VentaBoletoListForm" class="form-height"> 
+            <p:dataTable id="datalist"
+                         value="#{ventaBoletoRecaudacionController.items}"
+                         rowKey="#{item.ventaBoletoId}"
+                         selection="#{ventaBoletoRecaudacionController.selected}"
+                         var="item"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado registros"
+                         style="padding-top: 10px;">
+
+                <p:ajax event="colResize" listener="#{ventaBoletoRecaudacionController.onResize}"/>
+
+                <f:facet name="header">
+                    <h:outputText value="Ventas a la Fecha : #{ventaBoletoRecaudacionController.formatFechaVentaBoleto}" />
+                </f:facet>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputLabel value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.ventaBoletoRecaudado}" filterBy="#{item.ventaBoletoRecaudado}">
+                    <f:facet name="header">
+                        <h:outputText value="Recaudado"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox id="ventaBoletoRecaudado" value="#{item.ventaBoletoRecaudado}" title="#{bundle.EditVentaBoletoTitle_ventaBoletoRecaudado}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoRecaudado}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.lastUpdate}" filterBy="#{item.lastUpdate}">
+                    <f:facet name="header">
+                        <h:outputText value="Hora de Venta"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.lastUpdate}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputLabel>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoIdBus.busNumero}" filterBy="#{item.ventaBoletoIdBus.busNumero}">
+                    <f:facet name="header">
+                        <h:outputText value="N° Bus"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoIdBus.busNumero}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.ventaBoletoIdTrabajador.trabajadorCodigo}" filterBy="#{item.ventaBoletoIdTrabajador.trabajadorCodigo}">
+                    <f:facet name="header">
+                        <h:outputText value="N° Conductor"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoIdTrabajador.trabajadorCodigo}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.ventaBoletoValor}" filterBy="#{item.ventaBoletoValor}">
+                    <f:facet name="header">
+                        <h:outputText value="Valor"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoValor}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaIdentificador}" filterBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaIdentificador}">
+                    <f:facet name="header">
+                        <h:outputText value="Identificador"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoIdInventarioCaja.inventarioCajaIdentificador}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaSerie}" filterBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaSerie}">
+                    <f:facet name="header">
+                        <h:outputText value="Serie"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoIdInventarioCaja.inventarioCajaSerie}"/>
+                </p:column>
+
+
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="#{bundle.Create}" actionListener="#{ventaBoletoRecaudacionController.prepareCreate}" update=":VentaBoletoCreateForm" oncomplete="PF('VentaBoletoCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":VentaBoletoViewForm" oncomplete="PF('VentaBoletoViewDialog').show()" disabled="#{empty ventaBoletoRecaudacionController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":VentaBoletoEditForm" oncomplete="PF('VentaBoletoEditDialog').show()" disabled="#{empty ventaBoletoRecaudacionController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="#{bundle.Delete}" actionListener="#{ventaBoletoRecaudacionController.delete}" update=":growl,datalist" disabled="#{empty ventaBoletoRecaudacionController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </f:facet>
+
+            </p:dataTable>
+        </h:form>
+        <p:panel id="noprint" style="visibility: hidden">
+
+            <h:panelGrid id="ficha">
+                <h:outputLabel value="Venta de Boleto" style="text-align: center;font-size: 25px; width: 100%;"/>
+                <h:outputLabel value="Ñandu Tur S.A." style="text-align: center;font-size: 15px;width: 100%;"/>
+
+                <h:panelGrid id="f" style="maring-top: 20px;" columns="2">
+                    <h:outputLabel value="Fecha:" style="width: 70px;"/>
+                    <h:outputLabel value="#{ventaBoletoRecaudacionController.selected.ventaBoletoFecha}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputLabel>
+
+                    <h:outputLabel value="Surtidor:" style="width: 70px; "/>
+                    <h:outputLabel value="#{recaudacionController.selected.recaudacionIdCaja.cajaRecaudacionNombre}" style="width: 70px;"/>
+
+                    <h:outputLabel value="N° Bus:" style="width: 70px; font-size: 20px;"/>
+                    <h:outputLabel value="#{recaudacionController.selected.recaudacionIdBus.busNumero}" style="font-size: 20px;"/>
+                </h:panelGrid>
+
+                <p:panelGrid>
+                    <ui:repeat value="#{recaudacionController.recaudacionEgresoList}" var="egreso" >
+                        <h:outputLabel value="#{egreso.recaudacionEgresoIdEgreso.egresoNombre} :" style="text-align: right; width: 60%;" />
+                        <h:outputLabel value="#{egreso.recaudacionEgresoMonto}" style="text-align: right; width: 40%;">
+                            <f:convertNumber currencyCode="$"/>
+                        </h:outputLabel>
+                    </ui:repeat>
+
+                    <h:outputLabel value="Total:" style="text-align: right;width: 60%;"/>
+                    <h:outputLabel value="#{recaudacionController.selected.recaudacionTotal}" style="text-align: right;width: 40%; ">
+                        <f:convertNumber currencyCode="$"/>
+                    </h:outputLabel>
+                </p:panelGrid>
+
+
+            </h:panelGrid>
+        </p:panel>
+    </p:panel>
+    <ui:include src="/confirmation.xhtml"/>
+</ui:composition>

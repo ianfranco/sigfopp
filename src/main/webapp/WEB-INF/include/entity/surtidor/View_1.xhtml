@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SurtidorViewDlg" widgetVar="SurtidorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewSurtidorTitle}" closeOnEscape="true">
+
+            <h:form id="SurtidorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{surtidorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewSurtidorLabel_surtidorId}"/>
+                        <h:outputText value="#{surtidorController.selected.surtidorId}" title="#{bundle.ViewSurtidorTitle_surtidorId}"/>
+
+                        <h:outputText value="#{bundle.ViewSurtidorLabel_surtidorIdentificador}"/>
+                        <h:outputText value="#{surtidorController.selected.surtidorIdentificador}" title="#{bundle.ViewSurtidorTitle_surtidorIdentificador}"/>
+
+                        <h:outputText value="#{bundle.ViewSurtidorLabel_surtidorObservaciones}"/>
+                        <h:outputText value="#{surtidorController.selected.surtidorObservaciones}" title="#{bundle.ViewSurtidorTitle_surtidorObservaciones}"/>
+
+                        <h:outputText value="#{bundle.ViewSurtidorLabel_surtidorFechaIngreso}"/>
+                        <h:outputText value="#{surtidorController.selected.surtidorFechaIngreso}" title="#{bundle.ViewSurtidorTitle_surtidorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewSurtidorLabel_surtidorIdTerminal}"/>
+                        <h:outputText value="#{surtidorController.selected.surtidorIdTerminal.terminalId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('SurtidorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <h:form id="EmpresaListForm" class="form-height">
+
+        <p:contextMenu id="EmpresaDataTableContextMenu" for="datalist:datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EmpresaListForm:datalist:datalist:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EmpresaListForm:datalist:datalist:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EmpresaListForm:datalist:datalist:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EmpresaListForm:datalist:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+        </p:contextMenu>
+
+        <coco:datatable id="datalist"
+                        value="#{empresaController.items}"
+                        rowKey="#{item.empresaId}"
+                        selection="#{empresaController.selected}"
+                        filtered="#{empresaController.filtered}"
+                        rowselect=":EmpresaListForm:datalist:datalist:createButton,:EmpresaListForm:datalist:datalist:viewButton,:EmpresaListForm:datalist:datalist:editButton,:EmpresaListForm:datalist:datalist:deleteButton,:EmpresaListForm:EmpresaDataTableContextMenu"
+                        rowDblselect="document.getElementById('EmpresaListForm:datalist:datalist:editButton').click()"
+                        contextMenu=":EmpresaListForm:datalist:datalist:createButton :EmpresaListForm:datalist:datalist:viewButton :EmpresaListForm:datalist:datalist:editButton :EmpresaListForm:datalist:datalist:deleteButton"
+                        selectListener="#{empresaController.resetParents()}"
+                        >
+
+            <p:ajax event="colResize" listener="#{empresaController.onResize}"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <h:outputText value="Empresas"/>   
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="pull-right">
+                            <p:columnToggler datasource="datalist" trigger="toggler">
+                                <p:ajax event="toggle" listener="#{empresaController.onToggle}" />
+                            </p:columnToggler>
+                            <p:commandButton id="toggler" type="button" value="#{bundle.Columns}" class="btn-primary" icon="fa fa-list"/>
+                            <p:commandButton value="#{bundle.Save}" styleClass="btn-success" icon="fa fa-edit" update=":growl,@this"/>     
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column sortBy="#{item.empresaId}" filterBy="#{item.empresaId}" style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputLabel value="#{item.empresaId}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.empresaNombre}" filterBy="#{item.empresaNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputLabel value="#{item.empresaNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.empresaRut}" filterBy="#{item.empresaRut}">
+                <f:facet name="header">
+                    <h:outputText value="Rut"/>
+                </f:facet>
+                <h:outputLabel value="#{item.empresaRut}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.empresaDireccion}" filterBy="#{item.empresaDireccion}">
+                <f:facet name="header">
+                    <h:outputText value="Dirección"/>
+                </f:facet>
+                <h:outputLabel value="#{item.empresaDireccion}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.empresaEmail}" filterBy="#{item.empresaEmail}">
+                <f:facet name="header">
+                    <h:outputText value="Email"/>
+                </f:facet>
+                <h:outputLabel value="#{item.empresaEmail}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.empresaIdCajaCompensacion.cajaCompensacionNombre}" filterBy="#{item.empresaIdCajaCompensacion.cajaCompensacionNombre}">
+                <f:facet name="header">
+                    <h:outputText value="C.Compensación"/>
+                </f:facet>
+                <h:outputLabel value="#{item.empresaIdCajaCompensacion.cajaCompensacionNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.empresaIdMutual.mutualNombre}" filterBy="#{item.empresaIdMutual.mutualNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Mutual"/>
+                </f:facet>
+                <h:outputLabel value="#{item.empresaIdMutual.mutualNombre}"/>
+            </p:column>
+
+            <f:facet name="{buttons}">
+                <div class="footer-left">
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="#{bundle.Create}" actionListener="#{empresaController.prepareCreate}" update=":EmpresaCreateForm" oncomplete="PF('EmpresaCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":EmpresaViewForm" oncomplete="PF('EmpresaViewDialog').show()" disabled="#{empty empresaController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":EmpresaEditForm" oncomplete="PF('EmpresaEditDialog').show()" disabled="#{empty empresaController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="#{bundle.Delete}" actionListener="#{empresaController.delete}" update=":growl,datalist" disabled="#{empty empresaController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </div>
+            </f:facet>
+
+        </coco:datatable>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

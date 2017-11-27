@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EfectivoCajaListForm">
+
+        <p:panel header="#{bundle.ListEfectivoCajaTitle}">
+            <p:contextMenu id="EfectivoCajaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EfectivoCajaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EfectivoCajaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EfectivoCajaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EfectivoCajaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.EfectivoCajaMenuItem_detalleResumenRecaudacionList}" icon="ui-icon-search"  action="#{efectivoCajaController.navigateDetalleResumenRecaudacionList}" disabled="#{empty efectivoCajaController.selected.detalleResumenRecaudacionList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EfectivoCajaMenuItem_detalleMetalicoCtvList}" icon="ui-icon-search"  action="#{efectivoCajaController.navigateDetalleMetalicoCtvList}" disabled="#{empty efectivoCajaController.selected.detalleMetalicoCtvList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EfectivoCajaMenuItem_efectivoCajaIdMetodoPago}" icon="ui-icon-search"  actionListener="#{efectivoCajaController.prepareEfectivoCajaIdMetodoPago}" update=":MetodoPagoViewForm" oncomplete="PF('MetodoPagoViewDialog').show()" disabled="#{empty efectivoCajaController.selected.efectivoCajaIdMetodoPago}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{efectivoCajaController.items}"
+                         lazy="false"
+                         rowKey="#{item.efectivoCajaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{efectivoCajaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{efectivoCajaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.efectivoCajaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EfectivoCajaDataTableContextMenu" listener="#{efectivoCajaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EfectivoCajaDataTableContextMenu" listener="#{efectivoCajaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{efectivoCajaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EfectivoCajaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.efectivoCajaId}" filterBy="#{item.efectivoCajaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEfectivoCajaTitle_efectivoCajaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.efectivoCajaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.efectivoCajaValorEfectivo}" filterBy="#{item.efectivoCajaValorEfectivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEfectivoCajaTitle_efectivoCajaValorEfectivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.efectivoCajaValorEfectivo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.efectivoCajaFechaIngreso}" filterBy="#{item.efectivoCajaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEfectivoCajaTitle_efectivoCajaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.efectivoCajaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.efectivoCajaIdMetodoPago.metodoPagoId}" filterBy="#{item.efectivoCajaIdMetodoPago.metodoPagoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEfectivoCajaTitle_efectivoCajaIdMetodoPago}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.efectivoCajaIdMetodoPago.metodoPagoId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{efectivoCajaController.prepareCreate}" update=":EfectivoCajaCreateForm" oncomplete="PF('EfectivoCajaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":EfectivoCajaViewForm" oncomplete="PF('EfectivoCajaViewDialog').show()" disabled="#{empty efectivoCajaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EfectivoCajaEditForm" oncomplete="PF('EfectivoCajaEditDialog').show()" disabled="#{empty efectivoCajaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{efectivoCajaController.delete}" update=":growl,datalist" disabled="#{empty efectivoCajaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

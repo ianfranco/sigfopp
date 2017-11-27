@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CargoBusCreateDlg" widgetVar="CargoBusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCargoBusTitle}" closeOnEscape="true">
+
+            <h:form id="CargoBusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cargoBusController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusFechaInicio}" for="cargoBusFechaInicio" />
+                        <p:calendar id="cargoBusFechaInicio" pattern="MM/dd/yyyy" value="#{cargoBusController.selected.cargoBusFechaInicio}" title="#{bundle.CreateCargoBusTitle_cargoBusFechaInicio}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_cargoBusFechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusFechaTermino}" for="cargoBusFechaTermino" />
+                        <p:calendar id="cargoBusFechaTermino" pattern="MM/dd/yyyy" value="#{cargoBusController.selected.cargoBusFechaTermino}" title="#{bundle.CreateCargoBusTitle_cargoBusFechaTermino}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_cargoBusFechaTermino}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusCuotaActual}" for="cargoBusCuotaActual" />
+                        <p:inputText id="cargoBusCuotaActual" value="#{cargoBusController.selected.cargoBusCuotaActual}" title="#{bundle.CreateCargoBusTitle_cargoBusCuotaActual}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusTotalCuotas}" for="cargoBusTotalCuotas" />
+                        <p:inputText id="cargoBusTotalCuotas" value="#{cargoBusController.selected.cargoBusTotalCuotas}" title="#{bundle.CreateCargoBusTitle_cargoBusTotalCuotas}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusMontoFijo}" for="cargoBusMontoFijo" />
+                        <p:inputText id="cargoBusMontoFijo" value="#{cargoBusController.selected.cargoBusMontoFijo}" title="#{bundle.CreateCargoBusTitle_cargoBusMontoFijo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_cargoBusMontoFijo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusDescripcion}" for="cargoBusDescripcion" />
+                        <p:inputText id="cargoBusDescripcion" value="#{cargoBusController.selected.cargoBusDescripcion}" title="#{bundle.CreateCargoBusTitle_cargoBusDescripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusActivo}" for="cargoBusActivo" />
+                        <p:selectBooleanCheckbox id="cargoBusActivo" value="#{cargoBusController.selected.cargoBusActivo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_cargoBusActivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusFechaIngreso}" for="cargoBusFechaIngreso" />
+                        <p:calendar id="cargoBusFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{cargoBusController.selected.cargoBusFechaIngreso}" title="#{bundle.CreateCargoBusTitle_cargoBusFechaIngreso}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_cargoBusFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusIdBus}" for="cargoBusIdBus" />
+                        <p:selectOneMenu id="cargoBusIdBus" value="#{cargoBusController.selected.cargoBusIdBus}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_cargoBusIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="cargoBusIdBusItem"
+                                           itemValue="#{cargoBusIdBusItem}"
+                                           itemLabel="#{cargoBusIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateCargoBusLabel_cargoBusIdTipoCargo}" for="cargoBusIdTipoCargo" />
+                        <p:selectOneMenu id="cargoBusIdTipoCargo" value="#{cargoBusController.selected.cargoBusIdTipoCargo}" required="true" requiredMessage="#{bundle.CreateCargoBusRequiredMessage_cargoBusIdTipoCargo}" converter="tipoCargoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoCargoController.items}"
+                                           var="cargoBusIdTipoCargoItem"
+                                           itemValue="#{cargoBusIdTipoCargoItem}"
+                                           itemLabel="#{cargoBusIdTipoCargoItem.tipoCargoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargoBusController.saveNew}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoBusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoBusCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

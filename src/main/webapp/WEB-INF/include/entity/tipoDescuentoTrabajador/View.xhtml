@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDescuentoTrabajadorViewDlg" widgetVar="TipoDescuentoTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoDescuentoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDescuentoTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoDescuentoTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorId}"/>
+                        <h:outputText value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorId}" title="#{bundle.ViewTipoDescuentoTrabajadorTitle_tipoDescuentoTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorNombre}"/>
+                        <h:outputText value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorNombre}" title="#{bundle.ViewTipoDescuentoTrabajadorTitle_tipoDescuentoTrabajadorNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorMontoDefecto}"/>
+                        <h:outputText value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorMontoDefecto}" title="#{bundle.ViewTipoDescuentoTrabajadorTitle_tipoDescuentoTrabajadorMontoDefecto}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoDescuentoTrabajadorLabel_tipoDescuentoTrabajadorFechaIngreso}"/>
+                        <h:outputText value="#{tipoDescuentoTrabajadorController.selected.tipoDescuentoTrabajadorFechaIngreso}" title="#{bundle.ViewTipoDescuentoTrabajadorTitle_tipoDescuentoTrabajadorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoDescuentoTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

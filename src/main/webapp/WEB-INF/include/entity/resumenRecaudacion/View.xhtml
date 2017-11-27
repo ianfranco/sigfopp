@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ResumenRecaudacionViewDlg" widgetVar="ResumenRecaudacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewResumenRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="ResumenRecaudacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{resumenRecaudacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewResumenRecaudacionLabel_resumenRecaudacionId}"/>
+                        <h:outputText value="#{resumenRecaudacionController.selected.resumenRecaudacionId}" title="#{bundle.ViewResumenRecaudacionTitle_resumenRecaudacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewResumenRecaudacionLabel_resumenRecaudacionFechaRecaudacion}"/>
+                        <h:outputText value="#{resumenRecaudacionController.selected.resumenRecaudacionFechaRecaudacion}" title="#{bundle.ViewResumenRecaudacionTitle_resumenRecaudacionFechaRecaudacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewResumenRecaudacionLabel_resumenRecaudacionTotalRecaudacion}"/>
+                        <h:outputText value="#{resumenRecaudacionController.selected.resumenRecaudacionTotalRecaudacion}" title="#{bundle.ViewResumenRecaudacionTitle_resumenRecaudacionTotalRecaudacion}"/>
+
+                        <h:outputText value="#{bundle.ViewResumenRecaudacionLabel_resumenRecaudacionFechaIngreso}"/>
+                        <h:outputText value="#{resumenRecaudacionController.selected.resumenRecaudacionFechaIngreso}" title="#{bundle.ViewResumenRecaudacionTitle_resumenRecaudacionFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewResumenRecaudacionLabel_resumenRecaudacionIdCaja}"/>
+                        <h:outputText value="#{resumenRecaudacionController.selected.resumenRecaudacionIdCaja.cajaTerminalId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ResumenRecaudacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

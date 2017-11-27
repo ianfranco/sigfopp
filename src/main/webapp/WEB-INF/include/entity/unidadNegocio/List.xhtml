@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UnidadNegocioListForm">
+
+        <p:panel header="#{bundle.ListUnidadNegocioTitle}">
+            <p:contextMenu id="UnidadNegocioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('UnidadNegocioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('UnidadNegocioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('UnidadNegocioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('UnidadNegocioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.UnidadNegocioMenuItem_contratoUnidadList}" icon="ui-icon-search"  action="#{unidadNegocioController.navigateContratoUnidadList}" disabled="#{empty unidadNegocioController.selected.contratoUnidadList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.UnidadNegocioMenuItem_busList}" icon="ui-icon-search"  action="#{unidadNegocioController.navigateBusList}" disabled="#{empty unidadNegocioController.selected.busList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.UnidadNegocioMenuItem_valorRolloUnidadList}" icon="ui-icon-search"  action="#{unidadNegocioController.navigateValorRolloUnidadList}" disabled="#{empty unidadNegocioController.selected.valorRolloUnidadList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.UnidadNegocioMenuItem_unidadNegocioIdOperadorTransporte}" icon="ui-icon-search"  actionListener="#{unidadNegocioController.prepareUnidadNegocioIdOperadorTransporte}" update=":OperadorTransporteViewForm" oncomplete="PF('OperadorTransporteViewDialog').show()" disabled="#{empty unidadNegocioController.selected.unidadNegocioIdOperadorTransporte}"/>  
+                <p:menuitem value="#{bundle.UnidadNegocioMenuItem_unidadNegocioIdRegion}" icon="ui-icon-search"  actionListener="#{unidadNegocioController.prepareUnidadNegocioIdRegion}" update=":RegionViewForm" oncomplete="PF('RegionViewDialog').show()" disabled="#{empty unidadNegocioController.selected.unidadNegocioIdRegion}"/>  
+                <p:menuitem value="#{bundle.UnidadNegocioMenuItem_servicioList}" icon="ui-icon-search"  action="#{unidadNegocioController.navigateServicioList}" disabled="#{empty unidadNegocioController.selected.servicioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{unidadNegocioController.items}"
+                         lazy="false"
+                         rowKey="#{item.unidadNegocioId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{unidadNegocioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{unidadNegocioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.unidadNegocioId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UnidadNegocioDataTableContextMenu" listener="#{unidadNegocioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UnidadNegocioDataTableContextMenu" listener="#{unidadNegocioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{unidadNegocioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UnidadNegocioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.unidadNegocioId}" filterBy="#{item.unidadNegocioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUnidadNegocioTitle_unidadNegocioId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocioId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadNegocioNombre}" filterBy="#{item.unidadNegocioNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUnidadNegocioTitle_unidadNegocioNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocioNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadNegocioNumero}" filterBy="#{item.unidadNegocioNumero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUnidadNegocioTitle_unidadNegocioNumero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocioNumero}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadNegocioFolio}" filterBy="#{item.unidadNegocioFolio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUnidadNegocioTitle_unidadNegocioFolio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocioFolio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadNegocioFechaIngreso}" filterBy="#{item.unidadNegocioFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUnidadNegocioTitle_unidadNegocioFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocioFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.unidadNegocioIdOperadorTransporte.operadorTransporteId}" filterBy="#{item.unidadNegocioIdOperadorTransporte.operadorTransporteId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUnidadNegocioTitle_unidadNegocioIdOperadorTransporte}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.unidadNegocioIdOperadorTransporte.operadorTransporteId}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.unidadNegocioIdRegion.regionId}" filterBy="#{item.unidadNegocioIdRegion.regionId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUnidadNegocioTitle_unidadNegocioIdRegion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.unidadNegocioIdRegion.regionId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{unidadNegocioController.prepareCreate}" update=":UnidadNegocioCreateForm" oncomplete="PF('UnidadNegocioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":UnidadNegocioViewForm" oncomplete="PF('UnidadNegocioViewDialog').show()" disabled="#{empty unidadNegocioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UnidadNegocioEditForm" oncomplete="PF('UnidadNegocioEditDialog').show()" disabled="#{empty unidadNegocioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{unidadNegocioController.delete}" update=":growl,datalist" disabled="#{empty unidadNegocioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

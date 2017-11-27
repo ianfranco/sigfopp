@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TrabajadorAdicionalSaludViewDlg" widgetVar="TrabajadorAdicionalSaludViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTrabajadorAdicionalSaludTitle}" closeOnEscape="true">
+
+            <h:form id="TrabajadorAdicionalSaludViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{trabajadorAdicionalSaludController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludId}"/>
+                        <h:outputText value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludId}" title="#{bundle.ViewTrabajadorAdicionalSaludTitle_trabajadorAdicionalSaludId}"/>
+
+                        <h:outputText value="#{bundle.ViewTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludPorcentaje}"/>
+                        <h:outputText value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludPorcentaje}" title="#{bundle.ViewTrabajadorAdicionalSaludTitle_trabajadorAdicionalSaludPorcentaje}"/>
+
+                        <h:outputText value="#{bundle.ViewTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludMontoFijo}"/>
+                        <h:outputText value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludMontoFijo}" title="#{bundle.ViewTrabajadorAdicionalSaludTitle_trabajadorAdicionalSaludMontoFijo}"/>
+
+                        <h:outputText value="#{bundle.ViewTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludIdMoneda}"/>
+                        <h:outputText value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludIdMoneda.monedaPactadaInstitucionSaludId}"/>
+
+                        <h:outputText value="#{bundle.ViewTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludIdTrabajador}"/>
+                        <h:outputText value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludIdTrabajador.trabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TrabajadorAdicionalSaludViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

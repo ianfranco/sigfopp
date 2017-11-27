@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MetodoPagoEditDlg" widgetVar="MetodoPagoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditMetodoPagoTitle}" closeOnEscape="true">
+
+            <h:form id="MetodoPagoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{metodoPagoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditMetodoPagoLabel_metodoPagoId}" for="metodoPagoId" />
+                        <h:outputText id="metodoPagoId" value="#{metodoPagoController.selected.metodoPagoId}" />
+
+                        <p:outputLabel value="#{bundle.EditMetodoPagoLabel_metodoPagoNombre}" for="metodoPagoNombre" />
+                        <p:inputText id="metodoPagoNombre" value="#{metodoPagoController.selected.metodoPagoNombre}" title="#{bundle.EditMetodoPagoTitle_metodoPagoNombre}" required="true" requiredMessage="#{bundle.EditMetodoPagoRequiredMessage_metodoPagoNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditMetodoPagoLabel_metodoPagoValor}" for="metodoPagoValor" />
+                        <p:inputText id="metodoPagoValor" value="#{metodoPagoController.selected.metodoPagoValor}" title="#{bundle.EditMetodoPagoTitle_metodoPagoValor}" required="true" requiredMessage="#{bundle.EditMetodoPagoRequiredMessage_metodoPagoValor}"/>
+
+                        <p:outputLabel value="#{bundle.EditMetodoPagoLabel_metodoPagoActivo}" for="metodoPagoActivo" />
+                        <p:selectBooleanCheckbox id="metodoPagoActivo" value="#{metodoPagoController.selected.metodoPagoActivo}" required="true" requiredMessage="#{bundle.EditMetodoPagoRequiredMessage_metodoPagoActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditMetodoPagoLabel_metodoPagoFechaIngreso}" for="metodoPagoFechaIngreso" />
+                        <p:calendar id="metodoPagoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{metodoPagoController.selected.metodoPagoFechaIngreso}" title="#{bundle.EditMetodoPagoTitle_metodoPagoFechaIngreso}" required="true" requiredMessage="#{bundle.EditMetodoPagoRequiredMessage_metodoPagoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{metodoPagoController.save}" value="#{bundle.Save}" update="display,:MetodoPagoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MetodoPagoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('MetodoPagoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

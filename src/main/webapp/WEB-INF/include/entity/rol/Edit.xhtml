@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RolEditDlg" widgetVar="RolEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRolTitle}" closeOnEscape="true">
+
+            <h:form id="RolEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{rolController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRolLabel_rolId}" for="rolId" />
+                        <h:outputText id="rolId" value="#{rolController.selected.rolId}" />
+
+                        <p:outputLabel value="#{bundle.EditRolLabel_rolNombre}" for="rolNombre" />
+                        <p:inputText id="rolNombre" value="#{rolController.selected.rolNombre}" title="#{bundle.EditRolTitle_rolNombre}" required="true" requiredMessage="#{bundle.EditRolRequiredMessage_rolNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditRolLabel_rolDescripcion}" for="rolDescripcion" />
+                        <p:inputText id="rolDescripcion" value="#{rolController.selected.rolDescripcion}" title="#{bundle.EditRolTitle_rolDescripcion}" required="true" requiredMessage="#{bundle.EditRolRequiredMessage_rolDescripcion}" size="255" maxlength="255"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolController.save}" value="#{bundle.Save}" update="display,:RolListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RolEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RolEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

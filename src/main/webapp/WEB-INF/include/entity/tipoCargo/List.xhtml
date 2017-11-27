@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoCargoListForm">
+
+        <p:panel header="#{bundle.ListTipoCargoTitle}">
+            <p:contextMenu id="TipoCargoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoCargoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoCargoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoCargoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoCargoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TipoCargoMenuItem_cargoBusList}" icon="ui-icon-search"  action="#{tipoCargoController.navigateCargoBusList}" disabled="#{empty tipoCargoController.selected.cargoBusList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoCargoController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoCargoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoCargoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoCargoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoCargoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoCargoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoCargoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoCargoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoCargoId}" filterBy="#{item.tipoCargoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoCargoTitle_tipoCargoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCargoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoCargoNombre}" filterBy="#{item.tipoCargoNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoCargoTitle_tipoCargoNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCargoNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoCargoMontoDefecto}" filterBy="#{item.tipoCargoMontoDefecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoCargoTitle_tipoCargoMontoDefecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCargoMontoDefecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoCargoFechaIngreso}" filterBy="#{item.tipoCargoFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoCargoTitle_tipoCargoFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCargoFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoCargoController.prepareCreate}" update=":TipoCargoCreateForm" oncomplete="PF('TipoCargoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoCargoViewForm" oncomplete="PF('TipoCargoViewDialog').show()" disabled="#{empty tipoCargoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoCargoEditForm" oncomplete="PF('TipoCargoEditDialog').show()" disabled="#{empty tipoCargoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoCargoController.delete}" update=":growl,datalist" disabled="#{empty tipoCargoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EgresoGuiaListForm">
+
+        <p:panel header="#{bundle.ListEgresoGuiaTitle}">
+            <p:contextMenu id="EgresoGuiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EgresoGuiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EgresoGuiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EgresoGuiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EgresoGuiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.EgresoGuiaMenuItem_egresoGuiaIdEgreso}" icon="ui-icon-search"  actionListener="#{egresoGuiaController.prepareEgresoGuiaIdEgreso}" update=":EgresoViewForm" oncomplete="PF('EgresoViewDialog').show()" disabled="#{empty egresoGuiaController.selected.egresoGuiaIdEgreso}"/>  
+                <p:menuitem value="#{bundle.EgresoGuiaMenuItem_egresoGuiaIdGuia}" icon="ui-icon-search"  actionListener="#{egresoGuiaController.prepareEgresoGuiaIdGuia}" update=":GuiaViewForm" oncomplete="PF('GuiaViewDialog').show()" disabled="#{empty egresoGuiaController.selected.egresoGuiaIdGuia}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{egresoGuiaController.items}"
+                         lazy="false"
+                         rowKey="#{item.egresoGuiaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{egresoGuiaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{egresoGuiaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.egresoGuiaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoGuiaDataTableContextMenu" listener="#{egresoGuiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoGuiaDataTableContextMenu" listener="#{egresoGuiaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{egresoGuiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EgresoGuiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.egresoGuiaId}" filterBy="#{item.egresoGuiaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoGuiaTitle_egresoGuiaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoGuiaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoGuiaMonto}" filterBy="#{item.egresoGuiaMonto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoGuiaTitle_egresoGuiaMonto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoGuiaMonto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoGuiaRecaudado}" filterBy="#{item.egresoGuiaRecaudado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoGuiaTitle_egresoGuiaRecaudado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="egresoGuiaRecaudado" value="#{item.egresoGuiaRecaudado}" title="#{bundle.EditEgresoGuiaTitle_egresoGuiaRecaudado}" required="true" requiredMessage="#{bundle.EditEgresoGuiaRequiredMessage_egresoGuiaRecaudado}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoGuiaFechaIngreso}" filterBy="#{item.egresoGuiaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoGuiaTitle_egresoGuiaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoGuiaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoGuiaIdEgreso.egresoId}" filterBy="#{item.egresoGuiaIdEgreso.egresoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoGuiaTitle_egresoGuiaIdEgreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoGuiaIdEgreso.egresoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoGuiaIdGuia.guiaId}" filterBy="#{item.egresoGuiaIdGuia.guiaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoGuiaTitle_egresoGuiaIdGuia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoGuiaIdGuia.guiaId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{egresoGuiaController.prepareCreate}" update=":EgresoGuiaCreateForm" oncomplete="PF('EgresoGuiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":EgresoGuiaViewForm" oncomplete="PF('EgresoGuiaViewDialog').show()" disabled="#{empty egresoGuiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EgresoGuiaEditForm" oncomplete="PF('EgresoGuiaEditDialog').show()" disabled="#{empty egresoGuiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{egresoGuiaController.delete}" update=":growl,datalist" disabled="#{empty egresoGuiaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

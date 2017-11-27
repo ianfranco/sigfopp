@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ValorFijoEditDlg" widgetVar="ValorFijoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditValorFijoTitle}" closeOnEscape="true">
+
+            <h:form id="ValorFijoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{valorFijoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditValorFijoLabel_valorFijoId}" for="valorFijoId" />
+                        <h:outputText id="valorFijoId" value="#{valorFijoController.selected.valorFijoId}" />
+
+                        <p:outputLabel value="#{bundle.EditValorFijoLabel_valorFijoNombreValor}" for="valorFijoNombreValor" />
+                        <p:inputText id="valorFijoNombreValor" value="#{valorFijoController.selected.valorFijoNombreValor}" title="#{bundle.EditValorFijoTitle_valorFijoNombreValor}" required="true" requiredMessage="#{bundle.EditValorFijoRequiredMessage_valorFijoNombreValor}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditValorFijoLabel_valorFijoMonto}" for="valorFijoMonto" />
+                        <p:inputText id="valorFijoMonto" value="#{valorFijoController.selected.valorFijoMonto}" title="#{bundle.EditValorFijoTitle_valorFijoMonto}"/>
+
+                        <p:outputLabel value="#{bundle.EditValorFijoLabel_valorFijoFechaIngreso}" for="valorFijoFechaIngreso" />
+                        <p:calendar id="valorFijoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{valorFijoController.selected.valorFijoFechaIngreso}" title="#{bundle.EditValorFijoTitle_valorFijoFechaIngreso}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorFijoController.save}" value="#{bundle.Save}" update="display,:ValorFijoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorFijoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorFijoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

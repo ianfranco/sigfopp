@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegistroMinutoViewDlg" widgetVar="RegistroMinutoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewRegistroMinutoTitle}" closeOnEscape="true">
+
+            <h:form id="RegistroMinutoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{registroMinutoController.selected != null}">
+
+                        <h:outputText value="#"/>
+                        <h:outputText value="#{registroMinutoController.selected.registroMinutoId}" title="#{bundle.ViewRegistroMinutoTitle_registroMinutoId}"/>
+
+                        <h:outputText value="Fecha Registro:"/>
+                        <h:outputText value="#{registroMinutoController.selected.lastUpdate}" title="#{bundle.ViewRegistroMinutoTitle_registroMinutoFechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="Fecha Minuto:"/>
+                        <p:outputLabel value="#{registroMinutoController.fecha}" id="registroMinutoFechaMinuto" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+
+                        <h:outputText value="Monto:"/>
+                        <h:outputText value="#{registroMinutoController.selected.registroMinutoMonto}" title="#{bundle.ViewRegistroMinutoTitle_registroMinutoMonto}"/>
+
+                        <h:outputText value="N° Bus Paga"/>
+                        <h:outputText value="#{registroMinutoController.selected.registroMinutoDesdeIdBus.busNumero}"/>
+
+                        <h:outputText value="N° Bus Recibe"/>
+                        <h:outputText value="#{registroMinutoController.selected.registroMinutoHastaIdBus.busNumero}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('RegistroMinutoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

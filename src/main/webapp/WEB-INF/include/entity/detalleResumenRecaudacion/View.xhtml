@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleResumenRecaudacionViewDlg" widgetVar="DetalleResumenRecaudacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDetalleResumenRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleResumenRecaudacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleResumenRecaudacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDetalleResumenRecaudacionLabel_detalleResumenRecaudacionId}"/>
+                        <h:outputText value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionId}" title="#{bundle.ViewDetalleResumenRecaudacionTitle_detalleResumenRecaudacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleResumenRecaudacionLabel_detalleResumenRecaudacionCantidadEfectivo}"/>
+                        <h:outputText value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionCantidadEfectivo}" title="#{bundle.ViewDetalleResumenRecaudacionTitle_detalleResumenRecaudacionCantidadEfectivo}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleResumenRecaudacionLabel_detalleResumenRecaudacionTotalEfectivo}"/>
+                        <h:outputText value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionTotalEfectivo}" title="#{bundle.ViewDetalleResumenRecaudacionTitle_detalleResumenRecaudacionTotalEfectivo}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleResumenRecaudacionLabel_detalleResumenRecaudacionIdEfectivoCaja}"/>
+                        <h:outputText value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionIdEfectivoCaja.efectivoCajaId}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleResumenRecaudacionLabel_detalleResumenRecaudacionIdResumen}"/>
+                        <h:outputText value="#{detalleResumenRecaudacionController.selected.detalleResumenRecaudacionIdResumen.resumenRecaudacionId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DetalleResumenRecaudacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoGuiaCreateDlg" widgetVar="EgresoGuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEgresoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoGuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{egresoGuiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateEgresoGuiaLabel_egresoGuiaMonto}" for="egresoGuiaMonto" />
+                        <p:inputText id="egresoGuiaMonto" value="#{egresoGuiaController.selected.egresoGuiaMonto}" title="#{bundle.CreateEgresoGuiaTitle_egresoGuiaMonto}" required="true" requiredMessage="#{bundle.CreateEgresoGuiaRequiredMessage_egresoGuiaMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoGuiaLabel_egresoGuiaRecaudado}" for="egresoGuiaRecaudado" />
+                        <p:selectBooleanCheckbox id="egresoGuiaRecaudado" value="#{egresoGuiaController.selected.egresoGuiaRecaudado}" required="true" requiredMessage="#{bundle.CreateEgresoGuiaRequiredMessage_egresoGuiaRecaudado}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoGuiaLabel_egresoGuiaFechaIngreso}" for="egresoGuiaFechaIngreso" />
+                        <p:calendar id="egresoGuiaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoGuiaController.selected.egresoGuiaFechaIngreso}" title="#{bundle.CreateEgresoGuiaTitle_egresoGuiaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateEgresoGuiaRequiredMessage_egresoGuiaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoGuiaLabel_egresoGuiaIdEgreso}" for="egresoGuiaIdEgreso" />
+                        <p:selectOneMenu id="egresoGuiaIdEgreso" value="#{egresoGuiaController.selected.egresoGuiaIdEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoGuiaRequiredMessage_egresoGuiaIdEgreso}" converter="egresoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoGuiaIdEgresoItem"
+                                           itemValue="#{egresoGuiaIdEgresoItem}"
+                                           itemLabel="#{egresoGuiaIdEgresoItem.egresoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoGuiaLabel_egresoGuiaIdGuia}" for="egresoGuiaIdGuia" />
+                        <p:selectOneMenu id="egresoGuiaIdGuia" value="#{egresoGuiaController.selected.egresoGuiaIdGuia}" required="true" requiredMessage="#{bundle.CreateEgresoGuiaRequiredMessage_egresoGuiaIdGuia}" converter="guiaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{guiaController.items}"
+                                           var="egresoGuiaIdGuiaItem"
+                                           itemValue="#{egresoGuiaIdGuiaItem}"
+                                           itemLabel="#{egresoGuiaIdGuiaItem.guiaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoGuiaController.saveNew}" value="#{bundle.Save}" update="display,:EgresoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoGuiaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoGuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

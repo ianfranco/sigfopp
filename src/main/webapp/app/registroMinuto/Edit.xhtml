@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RegistroMinutoEditDlg" widgetVar="RegistroMinutoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRegistroMinutoTitle}" closeOnEscape="true">
+
+            <h:form id="RegistroMinutoEditForm">
+
+                <h:panelGroup id="display">
+
+                    <p:focus context="registroMinutoDesdeIdBus"/>
+
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{registroMinutoController.selected != null}">
+
+                        <p:outputLabel value="Fecha:" for="registroMinutoFechaMinuto" />
+                        <p:outputLabel value="#{registroMinutoController.fecha}" id="registroMinutoFechaMinuto" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+
+                        <p:outputLabel value="Paga:" for="registroMinutoDesdeIdBus" />
+                        <p:selectOneMenu id="registroMinutoDesdeIdBus" value="#{registroMinutoController.selected.registroMinutoDesdeIdBus}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoDesdeIdBus}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{registroMinutoController.pagaBusItems}"
+                                           var="registroMinutoDesdeIdBusItem"
+                                           itemValue="#{registroMinutoDesdeIdBusItem}"
+                                           itemLabel="#{registroMinutoDesdeIdBusItem.busNumero}"
+                                           />
+                            <p:ajax event="valueChange" listener="#{registroMinutoController.removeBus}" update="registroMinutoHastaIdBus"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Recibe:" for="registroMinutoHastaIdBus" />
+                        <p:selectOneMenu id="registroMinutoHastaIdBus" value="#{registroMinutoController.selected.registroMinutoHastaIdBus}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoHastaIdBus}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{registroMinutoController.recibeBusItems}"
+                                           var="registroMinutoHastaIdBusItem"
+                                           itemValue="#{registroMinutoHastaIdBusItem}"
+                                           itemLabel="#{registroMinutoHastaIdBusItem.busNumero}"
+                                           />
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="Total:" for="registroMinutoMonto" />
+                        <p:inputNumber id="registroMinutoMonto" decimalPlaces="0" emptyValue="zero" symbol="$ " minValue="0" value="#{registroMinutoController.selected.registroMinutoMonto}" title="#{bundle.CreateRegistroMinutoTitle_registroMinutoMonto}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoMonto}" onfocus="this.setSelectionRange(0, this.value.length)" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroMinutoController.save}" value="#{bundle.Save}" update="display,:RegistroMinutoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RegistroMinutoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RegistroMinutoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

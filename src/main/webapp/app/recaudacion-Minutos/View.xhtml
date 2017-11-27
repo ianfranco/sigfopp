@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaCombustibleViewDlg" widgetVar="VentaCombustibleViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Ficha Recaudación Minutos" closeOnEscape="true">
+
+            <h:form id="VentaCombustibleViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" columnClasses="column, , column" rendered="#{recaudacionMinutoController.selected != null}">
+
+                        <h:outputText value="Fecha Minuto:"/>
+                        <p:outputLabel value="#{recaudacionMinutoController.selected.recaudacionMinutoIdRegistroMinuto.registroMinutoFechaMinuto}" id="registroMinutoFechaMinuto" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+                        
+                        <h:outputText value="Fecha Recaudación:"/>
+                        <p:outputLabel value="#{recaudacionMinutoController.selected.recaudacionMinutoIdRecaudacion.recaudacionFecha}" id="registroRecaudacionMinuto" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:outputLabel>
+
+                        <h:outputText value="N° Bus Paga"/>
+                        <h:outputText value="#{recaudacionMinutoController.selected.recaudacionMinutoIdRegistroMinuto.registroMinutoDesdeIdBus.busNumero}"/>
+
+                        <h:outputText value="N° Bus Recibe"/>
+                        <h:outputText value="#{recaudacionMinutoController.selected.recaudacionMinutoIdRegistroMinuto.registroMinutoHastaIdBus.busNumero}"/>
+
+                        <h:outputText value="Monto:"/>
+                        <h:outputText value="#{recaudacionMinutoController.selected.recaudacionMinutoMonto}" title="#{bundle.ViewRegistroMinutoTitle_registroMinutoMonto}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('VentaCombustibleViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ValorUfViewDlg" widgetVar="ValorUfViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewValorUfTitle}" closeOnEscape="true">
+
+            <h:form id="ValorUfViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{valorUfController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewValorUfLabel_valorUfId}"/>
+                        <h:outputText value="#{valorUfController.selected.valorUfId}" title="#{bundle.ViewValorUfTitle_valorUfId}"/>
+
+                        <h:outputText value="#{bundle.ViewValorUfLabel_valorUfFecha}"/>
+                        <h:outputText value="#{valorUfController.selected.valorUfFecha}" title="#{bundle.ViewValorUfTitle_valorUfFecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewValorUfLabel_valorUfMonto}"/>
+                        <h:outputText value="#{valorUfController.selected.valorUfMonto}" title="#{bundle.ViewValorUfTitle_valorUfMonto}"/>
+
+                        <h:outputText value="#{bundle.ViewValorUfLabel_valorUfFechaIngreso}"/>
+                        <h:outputText value="#{valorUfController.selected.valorUfFechaIngreso}" title="#{bundle.ViewValorUfTitle_valorUfFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ValorUfViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDemandaViewDlg" widgetVar="TipoDemandaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoDemandaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDemandaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoDemandaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoDemandaLabel_tipoDemandaId}"/>
+                        <h:outputText value="#{tipoDemandaController.selected.tipoDemandaId}" title="#{bundle.ViewTipoDemandaTitle_tipoDemandaId}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoDemandaLabel_tipoDemandaNombre}"/>
+                        <h:outputText value="#{tipoDemandaController.selected.tipoDemandaNombre}" title="#{bundle.ViewTipoDemandaTitle_tipoDemandaNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoDemandaLabel_tipoDemandaFechaIngreso}"/>
+                        <h:outputText value="#{tipoDemandaController.selected.tipoDemandaFechaIngreso}" title="#{bundle.ViewTipoDemandaTitle_tipoDemandaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoDemandaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

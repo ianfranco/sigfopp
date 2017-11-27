@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoEditDlg" widgetVar="EgresoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Editar Egreso" closeOnEscape="true">
+
+            <h:form id="EgresoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoController.selected != null}">
+                        
+                        <p:outputLabel value="Nombre" for="egresoNombreEgreso" />
+                        <p:inputText id="egresoNombreEgreso" value="#{egresoController.selected.egresoNombre}" title="#{bundle.CreateEgresoTitle_egresoNombreEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoRequiredMessage_egresoNombreEgreso}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Recaudable" for="egresoObligatorio" />
+                        <p:selectBooleanCheckbox id="egresoObligatorio" value="#{egresoController.selected.egresoObligatorio}" />
+
+                        <p:outputLabel value="Activo" for="egresoActivo" />
+                        <p:selectBooleanCheckbox id="egresoActivo" value="#{egresoController.selected.egresoActivo}" required="true" requiredMessage="#{bundle.CreateEgresoRequiredMessage_egresoActivo}"/>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoController.save}" value="#{bundle.Save}" update="display,:EgresoListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

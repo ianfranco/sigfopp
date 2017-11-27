@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <h:form id="VentaBoletoListForm" class="form-height">
+
+        <p:panel>
+            <f:facet name="header">
+                Venta de Boletos
+            </f:facet>
+            <p:panelGrid columns="7" style="width: 100%;margin-bottom: 10px;">
+
+                <h:outputLabel value="Fecha:" for="fechaRecaudacion" style="text-align: right;"/>
+                <h:outputLabel id="fechaRecaudacion" value="#{ventaBoletoRecaudacionController.fechaVentaBoleto}"/>
+
+                <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" style="text-align: right;"/>
+                <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{digitacionGuiaController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{ventaBoletoRecaudacionController.cajaRecaudacionList}"
+                                   var="cajaId"
+                                   itemValue="#{cajaId}"
+                                   itemLabel="#{cajaId.cajaRecaudacionNombre}"
+                                   />                    
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+            <p:dataTable id="datalist"
+                         selection="#{ventaBoletoRecaudacionController.selected}"                         
+                         scrollHeight="500" 
+                         scrollable="false"                         
+                         value="#{ventaBoletoRecaudacionController.model}"
+                         widgetVar="datalist"
+                         var="item"
+                         rowKey="#{item.guiaId}"                         
+                         selectionMode="single"
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado registros"                         
+                         >
+
+                <p:ajax event="colResize" listener="#{digitacionGuiaController.onResize}"/>
+                <p:ajax event="rowSelect"   update=":GuiaListForm:datalist:createButton,:GuiaListForm:datalist:viewButton,:GuiaListForm:datalist:editButton,:GuiaListForm:datalist:deleteButton" listener="#{digitacionGuiaController.loadGuia}" global="false"/>
+                <p:ajax event="rowUnselect" update=":GuiaListForm:datalist:createButton,:GuiaListForm:datalist:viewButton,:GuiaListForm:datalist:editButton,:GuiaListForm:datalist:deleteButton" listener="#{egresoBusController.resetParents}" global="false"/>  
+
+                <f:facet name="header">
+                    Recaudación al: <h:outputLabel value="#{digitacionGuiaController.fechaRecaudacion}">
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputLabel>
+                </f:facet>
+
+                <p:column sortBy="#{item.ventaBoletoValorVentaBoleto}" filterBy="#{item.ventaBoletoValorVentaBoleto}">
+                    <f:facet name="header">
+                        <h:outputText value="Valor"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoValorVentaBoleto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoRecaudado}" filterBy="#{item.ventaBoletoRecaudado}">
+                    <f:facet name="header">
+                        <h:outputText value="Recaudado"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox id="ventaBoletoRecaudado" value="#{item.ventaBoletoRecaudado}" title="#{bundle.EditVentaBoletoTitle_ventaBoletoRecaudado}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoRecaudado}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.lastUpdate}" filterBy="#{item.lastUpdate}">
+                    <f:facet name="header">
+                        <h:outputText value="Hora de Venta"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.lastUpdate}">
+                        <f:convertDateTime pattern="HH:mm:ss" />
+                    </h:outputLabel>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoIdGuia.guiaId}" filterBy="#{item.ventaBoletoIdGuia.guiaId}">
+                    <f:facet name="header">
+                        <h:outputText value="Comprador"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoIdGuia.guiaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaId}" filterBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaId}">
+                    <f:facet name="header">
+                        <h:outputText value="Caja"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.ventaBoletoIdInventarioCaja.inventarioCajaId}"/>
+                </p:column>
+
+            </p:dataTable>
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

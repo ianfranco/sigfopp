@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CajaTerminalCreateDlg" widgetVar="CajaTerminalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ingresar Nueva Caja" closeOnEscape="true">
+
+            <h:form id="CajaTerminalCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cajaTerminalController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Nombre" for="cajaTerminalNombreCaja" />
+                        <p:inputText id="cajaTerminalNombreCaja" value="#{cajaTerminalController.selected.cajaRecaudacionNombre}" title="#{bundle.CreateCajaTerminalTitle_cajaTerminalNombreCaja}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalNombreCaja}" size="25" maxlength="45"/>
+
+                        
+                        <p:outputLabel value="Terminal" for="cajaTerminalIdTerminal" />
+                        <p:selectOneMenu id="cajaTerminalIdTerminal" value="#{cajaTerminalController.selected.cajaRecaudacionIdTerminal}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalIdTerminal}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="cajaTerminalIdTerminalItem"
+                                           itemValue="#{cajaTerminalIdTerminalItem}"
+                                           itemLabel="#{cajaTerminalIdTerminalItem.terminalNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Usuario" for="cajaTerminalIdUsuario" />
+                        <p:selectOneMenu id="cajaTerminalIdUsuario" value="#{cajaTerminalController.selected.cajaRecaudacionIdUsuario}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalIdUsuario}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="cajaTerminalIdUsuarioItem"
+                                           itemValue="#{cajaTerminalIdUsuarioItem}"
+                                           itemLabel="#{cajaTerminalIdUsuarioItem.usuarioNombres}"
+                                           />
+                        </p:selectOneMenu>
+                      
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cajaTerminalController.saveNew}" value="#{bundle.Save}" update="display,:CajaTerminalListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CajaTerminalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CajaTerminalCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

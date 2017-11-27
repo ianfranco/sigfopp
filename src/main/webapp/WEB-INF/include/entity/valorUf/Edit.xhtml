@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ValorUfEditDlg" widgetVar="ValorUfEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditValorUfTitle}" closeOnEscape="true">
+
+            <h:form id="ValorUfEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{valorUfController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditValorUfLabel_valorUfId}" for="valorUfId" />
+                        <h:outputText id="valorUfId" value="#{valorUfController.selected.valorUfId}" />
+
+                        <p:outputLabel value="#{bundle.EditValorUfLabel_valorUfFecha}" for="valorUfFecha" />
+                        <p:calendar id="valorUfFecha" pattern="MM/dd/yyyy" value="#{valorUfController.selected.valorUfFecha}" title="#{bundle.EditValorUfTitle_valorUfFecha}" required="true" requiredMessage="#{bundle.EditValorUfRequiredMessage_valorUfFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditValorUfLabel_valorUfMonto}" for="valorUfMonto" />
+                        <p:inputText id="valorUfMonto" value="#{valorUfController.selected.valorUfMonto}" title="#{bundle.EditValorUfTitle_valorUfMonto}" required="true" requiredMessage="#{bundle.EditValorUfRequiredMessage_valorUfMonto}"/>
+
+                        <p:outputLabel value="#{bundle.EditValorUfLabel_valorUfFechaIngreso}" for="valorUfFechaIngreso" />
+                        <p:calendar id="valorUfFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{valorUfController.selected.valorUfFechaIngreso}" title="#{bundle.EditValorUfTitle_valorUfFechaIngreso}" required="true" requiredMessage="#{bundle.EditValorUfRequiredMessage_valorUfFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorUfController.save}" value="#{bundle.Save}" update="display,:ValorUfListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorUfEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorUfEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

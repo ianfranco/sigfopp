@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EfectivoCajaCreateDlg" widgetVar="EfectivoCajaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEfectivoCajaTitle}" closeOnEscape="true">
+
+            <h:form id="EfectivoCajaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{efectivoCajaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateEfectivoCajaLabel_efectivoCajaValorEfectivo}" for="efectivoCajaValorEfectivo" />
+                        <p:inputText id="efectivoCajaValorEfectivo" value="#{efectivoCajaController.selected.efectivoCajaValorEfectivo}" title="#{bundle.CreateEfectivoCajaTitle_efectivoCajaValorEfectivo}" required="true" requiredMessage="#{bundle.CreateEfectivoCajaRequiredMessage_efectivoCajaValorEfectivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEfectivoCajaLabel_efectivoCajaFechaIngreso}" for="efectivoCajaFechaIngreso" />
+                        <p:calendar id="efectivoCajaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{efectivoCajaController.selected.efectivoCajaFechaIngreso}" title="#{bundle.CreateEfectivoCajaTitle_efectivoCajaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateEfectivoCajaRequiredMessage_efectivoCajaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateEfectivoCajaLabel_efectivoCajaIdMetodoPago}" for="efectivoCajaIdMetodoPago" />
+                        <p:selectOneMenu id="efectivoCajaIdMetodoPago" value="#{efectivoCajaController.selected.efectivoCajaIdMetodoPago}" required="true" requiredMessage="#{bundle.CreateEfectivoCajaRequiredMessage_efectivoCajaIdMetodoPago}" converter="metodoPagoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{metodoPagoController.items}"
+                                           var="efectivoCajaIdMetodoPagoItem"
+                                           itemValue="#{efectivoCajaIdMetodoPagoItem}"
+                                           itemLabel="#{efectivoCajaIdMetodoPagoItem.metodoPagoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{efectivoCajaController.saveNew}" value="#{bundle.Save}" update="display,:EfectivoCajaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EfectivoCajaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EfectivoCajaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

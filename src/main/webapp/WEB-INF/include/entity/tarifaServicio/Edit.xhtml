@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TarifaServicioEditDlg" widgetVar="TarifaServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTarifaServicioTitle}" closeOnEscape="true">
+
+            <h:form id="TarifaServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tarifaServicioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTarifaServicioLabel_tarifaServicioId}" for="tarifaServicioId" />
+                        <h:outputText id="tarifaServicioId" value="#{tarifaServicioController.selected.tarifaServicioId}" />
+
+                        <p:outputLabel value="#{bundle.EditTarifaServicioLabel_tarifaServicioValorTarifa}" for="tarifaServicioValorTarifa" />
+                        <p:inputText id="tarifaServicioValorTarifa" value="#{tarifaServicioController.selected.tarifaServicioValorTarifa}" title="#{bundle.EditTarifaServicioTitle_tarifaServicioValorTarifa}" required="true" requiredMessage="#{bundle.EditTarifaServicioRequiredMessage_tarifaServicioValorTarifa}"/>
+
+                        <p:outputLabel value="#{bundle.EditTarifaServicioLabel_tarifaServicioFechaTarifa}" for="tarifaServicioFechaTarifa" />
+                        <p:calendar id="tarifaServicioFechaTarifa" pattern="MM/dd/yyyy" value="#{tarifaServicioController.selected.tarifaServicioFechaTarifa}" title="#{bundle.EditTarifaServicioTitle_tarifaServicioFechaTarifa}" required="true" requiredMessage="#{bundle.EditTarifaServicioRequiredMessage_tarifaServicioFechaTarifa}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditTarifaServicioLabel_tarifaServicioTarifaActiva}" for="tarifaServicioTarifaActiva" />
+                        <p:selectBooleanCheckbox id="tarifaServicioTarifaActiva" value="#{tarifaServicioController.selected.tarifaServicioTarifaActiva}" required="true" requiredMessage="#{bundle.EditTarifaServicioRequiredMessage_tarifaServicioTarifaActiva}"/>
+
+                        <p:outputLabel value="#{bundle.EditTarifaServicioLabel_tarifaServicioFechaIngreso}" for="tarifaServicioFechaIngreso" />
+                        <p:calendar id="tarifaServicioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tarifaServicioController.selected.tarifaServicioFechaIngreso}" title="#{bundle.EditTarifaServicioTitle_tarifaServicioFechaIngreso}" required="true" requiredMessage="#{bundle.EditTarifaServicioRequiredMessage_tarifaServicioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditTarifaServicioLabel_tarifaServicioIdBoleto}" for="tarifaServicioIdBoleto" />
+                        <p:selectOneMenu id="tarifaServicioIdBoleto" value="#{tarifaServicioController.selected.tarifaServicioIdBoleto}" required="true" requiredMessage="#{bundle.EditTarifaServicioRequiredMessage_tarifaServicioIdBoleto}" converter="boletoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{boletoController.items}"
+                                           var="tarifaServicioIdBoletoItem"
+                                           itemValue="#{tarifaServicioIdBoletoItem}"
+                                           itemLabel="#{tarifaServicioIdBoletoItem.boletoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditTarifaServicioLabel_tarifaServicioIdServicio}" for="tarifaServicioIdServicio" />
+                        <p:selectOneMenu id="tarifaServicioIdServicio" value="#{tarifaServicioController.selected.tarifaServicioIdServicio}" required="true" requiredMessage="#{bundle.EditTarifaServicioRequiredMessage_tarifaServicioIdServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{servicioController.items}"
+                                           var="tarifaServicioIdServicioItem"
+                                           itemValue="#{tarifaServicioIdServicioItem}"
+                                           itemLabel="#{tarifaServicioIdServicioItem.servicioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tarifaServicioController.save}" value="#{bundle.Save}" update="display,:TarifaServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TarifaServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TarifaServicioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

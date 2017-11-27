@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoControlEditDlg" widgetVar="TipoControlEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoControlTitle}" closeOnEscape="true">
+
+            <h:form id="TipoControlEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoControlController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoControlLabel_tipoControlId}" for="tipoControlId" />
+                        <h:outputText id="tipoControlId" value="#{tipoControlController.selected.tipoControlId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoControlLabel_tipoControlNombre}" for="tipoControlNombre" />
+                        <p:inputText id="tipoControlNombre" value="#{tipoControlController.selected.tipoControlNombre}" title="#{bundle.EditTipoControlTitle_tipoControlNombre}" required="true" requiredMessage="#{bundle.EditTipoControlRequiredMessage_tipoControlNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoControlLabel_tipoControlClasificacion}" for="tipoControlClasificacion" />
+                        <p:inputText id="tipoControlClasificacion" value="#{tipoControlController.selected.tipoControlClasificacion}" title="#{bundle.EditTipoControlTitle_tipoControlClasificacion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoControlLabel_tipoControlFechaIngreso}" for="tipoControlFechaIngreso" />
+                        <p:calendar id="tipoControlFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoControlController.selected.tipoControlFechaIngreso}" title="#{bundle.EditTipoControlTitle_tipoControlFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoControlRequiredMessage_tipoControlFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoControlController.save}" value="#{bundle.Save}" update="display,:TipoControlListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoControlEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoControlEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

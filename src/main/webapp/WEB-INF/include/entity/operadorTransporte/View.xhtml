@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperadorTransporteViewDlg" widgetVar="OperadorTransporteViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewOperadorTransporteTitle}" closeOnEscape="true">
+
+            <h:form id="OperadorTransporteViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{operadorTransporteController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewOperadorTransporteLabel_operadorTransporteId}"/>
+                        <h:outputText value="#{operadorTransporteController.selected.operadorTransporteId}" title="#{bundle.ViewOperadorTransporteTitle_operadorTransporteId}"/>
+
+                        <h:outputText value="#{bundle.ViewOperadorTransporteLabel_operadorTransporteRut}"/>
+                        <h:outputText value="#{operadorTransporteController.selected.operadorTransporteRut}" title="#{bundle.ViewOperadorTransporteTitle_operadorTransporteRut}"/>
+
+                        <h:outputText value="#{bundle.ViewOperadorTransporteLabel_operadorTransporteNombre}"/>
+                        <h:outputText value="#{operadorTransporteController.selected.operadorTransporteNombre}" title="#{bundle.ViewOperadorTransporteTitle_operadorTransporteNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewOperadorTransporteLabel_operadorTransporteFechaIngreso}"/>
+                        <h:outputText value="#{operadorTransporteController.selected.operadorTransporteFechaIngreso}" title="#{bundle.ViewOperadorTransporteTitle_operadorTransporteFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('OperadorTransporteViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

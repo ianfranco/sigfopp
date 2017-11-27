@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="VentaBoletoListForm">
+
+        <p:panel header="#{bundle.ListVentaBoletoTitle}">
+            <p:contextMenu id="VentaBoletoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('VentaBoletoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('VentaBoletoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('VentaBoletoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('VentaBoletoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.VentaBoletoMenuItem_ventaBoletoIdGuia}" icon="ui-icon-search"  actionListener="#{ventaBoletoController.prepareVentaBoletoIdGuia}" update=":GuiaViewForm" oncomplete="PF('GuiaViewDialog').show()" disabled="#{empty ventaBoletoController.selected.ventaBoletoIdGuia}"/>  
+                <p:menuitem value="#{bundle.VentaBoletoMenuItem_ventaBoletoIdInventarioCaja}" icon="ui-icon-search"  actionListener="#{ventaBoletoController.prepareVentaBoletoIdInventarioCaja}" update=":InventarioCajaViewForm" oncomplete="PF('InventarioCajaViewDialog').show()" disabled="#{empty ventaBoletoController.selected.ventaBoletoIdInventarioCaja}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{ventaBoletoController.items}"
+                         lazy="false"
+                         rowKey="#{item.ventaBoletoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{ventaBoletoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{ventaBoletoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.ventaBoletoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VentaBoletoDataTableContextMenu" listener="#{ventaBoletoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:VentaBoletoDataTableContextMenu" listener="#{ventaBoletoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{ventaBoletoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('VentaBoletoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.ventaBoletoId}" filterBy="#{item.ventaBoletoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListVentaBoletoTitle_ventaBoletoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ventaBoletoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoValorVentaBoleto}" filterBy="#{item.ventaBoletoValorVentaBoleto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListVentaBoletoTitle_ventaBoletoValorVentaBoleto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ventaBoletoValorVentaBoleto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoRecaudado}" filterBy="#{item.ventaBoletoRecaudado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListVentaBoletoTitle_ventaBoletoRecaudado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="ventaBoletoRecaudado" value="#{item.ventaBoletoRecaudado}" title="#{bundle.EditVentaBoletoTitle_ventaBoletoRecaudado}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoRecaudado}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoFechaIngreso}" filterBy="#{item.ventaBoletoFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListVentaBoletoTitle_ventaBoletoFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ventaBoletoFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoIdGuia.guiaId}" filterBy="#{item.ventaBoletoIdGuia.guiaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListVentaBoletoTitle_ventaBoletoIdGuia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ventaBoletoIdGuia.guiaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaId}" filterBy="#{item.ventaBoletoIdInventarioCaja.inventarioCajaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListVentaBoletoTitle_ventaBoletoIdInventarioCaja}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ventaBoletoIdInventarioCaja.inventarioCajaId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{ventaBoletoController.prepareCreate}" update=":VentaBoletoCreateForm" oncomplete="PF('VentaBoletoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":VentaBoletoViewForm" oncomplete="PF('VentaBoletoViewDialog').show()" disabled="#{empty ventaBoletoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":VentaBoletoEditForm" oncomplete="PF('VentaBoletoEditDialog').show()" disabled="#{empty ventaBoletoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ventaBoletoController.delete}" update=":growl,datalist" disabled="#{empty ventaBoletoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

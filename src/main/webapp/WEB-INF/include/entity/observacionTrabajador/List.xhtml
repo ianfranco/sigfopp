@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ObservacionTrabajadorListForm">
+
+        <p:panel header="#{bundle.ListObservacionTrabajadorTitle}">
+            <p:contextMenu id="ObservacionTrabajadorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ObservacionTrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ObservacionTrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ObservacionTrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ObservacionTrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ObservacionTrabajadorMenuItem_observacionTrabajadorIdTipoObservacion}" icon="ui-icon-search"  actionListener="#{observacionTrabajadorController.prepareObservacionTrabajadorIdTipoObservacion}" update=":TipoObservacionViewForm" oncomplete="PF('TipoObservacionViewDialog').show()" disabled="#{empty observacionTrabajadorController.selected.observacionTrabajadorIdTipoObservacion}"/>  
+                <p:menuitem value="#{bundle.ObservacionTrabajadorMenuItem_observacionTrabajadorIdTrabajador}" icon="ui-icon-search"  actionListener="#{observacionTrabajadorController.prepareObservacionTrabajadorIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty observacionTrabajadorController.selected.observacionTrabajadorIdTrabajador}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{observacionTrabajadorController.items}"
+                         lazy="false"
+                         rowKey="#{item.observacionTrabajadorId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{observacionTrabajadorController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{observacionTrabajadorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.observacionTrabajadorId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ObservacionTrabajadorDataTableContextMenu" listener="#{observacionTrabajadorController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ObservacionTrabajadorDataTableContextMenu" listener="#{observacionTrabajadorController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{observacionTrabajadorController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ObservacionTrabajadorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.observacionTrabajadorId}" filterBy="#{item.observacionTrabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListObservacionTrabajadorTitle_observacionTrabajadorId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.observacionTrabajadorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.observacionTrabajadorFecha}" filterBy="#{item.observacionTrabajadorFecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListObservacionTrabajadorTitle_observacionTrabajadorFecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.observacionTrabajadorFecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.observacionTrabajadorDescripcion}" filterBy="#{item.observacionTrabajadorDescripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListObservacionTrabajadorTitle_observacionTrabajadorDescripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.observacionTrabajadorDescripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.observacionTrabajadorDetalle}" filterBy="#{item.observacionTrabajadorDetalle}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListObservacionTrabajadorTitle_observacionTrabajadorDetalle}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.observacionTrabajadorDetalle}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.observacionTrabajadorFechaIngreso}" filterBy="#{item.observacionTrabajadorFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListObservacionTrabajadorTitle_observacionTrabajadorFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.observacionTrabajadorFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.observacionTrabajadorIdTipoObservacion.tipoObservacionId}" filterBy="#{item.observacionTrabajadorIdTipoObservacion.tipoObservacionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListObservacionTrabajadorTitle_observacionTrabajadorIdTipoObservacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.observacionTrabajadorIdTipoObservacion.tipoObservacionId}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.observacionTrabajadorIdTrabajador.trabajadorId}" filterBy="#{item.observacionTrabajadorIdTrabajador.trabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListObservacionTrabajadorTitle_observacionTrabajadorIdTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.observacionTrabajadorIdTrabajador.trabajadorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{observacionTrabajadorController.prepareCreate}" update=":ObservacionTrabajadorCreateForm" oncomplete="PF('ObservacionTrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ObservacionTrabajadorViewForm" oncomplete="PF('ObservacionTrabajadorViewDialog').show()" disabled="#{empty observacionTrabajadorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ObservacionTrabajadorEditForm" oncomplete="PF('ObservacionTrabajadorEditDialog').show()" disabled="#{empty observacionTrabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{observacionTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty observacionTrabajadorController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

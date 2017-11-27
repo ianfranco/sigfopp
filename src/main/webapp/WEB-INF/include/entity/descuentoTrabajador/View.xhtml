@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DescuentoTrabajadorViewDlg" widgetVar="DescuentoTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDescuentoTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="DescuentoTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{descuentoTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorId}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorId}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorFechaInicio}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorFechaInicio}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorFechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorFechaTermino}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorFechaTermino}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorFechaTermino}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorCuotaActual}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorCuotaActual}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorCuotaActual}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorTotalCuotas}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorTotalCuotas}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorTotalCuotas}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorMontoFijo}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorMontoFijo}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorMontoFijo}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorDescripcion}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorDescripcion}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorActivo}"/>
+                        <h:selectBooleanCheckbox id="descuentoTrabajadorActivo" value="#{descuentoTrabajadorController.selected.descuentoTrabajadorActivo}" title="#{bundle.EditDescuentoTrabajadorTitle_descuentoTrabajadorActivo}" required="true" requiredMessage="#{bundle.EditDescuentoTrabajadorRequiredMessage_descuentoTrabajadorActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorFechaIngreso}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorFechaIngreso}" title="#{bundle.ViewDescuentoTrabajadorTitle_descuentoTrabajadorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorIdDescuento}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorIdDescuento.tipoDescuentoTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewDescuentoTrabajadorLabel_descuentoTrabajadorIdTrabajador}"/>
+                        <h:outputText value="#{descuentoTrabajadorController.selected.descuentoTrabajadorIdTrabajador.trabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DescuentoTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

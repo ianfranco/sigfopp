@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TopeCreateDlg" widgetVar="TopeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTopeTitle}" closeOnEscape="true">
+
+            <h:form id="TopeCreateForm">
+
+                <h:panelGroup id="display" rendered="#{topeController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTopeLabel_topeNombre}" for="topeNombre" />
+                        <p:inputText id="topeNombre" value="#{topeController.selected.topeNombre}" title="#{bundle.CreateTopeTitle_topeNombre}" required="true" requiredMessage="#{bundle.CreateTopeRequiredMessage_topeNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateTopeLabel_topeMontoUf}" for="topeMontoUf" />
+                        <p:inputText id="topeMontoUf" value="#{topeController.selected.topeMontoUf}" title="#{bundle.CreateTopeTitle_topeMontoUf}" required="true" requiredMessage="#{bundle.CreateTopeRequiredMessage_topeMontoUf}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{topeController.saveNew}" value="#{bundle.Save}" update="display,:TopeListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TopeCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TopeCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

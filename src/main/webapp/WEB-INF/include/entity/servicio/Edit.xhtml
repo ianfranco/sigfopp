@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ServicioEditDlg" widgetVar="ServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{servicioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditServicioLabel_servicioId}" for="servicioId" />
+                        <h:outputText id="servicioId" value="#{servicioController.selected.servicioId}" />
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioNumeroServicio}" for="servicioNumeroServicio" />
+                        <p:inputText id="servicioNumeroServicio" value="#{servicioController.selected.servicioNumeroServicio}" title="#{bundle.EditServicioTitle_servicioNumeroServicio}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioNumeroServicio}"/>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioLongitud}" for="servicioLongitud" />
+                        <p:inputText id="servicioLongitud" value="#{servicioController.selected.servicioLongitud}" title="#{bundle.EditServicioTitle_servicioLongitud}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioLongitud}"/>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioNombre}" for="servicioNombre" />
+                        <p:inputText id="servicioNombre" value="#{servicioController.selected.servicioNombre}" title="#{bundle.EditServicioTitle_servicioNombre}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioOrigen}" for="servicioOrigen" />
+                        <p:inputText id="servicioOrigen" value="#{servicioController.selected.servicioOrigen}" title="#{bundle.EditServicioTitle_servicioOrigen}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioOrigen}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioDestino}" for="servicioDestino" />
+                        <p:inputText id="servicioDestino" value="#{servicioController.selected.servicioDestino}" title="#{bundle.EditServicioTitle_servicioDestino}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioDestino}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioFolio}" for="servicioFolio" />
+                        <p:inputText id="servicioFolio" value="#{servicioController.selected.servicioFolio}" title="#{bundle.EditServicioTitle_servicioFolio}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioFechaIngreso}" for="servicioFechaIngreso" />
+                        <p:calendar id="servicioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{servicioController.selected.servicioFechaIngreso}" title="#{bundle.EditServicioTitle_servicioFechaIngreso}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioIdTerminal}" for="servicioIdTerminal" />
+                        <p:selectOneMenu id="servicioIdTerminal" value="#{servicioController.selected.servicioIdTerminal}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioIdTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="servicioIdTerminalItem"
+                                           itemValue="#{servicioIdTerminalItem}"
+                                           itemLabel="#{servicioIdTerminalItem.terminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditServicioLabel_servicioIdUnidad}" for="servicioIdUnidad" />
+                        <p:selectOneMenu id="servicioIdUnidad" value="#{servicioController.selected.servicioIdUnidad}" required="true" requiredMessage="#{bundle.EditServicioRequiredMessage_servicioIdUnidad}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="servicioIdUnidadItem"
+                                           itemValue="#{servicioIdUnidadItem}"
+                                           itemLabel="#{servicioIdUnidadItem.unidadNegocioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{servicioController.save}" value="#{bundle.Save}" update="display,:ServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ServicioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

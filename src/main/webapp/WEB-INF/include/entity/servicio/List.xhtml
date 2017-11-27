@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ServicioListForm">
+
+        <p:panel header="#{bundle.ListServicioTitle}">
+            <p:contextMenu id="ServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ServicioMenuItem_calleServicioList}" icon="ui-icon-search"  action="#{servicioController.navigateCalleServicioList}" disabled="#{empty servicioController.selected.calleServicioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_despachoList}" icon="ui-icon-search"  action="#{servicioController.navigateDespachoList}" disabled="#{empty servicioController.selected.despachoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_frecuenciaServicioList}" icon="ui-icon-search"  action="#{servicioController.navigateFrecuenciaServicioList}" disabled="#{empty servicioController.selected.frecuenciaServicioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_controlServicioList}" icon="ui-icon-search"  action="#{servicioController.navigateControlServicioList}" disabled="#{empty servicioController.selected.controlServicioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_busServicioList}" icon="ui-icon-search"  action="#{servicioController.navigateBusServicioList}" disabled="#{empty servicioController.selected.busServicioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_horarioServicioList}" icon="ui-icon-search"  action="#{servicioController.navigateHorarioServicioList}" disabled="#{empty servicioController.selected.horarioServicioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_tarifaServicioList}" icon="ui-icon-search"  action="#{servicioController.navigateTarifaServicioList}" disabled="#{empty servicioController.selected.tarifaServicioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_servicioIdTerminal}" icon="ui-icon-search"  actionListener="#{servicioController.prepareServicioIdTerminal}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty servicioController.selected.servicioIdTerminal}"/>  
+                <p:menuitem value="#{bundle.ServicioMenuItem_servicioIdUnidad}" icon="ui-icon-search"  actionListener="#{servicioController.prepareServicioIdUnidad}" update=":UnidadNegocioViewForm" oncomplete="PF('UnidadNegocioViewDialog').show()" disabled="#{empty servicioController.selected.servicioIdUnidad}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{servicioController.items}"
+                         lazy="false"
+                         rowKey="#{item.servicioId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{servicioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{servicioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.servicioId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ServicioDataTableContextMenu" listener="#{servicioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ServicioDataTableContextMenu" listener="#{servicioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{servicioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.servicioId}" filterBy="#{item.servicioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServicioTitle_servicioId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicioId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicioNumeroServicio}" filterBy="#{item.servicioNumeroServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServicioTitle_servicioNumeroServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicioNumeroServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicioLongitud}" filterBy="#{item.servicioLongitud}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServicioTitle_servicioLongitud}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicioLongitud}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicioNombre}" filterBy="#{item.servicioNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServicioTitle_servicioNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicioNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicioOrigen}" filterBy="#{item.servicioOrigen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServicioTitle_servicioOrigen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicioOrigen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicioDestino}" filterBy="#{item.servicioDestino}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListServicioTitle_servicioDestino}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicioDestino}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.servicioFolio}" filterBy="#{item.servicioFolio}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServicioTitle_servicioFolio}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.servicioFolio}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.servicioFechaIngreso}" filterBy="#{item.servicioFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServicioTitle_servicioFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.servicioFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.servicioIdTerminal.terminalId}" filterBy="#{item.servicioIdTerminal.terminalId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServicioTitle_servicioIdTerminal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.servicioIdTerminal.terminalId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.servicioIdUnidad.unidadNegocioId}" filterBy="#{item.servicioIdUnidad.unidadNegocioId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListServicioTitle_servicioIdUnidad}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.servicioIdUnidad.unidadNegocioId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{servicioController.prepareCreate}" update=":ServicioCreateForm" oncomplete="PF('ServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty servicioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ServicioEditForm" oncomplete="PF('ServicioEditDialog').show()" disabled="#{empty servicioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{servicioController.delete}" update=":growl,datalist" disabled="#{empty servicioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

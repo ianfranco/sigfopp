@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DetalleMetalicoCtvListForm">
+
+        <p:panel header="#{bundle.ListDetalleMetalicoCtvTitle}">
+            <p:contextMenu id="DetalleMetalicoCtvDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DetalleMetalicoCtvListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DetalleMetalicoCtvListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DetalleMetalicoCtvListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DetalleMetalicoCtvListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.DetalleMetalicoCtvMenuItem_detalleMetalicoCtvIdCtvResumen}" icon="ui-icon-search"  actionListener="#{detalleMetalicoCtvController.prepareDetalleMetalicoCtvIdCtvResumen}" update=":CtvResumenViewForm" oncomplete="PF('CtvResumenViewDialog').show()" disabled="#{empty detalleMetalicoCtvController.selected.detalleMetalicoCtvIdCtvResumen}"/>  
+                <p:menuitem value="#{bundle.DetalleMetalicoCtvMenuItem_detalleMetalicoCtvIdEfectivoCaja}" icon="ui-icon-search"  actionListener="#{detalleMetalicoCtvController.prepareDetalleMetalicoCtvIdEfectivoCaja}" update=":EfectivoCajaViewForm" oncomplete="PF('EfectivoCajaViewDialog').show()" disabled="#{empty detalleMetalicoCtvController.selected.detalleMetalicoCtvIdEfectivoCaja}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{detalleMetalicoCtvController.items}"
+                         lazy="false"
+                         rowKey="#{item.detalleMetalicoCtvId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{detalleMetalicoCtvController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{detalleMetalicoCtvController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.detalleMetalicoCtvId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleMetalicoCtvDataTableContextMenu" listener="#{detalleMetalicoCtvController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleMetalicoCtvDataTableContextMenu" listener="#{detalleMetalicoCtvController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{detalleMetalicoCtvController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DetalleMetalicoCtvListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.detalleMetalicoCtvId}" filterBy="#{item.detalleMetalicoCtvId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleMetalicoCtvTitle_detalleMetalicoCtvId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleMetalicoCtvId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleMetalicoCtvCantidadBolsas}" filterBy="#{item.detalleMetalicoCtvCantidadBolsas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleMetalicoCtvTitle_detalleMetalicoCtvCantidadBolsas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleMetalicoCtvCantidadBolsas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleMetalicoCtvTotalEfectivo}" filterBy="#{item.detalleMetalicoCtvTotalEfectivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleMetalicoCtvTitle_detalleMetalicoCtvTotalEfectivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleMetalicoCtvTotalEfectivo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleMetalicoCtvIdCtvResumen.ctvResumenId}" filterBy="#{item.detalleMetalicoCtvIdCtvResumen.ctvResumenId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleMetalicoCtvTitle_detalleMetalicoCtvIdCtvResumen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleMetalicoCtvIdCtvResumen.ctvResumenId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.detalleMetalicoCtvIdEfectivoCaja.efectivoCajaId}" filterBy="#{item.detalleMetalicoCtvIdEfectivoCaja.efectivoCajaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDetalleMetalicoCtvTitle_detalleMetalicoCtvIdEfectivoCaja}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.detalleMetalicoCtvIdEfectivoCaja.efectivoCajaId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{detalleMetalicoCtvController.prepareCreate}" update=":DetalleMetalicoCtvCreateForm" oncomplete="PF('DetalleMetalicoCtvCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DetalleMetalicoCtvViewForm" oncomplete="PF('DetalleMetalicoCtvViewDialog').show()" disabled="#{empty detalleMetalicoCtvController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DetalleMetalicoCtvEditForm" oncomplete="PF('DetalleMetalicoCtvEditDialog').show()" disabled="#{empty detalleMetalicoCtvController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{detalleMetalicoCtvController.delete}" update=":growl,datalist" disabled="#{empty detalleMetalicoCtvController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

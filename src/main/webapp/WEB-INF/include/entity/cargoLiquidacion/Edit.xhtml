@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CargoLiquidacionEditDlg" widgetVar="CargoLiquidacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCargoLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="CargoLiquidacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cargoLiquidacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCargoLiquidacionLabel_cargoLiquidacionId}" for="cargoLiquidacionId" />
+                        <h:outputText id="cargoLiquidacionId" value="#{cargoLiquidacionController.selected.cargoLiquidacionId}" />
+
+                        <p:outputLabel value="#{bundle.EditCargoLiquidacionLabel_cargoLiquidacionMonto}" for="cargoLiquidacionMonto" />
+                        <p:inputText id="cargoLiquidacionMonto" value="#{cargoLiquidacionController.selected.cargoLiquidacionMonto}" title="#{bundle.EditCargoLiquidacionTitle_cargoLiquidacionMonto}" required="true" requiredMessage="#{bundle.EditCargoLiquidacionRequiredMessage_cargoLiquidacionMonto}"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoLiquidacionLabel_cargoLiquidacionDescripcion}" for="cargoLiquidacionDescripcion" />
+                        <p:inputText id="cargoLiquidacionDescripcion" value="#{cargoLiquidacionController.selected.cargoLiquidacionDescripcion}" title="#{bundle.EditCargoLiquidacionTitle_cargoLiquidacionDescripcion}" required="true" requiredMessage="#{bundle.EditCargoLiquidacionRequiredMessage_cargoLiquidacionDescripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoLiquidacionLabel_cargoLiquidacionFechaIngreso}" for="cargoLiquidacionFechaIngreso" />
+                        <p:calendar id="cargoLiquidacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{cargoLiquidacionController.selected.cargoLiquidacionFechaIngreso}" title="#{bundle.EditCargoLiquidacionTitle_cargoLiquidacionFechaIngreso}" required="true" requiredMessage="#{bundle.EditCargoLiquidacionRequiredMessage_cargoLiquidacionFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoLiquidacionLabel_cargoLiquidacionIdCargo}" for="cargoLiquidacionIdCargo" />
+                        <p:selectOneMenu id="cargoLiquidacionIdCargo" value="#{cargoLiquidacionController.selected.cargoLiquidacionIdCargo}" required="true" requiredMessage="#{bundle.EditCargoLiquidacionRequiredMessage_cargoLiquidacionIdCargo}" converter="cargoBusConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cargoBusController.items}"
+                                           var="cargoLiquidacionIdCargoItem"
+                                           itemValue="#{cargoLiquidacionIdCargoItem}"
+                                           itemLabel="#{cargoLiquidacionIdCargoItem.cargoBusDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditCargoLiquidacionLabel_cargoLiquidacionIdLiquidacionEmpresa}" for="cargoLiquidacionIdLiquidacionEmpresa" />
+                        <p:selectOneMenu id="cargoLiquidacionIdLiquidacionEmpresa" value="#{cargoLiquidacionController.selected.cargoLiquidacionIdLiquidacionEmpresa}" required="true" requiredMessage="#{bundle.EditCargoLiquidacionRequiredMessage_cargoLiquidacionIdLiquidacionEmpresa}" converter="liquidacionEmpresaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{liquidacionEmpresaController.items}"
+                                           var="cargoLiquidacionIdLiquidacionEmpresaItem"
+                                           itemValue="#{cargoLiquidacionIdLiquidacionEmpresaItem}"
+                                           itemLabel="#{cargoLiquidacionIdLiquidacionEmpresaItem.liquidacionEmpresaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargoLiquidacionController.save}" value="#{bundle.Save}" update="display,:CargoLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoLiquidacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoLiquidacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="ProfileDlg" widgetVar="ProfileDialog" modal="true" appendTo="@(body)" resizable="false" draggable="false" header="Ficha">
+            <h:form id="ProfileForm">
+                <p:panelGrid columnClasses="column" columns="2">
+                    
+                    <h:outputText value="Nombre :"/>
+                    <h:outputText value="#{loginController.usuario.usuarioNombres}"/>
+                    
+                    <h:outputText value="Apellido :"/>
+                    <h:outputText value="#{loginController.usuario.usuarioApellidoPaterno}"/>
+                    
+                    <h:outputText value="IP:"/>
+                    <h:outputText value="#{loginController.ipAddress}"/>
+                    
+                    <h:outputText value="Rol:"/>
+                    <h:outputText value="#{loginController.usuario.usuarioIdRol.rolNombre}"/>
+                    
+                    <f:facet name="footer">
+                        <div class="footer-right">
+                            <p:commandButton icon="fa fa-close" styleClass="btn-danger" value="#{bundle.Cancel}" onclick="PF('ProfileDialog').hide()" immediate="true" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                        </div>
+                    </f:facet>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

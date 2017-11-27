@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="IntervalosAdministracionListForm">
+
+        <p:panel header="#{bundle.ListIntervalosAdministracionTitle}">
+            <p:contextMenu id="IntervalosAdministracionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('IntervalosAdministracionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('IntervalosAdministracionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('IntervalosAdministracionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('IntervalosAdministracionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.IntervalosAdministracionMenuItem_detalleIntervalosMensualList}" icon="ui-icon-search"  action="#{intervalosAdministracionController.navigateDetalleIntervalosMensualList}" disabled="#{empty intervalosAdministracionController.selected.detalleIntervalosMensualList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{intervalosAdministracionController.items}"
+                         lazy="false"
+                         rowKey="#{item.intervalosAdministracionId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{intervalosAdministracionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{intervalosAdministracionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.intervalosAdministracionId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:IntervalosAdministracionDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:IntervalosAdministracionDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('IntervalosAdministracionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.intervalosAdministracionId}" filterBy="#{item.intervalosAdministracionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListIntervalosAdministracionTitle_intervalosAdministracionId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.intervalosAdministracionId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.intervalosAdministracionNombre}" filterBy="#{item.intervalosAdministracionNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListIntervalosAdministracionTitle_intervalosAdministracionNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.intervalosAdministracionNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.intervalosAdministracionDesde}" filterBy="#{item.intervalosAdministracionDesde}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListIntervalosAdministracionTitle_intervalosAdministracionDesde}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.intervalosAdministracionDesde}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.intervalosAdministracionHasta}" filterBy="#{item.intervalosAdministracionHasta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListIntervalosAdministracionTitle_intervalosAdministracionHasta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.intervalosAdministracionHasta}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{intervalosAdministracionController.prepareCreate}" update=":IntervalosAdministracionCreateForm" oncomplete="PF('IntervalosAdministracionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":IntervalosAdministracionViewForm" oncomplete="PF('IntervalosAdministracionViewDialog').show()" disabled="#{empty intervalosAdministracionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":IntervalosAdministracionEditForm" oncomplete="PF('IntervalosAdministracionEditDialog').show()" disabled="#{empty intervalosAdministracionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{intervalosAdministracionController.delete}" update=":growl,datalist" disabled="#{empty intervalosAdministracionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

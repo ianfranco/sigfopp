@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoContratoViewDlg" widgetVar="TipoContratoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoContratoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoContratoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoContratoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoContratoLabel_tipoContratoId}"/>
+                        <h:outputText value="#{tipoContratoController.selected.tipoContratoId}" title="#{bundle.ViewTipoContratoTitle_tipoContratoId}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoContratoLabel_tipoContratoNombre}"/>
+                        <h:outputText value="#{tipoContratoController.selected.tipoContratoNombre}" title="#{bundle.ViewTipoContratoTitle_tipoContratoNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoContratoLabel_tipoContratoFechaIngreso}"/>
+                        <h:outputText value="#{tipoContratoController.selected.tipoContratoFechaIngreso}" title="#{bundle.ViewTipoContratoTitle_tipoContratoFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoContratoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

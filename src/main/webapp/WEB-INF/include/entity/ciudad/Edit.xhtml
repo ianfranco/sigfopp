@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CiudadEditDlg" widgetVar="CiudadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCiudadTitle}" closeOnEscape="true">
+
+            <h:form id="CiudadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ciudadController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCiudadLabel_ciudadId}" for="ciudadId" />
+                        <h:outputText id="ciudadId" value="#{ciudadController.selected.ciudadId}" />
+
+                        <p:outputLabel value="#{bundle.EditCiudadLabel_ciudadNombre}" for="ciudadNombre" />
+                        <p:inputText id="ciudadNombre" value="#{ciudadController.selected.ciudadNombre}" title="#{bundle.EditCiudadTitle_ciudadNombre}" required="true" requiredMessage="#{bundle.EditCiudadRequiredMessage_ciudadNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditCiudadLabel_ciudadIdRegion}" for="ciudadIdRegion" />
+                        <p:selectOneMenu id="ciudadIdRegion" value="#{ciudadController.selected.ciudadIdRegion}" required="true" requiredMessage="#{bundle.EditCiudadRequiredMessage_ciudadIdRegion}" converter="regionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{regionController.items}"
+                                           var="ciudadIdRegionItem"
+                                           itemValue="#{ciudadIdRegionItem}"
+                                           itemLabel="#{ciudadIdRegionItem.regionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ciudadController.save}" value="#{bundle.Save}" update="display,:CiudadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CiudadEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CiudadEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

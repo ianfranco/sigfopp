@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaBoletoViewDlg" widgetVar="VentaBoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{ventaBoletoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_ventaBoletoId}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.ventaBoletoId}" title="#{bundle.ViewVentaBoletoTitle_ventaBoletoId}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_ventaBoletoValorVentaBoleto}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.ventaBoletoValorVentaBoleto}" title="#{bundle.ViewVentaBoletoTitle_ventaBoletoValorVentaBoleto}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_ventaBoletoRecaudado}"/>
+                        <h:selectBooleanCheckbox id="ventaBoletoRecaudado" value="#{ventaBoletoController.selected.ventaBoletoRecaudado}" title="#{bundle.EditVentaBoletoTitle_ventaBoletoRecaudado}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoRecaudado}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_ventaBoletoFechaIngreso}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.ventaBoletoFechaIngreso}" title="#{bundle.ViewVentaBoletoTitle_ventaBoletoFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_ventaBoletoIdGuia}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.ventaBoletoIdGuia.guiaId}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaBoletoLabel_ventaBoletoIdInventarioCaja}"/>
+                        <h:outputText value="#{ventaBoletoController.selected.ventaBoletoIdInventarioCaja.inventarioCajaId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('VentaBoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

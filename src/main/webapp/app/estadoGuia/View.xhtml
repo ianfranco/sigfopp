@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoGuiaViewDlg" widgetVar="EstadoGuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Ficha Estado Guía" closeOnEscape="true">
+
+            <h:form id="EstadoGuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{estadoGuiaController.selected != null}">
+
+                        <h:outputText value="#"/>
+                        <h:outputText value="#{estadoGuiaController.selected.estadoGuiaId}" title="#{bundle.ViewEstadoGuiaTitle_estadoGuiaId}"/>
+
+                        <h:outputText value="Nombre"/>
+                        <h:outputText value="#{estadoGuiaController.selected.estadoGuiaNombre}" title="#{bundle.ViewEstadoGuiaTitle_estadoGuiaNombre}"/>
+
+                        <p:outputLabel value="Recaudación"  />
+                        <p:selectBooleanCheckbox value="#{estadoGuiaController.selected.estadoGuiaRecaudacion}" disabled="true"/>
+
+                        <p:outputLabel value="Inspector" />
+                        <p:selectBooleanCheckbox value="#{estadoGuiaController.selected.estadoGuiaInspector}" disabled="true"/>
+
+                        <p:outputLabel value="Operativo" />
+                        <p:selectBooleanCheckbox value="#{estadoGuiaController.selected.estadoGuiaPermitirOperacion}" disabled="true"/>
+                      
+                        <h:outputText value="Activo"/>
+                        <h:selectBooleanCheckbox value="#{estadoGuiaController.selected.estadoGuiaActivo}" title="#{bundle.EditEstadoGuiaTitle_estadoGuiaActivo}" required="true" requiredMessage="#{bundle.EditEstadoGuiaRequiredMessage_estadoGuiaActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEstadoGuiaLabel_estadoGuiaFechaIngreso}"/>
+                        <h:outputText value="#{estadoGuiaController.selected.lastUpdate}" title="#{bundle.ViewEstadoGuiaTitle_estadoGuiaFechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EstadoGuiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

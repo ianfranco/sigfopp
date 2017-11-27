@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleIntervalosMensualViewDlg" widgetVar="DetalleIntervalosMensualViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDetalleIntervalosMensualTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleIntervalosMensualViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleIntervalosMensualController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDetalleIntervalosMensualLabel_detalleIntervalosMensualId}"/>
+                        <h:outputText value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualId}" title="#{bundle.ViewDetalleIntervalosMensualTitle_detalleIntervalosMensualId}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleIntervalosMensualLabel_detalleIntervalosMensualNumeroBuses}"/>
+                        <h:outputText value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualNumeroBuses}" title="#{bundle.ViewDetalleIntervalosMensualTitle_detalleIntervalosMensualNumeroBuses}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleIntervalosMensualLabel_detalleIntervalosMensualIdAdministracion}"/>
+                        <h:outputText value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualIdAdministracion.administracionMensualId}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleIntervalosMensualLabel_detalleIntervalosMensualIdIntervaloAdministracion}"/>
+                        <h:outputText value="#{detalleIntervalosMensualController.selected.detalleIntervalosMensualIdIntervaloAdministracion.intervalosAdministracionId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DetalleIntervalosMensualViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

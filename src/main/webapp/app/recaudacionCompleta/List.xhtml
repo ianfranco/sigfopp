@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:of="http://omnifaces.org/functions">
+    <h1><h:panelGroup id="count"></h:panelGroup></h1>
+    <h:form id="RecaudacionCompletaListForm" class="form-height">
+        <h:panelGroup id="foo">
+            <p:panel header="Recaudación" id="resumen" style="padding-bottom: 10px;">
+                <p:panelGrid columns="9" >
+
+                    <p:outputLabel value="Fecha" for="fechaRecaudacionPetroleo" />
+                    <p:calendar id="fechaRecaudacionPetroleo" pattern="dd/MM/yyyy" value="#{recaudacionCompletaController.fechaRecaudacion}" required="true" requiredMessage="Debe seleccionar la fecha" locale="es" >
+                        <p:ajax event="valueChange" update="loadButton"/>
+                    </p:calendar>
+
+                    <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" style="text-align: right;"/>
+                    <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{recaudacionCompletaController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{recaudacionCompletaController.cajaRecaudacionItems}"
+                                       var="cajaId"
+                                       itemValue="#{cajaId}"
+                                       itemLabel="#{cajaId.cajaRecaudacionNombre}"
+                                       />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Total: "/>
+                    <p:outputLabel id="formatTotal" value="#{recaudacionCompletaController.getFormatValue(recaudacionGeneralController.totalRecaudacion)}" />
+
+                    <p:outputLabel value="N° de Recaudación: "/>
+                    <p:outputLabel id="numeroRecaudacion" value="#{recaudacionCompletaController.items.size()>0?recaudacionCompletaController.items.size():0}"/>
+
+                    <p:commandButton id="loadButton" actionListener="#{recaudacionCompletaController.load2()}" styleClass="btn btn-primary" icon="fa fa-search" value="Buscar" update=":growl, :GuiaListForm:data, formatTotal, numeroRecaudacion, :GuiaListForm:recaudacionGeneral, :GuiaListForm:recaudacionCombustibleBoleta, :GuiaListForm:recaudacionCombustibleBus, :GuiaListForm:recaudacionMinuto, :GuiaListForm:recaudacionExtra, :GuiaListForm:ventaBoleto, :GuiaListForm:deudasMinutos, :GuiaListForm:deudasPetroleo, :GuiaListForm:inventarioBoletos" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <f:ajax />
+                    </p:commandButton>
+
+                    <p:outputLabel value="Impresión?: " />
+                    <p:selectBooleanCheckbox value="#{recaudacionCompletaController.print}" />
+
+
+                </p:panelGrid>
+            </p:panel>
+        </h:panelGroup>
+        <o:socket channel="recaudacion" onmessage="handleMessage" onclose="onclosePush" user="#{recaudacionNotify.user.usuarioId}">
+            <f:ajax event="recaudacion" listener="#{recaudacionNotify.notificar}" render=":foo, :count" />
+        </o:socket>
+
+        <script>
+            function handleMessage(recaudacion) {
+                $("#count").text(recaudacion);
+            }
+
+            function updateCounter(newvalue) {
+
+            }
+
+            function onclosePush(code) {
+                if (code == -1) {
+                    alert("Oops! Your browser doesn't seem to support web sockets. The push functionality won't work.")
+                } else if (code != 1000) {
+                    alert("Oops! Push has stopped working with error code " + code + "! Reload the page.")
+                }
+            }
+        </script>
+    </h:form>
+
+    <h:form id="GuiaListForm">
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-2">
+                <p:commandButton id="recaudacionGeneral" value="Guías" style="height: 50px;width: 150px;margin-top: 40px;" styleClass="btn btn-primary" actionListener="#{recaudacionCompletaController.prepareCreate}" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}" update=":GuiaCreateForm" oncomplete="PF('GuiaCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                <p:commandButton id="recaudacionCombustibleBoleta" value="Petroleo x N° Boleta" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" actionListener="#{recaudacionCompletaController.prepareCreateRecaudacionCombustible(event)}" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}" update=":RecaudacionCombustibleCreateForm" oncomplete="PF('RecaudacionCombustibleCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                <p:commandButton id="recaudacionCombustibleBus" value="Petroleo x N° Bus" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
+                <p:commandButton id="recaudacionMinuto" value="Minutos x N° Bus" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
+                <p:commandButton id="recaudacionExtra" value="Ingresos Extras" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}" actionListener="#{recaudacionCompletaController.prepareCreateRecaudacionExtra(event)}" update=":RecaudacionExtraCreateForm" oncomplete="PF('RecaudacionExtraCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                <p:commandButton id="ventaBoleto" value="Venta de Boleto" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
+                <p:commandButton id="deudasMinutos" value="Deudas de Minutos" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
+                <p:commandButton id="deudasPetroleo" value="Deudas de Petroleo" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/></div>
+            <div class="ui-g-12 ui-md-10 ui-g-nopad">
+                <div class="ui-g-12">
+                    Estado Caja a la fecha: 
+                    <p:outputLabel value="#{recaudacionCompletaController.fechaRecaudacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:outputLabel>
+                </div>
+                <div class="ui-g-12 ui-g-nopad">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4">
+
+                            <h:panelGrid id="data">
+                                <p:dataTable id="datalist"                         
+                                             value="#{recaudacionCompletaController.columnModelItems}"   
+                                             scrollHeight="500" 
+                                             scrollable="false"                         
+                                             widgetVar="datalistWidget"
+                                             var="item"
+                                             selection="single"
+                                             rowKey="#{item.nombre}"
+                                             rowIndexVar="rowIndex"
+                                             emptyMessage="No se han encontrado registros"                         
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                             style="width: 100%;margin-top: 0px;">
+
+                                    <f:facet name="header">
+                                        Resumen Dineros al: <p:outputLabel value="#{recaudacionCompletaController.fechaRecaudacion}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </p:outputLabel>
+                                    </f:facet>
+
+                                    <p:column style="text-align: center; font-weight: 900;width: 30px">
+                                        <f:facet name="header">
+                                            <h:outputText value="#"/>
+                                        </f:facet>
+                                        <h:outputText value="#{rowIndex+1}"/>
+                                    </p:column>
+
+                                    <p:column footerText="Totales:" style="text-align: center; font-weight: 900;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Item"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.nombre}"/>
+                                    </p:column>
+
+                                    <p:column footerText="#{recaudacionCompletaController.getFormatValue(recaudacionCompletaController.totalResumenRecaudacion)}" style="text-align: center; font-weight: 900;">
+                                        <f:facet name="header">
+                                            <h:outputText value="Valor"/>
+                                        </f:facet>
+                                        <h:outputText value="#{recaudacionCompletaController.getFormatValue(item.valor)}"/>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:panelGrid>
+                            <ui:include src="/confirmation.xhtml"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:panel header="Inventario de Boletos" id="inventarioBoletos">                                
+                                <p:dataList value="#{recaudacionCompletaController.boletosMap.entrySet().toArray()}" var="entry" type="ordered" emptyMessage="Sin registros">                                    
+                                    <p:outputLabel value="#{entry.key},  N°:#{entry.value}"/>
+                                </p:dataList>
+                            </p:panel>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:panel id="noprint" header="Última Recaudación">
+                                <h:panelGrid id="ficha">
+                                    <h:outputLabel value="Recaudación" style="text-align: center;font-size: 25px; width: 100%;"/>
+                                    <h:outputLabel value="Ñandu Tur S.A." style="text-align: center;font-size: 15px;width: 100%;"/>
+
+                                    <h:panelGrid id="f" style="maring-top: 20px;" columns="2">
+                                        <h:outputLabel value="Fecha:" style="width: 70px;"/>
+                                        <h:outputLabel value="#{recaudacionCompletaController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionFecha}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputLabel>
+
+                                        <h:outputLabel value="Caja:" style="width: 70px; "/>
+                                        <h:outputLabel value="#{recaudacionCompletaController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdCaja.cajaRecaudacionNombre}" style="width: 70px;"/>
+
+                                        <h:outputLabel value="N° Bus:" style="width: 70px; font-size: 20px;"/>
+                                        <h:outputLabel value="#{recaudacionCompletaController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busNumero}" style="font-size: 20px;"/>
+
+                                    </h:panelGrid>
+
+                                    <table style="width:100%">
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                        <ui:repeat value="#{recaudacionCompletaController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionCombustibleList}" var="egreso" >
+                                            <tr>                        
+                                                <td>
+                                                    <h:outputLabel value="#{egreso.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha}" style="width: 70px; font-size: 20px;">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                    </h:outputLabel>
+                                                </td>
+                                                <td>
+                                                    <h:outputLabel value="#{egreso.recaudacionCombustibleMonto}" style="width: 70px; font-size: 20px;"/>
+                                                </td>
+                                            </tr>
+                                        </ui:repeat>
+
+                                    </table>
+
+                                </h:panelGrid>
+
+                            </p:panel>
+                        </div>
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-6 ui-md-3"></div>  
+                        <div class="ui-g-6 ui-md-3"></div> 
+                        <div class="ui-g-6 ui-md-3"></div>    
+                        <div class="ui-g-6 ui-md-3"></div>      
+                    </div>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-12">Phasellus faucibus purus volutpat mauris lacinia sodales. Ut sit amet sapien facilisis, commodo dui non, fringilla tellus. Quisque tempus facilisis nisi sodales finibus. Pellentesque neque orci, ullamcorper vitae ligula quis, dignissim euismod augue.</div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12">
+
+            </div>
+        </div>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+
+</ui:composition>

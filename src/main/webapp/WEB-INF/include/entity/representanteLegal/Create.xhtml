@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RepresentanteLegalCreateDlg" widgetVar="RepresentanteLegalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRepresentanteLegalTitle}" closeOnEscape="true">
+
+            <h:form id="RepresentanteLegalCreateForm">
+
+                <h:panelGroup id="display" rendered="#{representanteLegalController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteLegalLabel_representanteLegalNombre}" for="representanteLegalNombre" />
+                        <p:inputText id="representanteLegalNombre" value="#{representanteLegalController.selected.representanteLegalNombre}" title="#{bundle.CreateRepresentanteLegalTitle_representanteLegalNombre}" required="true" requiredMessage="#{bundle.CreateRepresentanteLegalRequiredMessage_representanteLegalNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteLegalLabel_representanteLegalRut}" for="representanteLegalRut" />
+                        <p:inputText id="representanteLegalRut" value="#{representanteLegalController.selected.representanteLegalRut}" title="#{bundle.CreateRepresentanteLegalTitle_representanteLegalRut}" required="true" requiredMessage="#{bundle.CreateRepresentanteLegalRequiredMessage_representanteLegalRut}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteLegalLabel_representanteLegalDireccion}" for="representanteLegalDireccion" />
+                        <p:inputText id="representanteLegalDireccion" value="#{representanteLegalController.selected.representanteLegalDireccion}" title="#{bundle.CreateRepresentanteLegalTitle_representanteLegalDireccion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteLegalLabel_representanteLegalTelefono}" for="representanteLegalTelefono" />
+                        <p:inputText id="representanteLegalTelefono" value="#{representanteLegalController.selected.representanteLegalTelefono}" title="#{bundle.CreateRepresentanteLegalTitle_representanteLegalTelefono}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteLegalLabel_representanteLegalEmail}" for="representanteLegalEmail" />
+                        <p:inputText id="representanteLegalEmail" value="#{representanteLegalController.selected.representanteLegalEmail}" title="#{bundle.CreateRepresentanteLegalTitle_representanteLegalEmail}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateRepresentanteLegalLabel_representanteLegalFechaIngreso}" for="representanteLegalFechaIngreso" />
+                        <p:calendar id="representanteLegalFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{representanteLegalController.selected.representanteLegalFechaIngreso}" title="#{bundle.CreateRepresentanteLegalTitle_representanteLegalFechaIngreso}" required="true" requiredMessage="#{bundle.CreateRepresentanteLegalRequiredMessage_representanteLegalFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{representanteLegalController.saveNew}" value="#{bundle.Save}" update="display,:RepresentanteLegalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RepresentanteLegalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RepresentanteLegalCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ControlAsistenciaEditDlg" widgetVar="ControlAsistenciaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditControlAsistenciaTitle}" closeOnEscape="true">
+
+            <h:form id="ControlAsistenciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{controlAsistenciaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditControlAsistenciaLabel_controlAsistenciaId}" for="controlAsistenciaId" />
+                        <h:outputText id="controlAsistenciaId" value="#{controlAsistenciaController.selected.controlAsistenciaId}" />
+
+                        <p:outputLabel value="#{bundle.EditControlAsistenciaLabel_controlAsistenciaHorarioSalida}" for="controlAsistenciaHorarioSalida" />
+                        <p:calendar id="controlAsistenciaHorarioSalida" pattern="MM/dd/yyyy HH:mm:ss" value="#{controlAsistenciaController.selected.controlAsistenciaHorarioSalida}" title="#{bundle.EditControlAsistenciaTitle_controlAsistenciaHorarioSalida}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditControlAsistenciaLabel_controlAsistenciaHorarioEntrada}" for="controlAsistenciaHorarioEntrada" />
+                        <p:calendar id="controlAsistenciaHorarioEntrada" pattern="MM/dd/yyyy HH:mm:ss" value="#{controlAsistenciaController.selected.controlAsistenciaHorarioEntrada}" title="#{bundle.EditControlAsistenciaTitle_controlAsistenciaHorarioEntrada}" required="true" requiredMessage="#{bundle.EditControlAsistenciaRequiredMessage_controlAsistenciaHorarioEntrada}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditControlAsistenciaLabel_controlAsistenciaIdTrabajador}" for="controlAsistenciaIdTrabajador" />
+                        <p:selectOneMenu id="controlAsistenciaIdTrabajador" value="#{controlAsistenciaController.selected.controlAsistenciaIdTrabajador}" required="true" requiredMessage="#{bundle.EditControlAsistenciaRequiredMessage_controlAsistenciaIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="controlAsistenciaIdTrabajadorItem"
+                                           itemValue="#{controlAsistenciaIdTrabajadorItem}"
+                                           itemLabel="#{controlAsistenciaIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controlAsistenciaController.save}" value="#{bundle.Save}" update="display,:ControlAsistenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ControlAsistenciaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ControlAsistenciaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

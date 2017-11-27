@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoEditDlg" widgetVar="EgresoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEgresoTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEgresoLabel_egresoId}" for="egresoId" />
+                        <h:outputText id="egresoId" value="#{egresoController.selected.egresoId}" />
+
+                        <p:outputLabel value="#{bundle.EditEgresoLabel_egresoNombreEgreso}" for="egresoNombreEgreso" />
+                        <p:inputText id="egresoNombreEgreso" value="#{egresoController.selected.egresoNombreEgreso}" title="#{bundle.EditEgresoTitle_egresoNombreEgreso}" required="true" requiredMessage="#{bundle.EditEgresoRequiredMessage_egresoNombreEgreso}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoLabel_egresoObligatorio}" for="egresoObligatorio" />
+                        <p:selectBooleanCheckbox id="egresoObligatorio" value="#{egresoController.selected.egresoObligatorio}" />
+
+                        <p:outputLabel value="#{bundle.EditEgresoLabel_egresoActivo}" for="egresoActivo" />
+                        <p:selectBooleanCheckbox id="egresoActivo" value="#{egresoController.selected.egresoActivo}" required="true" requiredMessage="#{bundle.EditEgresoRequiredMessage_egresoActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoLabel_egresoFechaIngreso}" for="egresoFechaIngreso" />
+                        <p:calendar id="egresoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoController.selected.egresoFechaIngreso}" title="#{bundle.EditEgresoTitle_egresoFechaIngreso}" required="true" requiredMessage="#{bundle.EditEgresoRequiredMessage_egresoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoController.save}" value="#{bundle.Save}" update="display,:EgresoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

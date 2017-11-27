@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CajaProcesoListForm">
+
+        <p:panel header="#{bundle.ListCajaProcesoTitle}">
+            <p:contextMenu id="CajaProcesoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CajaProcesoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CajaProcesoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CajaProcesoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CajaProcesoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CajaProcesoMenuItem_cajaProcesoIdCaja}" icon="ui-icon-search"  actionListener="#{cajaProcesoController.prepareCajaProcesoIdCaja}" update=":CajaRecaudacionViewForm" oncomplete="PF('CajaRecaudacionViewDialog').show()" disabled="#{empty cajaProcesoController.selected.cajaProcesoIdCaja}"/>  
+                <p:menuitem value="#{bundle.CajaProcesoMenuItem_cajaProcesoIdProceso}" icon="ui-icon-search"  actionListener="#{cajaProcesoController.prepareCajaProcesoIdProceso}" update=":ProcesoRecaudacionViewForm" oncomplete="PF('ProcesoRecaudacionViewDialog').show()" disabled="#{empty cajaProcesoController.selected.cajaProcesoIdProceso}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cajaProcesoController.items}"
+                         lazy="false"
+                         rowKey="#{item.cajaProcesoId}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{cajaProcesoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cajaProcesoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cajaProcesoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaProcesoDataTableContextMenu" listener="#{cajaProcesoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaProcesoDataTableContextMenu" listener="#{cajaProcesoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cajaProcesoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CajaProcesoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cajaProcesoId}" filterBy="#{item.cajaProcesoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaProcesoTitle_cajaProcesoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaProcesoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaProcesoIdCaja.cajaRecaudacionId}" filterBy="#{item.cajaProcesoIdCaja.cajaRecaudacionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaProcesoTitle_cajaProcesoIdCaja}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaProcesoIdCaja.cajaRecaudacionId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaProcesoIdProceso.procesoRecaudacionId}" filterBy="#{item.cajaProcesoIdProceso.procesoRecaudacionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaProcesoTitle_cajaProcesoIdProceso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaProcesoIdProceso.procesoRecaudacionId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cajaProcesoController.prepareCreate}" update=":CajaProcesoCreateForm" oncomplete="PF('CajaProcesoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CajaProcesoViewForm" oncomplete="PF('CajaProcesoViewDialog').show()" disabled="#{empty cajaProcesoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CajaProcesoEditForm" oncomplete="PF('CajaProcesoEditDialog').show()" disabled="#{empty cajaProcesoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cajaProcesoController.delete}" update=":growl,datalist" disabled="#{empty cajaProcesoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CajaTerminalListForm">
+
+        <p:panel header="#{bundle.ListCajaTerminalTitle}">
+            <p:contextMenu id="CajaTerminalDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CajaTerminalListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CajaTerminalListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CajaTerminalListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CajaTerminalListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CajaTerminalMenuItem_cajaTerminalIdTerminal}" icon="ui-icon-search"  actionListener="#{cajaTerminalController.prepareCajaTerminalIdTerminal}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty cajaTerminalController.selected.cajaTerminalIdTerminal}"/>  
+                <p:menuitem value="#{bundle.CajaTerminalMenuItem_cajaTerminalIdUsuario}" icon="ui-icon-search"  actionListener="#{cajaTerminalController.prepareCajaTerminalIdUsuario}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty cajaTerminalController.selected.cajaTerminalIdUsuario}"/>  
+                <p:menuitem value="#{bundle.CajaTerminalMenuItem_resumenRecaudacionList}" icon="ui-icon-search"  action="#{cajaTerminalController.navigateResumenRecaudacionList}" disabled="#{empty cajaTerminalController.selected.resumenRecaudacionList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.CajaTerminalMenuItem_guiaList}" icon="ui-icon-search"  action="#{cajaTerminalController.navigateGuiaList}" disabled="#{empty cajaTerminalController.selected.guiaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.CajaTerminalMenuItem_egresoCajaTerminalList}" icon="ui-icon-search"  action="#{cajaTerminalController.navigateEgresoCajaTerminalList}" disabled="#{empty cajaTerminalController.selected.egresoCajaTerminalList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.CajaTerminalMenuItem_procesoRecaudacionList}" icon="ui-icon-search"  action="#{cajaTerminalController.navigateProcesoRecaudacionList}" disabled="#{empty cajaTerminalController.selected.procesoRecaudacionList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.CajaTerminalMenuItem_inventarioCajaList}" icon="ui-icon-search"  action="#{cajaTerminalController.navigateInventarioCajaList}" disabled="#{empty cajaTerminalController.selected.inventarioCajaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cajaTerminalController.items}"
+                         lazy="false"
+                         rowKey="#{item.cajaTerminalId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{cajaTerminalController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cajaTerminalController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cajaTerminalId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaTerminalDataTableContextMenu" listener="#{cajaTerminalController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CajaTerminalDataTableContextMenu" listener="#{cajaTerminalController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cajaTerminalController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CajaTerminalListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cajaTerminalId}" filterBy="#{item.cajaTerminalId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaTerminalTitle_cajaTerminalId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaTerminalId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaTerminalNombreCaja}" filterBy="#{item.cajaTerminalNombreCaja}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaTerminalTitle_cajaTerminalNombreCaja}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaTerminalNombreCaja}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaTerminalActiva}" filterBy="#{item.cajaTerminalActiva}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaTerminalTitle_cajaTerminalActiva}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="cajaTerminalActiva" value="#{item.cajaTerminalActiva}" title="#{bundle.EditCajaTerminalTitle_cajaTerminalActiva}" required="true" requiredMessage="#{bundle.EditCajaTerminalRequiredMessage_cajaTerminalActiva}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaTerminalFechaIngreso}" filterBy="#{item.cajaTerminalFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaTerminalTitle_cajaTerminalFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaTerminalFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaTerminalIdTerminal.terminalId}" filterBy="#{item.cajaTerminalIdTerminal.terminalId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaTerminalTitle_cajaTerminalIdTerminal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaTerminalIdTerminal.terminalId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cajaTerminalIdUsuario.usuarioId}" filterBy="#{item.cajaTerminalIdUsuario.usuarioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCajaTerminalTitle_cajaTerminalIdUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cajaTerminalIdUsuario.usuarioId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cajaTerminalController.prepareCreate}" update=":CajaTerminalCreateForm" oncomplete="PF('CajaTerminalCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CajaTerminalViewForm" oncomplete="PF('CajaTerminalViewDialog').show()" disabled="#{empty cajaTerminalController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CajaTerminalEditForm" oncomplete="PF('CajaTerminalEditDialog').show()" disabled="#{empty cajaTerminalController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cajaTerminalController.delete}" update=":growl,datalist" disabled="#{empty cajaTerminalController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AdministracionMensualEditDlg" widgetVar="AdministracionMensualEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAdministracionMensualTitle}" closeOnEscape="true">
+
+            <h:form id="AdministracionMensualEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{administracionMensualController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAdministracionMensualLabel_administracionMensualId}" for="administracionMensualId" />
+                        <h:outputText id="administracionMensualId" value="#{administracionMensualController.selected.administracionMensualId}" />
+
+                        <p:outputLabel value="#{bundle.EditAdministracionMensualLabel_administracionMensualFecha}" for="administracionMensualFecha" />
+                        <p:calendar id="administracionMensualFecha" pattern="MM/dd/yyyy" value="#{administracionMensualController.selected.administracionMensualFecha}" title="#{bundle.EditAdministracionMensualTitle_administracionMensualFecha}" required="true" requiredMessage="#{bundle.EditAdministracionMensualRequiredMessage_administracionMensualFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditAdministracionMensualLabel_administracionMensualValor}" for="administracionMensualValor" />
+                        <p:inputText id="administracionMensualValor" value="#{administracionMensualController.selected.administracionMensualValor}" title="#{bundle.EditAdministracionMensualTitle_administracionMensualValor}" required="true" requiredMessage="#{bundle.EditAdministracionMensualRequiredMessage_administracionMensualValor}"/>
+
+                        <p:outputLabel value="#{bundle.EditAdministracionMensualLabel_administracionMensualFechaIngreso}" for="administracionMensualFechaIngreso" />
+                        <p:calendar id="administracionMensualFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{administracionMensualController.selected.administracionMensualFechaIngreso}" title="#{bundle.EditAdministracionMensualTitle_administracionMensualFechaIngreso}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{administracionMensualController.save}" value="#{bundle.Save}" update="display,:AdministracionMensualListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AdministracionMensualEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AdministracionMensualEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

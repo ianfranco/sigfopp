@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CiudadListForm">
+
+        <p:panel header="#{bundle.ListCiudadTitle}">
+            <p:contextMenu id="CiudadDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CiudadListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CiudadListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CiudadListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CiudadListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CiudadMenuItem_ciudadIdRegion}" icon="ui-icon-search"  actionListener="#{ciudadController.prepareCiudadIdRegion}" update=":RegionViewForm" oncomplete="PF('RegionViewDialog').show()" disabled="#{empty ciudadController.selected.ciudadIdRegion}"/>  
+                <p:menuitem value="#{bundle.CiudadMenuItem_comunaList}" icon="ui-icon-search"  action="#{ciudadController.navigateComunaList}" disabled="#{empty ciudadController.selected.comunaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{ciudadController.items}"
+                         lazy="false"
+                         rowKey="#{item.ciudadId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{ciudadController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{ciudadController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.ciudadId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CiudadDataTableContextMenu" listener="#{ciudadController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CiudadDataTableContextMenu" listener="#{ciudadController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{ciudadController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CiudadListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.ciudadId}" filterBy="#{item.ciudadId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCiudadTitle_ciudadId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ciudadId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ciudadNombre}" filterBy="#{item.ciudadNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCiudadTitle_ciudadNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ciudadNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ciudadIdRegion.regionId}" filterBy="#{item.ciudadIdRegion.regionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCiudadTitle_ciudadIdRegion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ciudadIdRegion.regionId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{ciudadController.prepareCreate}" update=":CiudadCreateForm" oncomplete="PF('CiudadCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CiudadViewForm" oncomplete="PF('CiudadViewDialog').show()" disabled="#{empty ciudadController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CiudadEditForm" oncomplete="PF('CiudadEditDialog').show()" disabled="#{empty ciudadController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ciudadController.delete}" update=":growl,datalist" disabled="#{empty ciudadController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

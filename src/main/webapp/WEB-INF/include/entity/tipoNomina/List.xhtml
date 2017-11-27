@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoNominaListForm">
+
+        <p:panel header="#{bundle.ListTipoNominaTitle}">
+            <p:contextMenu id="TipoNominaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoNominaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoNominaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoNominaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoNominaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoNominaController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoNominaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoNominaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoNominaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoNominaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoNominaDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoNominaDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoNominaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoNominaId}" filterBy="#{item.tipoNominaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoNominaTitle_tipoNominaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoNominaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoNominaNombre}" filterBy="#{item.tipoNominaNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoNominaTitle_tipoNominaNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoNominaNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoNominaFechaIngreso}" filterBy="#{item.tipoNominaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoNominaTitle_tipoNominaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoNominaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoNominaController.prepareCreate}" update=":TipoNominaCreateForm" oncomplete="PF('TipoNominaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoNominaViewForm" oncomplete="PF('TipoNominaViewDialog').show()" disabled="#{empty tipoNominaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoNominaEditForm" oncomplete="PF('TipoNominaEditDialog').show()" disabled="#{empty tipoNominaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoNominaController.delete}" update=":growl,datalist" disabled="#{empty tipoNominaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

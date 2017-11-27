@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+
+    <h:form id="GuiaListForm" class="form-height">
+
+        <p:panel>
+            <f:facet name="header">
+                Producción x Flota
+            </f:facet>
+            <p:panelGrid columns="9" style="width: 100%;margin-bottom: 10px;">
+
+                <p:outputLabel value="Flota:"/>
+                <p:selectOneMenu id="guiaIdUnidad" value="#{reporteRecaudacionFlotaController.flota}" required="true" requiredMessage="Debe seleccionar la Unidad" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{reporteRecaudacionFlotaController.flotaItems}"
+                                   var="item"
+                                   itemValue="#{item}"
+                                   itemLabel="#{item.flotaNombre}"
+                                   />
+                    <p:ajax event="valueChange" update="guiaIdBus" listener="#{reporteRecaudacionFlotaController.handleFlotaChange(event)}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="N° Bus:"/>
+                <p:selectOneMenu id="guiaIdBus" value="#{reporteRecaudacionFlotaController.bus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{reporteRecaudacionFlotaController.busItems}"
+                                   var="guiaIdBusItem"
+                                   itemValue="#{guiaIdBusItem}"
+                                   itemLabel="#{guiaIdBusItem.busNumero}"
+                                   />                    
+                </p:selectOneMenu>
+
+                <h:outputLabel for="mes" value="Seleccionar:" />
+                <p:selectOneMenu id="mes" value="#{reporteRecaudacionFlotaController.mes}" style="width:125px">
+                    <f:selectItem itemLabel="Enero" itemValue="1" />
+                    <f:selectItem itemLabel="Febrero" itemValue="2" />
+                    <f:selectItem itemLabel="Marzo" itemValue="3" />
+                    <f:selectItem itemLabel="Abril" itemValue="4" />
+                    <f:selectItem itemLabel="Mayo" itemValue="5" />
+                    <f:selectItem itemLabel="Junio" itemValue="6" />
+                    <f:selectItem itemLabel="Julio" itemValue="7" />
+                    <f:selectItem itemLabel="Agosto" itemValue="8" />
+                    <f:selectItem itemLabel="Septiembre" itemValue="9" />
+                    <f:selectItem itemLabel="Octubre" itemValue="10" />
+                    <f:selectItem itemLabel="Noviembre" itemValue="11" />
+                    <f:selectItem itemLabel="Diciembre" itemValue="12" />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="anio" value="Año:" />
+                <p:inputText id="anio" value="#{reporteRecaudacionFlotaController.anio}" size="5" />
+
+                <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="@(.clase), GuiaListForm:datalist, growl" styleClass="btn btn-primary" style="width:120px" actionListener="#{reporteRecaudacionFlotaController.load}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                </p:commandButton>
+
+
+            </p:panelGrid>
+
+
+        </p:panel>
+
+        <p:dataTable id="datalist"
+                     selection="#{reporteRecaudacionFlotaController.selected}"                         
+                     scrollHeight="500" 
+                     scrollable="false"                         
+                     value="#{reporteRecaudacionFlotaController.items}"
+                     widgetVar="datalist"
+                     var="item"
+                     rowKey="#{item.recaudacionId}"                         
+                     selectionMode="single"
+                     rowIndexVar="rowIndex"
+                     emptyMessage="No se han encontrado registros"                         
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                     style="padding-top: 10px;"
+                     reflow="true">
+
+            <f:facet name="{Exporters}">
+                <h:commandLink>
+                    <p:graphicImage name="excel.png" library="images" width="24"/>
+                    <p:dataExporter type="xls" target="datalist" fileName="Recaudacion" />
+                </h:commandLink>                    
+            </f:facet>
+
+            <p:column style="font-weight: 900;">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputText value="#{rowIndex+1}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.recaudacionIdentificador}" filterBy="#{item.recaudacionIdentificador}" style="font-weight: 900;">
+                <f:facet name="header">
+                    <h:outputText value="Folio"/>
+                </f:facet>
+                <h:outputText value="#{item.recaudacionIdentificador}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.recaudacionFecha}" filterBy="#{item.recaudacionFecha}" style="font-weight: 900;">
+                <f:facet name="header">
+                    <h:outputText value="Fecha"/>
+                </f:facet>
+                <h:outputLabel value="#{item.recaudacionFecha}">
+                    <f:convertDateTime pattern="dd/MM/yy" />
+                </h:outputLabel>
+            </p:column>
+
+            <p:column sortBy="#{item.recaudacionIdTrabajador.trabajadorApellidoPaterno}" filterBy="#{item.recaudacionIdTrabajador.trabajadorApellidoPaterno}" style="font-weight: 900;">
+                <f:facet name="header">
+                    <h:outputText value="Conductor"/>
+                </f:facet>
+                <h:outputText value="#{item.recaudacionIdTrabajador.trabajadorApellidoPaterno}"/>
+            </p:column>
+
+            <p:columns styleClass="clase"
+                       value="#{reporteRecaudacionFlotaController.mapsItems.get(0).keySet().toArray()}" 
+                       var="key" 
+                       headerText="#{reporteRecaudacionFlotaController.resultsHeader.get(col)}"                        
+                       columnIndexVar="col" 
+                       filterBy="#{item.link[key]}"                                   
+                       style="font-weight: 900;">
+                <h:outputText  value="#{item.link[key]}">
+                    <f:convertNumber currencySymbol="$"/>
+                </h:outputText>
+            </p:columns>
+
+            <p:column footerText="#{reporteRecaudacionFlotaController.getFormatValue(reporteRecaudacionFlotaController.totalCombustible)}" filterBy="#{item.totalCombustible}" style="font-weight: 900;">
+                <f:facet name="header">
+                    <h:outputText value="Combustible"/>
+                </f:facet>
+                <h:outputText value="#{item.totalCombustible}">
+                    <f:convertNumber currencySymbol="$ " currencyCode="$ "/>
+                </h:outputText>
+            </p:column>
+
+            <p:column styleClass="clase" footerText="#{reporteRecaudacionFlotaController.getFormatValue(reporteRecaudacionFlotaController.totalMinutos)}" filterBy="#{item.totalMinutos}" style="font-weight: 900;">
+                <f:facet name="header">
+                    <h:outputText value="Minutos"/>
+                </f:facet>
+                <h:outputText styleClass="clase" value="#{item.totalMinutos}">
+                    <f:convertNumber currencySymbol="$ " currencyCode="$ "/>
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.recaudacionTotal}" filterBy="#{item.recaudacionTotal}" footerText="#{reporteRecaudacionFlotaController.totalRecaudacion}" style="font-weight: 900;">
+                <f:facet name="header">
+                    <h:outputText value="Total"/>
+                </f:facet>
+                <h:outputText value="#{item.recaudacionTotal}">
+                    <f:convertNumber currencySymbol="$"/>
+                </h:outputText>
+            </p:column>
+
+            <f:facet name="footer">
+                <div>
+                </div>                    
+            </f:facet>
+
+        </p:dataTable>
+    </h:form>
+
+</ui:composition>

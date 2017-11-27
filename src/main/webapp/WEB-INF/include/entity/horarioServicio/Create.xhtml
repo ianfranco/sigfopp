@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HorarioServicioCreateDlg" widgetVar="HorarioServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHorarioServicioTitle}" closeOnEscape="true">
+
+            <h:form id="HorarioServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{horarioServicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioNombre}" for="horarioServicioNombre" />
+                        <p:inputText id="horarioServicioNombre" value="#{horarioServicioController.selected.horarioServicioNombre}" title="#{bundle.CreateHorarioServicioTitle_horarioServicioNombre}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioDesde}" for="horarioServicioDesde" />
+                        <p:calendar id="horarioServicioDesde" pattern="HH:mm:ss" value="#{horarioServicioController.selected.horarioServicioDesde}" title="#{bundle.CreateHorarioServicioTitle_horarioServicioDesde}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioDesde}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioHasta}" for="horarioServicioHasta" />
+                        <p:calendar id="horarioServicioHasta" pattern="HH:mm:ss" value="#{horarioServicioController.selected.horarioServicioHasta}" title="#{bundle.CreateHorarioServicioTitle_horarioServicioHasta}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioHasta}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioLunes}" for="horarioServicioLunes" />
+                        <p:selectBooleanCheckbox id="horarioServicioLunes" value="#{horarioServicioController.selected.horarioServicioLunes}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioLunes}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioMartes}" for="horarioServicioMartes" />
+                        <p:selectBooleanCheckbox id="horarioServicioMartes" value="#{horarioServicioController.selected.horarioServicioMartes}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioMartes}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioMiercoles}" for="horarioServicioMiercoles" />
+                        <p:selectBooleanCheckbox id="horarioServicioMiercoles" value="#{horarioServicioController.selected.horarioServicioMiercoles}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioMiercoles}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioJueves}" for="horarioServicioJueves" />
+                        <p:selectBooleanCheckbox id="horarioServicioJueves" value="#{horarioServicioController.selected.horarioServicioJueves}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioJueves}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioViernes}" for="horarioServicioViernes" />
+                        <p:selectBooleanCheckbox id="horarioServicioViernes" value="#{horarioServicioController.selected.horarioServicioViernes}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioViernes}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioSabado}" for="horarioServicioSabado" />
+                        <p:selectBooleanCheckbox id="horarioServicioSabado" value="#{horarioServicioController.selected.horarioServicioSabado}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioSabado}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioDomingo}" for="horarioServicioDomingo" />
+                        <p:selectBooleanCheckbox id="horarioServicioDomingo" value="#{horarioServicioController.selected.horarioServicioDomingo}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioDomingo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioFechaIngreso}" for="horarioServicioFechaIngreso" />
+                        <p:calendar id="horarioServicioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{horarioServicioController.selected.horarioServicioFechaIngreso}" title="#{bundle.CreateHorarioServicioTitle_horarioServicioFechaIngreso}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioIdServicio}" for="horarioServicioIdServicio" />
+                        <p:selectOneMenu id="horarioServicioIdServicio" value="#{horarioServicioController.selected.horarioServicioIdServicio}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioIdServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{servicioController.items}"
+                                           var="horarioServicioIdServicioItem"
+                                           itemValue="#{horarioServicioIdServicioItem}"
+                                           itemLabel="#{horarioServicioIdServicioItem.servicioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateHorarioServicioLabel_horarioServicioIdTipoEstacionalidad}" for="horarioServicioIdTipoEstacionalidad" />
+                        <p:selectOneMenu id="horarioServicioIdTipoEstacionalidad" value="#{horarioServicioController.selected.horarioServicioIdTipoEstacionalidad}" required="true" requiredMessage="#{bundle.CreateHorarioServicioRequiredMessage_horarioServicioIdTipoEstacionalidad}" converter="tipoEstacionalidadConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoEstacionalidadController.items}"
+                                           var="horarioServicioIdTipoEstacionalidadItem"
+                                           itemValue="#{horarioServicioIdTipoEstacionalidadItem}"
+                                           itemLabel="#{horarioServicioIdTipoEstacionalidadItem.tipoEstacionalidadId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{horarioServicioController.saveNew}" value="#{bundle.Save}" update="display,:HorarioServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HorarioServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HorarioServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

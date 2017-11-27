@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LogViewDlg" widgetVar="LogViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewLogTitle}" closeOnEscape="true">
+
+            <h:form id="LogViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{logController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewLogLabel_logId}"/>
+                        <h:outputText value="#{logController.selected.logId}" title="#{bundle.ViewLogTitle_logId}"/>
+
+                        <h:outputText value="#{bundle.ViewLogLabel_logTipoAccion}"/>
+                        <h:outputText value="#{logController.selected.logTipoAccion}" title="#{bundle.ViewLogTitle_logTipoAccion}"/>
+
+                        <h:outputText value="#{bundle.ViewLogLabel_logDescripcion}"/>
+                        <h:outputText value="#{logController.selected.logDescripcion}" title="#{bundle.ViewLogTitle_logDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewLogLabel_logFechaIngreso}"/>
+                        <h:outputText value="#{logController.selected.logFechaIngreso}" title="#{bundle.ViewLogTitle_logFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewLogLabel_logIdPrivilegio}"/>
+                        <h:outputText value="#{logController.selected.logIdPrivilegio.privilegioDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewLogLabel_logIdUsuario}"/>
+                        <h:outputText value="#{logController.selected.logIdUsuario.usuarioId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('LogViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

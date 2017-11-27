@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoLineaEditDlg" widgetVar="TipoLineaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoLineaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoLineaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoLineaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoLineaLabel_tipoLineaId}" for="tipoLineaId" />
+                        <h:outputText id="tipoLineaId" value="#{tipoLineaController.selected.tipoLineaId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoLineaLabel_tipoLineaNombre}" for="tipoLineaNombre" />
+                        <p:inputText id="tipoLineaNombre" value="#{tipoLineaController.selected.tipoLineaNombre}" title="#{bundle.EditTipoLineaTitle_tipoLineaNombre}" required="true" requiredMessage="#{bundle.EditTipoLineaRequiredMessage_tipoLineaNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoLineaLabel_tipoLineaFechaIngreso}" for="tipoLineaFechaIngreso" />
+                        <p:calendar id="tipoLineaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoLineaController.selected.tipoLineaFechaIngreso}" title="#{bundle.EditTipoLineaTitle_tipoLineaFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoLineaRequiredMessage_tipoLineaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoLineaController.save}" value="#{bundle.Save}" update="display,:TipoLineaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoLineaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoLineaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

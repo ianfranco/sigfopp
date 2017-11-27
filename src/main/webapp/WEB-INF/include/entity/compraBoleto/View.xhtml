@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompraBoletoViewDlg" widgetVar="CompraBoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCompraBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="CompraBoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{compraBoletoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCompraBoletoLabel_compraBoletoId}"/>
+                        <h:outputText value="#{compraBoletoController.selected.compraBoletoId}" title="#{bundle.ViewCompraBoletoTitle_compraBoletoId}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraBoletoLabel_compraBoletoFolioFactura}"/>
+                        <h:outputText value="#{compraBoletoController.selected.compraBoletoFolioFactura}" title="#{bundle.ViewCompraBoletoTitle_compraBoletoFolioFactura}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraBoletoLabel_compraBoletoTotal}"/>
+                        <h:outputText value="#{compraBoletoController.selected.compraBoletoTotal}" title="#{bundle.ViewCompraBoletoTitle_compraBoletoTotal}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraBoletoLabel_compraBoletoFecha}"/>
+                        <h:outputText value="#{compraBoletoController.selected.compraBoletoFecha}" title="#{bundle.ViewCompraBoletoTitle_compraBoletoFecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CompraBoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

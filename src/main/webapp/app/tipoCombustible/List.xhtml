@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <h:form id="TipoCombustibleListForm" class="form-height">
+
+        <p:contextMenu id="TipoCombustibleDataTableContextMenu" for="datalist:datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoCombustibleListForm:datalist:datalist:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoCombustibleListForm:datalist:datalist:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoCombustibleListForm:datalist:datalist:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoCombustibleListForm:datalist:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+        </p:contextMenu>
+
+        <coco:datatable id="datalist"
+                        value="#{tipoCombustibleController.lazyList}"
+                        rowKey="#{item.tipoCombustibleId}"
+                        selection="#{tipoCombustibleController.selected}"
+                        filtered="#{tipoCombustibleController.filtered}"
+                        rowselect=":TipoCombustibleListForm:datalist:datalist:createButton,:TipoCombustibleListForm:datalist:datalist:viewButton,:TipoCombustibleListForm:datalist:datalist:editButton,:TipoCombustibleListForm:datalist:datalist:deleteButton,:TipoCombustibleListForm:TipoCombustibleDataTableContextMenu"
+                        rowDblselect="document.getElementById('TipoCombustibleListForm:datalist:datalist:editButton').click()"
+                        contextMenu=":TipoCombustibleListForm:datalist:datalist:createButton :TipoCombustibleListForm:datalist:datalist:viewButton :TipoCombustibleListForm:datalist:datalist:editButton :TipoCombustibleListForm:datalist:datalist:deleteButton"
+                        selectListener="#{tipoCombustibleController.resetParents()}"
+                        >
+
+            <p:ajax event="colResize" listener="#{tipoCombustibleController.onResize}"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <h:outputText value="Tipo de Combustibles"/>   
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="pull-right">
+                            <p:columnToggler datasource="datalist" trigger="toggler">
+                                <p:ajax event="toggle" listener="#{tipoCombustibleController.onToggle}" />
+                            </p:columnToggler>
+                            <p:commandButton id="toggler" type="button" value="#{bundle.Columns}" class="btn-primary" icon="fa fa-list"/>
+                            <p:commandButton value="#{bundle.Save}" styleClass="btn-success" icon="fa fa-edit" update=":growl,@this"/>     
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column sortBy="#{item.tipoCombustibleId}" filterBy="#{item.tipoCombustibleId}">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputLabel value="#{item.tipoCombustibleId}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.tipoCombustibleNombre}" filterBy="#{item.tipoCombustibleNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputLabel value="#{item.tipoCombustibleNombre}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.lastUpdate}" filterBy="#{item.lastUpdate}">
+                <f:facet name="header">
+                    <h:outputText value="F.Ingreso"/>
+                </f:facet>
+                <h:outputLabel value="#{item.lastUpdate}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                </h:outputLabel>
+            </p:column>
+
+            <f:facet name="{buttons}">
+                <div class="footer-left">
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="#{bundle.Create}" actionListener="#{tipoCombustibleController.prepareCreate}" update=":TipoCombustibleCreateForm" oncomplete="PF('TipoCombustibleCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":TipoCombustibleViewForm" oncomplete="PF('TipoCombustibleViewDialog').show()" disabled="#{empty tipoCombustibleController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":TipoCombustibleEditForm" oncomplete="PF('TipoCombustibleEditDialog').show()" disabled="#{empty tipoCombustibleController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="#{bundle.Delete}" actionListener="#{tipoCombustibleController.delete}" update=":growl,datalist" disabled="#{empty tipoCombustibleController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </div>
+            </f:facet>
+
+        </coco:datatable>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

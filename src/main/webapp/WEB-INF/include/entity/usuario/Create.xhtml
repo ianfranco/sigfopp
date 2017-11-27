@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{usuarioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioRut}" for="usuarioRut" />
+                        <p:inputText id="usuarioRut" value="#{usuarioController.selected.usuarioRut}" title="#{bundle.CreateUsuarioTitle_usuarioRut}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuarioRut}" size="9" maxlength="9"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioPass}" for="usuarioPass" />
+                        <p:inputText id="usuarioPass" value="#{usuarioController.selected.usuarioPass}" title="#{bundle.CreateUsuarioTitle_usuarioPass}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuarioPass}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioNombres}" for="usuarioNombres" />
+                        <p:inputText id="usuarioNombres" value="#{usuarioController.selected.usuarioNombres}" title="#{bundle.CreateUsuarioTitle_usuarioNombres}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioApellidoPaterno}" for="usuarioApellidoPaterno" />
+                        <p:inputText id="usuarioApellidoPaterno" value="#{usuarioController.selected.usuarioApellidoPaterno}" title="#{bundle.CreateUsuarioTitle_usuarioApellidoPaterno}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioApellidoMaterno}" for="usuarioApellidoMaterno" />
+                        <p:inputText id="usuarioApellidoMaterno" value="#{usuarioController.selected.usuarioApellidoMaterno}" title="#{bundle.CreateUsuarioTitle_usuarioApellidoMaterno}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioEmail}" for="usuarioEmail" />
+                        <p:inputText id="usuarioEmail" value="#{usuarioController.selected.usuarioEmail}" title="#{bundle.CreateUsuarioTitle_usuarioEmail}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioActivo}" for="usuarioActivo" />
+                        <p:selectBooleanCheckbox id="usuarioActivo" value="#{usuarioController.selected.usuarioActivo}" />
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioFechaIngreso}" for="usuarioFechaIngreso" />
+                        <p:calendar id="usuarioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.usuarioFechaIngreso}" title="#{bundle.CreateUsuarioTitle_usuarioFechaIngreso}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuarioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioIdRol}" for="usuarioIdRol" />
+                        <p:selectOneMenu id="usuarioIdRol" value="#{usuarioController.selected.usuarioIdRol}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuarioIdRol}" converter="rolConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="usuarioIdRolItem"
+                                           itemValue="#{usuarioIdRolItem}"
+                                           itemLabel="#{usuarioIdRolItem.rolDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuarioIdTerminal}" for="usuarioIdTerminal" />
+                        <p:selectOneMenu id="usuarioIdTerminal" value="#{usuarioController.selected.usuarioIdTerminal}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuarioIdTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="usuarioIdTerminalItem"
+                                           itemValue="#{usuarioIdTerminalItem}"
+                                           itemLabel="#{usuarioIdTerminalItem.terminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.saveNew}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UsuarioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ServicioCreateDlg" widgetVar="ServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ingresar Nuevo Servicio" closeOnEscape="true">
+
+            <h:form id="ServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{servicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="N°" for="servicioNumeroServicio" />
+                        <p:inputText id="servicioNumeroServicio" value="#{servicioController.selected.servicioNumeroServicio}" title="#{bundle.CreateServicioTitle_servicioNumeroServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioNumeroServicio}"/>
+
+                        <p:outputLabel value="Folio" for="servicioFolio" />
+                        <p:inputText id="servicioFolio" value="#{servicioController.selected.servicioFolio}" title="#{bundle.CreateServicioTitle_servicioFolio}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Nombre" for="servicioNombre" />
+                        <p:inputText id="servicioNombre" value="#{servicioController.selected.servicioNombre}" title="#{bundle.CreateServicioTitle_servicioNombre}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Grupo" for="servicioIdGrupo" />
+                        <p:selectOneMenu id="servicioIdGrupo" value="#{servicioController.selected.servicioIdGrupoServicio}" required="true" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{grupoServicioController.items}"
+                                           var="grupoServicioIdTerminalItem"
+                                           itemValue="#{grupoServicioIdTerminalItem}"
+                                           itemLabel="#{grupoServicioIdTerminalItem.grupoServicioIdentificador}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Terminal" for="servicioIdTerminal" />
+                        <p:selectOneMenu id="servicioIdTerminal" value="#{servicioController.selected.servicioIdTerminal}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioIdTerminal}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="servicioIdTerminalItem"
+                                           itemValue="#{servicioIdTerminalItem}"
+                                           itemLabel="#{servicioIdTerminalItem.terminalNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Unidad de Negocio" for="servicioIdUnidad" />
+                        <p:selectOneMenu id="servicioIdUnidad" value="#{servicioController.selected.servicioIdUnidad}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioIdUnidad}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="servicioIdUnidadItem"
+                                           itemValue="#{servicioIdUnidadItem}"
+                                           itemLabel="#{servicioIdUnidadItem.unidadNegocioNumero}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Origen" for="servicioOrigen" />
+                        <p:inputText id="servicioOrigen" value="#{servicioController.selected.servicioOrigen}" title="#{bundle.CreateServicioTitle_servicioOrigen}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioOrigen}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Destino" for="servicioDestino" />
+                        <p:inputText id="servicioDestino" value="#{servicioController.selected.servicioDestino}" title="#{bundle.CreateServicioTitle_servicioDestino}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioDestino}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Longitud" for="servicioLongitud" />
+                        <p:inputText id="servicioLongitud" value="#{servicioController.selected.servicioLongitud}" title="#{bundle.CreateServicioTitle_servicioLongitud}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioLongitud}"/>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{servicioController.saveNew}" value="#{bundle.Save}" update="display,:ServicioListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

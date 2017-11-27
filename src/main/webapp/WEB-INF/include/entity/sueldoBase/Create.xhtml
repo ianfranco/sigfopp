@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SueldoBaseCreateDlg" widgetVar="SueldoBaseCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSueldoBaseTitle}" closeOnEscape="true">
+
+            <h:form id="SueldoBaseCreateForm">
+
+                <h:panelGroup id="display" rendered="#{sueldoBaseController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateSueldoBaseLabel_sueldoBaseBaseNormal}" for="sueldoBaseBaseNormal" />
+                        <p:inputText id="sueldoBaseBaseNormal" value="#{sueldoBaseController.selected.sueldoBaseBaseNormal}" title="#{bundle.CreateSueldoBaseTitle_sueldoBaseBaseNormal}" required="true" requiredMessage="#{bundle.CreateSueldoBaseRequiredMessage_sueldoBaseBaseNormal}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSueldoBaseLabel_sueldoBaseBasePartime}" for="sueldoBaseBasePartime" />
+                        <p:inputText id="sueldoBaseBasePartime" value="#{sueldoBaseController.selected.sueldoBaseBasePartime}" title="#{bundle.CreateSueldoBaseTitle_sueldoBaseBasePartime}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateSueldoBaseLabel_sueldoBaseDesde}" for="sueldoBaseDesde" />
+                        <p:calendar id="sueldoBaseDesde" pattern="MM/dd/yyyy" value="#{sueldoBaseController.selected.sueldoBaseDesde}" title="#{bundle.CreateSueldoBaseTitle_sueldoBaseDesde}" required="true" requiredMessage="#{bundle.CreateSueldoBaseRequiredMessage_sueldoBaseDesde}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateSueldoBaseLabel_sueldoBaseHasta}" for="sueldoBaseHasta" />
+                        <p:calendar id="sueldoBaseHasta" pattern="MM/dd/yyyy" value="#{sueldoBaseController.selected.sueldoBaseHasta}" title="#{bundle.CreateSueldoBaseTitle_sueldoBaseHasta}" required="true" requiredMessage="#{bundle.CreateSueldoBaseRequiredMessage_sueldoBaseHasta}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateSueldoBaseLabel_sueldoBaseFechaIngreso}" for="sueldoBaseFechaIngreso" />
+                        <p:calendar id="sueldoBaseFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{sueldoBaseController.selected.sueldoBaseFechaIngreso}" title="#{bundle.CreateSueldoBaseTitle_sueldoBaseFechaIngreso}" required="true" requiredMessage="#{bundle.CreateSueldoBaseRequiredMessage_sueldoBaseFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sueldoBaseController.saveNew}" value="#{bundle.Save}" update="display,:SueldoBaseListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SueldoBaseCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('SueldoBaseCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompraCombustibleViewDlg" widgetVar="CompraCombustibleViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCompraCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="CompraCombustibleViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{compraCombustibleController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleId}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleId}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleId}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleFechaEmisionFactura}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleFechaEmisionFactura}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleFechaEmisionFactura}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleFechaPago}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleFechaPago}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleFechaPago}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleCantidadLitros}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleCantidadLitros}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleCantidadLitros}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustiblePbaseSiu}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustiblePbaseSiu}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustiblePbaseSiu}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleIevU}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleIevU}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleIevU}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleIefU}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleIefU}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleIefU}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleDiaVigIe}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleDiaVigIe}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleDiaVigIe}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleBaseAfecta}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleBaseAfecta}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleBaseAfecta}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleFeep}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleFeep}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleFeep}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleIev}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleIev}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleIev}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleIef}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleIef}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleIef}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleIva}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleIva}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleIva}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleTotalCompra}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleTotalCompra}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleTotalCompra}"/>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleFechaIngreso}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleFechaIngreso}" title="#{bundle.ViewCompraCombustibleTitle_compraCombustibleFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCompraCombustibleLabel_compraCombustibleIdTipo}"/>
+                        <h:outputText value="#{compraCombustibleController.selected.compraCombustibleIdTipo.tipoCombustibleId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CompraCombustibleViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PrecioCombustibleEditDlg" widgetVar="PrecioCombustibleEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditPrecioCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="PrecioCombustibleEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{precioCombustibleController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditPrecioCombustibleLabel_precioCombustibleId}" for="precioCombustibleId" />
+                        <h:outputText id="precioCombustibleId" value="#{precioCombustibleController.selected.precioCombustibleId}" />
+
+                        <p:outputLabel value="#{bundle.EditPrecioCombustibleLabel_precioCombustibleFechaPrecioCombustible}" for="precioCombustibleFechaPrecioCombustible" />
+                        <p:calendar id="precioCombustibleFechaPrecioCombustible" pattern="MM/dd/yyyy" value="#{precioCombustibleController.selected.precioCombustibleFechaPrecioCombustible}" title="#{bundle.EditPrecioCombustibleTitle_precioCombustibleFechaPrecioCombustible}" required="true" requiredMessage="#{bundle.EditPrecioCombustibleRequiredMessage_precioCombustibleFechaPrecioCombustible}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditPrecioCombustibleLabel_precioCombustibleFechaIngreso}" for="precioCombustibleFechaIngreso" />
+                        <p:calendar id="precioCombustibleFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{precioCombustibleController.selected.precioCombustibleFechaIngreso}" title="#{bundle.EditPrecioCombustibleTitle_precioCombustibleFechaIngreso}" required="true" requiredMessage="#{bundle.EditPrecioCombustibleRequiredMessage_precioCombustibleFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditPrecioCombustibleLabel_precioCombustibleIdTipoCombustible}" for="precioCombustibleIdTipoCombustible" />
+                        <p:selectOneMenu id="precioCombustibleIdTipoCombustible" value="#{precioCombustibleController.selected.precioCombustibleIdTipoCombustible}" required="true" requiredMessage="#{bundle.EditPrecioCombustibleRequiredMessage_precioCombustibleIdTipoCombustible}" converter="tipoCombustibleConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoCombustibleController.items}"
+                                           var="precioCombustibleIdTipoCombustibleItem"
+                                           itemValue="#{precioCombustibleIdTipoCombustibleItem}"
+                                           itemLabel="#{precioCombustibleIdTipoCombustibleItem.tipoCombustibleId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{precioCombustibleController.save}" value="#{bundle.Save}" update="display,:PrecioCombustibleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PrecioCombustibleEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PrecioCombustibleEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleCompraBoletoViewDlg" widgetVar="DetalleCompraBoletoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDetalleCompraBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleCompraBoletoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleCompraBoletoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDetalleCompraBoletoLabel_detalleCompraBoletoId}"/>
+                        <h:outputText value="#{detalleCompraBoletoController.selected.detalleCompraBoletoId}" title="#{bundle.ViewDetalleCompraBoletoTitle_detalleCompraBoletoId}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleCompraBoletoLabel_detalleCompraBoletoCantidadRollos}"/>
+                        <h:outputText value="#{detalleCompraBoletoController.selected.detalleCompraBoletoCantidadRollos}" title="#{bundle.ViewDetalleCompraBoletoTitle_detalleCompraBoletoCantidadRollos}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleCompraBoletoLabel_detalleCompraBoletoSerie}"/>
+                        <h:outputText value="#{detalleCompraBoletoController.selected.detalleCompraBoletoSerie}" title="#{bundle.ViewDetalleCompraBoletoTitle_detalleCompraBoletoSerie}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleCompraBoletoLabel_detalleCompraBoletoTotal}"/>
+                        <h:outputText value="#{detalleCompraBoletoController.selected.detalleCompraBoletoTotal}" title="#{bundle.ViewDetalleCompraBoletoTitle_detalleCompraBoletoTotal}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleCompraBoletoLabel_detalleCompraBoletoIdBoleto}"/>
+                        <h:outputText value="#{detalleCompraBoletoController.selected.detalleCompraBoletoIdBoleto.boletoId}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleCompraBoletoLabel_detalleCompraBoletoIdCompraBoleto}"/>
+                        <h:outputText value="#{detalleCompraBoletoController.selected.detalleCompraBoletoIdCompraBoleto.compraBoletoId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DetalleCompraBoletoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

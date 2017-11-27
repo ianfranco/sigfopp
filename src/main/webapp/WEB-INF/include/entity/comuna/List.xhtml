@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ComunaListForm">
+
+        <p:panel header="#{bundle.ListComunaTitle}">
+            <p:contextMenu id="ComunaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ComunaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ComunaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ComunaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ComunaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ComunaMenuItem_calleList}" icon="ui-icon-search"  action="#{comunaController.navigateCalleList}" disabled="#{empty comunaController.selected.calleList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ComunaMenuItem_trabajadorList}" icon="ui-icon-search"  action="#{comunaController.navigateTrabajadorList}" disabled="#{empty comunaController.selected.trabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ComunaMenuItem_terminalList}" icon="ui-icon-search"  action="#{comunaController.navigateTerminalList}" disabled="#{empty comunaController.selected.terminalList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ComunaMenuItem_comunaIdCiudad}" icon="ui-icon-search"  actionListener="#{comunaController.prepareComunaIdCiudad}" update=":CiudadViewForm" oncomplete="PF('CiudadViewDialog').show()" disabled="#{empty comunaController.selected.comunaIdCiudad}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{comunaController.items}"
+                         lazy="false"
+                         rowKey="#{item.comunaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{comunaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{comunaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.comunaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ComunaDataTableContextMenu" listener="#{comunaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ComunaDataTableContextMenu" listener="#{comunaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{comunaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ComunaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.comunaId}" filterBy="#{item.comunaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListComunaTitle_comunaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comunaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comunaNombre}" filterBy="#{item.comunaNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListComunaTitle_comunaNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comunaNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comunaFechaIngreso}" filterBy="#{item.comunaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListComunaTitle_comunaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comunaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comunaIdCiudad.ciudadId}" filterBy="#{item.comunaIdCiudad.ciudadId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListComunaTitle_comunaIdCiudad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comunaIdCiudad.ciudadId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{comunaController.prepareCreate}" update=":ComunaCreateForm" oncomplete="PF('ComunaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ComunaViewForm" oncomplete="PF('ComunaViewDialog').show()" disabled="#{empty comunaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ComunaEditForm" oncomplete="PF('ComunaEditDialog').show()" disabled="#{empty comunaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{comunaController.delete}" update=":growl,datalist" disabled="#{empty comunaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

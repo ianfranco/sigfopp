@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="HaberLiquidacionCreateDlg" widgetVar="HaberLiquidacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateHaberLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="HaberLiquidacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{haberLiquidacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateHaberLiquidacionLabel_haberLiquidacionFecha}" for="haberLiquidacionFecha" />
+                        <p:calendar id="haberLiquidacionFecha" pattern="MM/dd/yyyy" value="#{haberLiquidacionController.selected.haberLiquidacionFecha}" title="#{bundle.CreateHaberLiquidacionTitle_haberLiquidacionFecha}" required="true" requiredMessage="#{bundle.CreateHaberLiquidacionRequiredMessage_haberLiquidacionFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberLiquidacionLabel_haberLiquidacionMontoHaber}" for="haberLiquidacionMontoHaber" />
+                        <p:inputText id="haberLiquidacionMontoHaber" value="#{haberLiquidacionController.selected.haberLiquidacionMontoHaber}" title="#{bundle.CreateHaberLiquidacionTitle_haberLiquidacionMontoHaber}" required="true" requiredMessage="#{bundle.CreateHaberLiquidacionRequiredMessage_haberLiquidacionMontoHaber}"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberLiquidacionLabel_haberLiquidacionDescripcion}" for="haberLiquidacionDescripcion" />
+                        <p:inputText id="haberLiquidacionDescripcion" value="#{haberLiquidacionController.selected.haberLiquidacionDescripcion}" title="#{bundle.CreateHaberLiquidacionTitle_haberLiquidacionDescripcion}" required="true" requiredMessage="#{bundle.CreateHaberLiquidacionRequiredMessage_haberLiquidacionDescripcion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberLiquidacionLabel_haberLiquidacionFechaIngreso}" for="haberLiquidacionFechaIngreso" />
+                        <p:calendar id="haberLiquidacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{haberLiquidacionController.selected.haberLiquidacionFechaIngreso}" title="#{bundle.CreateHaberLiquidacionTitle_haberLiquidacionFechaIngreso}" required="true" requiredMessage="#{bundle.CreateHaberLiquidacionRequiredMessage_haberLiquidacionFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateHaberLiquidacionLabel_haberLiquidacionIdHaber}" for="haberLiquidacionIdHaber" />
+                        <p:selectOneMenu id="haberLiquidacionIdHaber" value="#{haberLiquidacionController.selected.haberLiquidacionIdHaber}" required="true" requiredMessage="#{bundle.CreateHaberLiquidacionRequiredMessage_haberLiquidacionIdHaber}" converter="haberTrabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{haberTrabajadorController.items}"
+                                           var="haberLiquidacionIdHaberItem"
+                                           itemValue="#{haberLiquidacionIdHaberItem}"
+                                           itemLabel="#{haberLiquidacionIdHaberItem.haberTrabajadorDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateHaberLiquidacionLabel_haberLiquidacionIdLiquidacionSueldo}" for="haberLiquidacionIdLiquidacionSueldo" />
+                        <p:selectOneMenu id="haberLiquidacionIdLiquidacionSueldo" value="#{haberLiquidacionController.selected.haberLiquidacionIdLiquidacionSueldo}" required="true" requiredMessage="#{bundle.CreateHaberLiquidacionRequiredMessage_haberLiquidacionIdLiquidacionSueldo}" converter="liquidacionSueldoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{liquidacionSueldoController.items}"
+                                           var="haberLiquidacionIdLiquidacionSueldoItem"
+                                           itemValue="#{haberLiquidacionIdLiquidacionSueldoItem}"
+                                           itemLabel="#{haberLiquidacionIdLiquidacionSueldoItem.liquidacionSueldoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{haberLiquidacionController.saveNew}" value="#{bundle.Save}" update="display,:HaberLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('HaberLiquidacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('HaberLiquidacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReconocimientoDeudaViewDlg" widgetVar="ReconocimientoDeudaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewReconocimientoDeudaTitle}" closeOnEscape="true">
+
+            <h:form id="ReconocimientoDeudaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{reconocimientoDeudaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewReconocimientoDeudaLabel_reconocimientoDeudaId}"/>
+                        <h:outputText value="#{reconocimientoDeudaController.selected.reconocimientoDeudaId}" title="#{bundle.ViewReconocimientoDeudaTitle_reconocimientoDeudaId}"/>
+
+                        <h:outputText value="#{bundle.ViewReconocimientoDeudaLabel_reconocimientoDeudaMontoReconocimiento}"/>
+                        <h:outputText value="#{reconocimientoDeudaController.selected.reconocimientoDeudaMontoReconocimiento}" title="#{bundle.ViewReconocimientoDeudaTitle_reconocimientoDeudaMontoReconocimiento}"/>
+
+                        <h:outputText value="#{bundle.ViewReconocimientoDeudaLabel_reconocimientoDeudaDescripcionReconocimiento}"/>
+                        <h:outputText value="#{reconocimientoDeudaController.selected.reconocimientoDeudaDescripcionReconocimiento}" title="#{bundle.ViewReconocimientoDeudaTitle_reconocimientoDeudaDescripcionReconocimiento}"/>
+
+                        <h:outputText value="#{bundle.ViewReconocimientoDeudaLabel_reconocimientoDeudaFechaIngreso}"/>
+                        <h:outputText value="#{reconocimientoDeudaController.selected.reconocimientoDeudaFechaIngreso}" title="#{bundle.ViewReconocimientoDeudaTitle_reconocimientoDeudaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewReconocimientoDeudaLabel_reconocimientoDeudaFechaActualizacion}"/>
+                        <h:outputText value="#{reconocimientoDeudaController.selected.reconocimientoDeudaFechaActualizacion}" title="#{bundle.ViewReconocimientoDeudaTitle_reconocimientoDeudaFechaActualizacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewReconocimientoDeudaLabel_reconocimientoDeudaIdEmpresa}"/>
+                        <h:outputText value="#{reconocimientoDeudaController.selected.reconocimientoDeudaIdEmpresa.empresaId}"/>
+
+                        <h:outputText value="#{bundle.ViewReconocimientoDeudaLabel_reconocimientoDeudaIdTrabajador}"/>
+                        <h:outputText value="#{reconocimientoDeudaController.selected.reconocimientoDeudaIdTrabajador.trabajadorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ReconocimientoDeudaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

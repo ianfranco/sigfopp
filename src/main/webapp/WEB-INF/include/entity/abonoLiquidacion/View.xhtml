@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AbonoLiquidacionViewDlg" widgetVar="AbonoLiquidacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewAbonoLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="AbonoLiquidacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{abonoLiquidacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewAbonoLiquidacionLabel_abonoLiquidacionId}"/>
+                        <h:outputText value="#{abonoLiquidacionController.selected.abonoLiquidacionId}" title="#{bundle.ViewAbonoLiquidacionTitle_abonoLiquidacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoLiquidacionLabel_abonoLiquidacionMonto}"/>
+                        <h:outputText value="#{abonoLiquidacionController.selected.abonoLiquidacionMonto}" title="#{bundle.ViewAbonoLiquidacionTitle_abonoLiquidacionMonto}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoLiquidacionLabel_abonoLiquidacionDescripcion}"/>
+                        <h:outputText value="#{abonoLiquidacionController.selected.abonoLiquidacionDescripcion}" title="#{bundle.ViewAbonoLiquidacionTitle_abonoLiquidacionDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoLiquidacionLabel_abonoLiquidacionFechaIngreso}"/>
+                        <h:outputText value="#{abonoLiquidacionController.selected.abonoLiquidacionFechaIngreso}" title="#{bundle.ViewAbonoLiquidacionTitle_abonoLiquidacionFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewAbonoLiquidacionLabel_abonoLiquidacionIdAbono}"/>
+                        <h:outputText value="#{abonoLiquidacionController.selected.abonoLiquidacionIdAbono.abonoBusDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoLiquidacionLabel_abonoLiquidacionIdLiquidacionEmpresa}"/>
+                        <h:outputText value="#{abonoLiquidacionController.selected.abonoLiquidacionIdLiquidacionEmpresa.liquidacionEmpresaId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('AbonoLiquidacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

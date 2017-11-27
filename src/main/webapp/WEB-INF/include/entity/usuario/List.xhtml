@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UsuarioListForm">
+
+        <p:panel header="#{bundle.ListUsuarioTitle}">
+            <p:contextMenu id="UsuarioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('UsuarioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('UsuarioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('UsuarioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('UsuarioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.UsuarioMenuItem_cajaTerminalList}" icon="ui-icon-search"  action="#{usuarioController.navigateCajaTerminalList}" disabled="#{empty usuarioController.selected.cajaTerminalList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.UsuarioMenuItem_despachoList}" icon="ui-icon-search"  action="#{usuarioController.navigateDespachoList}" disabled="#{empty usuarioController.selected.despachoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.UsuarioMenuItem_usuarioIdRol}" icon="ui-icon-search"  actionListener="#{usuarioController.prepareUsuarioIdRol}" update=":RolViewForm" oncomplete="PF('RolViewDialog').show()" disabled="#{empty usuarioController.selected.usuarioIdRol}"/>  
+                <p:menuitem value="#{bundle.UsuarioMenuItem_usuarioIdTerminal}" icon="ui-icon-search"  actionListener="#{usuarioController.prepareUsuarioIdTerminal}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty usuarioController.selected.usuarioIdTerminal}"/>  
+                <p:menuitem value="#{bundle.UsuarioMenuItem_logList}" icon="ui-icon-search"  action="#{usuarioController.navigateLogList}" disabled="#{empty usuarioController.selected.logList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{usuarioController.items}"
+                         lazy="false"
+                         rowKey="#{item.usuarioId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{usuarioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{usuarioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.usuarioId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UsuarioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.usuarioId}" filterBy="#{item.usuarioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUsuarioTitle_usuarioId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuarioRut}" filterBy="#{item.usuarioRut}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUsuarioTitle_usuarioRut}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioRut}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuarioPass}" filterBy="#{item.usuarioPass}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUsuarioTitle_usuarioPass}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioPass}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuarioNombres}" filterBy="#{item.usuarioNombres}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUsuarioTitle_usuarioNombres}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioNombres}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuarioApellidoPaterno}" filterBy="#{item.usuarioApellidoPaterno}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUsuarioTitle_usuarioApellidoPaterno}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioApellidoPaterno}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuarioApellidoMaterno}" filterBy="#{item.usuarioApellidoMaterno}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListUsuarioTitle_usuarioApellidoMaterno}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioApellidoMaterno}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.usuarioEmail}" filterBy="#{item.usuarioEmail}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUsuarioTitle_usuarioEmail}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.usuarioEmail}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.usuarioActivo}" filterBy="#{item.usuarioActivo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUsuarioTitle_usuarioActivo}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="usuarioActivo" value="#{item.usuarioActivo}" title="#{bundle.EditUsuarioTitle_usuarioActivo}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.usuarioFechaIngreso}" filterBy="#{item.usuarioFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUsuarioTitle_usuarioFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.usuarioFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.usuarioIdRol.rolDescripcion}" filterBy="#{item.usuarioIdRol.rolDescripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUsuarioTitle_usuarioIdRol}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.usuarioIdRol.rolDescripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.usuarioIdTerminal.terminalId}" filterBy="#{item.usuarioIdTerminal.terminalId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListUsuarioTitle_usuarioIdTerminal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.usuarioIdTerminal.terminalId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{usuarioController.delete}" update=":growl,datalist" disabled="#{empty usuarioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

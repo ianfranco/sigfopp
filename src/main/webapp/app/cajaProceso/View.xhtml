@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CajaProcesoViewDlg" widgetVar="CajaProcesoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCajaProcesoTitle}" closeOnEscape="true">
+
+            <h:form id="CajaProcesoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cajaProcesoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCajaProcesoLabel_cajaProcesoId}"/>
+                        <h:outputText value="#{cajaProcesoController.selected.cajaProcesoId}" title="#{bundle.ViewCajaProcesoTitle_cajaProcesoId}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaProcesoLabel_cajaProcesoIdCaja}"/>
+                        <h:outputText value="#{cajaProcesoController.selected.cajaProcesoIdCaja.cajaRecaudacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaProcesoLabel_cajaProcesoIdProceso}"/>
+                        <h:outputText value="#{cajaProcesoController.selected.cajaProcesoIdProceso.procesoRecaudacionId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CajaProcesoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

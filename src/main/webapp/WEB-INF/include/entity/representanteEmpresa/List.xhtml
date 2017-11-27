@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RepresentanteEmpresaListForm">
+
+        <p:panel header="#{bundle.ListRepresentanteEmpresaTitle}">
+            <p:contextMenu id="RepresentanteEmpresaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('RepresentanteEmpresaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('RepresentanteEmpresaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('RepresentanteEmpresaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('RepresentanteEmpresaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.RepresentanteEmpresaMenuItem_representanteEmpresaIdEmpresa}" icon="ui-icon-search"  actionListener="#{representanteEmpresaController.prepareRepresentanteEmpresaIdEmpresa}" update=":EmpresaViewForm" oncomplete="PF('EmpresaViewDialog').show()" disabled="#{empty representanteEmpresaController.selected.representanteEmpresaIdEmpresa}"/>  
+                <p:menuitem value="#{bundle.RepresentanteEmpresaMenuItem_representanteEmpresaIdRepresentanteLegal}" icon="ui-icon-search"  actionListener="#{representanteEmpresaController.prepareRepresentanteEmpresaIdRepresentanteLegal}" update=":RepresentanteLegalViewForm" oncomplete="PF('RepresentanteLegalViewDialog').show()" disabled="#{empty representanteEmpresaController.selected.representanteEmpresaIdRepresentanteLegal}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{representanteEmpresaController.items}"
+                         lazy="false"
+                         rowKey="#{item.representanteEmpresaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{representanteEmpresaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{representanteEmpresaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.representanteEmpresaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RepresentanteEmpresaDataTableContextMenu" listener="#{representanteEmpresaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RepresentanteEmpresaDataTableContextMenu" listener="#{representanteEmpresaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{representanteEmpresaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('RepresentanteEmpresaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.representanteEmpresaId}" filterBy="#{item.representanteEmpresaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListRepresentanteEmpresaTitle_representanteEmpresaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.representanteEmpresaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.representanteEmpresaIdEmpresa.empresaId}" filterBy="#{item.representanteEmpresaIdEmpresa.empresaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListRepresentanteEmpresaTitle_representanteEmpresaIdEmpresa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.representanteEmpresaIdEmpresa.empresaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.representanteEmpresaIdRepresentanteLegal.representanteLegalId}" filterBy="#{item.representanteEmpresaIdRepresentanteLegal.representanteLegalId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListRepresentanteEmpresaTitle_representanteEmpresaIdRepresentanteLegal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.representanteEmpresaIdRepresentanteLegal.representanteLegalId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{representanteEmpresaController.prepareCreate}" update=":RepresentanteEmpresaCreateForm" oncomplete="PF('RepresentanteEmpresaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":RepresentanteEmpresaViewForm" oncomplete="PF('RepresentanteEmpresaViewDialog').show()" disabled="#{empty representanteEmpresaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":RepresentanteEmpresaEditForm" oncomplete="PF('RepresentanteEmpresaEditDialog').show()" disabled="#{empty representanteEmpresaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{representanteEmpresaController.delete}" update=":growl,datalist" disabled="#{empty representanteEmpresaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

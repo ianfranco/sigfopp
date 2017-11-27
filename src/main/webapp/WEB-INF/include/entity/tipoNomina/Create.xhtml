@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoNominaCreateDlg" widgetVar="TipoNominaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoNominaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoNominaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoNominaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoNominaLabel_tipoNominaNombre}" for="tipoNominaNombre" />
+                        <p:inputText id="tipoNominaNombre" value="#{tipoNominaController.selected.tipoNominaNombre}" title="#{bundle.CreateTipoNominaTitle_tipoNominaNombre}" required="true" requiredMessage="#{bundle.CreateTipoNominaRequiredMessage_tipoNominaNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoNominaLabel_tipoNominaFechaIngreso}" for="tipoNominaFechaIngreso" />
+                        <p:calendar id="tipoNominaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoNominaController.selected.tipoNominaFechaIngreso}" title="#{bundle.CreateTipoNominaTitle_tipoNominaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoNominaRequiredMessage_tipoNominaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoNominaController.saveNew}" value="#{bundle.Save}" update="display,:TipoNominaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoNominaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoNominaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleMetalicoCtvCreateDlg" widgetVar="DetalleMetalicoCtvCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDetalleMetalicoCtvTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleMetalicoCtvCreateForm">
+
+                <h:panelGroup id="display" rendered="#{detalleMetalicoCtvController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateDetalleMetalicoCtvLabel_detalleMetalicoCtvCantidadBolsas}" for="detalleMetalicoCtvCantidadBolsas" />
+                        <p:inputText id="detalleMetalicoCtvCantidadBolsas" value="#{detalleMetalicoCtvController.selected.detalleMetalicoCtvCantidadBolsas}" title="#{bundle.CreateDetalleMetalicoCtvTitle_detalleMetalicoCtvCantidadBolsas}" required="true" requiredMessage="#{bundle.CreateDetalleMetalicoCtvRequiredMessage_detalleMetalicoCtvCantidadBolsas}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDetalleMetalicoCtvLabel_detalleMetalicoCtvTotalEfectivo}" for="detalleMetalicoCtvTotalEfectivo" />
+                        <p:inputText id="detalleMetalicoCtvTotalEfectivo" value="#{detalleMetalicoCtvController.selected.detalleMetalicoCtvTotalEfectivo}" title="#{bundle.CreateDetalleMetalicoCtvTitle_detalleMetalicoCtvTotalEfectivo}" required="true" requiredMessage="#{bundle.CreateDetalleMetalicoCtvRequiredMessage_detalleMetalicoCtvTotalEfectivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDetalleMetalicoCtvLabel_detalleMetalicoCtvIdCtvResumen}" for="detalleMetalicoCtvIdCtvResumen" />
+                        <p:selectOneMenu id="detalleMetalicoCtvIdCtvResumen" value="#{detalleMetalicoCtvController.selected.detalleMetalicoCtvIdCtvResumen}" required="true" requiredMessage="#{bundle.CreateDetalleMetalicoCtvRequiredMessage_detalleMetalicoCtvIdCtvResumen}" converter="ctvResumenConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ctvResumenController.items}"
+                                           var="detalleMetalicoCtvIdCtvResumenItem"
+                                           itemValue="#{detalleMetalicoCtvIdCtvResumenItem}"
+                                           itemLabel="#{detalleMetalicoCtvIdCtvResumenItem.ctvResumenId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateDetalleMetalicoCtvLabel_detalleMetalicoCtvIdEfectivoCaja}" for="detalleMetalicoCtvIdEfectivoCaja" />
+                        <p:selectOneMenu id="detalleMetalicoCtvIdEfectivoCaja" value="#{detalleMetalicoCtvController.selected.detalleMetalicoCtvIdEfectivoCaja}" required="true" requiredMessage="#{bundle.CreateDetalleMetalicoCtvRequiredMessage_detalleMetalicoCtvIdEfectivoCaja}" converter="efectivoCajaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{efectivoCajaController.items}"
+                                           var="detalleMetalicoCtvIdEfectivoCajaItem"
+                                           itemValue="#{detalleMetalicoCtvIdEfectivoCajaItem}"
+                                           itemLabel="#{detalleMetalicoCtvIdEfectivoCajaItem.efectivoCajaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleMetalicoCtvController.saveNew}" value="#{bundle.Save}" update="display,:DetalleMetalicoCtvListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleMetalicoCtvCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DetalleMetalicoCtvCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

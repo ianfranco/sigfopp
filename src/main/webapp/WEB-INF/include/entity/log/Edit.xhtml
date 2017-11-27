@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LogEditDlg" widgetVar="LogEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditLogTitle}" closeOnEscape="true">
+
+            <h:form id="LogEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{logController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditLogLabel_logId}" for="logId" />
+                        <h:outputText id="logId" value="#{logController.selected.logId}" />
+
+                        <p:outputLabel value="#{bundle.EditLogLabel_logTipoAccion}" for="logTipoAccion" />
+                        <p:inputText id="logTipoAccion" value="#{logController.selected.logTipoAccion}" title="#{bundle.EditLogTitle_logTipoAccion}" required="true" requiredMessage="#{bundle.EditLogRequiredMessage_logTipoAccion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditLogLabel_logDescripcion}" for="logDescripcion" />
+                        <p:inputText id="logDescripcion" value="#{logController.selected.logDescripcion}" title="#{bundle.EditLogTitle_logDescripcion}" required="true" requiredMessage="#{bundle.EditLogRequiredMessage_logDescripcion}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditLogLabel_logFechaIngreso}" for="logFechaIngreso" />
+                        <p:calendar id="logFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{logController.selected.logFechaIngreso}" title="#{bundle.EditLogTitle_logFechaIngreso}" required="true" requiredMessage="#{bundle.EditLogRequiredMessage_logFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditLogLabel_logIdPrivilegio}" for="logIdPrivilegio" />
+                        <p:selectOneMenu id="logIdPrivilegio" value="#{logController.selected.logIdPrivilegio}" required="true" requiredMessage="#{bundle.EditLogRequiredMessage_logIdPrivilegio}" converter="privilegioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{privilegioController.items}"
+                                           var="logIdPrivilegioItem"
+                                           itemValue="#{logIdPrivilegioItem}"
+                                           itemLabel="#{logIdPrivilegioItem.privilegioDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditLogLabel_logIdUsuario}" for="logIdUsuario" />
+                        <p:selectOneMenu id="logIdUsuario" value="#{logController.selected.logIdUsuario}" required="true" requiredMessage="#{bundle.EditLogRequiredMessage_logIdUsuario}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="logIdUsuarioItem"
+                                           itemValue="#{logIdUsuarioItem}"
+                                           itemLabel="#{logIdUsuarioItem.usuarioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{logController.save}" value="#{bundle.Save}" update="display,:LogListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LogEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LogEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

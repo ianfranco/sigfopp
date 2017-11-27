@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ModeloMarcaBusViewDlg" widgetVar="ModeloMarcaBusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Ficha Modelo" closeOnEscape="true">
+
+            <h:form id="ModeloMarcaBusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{modeloMarcaBusController.selected != null}">
+
+                        <h:outputText value="#"/>
+                        <h:outputText value="#{modeloMarcaBusController.selected.modeloMarcaBusId}" title="#{bundle.ViewModeloMarcaBusTitle_modeloMarcaBusId}"/>
+
+                        <h:outputText value="Modelo"/>
+                        <h:outputText value="#{modeloMarcaBusController.selected.modeloMarcaBusIdMarca.marcaBusNombre}"/>
+                        
+                        <h:outputText value="Nombre"/>
+                        <h:outputText value="#{modeloMarcaBusController.selected.modeloMarcaBusNombre}" title="#{bundle.ViewModeloMarcaBusTitle_modeloMarcaBusNombre}"/>
+
+                        <h:outputText value="F.Ingreso"/>
+                        <h:outputText value="#{modeloMarcaBusController.selected.lastUpdate}" title="#{bundle.ViewModeloMarcaBusTitle_modeloMarcaBusFechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ModeloMarcaBusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

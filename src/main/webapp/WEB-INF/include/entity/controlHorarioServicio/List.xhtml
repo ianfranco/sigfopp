@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ControlHorarioServicioListForm">
+
+        <p:panel header="#{bundle.ListControlHorarioServicioTitle}">
+            <p:contextMenu id="ControlHorarioServicioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ControlHorarioServicioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ControlHorarioServicioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ControlHorarioServicioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ControlHorarioServicioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ControlHorarioServicioMenuItem_controlHorarioServicioIdControlServicio}" icon="ui-icon-search"  actionListener="#{controlHorarioServicioController.prepareControlHorarioServicioIdControlServicio}" update=":ControlServicioViewForm" oncomplete="PF('ControlServicioViewDialog').show()" disabled="#{empty controlHorarioServicioController.selected.controlHorarioServicioIdControlServicio}"/>  
+                <p:menuitem value="#{bundle.ControlHorarioServicioMenuItem_controlHorarioServicioIdHorarioServicio}" icon="ui-icon-search"  actionListener="#{controlHorarioServicioController.prepareControlHorarioServicioIdHorarioServicio}" update=":HorarioServicioViewForm" oncomplete="PF('HorarioServicioViewDialog').show()" disabled="#{empty controlHorarioServicioController.selected.controlHorarioServicioIdHorarioServicio}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{controlHorarioServicioController.items}"
+                         lazy="false"
+                         rowKey="#{item.controlHorarioServicioId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{controlHorarioServicioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{controlHorarioServicioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.controlHorarioServicioId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ControlHorarioServicioDataTableContextMenu" listener="#{controlHorarioServicioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ControlHorarioServicioDataTableContextMenu" listener="#{controlHorarioServicioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{controlHorarioServicioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ControlHorarioServicioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.controlHorarioServicioId}" filterBy="#{item.controlHorarioServicioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlHorarioServicioTitle_controlHorarioServicioId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlHorarioServicioId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlHorarioServicioTiempo}" filterBy="#{item.controlHorarioServicioTiempo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlHorarioServicioTitle_controlHorarioServicioTiempo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlHorarioServicioTiempo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlHorarioServicioMulta}" filterBy="#{item.controlHorarioServicioMulta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlHorarioServicioTitle_controlHorarioServicioMulta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlHorarioServicioMulta}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlHorarioServicioPeso}" filterBy="#{item.controlHorarioServicioPeso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlHorarioServicioTitle_controlHorarioServicioPeso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlHorarioServicioPeso}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlHorarioServicioIdControlServicio.controlServicioIdControlServicio}" filterBy="#{item.controlHorarioServicioIdControlServicio.controlServicioIdControlServicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlHorarioServicioTitle_controlHorarioServicioIdControlServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlHorarioServicioIdControlServicio.controlServicioIdControlServicio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.controlHorarioServicioIdHorarioServicio.horarioServicioId}" filterBy="#{item.controlHorarioServicioIdHorarioServicio.horarioServicioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListControlHorarioServicioTitle_controlHorarioServicioIdHorarioServicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.controlHorarioServicioIdHorarioServicio.horarioServicioId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{controlHorarioServicioController.prepareCreate}" update=":ControlHorarioServicioCreateForm" oncomplete="PF('ControlHorarioServicioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ControlHorarioServicioViewForm" oncomplete="PF('ControlHorarioServicioViewDialog').show()" disabled="#{empty controlHorarioServicioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ControlHorarioServicioEditForm" oncomplete="PF('ControlHorarioServicioEditDialog').show()" disabled="#{empty controlHorarioServicioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{controlHorarioServicioController.delete}" update=":growl,datalist" disabled="#{empty controlHorarioServicioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

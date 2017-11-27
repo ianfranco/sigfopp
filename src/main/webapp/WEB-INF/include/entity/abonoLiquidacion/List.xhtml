@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AbonoLiquidacionListForm">
+
+        <p:panel header="#{bundle.ListAbonoLiquidacionTitle}">
+            <p:contextMenu id="AbonoLiquidacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('AbonoLiquidacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('AbonoLiquidacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('AbonoLiquidacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('AbonoLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.AbonoLiquidacionMenuItem_abonoLiquidacionIdAbono}" icon="ui-icon-search"  actionListener="#{abonoLiquidacionController.prepareAbonoLiquidacionIdAbono}" update=":AbonoBusViewForm" oncomplete="PF('AbonoBusViewDialog').show()" disabled="#{empty abonoLiquidacionController.selected.abonoLiquidacionIdAbono}"/>  
+                <p:menuitem value="#{bundle.AbonoLiquidacionMenuItem_abonoLiquidacionIdLiquidacionEmpresa}" icon="ui-icon-search"  actionListener="#{abonoLiquidacionController.prepareAbonoLiquidacionIdLiquidacionEmpresa}" update=":LiquidacionEmpresaViewForm" oncomplete="PF('LiquidacionEmpresaViewDialog').show()" disabled="#{empty abonoLiquidacionController.selected.abonoLiquidacionIdLiquidacionEmpresa}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{abonoLiquidacionController.items}"
+                         lazy="false"
+                         rowKey="#{item.abonoLiquidacionId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{abonoLiquidacionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{abonoLiquidacionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.abonoLiquidacionId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AbonoLiquidacionDataTableContextMenu" listener="#{abonoLiquidacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AbonoLiquidacionDataTableContextMenu" listener="#{abonoLiquidacionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{abonoLiquidacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('AbonoLiquidacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.abonoLiquidacionId}" filterBy="#{item.abonoLiquidacionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAbonoLiquidacionTitle_abonoLiquidacionId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.abonoLiquidacionId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.abonoLiquidacionMonto}" filterBy="#{item.abonoLiquidacionMonto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAbonoLiquidacionTitle_abonoLiquidacionMonto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.abonoLiquidacionMonto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.abonoLiquidacionDescripcion}" filterBy="#{item.abonoLiquidacionDescripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAbonoLiquidacionTitle_abonoLiquidacionDescripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.abonoLiquidacionDescripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.abonoLiquidacionFechaIngreso}" filterBy="#{item.abonoLiquidacionFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAbonoLiquidacionTitle_abonoLiquidacionFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.abonoLiquidacionFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.abonoLiquidacionIdAbono.abonoBusDescripcion}" filterBy="#{item.abonoLiquidacionIdAbono.abonoBusDescripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAbonoLiquidacionTitle_abonoLiquidacionIdAbono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.abonoLiquidacionIdAbono.abonoBusDescripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.abonoLiquidacionIdLiquidacionEmpresa.liquidacionEmpresaId}" filterBy="#{item.abonoLiquidacionIdLiquidacionEmpresa.liquidacionEmpresaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAbonoLiquidacionTitle_abonoLiquidacionIdLiquidacionEmpresa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.abonoLiquidacionIdLiquidacionEmpresa.liquidacionEmpresaId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{abonoLiquidacionController.prepareCreate}" update=":AbonoLiquidacionCreateForm" oncomplete="PF('AbonoLiquidacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":AbonoLiquidacionViewForm" oncomplete="PF('AbonoLiquidacionViewDialog').show()" disabled="#{empty abonoLiquidacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AbonoLiquidacionEditForm" oncomplete="PF('AbonoLiquidacionEditDialog').show()" disabled="#{empty abonoLiquidacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{abonoLiquidacionController.delete}" update=":growl,datalist" disabled="#{empty abonoLiquidacionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

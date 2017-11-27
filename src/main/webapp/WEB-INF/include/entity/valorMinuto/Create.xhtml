@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ValorMinutoCreateDlg" widgetVar="ValorMinutoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateValorMinutoTitle}" closeOnEscape="true">
+
+            <h:form id="ValorMinutoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{valorMinutoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateValorMinutoLabel_valorMinutoNombre}" for="valorMinutoNombre" />
+                        <p:inputText id="valorMinutoNombre" value="#{valorMinutoController.selected.valorMinutoNombre}" title="#{bundle.CreateValorMinutoTitle_valorMinutoNombre}" required="true" requiredMessage="#{bundle.CreateValorMinutoRequiredMessage_valorMinutoNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreateValorMinutoLabel_valorMinutoValor}" for="valorMinutoValor" />
+                        <p:inputText id="valorMinutoValor" value="#{valorMinutoController.selected.valorMinutoValor}" title="#{bundle.CreateValorMinutoTitle_valorMinutoValor}" required="true" requiredMessage="#{bundle.CreateValorMinutoRequiredMessage_valorMinutoValor}"/>
+
+                        <p:outputLabel value="#{bundle.CreateValorMinutoLabel_valorMinutoFechaIngreso}" for="valorMinutoFechaIngreso" />
+                        <p:calendar id="valorMinutoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{valorMinutoController.selected.valorMinutoFechaIngreso}" title="#{bundle.CreateValorMinutoTitle_valorMinutoFechaIngreso}" required="true" requiredMessage="#{bundle.CreateValorMinutoRequiredMessage_valorMinutoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorMinutoController.saveNew}" value="#{bundle.Save}" update="display,:ValorMinutoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorMinutoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorMinutoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

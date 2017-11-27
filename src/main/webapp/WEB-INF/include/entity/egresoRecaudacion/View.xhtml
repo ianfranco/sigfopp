@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoRecaudacionViewDlg" widgetVar="EgresoRecaudacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoRecaudacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoRecaudacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_egresoRecaudacionId}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.egresoRecaudacionId}" title="#{bundle.ViewEgresoRecaudacionTitle_egresoRecaudacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_egresoRecaudacionTotalEgreso}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.egresoRecaudacionTotalEgreso}" title="#{bundle.ViewEgresoRecaudacionTitle_egresoRecaudacionTotalEgreso}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_egresoRecaudacionIdEgreso}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.egresoRecaudacionIdEgreso.egresoId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoRecaudacionLabel_egresoRecaudacionIdResumenRecaudacion}"/>
+                        <h:outputText value="#{egresoRecaudacionController.selected.egresoRecaudacionIdResumenRecaudacion.resumenRecaudacionId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoRecaudacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

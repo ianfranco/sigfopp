@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CuentaBancariaEditDlg" widgetVar="CuentaBancariaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCuentaBancariaTitle}" closeOnEscape="true">
+
+            <h:form id="CuentaBancariaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cuentaBancariaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaId}" for="cuentaBancariaId" />
+                        <h:outputText id="cuentaBancariaId" value="#{cuentaBancariaController.selected.cuentaBancariaId}" />
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaNumero}" for="cuentaBancariaNumero" />
+                        <p:inputText id="cuentaBancariaNumero" value="#{cuentaBancariaController.selected.cuentaBancariaNumero}" title="#{bundle.EditCuentaBancariaTitle_cuentaBancariaNumero}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaNumero}"/>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaNombreTitular}" for="cuentaBancariaNombreTitular" />
+                        <p:inputText id="cuentaBancariaNombreTitular" value="#{cuentaBancariaController.selected.cuentaBancariaNombreTitular}" title="#{bundle.EditCuentaBancariaTitle_cuentaBancariaNombreTitular}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaNombreTitular}" size="250" maxlength="250"/>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaRutTitular}" for="cuentaBancariaRutTitular" />
+                        <p:inputText id="cuentaBancariaRutTitular" value="#{cuentaBancariaController.selected.cuentaBancariaRutTitular}" title="#{bundle.EditCuentaBancariaTitle_cuentaBancariaRutTitular}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaRutTitular}" size="9" maxlength="9"/>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaActiva}" for="cuentaBancariaActiva" />
+                        <p:selectBooleanCheckbox id="cuentaBancariaActiva" value="#{cuentaBancariaController.selected.cuentaBancariaActiva}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaActiva}"/>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaFechaIngreso}" for="cuentaBancariaFechaIngreso" />
+                        <p:calendar id="cuentaBancariaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{cuentaBancariaController.selected.cuentaBancariaFechaIngreso}" title="#{bundle.EditCuentaBancariaTitle_cuentaBancariaFechaIngreso}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaIdBanco}" for="cuentaBancariaIdBanco" />
+                        <p:selectOneMenu id="cuentaBancariaIdBanco" value="#{cuentaBancariaController.selected.cuentaBancariaIdBanco}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaIdBanco}" converter="bancoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{bancoController.items}"
+                                           var="cuentaBancariaIdBancoItem"
+                                           itemValue="#{cuentaBancariaIdBancoItem}"
+                                           itemLabel="#{cuentaBancariaIdBancoItem.bancoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditCuentaBancariaLabel_cuentaBancariaIdTipoCuenta}" for="cuentaBancariaIdTipoCuenta" />
+                        <p:selectOneMenu id="cuentaBancariaIdTipoCuenta" value="#{cuentaBancariaController.selected.cuentaBancariaIdTipoCuenta}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaIdTipoCuenta}" converter="tipoCuentaBancoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoCuentaBancoController.items}"
+                                           var="cuentaBancariaIdTipoCuentaItem"
+                                           itemValue="#{cuentaBancariaIdTipoCuentaItem}"
+                                           itemLabel="#{cuentaBancariaIdTipoCuentaItem.tipoCuentaBancoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cuentaBancariaController.save}" value="#{bundle.Save}" update="display,:CuentaBancariaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CuentaBancariaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CuentaBancariaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

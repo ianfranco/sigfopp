@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoCajaRecaudacionViewDlg" widgetVar="EgresoCajaRecaudacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoCajaRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoCajaRecaudacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoCajaRecaudacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionId}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionId}" title="#{bundle.ViewEgresoCajaRecaudacionTitle_egresoCajaRecaudacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionValorDefecto}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionValorDefecto}" title="#{bundle.ViewEgresoCajaRecaudacionTitle_egresoCajaRecaudacionValorDefecto}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionPorcentaje}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionPorcentaje}" title="#{bundle.ViewEgresoCajaRecaudacionTitle_egresoCajaRecaudacionPorcentaje}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionNumeroOrden}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionNumeroOrden}" title="#{bundle.ViewEgresoCajaRecaudacionTitle_egresoCajaRecaudacionNumeroOrden}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaActivo}"/>
+                        <h:selectBooleanCheckbox id="egresoCajaActivo" value="#{egresoCajaRecaudacionController.selected.egresoCajaActivo}" title="#{bundle.EditEgresoCajaRecaudacionTitle_egresoCajaActivo}" required="true" requiredMessage="#{bundle.EditEgresoCajaRecaudacionRequiredMessage_egresoCajaActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionFechaIngreso}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.lastUpdate}" title="#{bundle.ViewEgresoCajaRecaudacionTitle_egresoCajaRecaudacionFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionFechaActualizacion}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionFechaActualizacion}" title="#{bundle.ViewEgresoCajaRecaudacionTitle_egresoCajaRecaudacionFechaActualizacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionIdEgreso}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionIdEgreso.egresoId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaRecaudacionLabel_egresoCajaRecaudacionIdCajaRecaudacion}"/>
+                        <h:outputText value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionIdCajaRecaudacion.cajaTerminalId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoCajaRecaudacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

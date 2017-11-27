@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaCombustibleViewDlg" widgetVar="VentaCombustibleViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewVentaCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="VentaCombustibleViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{ventaCombustibleController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewVentaCombustibleLabel_ventaCombustibleId}"/>
+                        <h:outputText value="#{ventaCombustibleController.selected.ventaCombustibleId}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleId}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaCombustibleLabel_ventaCombustibleFecha}"/>
+                        <h:outputText value="#{ventaCombustibleController.selected.ventaCombustibleFecha}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleFecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewVentaCombustibleLabel_ventaCombustibleValor}"/>
+                        <h:outputText value="#{ventaCombustibleController.selected.ventaCombustibleValor}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleValor}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaCombustibleLabel_ventaCombustibleCantidad}"/>
+                        <h:outputText value="#{ventaCombustibleController.selected.ventaCombustibleCantidad}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleCantidad}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaCombustibleLabel_ventaCombustibleValorCombustible}"/>
+                        <h:outputText value="#{ventaCombustibleController.selected.ventaCombustibleValorCombustible}" title="#{bundle.ViewVentaCombustibleTitle_ventaCombustibleValorCombustible}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaCombustibleLabel_ventaCombustibleIdGuia}"/>
+                        <h:outputText value="#{ventaCombustibleController.selected.ventaCombustibleIdGuia.guiaId}"/>
+
+                        <h:outputText value="#{bundle.ViewVentaCombustibleLabel_ventaCombustibleIdSurtidor}"/>
+                        <h:outputText value="#{ventaCombustibleController.selected.ventaCombustibleIdSurtidor.surtidorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('VentaCombustibleViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

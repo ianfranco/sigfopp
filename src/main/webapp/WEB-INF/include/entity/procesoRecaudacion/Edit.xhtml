@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProcesoRecaudacionEditDlg" widgetVar="ProcesoRecaudacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditProcesoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="ProcesoRecaudacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{procesoRecaudacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_procesoRecaudacionId}" for="procesoRecaudacionId" />
+                        <h:outputText id="procesoRecaudacionId" value="#{procesoRecaudacionController.selected.procesoRecaudacionId}" />
+
+                        <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_procesoRecaudacionNombre}" for="procesoRecaudacionNombre" />
+                        <p:inputText id="procesoRecaudacionNombre" value="#{procesoRecaudacionController.selected.procesoRecaudacionNombre}" title="#{bundle.EditProcesoRecaudacionTitle_procesoRecaudacionNombre}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_procesoRecaudacionNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_procesoRecaudacionActivo}" for="procesoRecaudacionActivo" />
+                        <p:inputText id="procesoRecaudacionActivo" value="#{procesoRecaudacionController.selected.procesoRecaudacionActivo}" title="#{bundle.EditProcesoRecaudacionTitle_procesoRecaudacionActivo}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_procesoRecaudacionActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_procesoRecaudacionFechaIngreso}" for="procesoRecaudacionFechaIngreso" />
+                        <p:calendar id="procesoRecaudacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{procesoRecaudacionController.selected.procesoRecaudacionFechaIngreso}" title="#{bundle.EditProcesoRecaudacionTitle_procesoRecaudacionFechaIngreso}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_procesoRecaudacionFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_procesoRecaudacionIdCajaTerminal}" for="procesoRecaudacionIdCajaTerminal" />
+                        <p:selectOneMenu id="procesoRecaudacionIdCajaTerminal" value="#{procesoRecaudacionController.selected.procesoRecaudacionIdCajaTerminal}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_procesoRecaudacionIdCajaTerminal}" converter="cajaTerminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cajaTerminalController.items}"
+                                           var="procesoRecaudacionIdCajaTerminalItem"
+                                           itemValue="#{procesoRecaudacionIdCajaTerminalItem}"
+                                           itemLabel="#{procesoRecaudacionIdCajaTerminalItem.cajaTerminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditProcesoRecaudacionLabel_procesoRecaudacionIdCuentaBancaria}" for="procesoRecaudacionIdCuentaBancaria" />
+                        <p:selectOneMenu id="procesoRecaudacionIdCuentaBancaria" value="#{procesoRecaudacionController.selected.procesoRecaudacionIdCuentaBancaria}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_procesoRecaudacionIdCuentaBancaria}" converter="cuentaBancariaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cuentaBancariaController.items}"
+                                           var="procesoRecaudacionIdCuentaBancariaItem"
+                                           itemValue="#{procesoRecaudacionIdCuentaBancariaItem}"
+                                           itemLabel="#{procesoRecaudacionIdCuentaBancariaItem.cuentaBancariaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{procesoRecaudacionController.save}" value="#{bundle.Save}" update="display,:ProcesoRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProcesoRecaudacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ProcesoRecaudacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

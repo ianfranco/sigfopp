@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BancoViewDlg" widgetVar="BancoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewBancoTitle}" closeOnEscape="true">
+
+            <h:form id="BancoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{bancoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewBancoLabel_bancoId}"/>
+                        <h:outputText value="#{bancoController.selected.bancoId}" title="#{bundle.ViewBancoTitle_bancoId}"/>
+
+                        <h:outputText value="#{bundle.ViewBancoLabel_bancoNombre}"/>
+                        <h:outputText value="#{bancoController.selected.bancoNombre}" title="#{bundle.ViewBancoTitle_bancoNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewBancoLabel_bancoFechaIngreso}"/>
+                        <h:outputText value="#{bancoController.selected.bancoFechaIngreso}" title="#{bundle.ViewBancoTitle_bancoFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('BancoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

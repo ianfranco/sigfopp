@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ImpuestoSegundaCategoriaListForm">
+
+        <p:panel header="#{bundle.ListImpuestoSegundaCategoriaTitle}">
+            <p:contextMenu id="ImpuestoSegundaCategoriaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ImpuestoSegundaCategoriaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ImpuestoSegundaCategoriaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ImpuestoSegundaCategoriaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ImpuestoSegundaCategoriaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{impuestoSegundaCategoriaController.items}"
+                         lazy="false"
+                         rowKey="#{item.impuestoSegundaCategoriaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{impuestoSegundaCategoriaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{impuestoSegundaCategoriaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.impuestoSegundaCategoriaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ImpuestoSegundaCategoriaDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ImpuestoSegundaCategoriaDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ImpuestoSegundaCategoriaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.impuestoSegundaCategoriaId}" filterBy="#{item.impuestoSegundaCategoriaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.impuestoSegundaCategoriaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.impuestoSegundaCategoriaDesde}" filterBy="#{item.impuestoSegundaCategoriaDesde}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaDesde}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.impuestoSegundaCategoriaDesde}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.impuestoSegundaCategoriaHasta}" filterBy="#{item.impuestoSegundaCategoriaHasta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaHasta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.impuestoSegundaCategoriaHasta}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.impuestoSegundaCategoriaFactor}" filterBy="#{item.impuestoSegundaCategoriaFactor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaFactor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.impuestoSegundaCategoriaFactor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.impuestoSegundaCategoriaRebaja}" filterBy="#{item.impuestoSegundaCategoriaRebaja}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaRebaja}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.impuestoSegundaCategoriaRebaja}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.impuestoSegundaCategoriaFechaIngreso}" filterBy="#{item.impuestoSegundaCategoriaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.impuestoSegundaCategoriaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{impuestoSegundaCategoriaController.prepareCreate}" update=":ImpuestoSegundaCategoriaCreateForm" oncomplete="PF('ImpuestoSegundaCategoriaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ImpuestoSegundaCategoriaViewForm" oncomplete="PF('ImpuestoSegundaCategoriaViewDialog').show()" disabled="#{empty impuestoSegundaCategoriaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ImpuestoSegundaCategoriaEditForm" oncomplete="PF('ImpuestoSegundaCategoriaEditDialog').show()" disabled="#{empty impuestoSegundaCategoriaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{impuestoSegundaCategoriaController.delete}" update=":growl,datalist" disabled="#{empty impuestoSegundaCategoriaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

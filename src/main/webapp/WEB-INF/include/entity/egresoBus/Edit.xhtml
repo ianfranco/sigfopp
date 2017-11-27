@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoBusEditDlg" widgetVar="EgresoBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEgresoBusTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusId}" for="egresoBusId" />
+                        <h:outputText id="egresoBusId" value="#{egresoBusController.selected.egresoBusId}" />
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusValorDefecto}" for="egresoBusValorDefecto" />
+                        <p:inputText id="egresoBusValorDefecto" value="#{egresoBusController.selected.egresoBusValorDefecto}" title="#{bundle.EditEgresoBusTitle_egresoBusValorDefecto}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusValorDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusPorcentaje}" for="egresoBusPorcentaje" />
+                        <p:inputText id="egresoBusPorcentaje" value="#{egresoBusController.selected.egresoBusPorcentaje}" title="#{bundle.EditEgresoBusTitle_egresoBusPorcentaje}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusPorcentaje}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusNumeroOrden}" for="egresoBusNumeroOrden" />
+                        <p:inputText id="egresoBusNumeroOrden" value="#{egresoBusController.selected.egresoBusNumeroOrden}" title="#{bundle.EditEgresoBusTitle_egresoBusNumeroOrden}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusNumeroOrden}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusActivo}" for="egresoBusActivo" />
+                        <p:selectBooleanCheckbox id="egresoBusActivo" value="#{egresoBusController.selected.egresoBusActivo}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusFechaIngreso}" for="egresoBusFechaIngreso" />
+                        <p:calendar id="egresoBusFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoBusController.selected.egresoBusFechaIngreso}" title="#{bundle.EditEgresoBusTitle_egresoBusFechaIngreso}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusFechaActualizacion}" for="egresoBusFechaActualizacion" />
+                        <p:calendar id="egresoBusFechaActualizacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoBusController.selected.egresoBusFechaActualizacion}" title="#{bundle.EditEgresoBusTitle_egresoBusFechaActualizacion}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusIdEgreso}" for="egresoBusIdEgreso" />
+                        <p:selectOneMenu id="egresoBusIdEgreso" value="#{egresoBusController.selected.egresoBusIdEgreso}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusIdEgreso}" converter="egresoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoBusIdEgresoItem"
+                                           itemValue="#{egresoBusIdEgresoItem}"
+                                           itemLabel="#{egresoBusIdEgresoItem.egresoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditEgresoBusLabel_egresoBusIdBus}" for="egresoBusIdBus" />
+                        <p:selectOneMenu id="egresoBusIdBus" value="#{egresoBusController.selected.egresoBusIdBus}" required="true" requiredMessage="#{bundle.EditEgresoBusRequiredMessage_egresoBusIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="egresoBusIdBusItem"
+                                           itemValue="#{egresoBusIdBusItem}"
+                                           itemLabel="#{egresoBusIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoBusController.save}" value="#{bundle.Save}" update="display,:EgresoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

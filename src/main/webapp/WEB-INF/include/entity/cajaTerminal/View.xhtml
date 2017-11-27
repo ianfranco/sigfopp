@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CajaTerminalViewDlg" widgetVar="CajaTerminalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCajaTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="CajaTerminalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cajaTerminalController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCajaTerminalLabel_cajaTerminalId}"/>
+                        <h:outputText value="#{cajaTerminalController.selected.cajaTerminalId}" title="#{bundle.ViewCajaTerminalTitle_cajaTerminalId}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaTerminalLabel_cajaTerminalNombreCaja}"/>
+                        <h:outputText value="#{cajaTerminalController.selected.cajaTerminalNombreCaja}" title="#{bundle.ViewCajaTerminalTitle_cajaTerminalNombreCaja}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaTerminalLabel_cajaTerminalActiva}"/>
+                        <h:selectBooleanCheckbox id="cajaTerminalActiva" value="#{cajaTerminalController.selected.cajaTerminalActiva}" title="#{bundle.EditCajaTerminalTitle_cajaTerminalActiva}" required="true" requiredMessage="#{bundle.EditCajaTerminalRequiredMessage_cajaTerminalActiva}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewCajaTerminalLabel_cajaTerminalFechaIngreso}"/>
+                        <h:outputText value="#{cajaTerminalController.selected.cajaTerminalFechaIngreso}" title="#{bundle.ViewCajaTerminalTitle_cajaTerminalFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCajaTerminalLabel_cajaTerminalIdTerminal}"/>
+                        <h:outputText value="#{cajaTerminalController.selected.cajaTerminalIdTerminal.terminalId}"/>
+
+                        <h:outputText value="#{bundle.ViewCajaTerminalLabel_cajaTerminalIdUsuario}"/>
+                        <h:outputText value="#{cajaTerminalController.selected.cajaTerminalIdUsuario.usuarioId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CajaTerminalViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

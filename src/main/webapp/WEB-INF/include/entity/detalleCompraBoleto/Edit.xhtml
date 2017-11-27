@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleCompraBoletoEditDlg" widgetVar="DetalleCompraBoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditDetalleCompraBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleCompraBoletoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleCompraBoletoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_detalleCompraBoletoId}" for="detalleCompraBoletoId" />
+                        <h:outputText id="detalleCompraBoletoId" value="#{detalleCompraBoletoController.selected.detalleCompraBoletoId}" />
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_detalleCompraBoletoCantidadRollos}" for="detalleCompraBoletoCantidadRollos" />
+                        <p:inputText id="detalleCompraBoletoCantidadRollos" value="#{detalleCompraBoletoController.selected.detalleCompraBoletoCantidadRollos}" title="#{bundle.EditDetalleCompraBoletoTitle_detalleCompraBoletoCantidadRollos}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_detalleCompraBoletoCantidadRollos}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_detalleCompraBoletoSerie}" for="detalleCompraBoletoSerie" />
+                        <p:inputText id="detalleCompraBoletoSerie" value="#{detalleCompraBoletoController.selected.detalleCompraBoletoSerie}" title="#{bundle.EditDetalleCompraBoletoTitle_detalleCompraBoletoSerie}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_detalleCompraBoletoSerie}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_detalleCompraBoletoTotal}" for="detalleCompraBoletoTotal" />
+                        <p:inputText id="detalleCompraBoletoTotal" value="#{detalleCompraBoletoController.selected.detalleCompraBoletoTotal}" title="#{bundle.EditDetalleCompraBoletoTitle_detalleCompraBoletoTotal}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_detalleCompraBoletoTotal}"/>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_detalleCompraBoletoIdBoleto}" for="detalleCompraBoletoIdBoleto" />
+                        <p:selectOneMenu id="detalleCompraBoletoIdBoleto" value="#{detalleCompraBoletoController.selected.detalleCompraBoletoIdBoleto}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_detalleCompraBoletoIdBoleto}" converter="boletoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{boletoController.items}"
+                                           var="detalleCompraBoletoIdBoletoItem"
+                                           itemValue="#{detalleCompraBoletoIdBoletoItem}"
+                                           itemLabel="#{detalleCompraBoletoIdBoletoItem.boletoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditDetalleCompraBoletoLabel_detalleCompraBoletoIdCompraBoleto}" for="detalleCompraBoletoIdCompraBoleto" />
+                        <p:selectOneMenu id="detalleCompraBoletoIdCompraBoleto" value="#{detalleCompraBoletoController.selected.detalleCompraBoletoIdCompraBoleto}" required="true" requiredMessage="#{bundle.EditDetalleCompraBoletoRequiredMessage_detalleCompraBoletoIdCompraBoleto}" converter="compraBoletoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{compraBoletoController.items}"
+                                           var="detalleCompraBoletoIdCompraBoletoItem"
+                                           itemValue="#{detalleCompraBoletoIdCompraBoletoItem}"
+                                           itemLabel="#{detalleCompraBoletoIdCompraBoletoItem.compraBoletoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleCompraBoletoController.save}" value="#{bundle.Save}" update="display,:DetalleCompraBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleCompraBoletoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DetalleCompraBoletoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

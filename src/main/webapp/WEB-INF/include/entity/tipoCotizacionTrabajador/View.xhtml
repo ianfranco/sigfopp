@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoCotizacionTrabajadorViewDlg" widgetVar="TipoCotizacionTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoCotizacionTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCotizacionTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoCotizacionTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoCotizacionTrabajadorLabel_tipoCotizacionTrabajadorId}"/>
+                        <h:outputText value="#{tipoCotizacionTrabajadorController.selected.tipoCotizacionTrabajadorId}" title="#{bundle.ViewTipoCotizacionTrabajadorTitle_tipoCotizacionTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoCotizacionTrabajadorLabel_tipoCotizacionTrabajadorNombre}"/>
+                        <h:outputText value="#{tipoCotizacionTrabajadorController.selected.tipoCotizacionTrabajadorNombre}" title="#{bundle.ViewTipoCotizacionTrabajadorTitle_tipoCotizacionTrabajadorNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoCotizacionTrabajadorLabel_tipoCotizacionTrabajadorFechaIngreso}"/>
+                        <h:outputText value="#{tipoCotizacionTrabajadorController.selected.tipoCotizacionTrabajadorFechaIngreso}" title="#{bundle.ViewTipoCotizacionTrabajadorTitle_tipoCotizacionTrabajadorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoCotizacionTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

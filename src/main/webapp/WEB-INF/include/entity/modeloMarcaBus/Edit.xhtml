@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ModeloMarcaBusEditDlg" widgetVar="ModeloMarcaBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditModeloMarcaBusTitle}" closeOnEscape="true">
+
+            <h:form id="ModeloMarcaBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{modeloMarcaBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditModeloMarcaBusLabel_modeloMarcaBusId}" for="modeloMarcaBusId" />
+                        <h:outputText id="modeloMarcaBusId" value="#{modeloMarcaBusController.selected.modeloMarcaBusId}" />
+
+                        <p:outputLabel value="#{bundle.EditModeloMarcaBusLabel_modeloMarcaBusNombre}" for="modeloMarcaBusNombre" />
+                        <p:inputText id="modeloMarcaBusNombre" value="#{modeloMarcaBusController.selected.modeloMarcaBusNombre}" title="#{bundle.EditModeloMarcaBusTitle_modeloMarcaBusNombre}" required="true" requiredMessage="#{bundle.EditModeloMarcaBusRequiredMessage_modeloMarcaBusNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditModeloMarcaBusLabel_modeloMarcaBusFechaIngreso}" for="modeloMarcaBusFechaIngreso" />
+                        <p:calendar id="modeloMarcaBusFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{modeloMarcaBusController.selected.modeloMarcaBusFechaIngreso}" title="#{bundle.EditModeloMarcaBusTitle_modeloMarcaBusFechaIngreso}" required="true" requiredMessage="#{bundle.EditModeloMarcaBusRequiredMessage_modeloMarcaBusFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditModeloMarcaBusLabel_modeloMarcaBusIdMarca}" for="modeloMarcaBusIdMarca" />
+                        <p:selectOneMenu id="modeloMarcaBusIdMarca" value="#{modeloMarcaBusController.selected.modeloMarcaBusIdMarca}" required="true" requiredMessage="#{bundle.EditModeloMarcaBusRequiredMessage_modeloMarcaBusIdMarca}" converter="marcaBusConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcaBusController.items}"
+                                           var="modeloMarcaBusIdMarcaItem"
+                                           itemValue="#{modeloMarcaBusIdMarcaItem}"
+                                           itemLabel="#{modeloMarcaBusIdMarcaItem.marcaBusId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{modeloMarcaBusController.save}" value="#{bundle.Save}" update="display,:ModeloMarcaBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ModeloMarcaBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ModeloMarcaBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

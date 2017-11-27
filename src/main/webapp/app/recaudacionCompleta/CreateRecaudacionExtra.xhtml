@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RecaudacionExtraCreateDlg" widgetVar="RecaudacionExtraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Recaudación Extra" closeOnEscape="true">
+
+            <h:form id="RecaudacionExtraCreateForm" onkeypress="return event.keyCode !== 13">
+                <h:panelGroup id="display" rendered="#{recaudacionCompletaController.recaudacionExtra != null}">
+                    <p:panelGrid>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:focus context="descripcion"/>
+                            <p:column style="font-weight: bold;text-align: right;">Descripción:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:inputText id="descripcion" value="#{recaudacionCompletaController.recaudacionExtra.recaudacionExtraNombre}" size="40"/>
+                            </p:column>
+
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;text-align: right;">Monto:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:inputNumber emptyValue="zero" id="monto" value="#{recaudacionCompletaController.recaudacionExtra.recaudacionExtraMonto}" title="#{bundle.CreateVentaCombustibleTitle_guiaFolio}" required="true" requiredMessage="Debe ingresar el folio" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)" minValue="0" size="40">
+                                </p:inputNumber>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="1" style="background: #e5e5e5;">
+                            </p:column>
+                            <p:column  style="background: #e5e5e5;">
+                                <p:commandButton id="okButton"  actionListener="#{recaudacionCompletaController.saveNew}" value="#{bundle.Save}" update="display,:growl" styleClass="btn btn-primary" onstart="PF('Loading').show()" oncomplete="PF('RecaudacionExtraCreateDialog').hide();updateFicha();" onsuccess="PF('Loading').hide();" ajax="true" >
+                                </p:commandButton>
+                                <p:remoteCommand name="updateFicha" update=":growl" />
+                                <p:commandButton value="Cerrar" oncomplete="PF('RecaudacionExtraCreateDialog').hide()" update="display, growl" process="@this" immediate="true" resetValues="true" styleClass="btn btn-primary"/>                                
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>        
+
+    </ui:composition>
+
+</html>

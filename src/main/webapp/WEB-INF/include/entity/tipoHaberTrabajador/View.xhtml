@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoHaberTrabajadorViewDlg" widgetVar="TipoHaberTrabajadorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoHaberTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoHaberTrabajadorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoHaberTrabajadorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoHaberTrabajadorLabel_tipoHaberTrabajadorId}"/>
+                        <h:outputText value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorId}" title="#{bundle.ViewTipoHaberTrabajadorTitle_tipoHaberTrabajadorId}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoHaberTrabajadorLabel_tipoHaberTrabajadorNombre}"/>
+                        <h:outputText value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorNombre}" title="#{bundle.ViewTipoHaberTrabajadorTitle_tipoHaberTrabajadorNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoHaberTrabajadorLabel_tipoHaberTrabajadorMontoDefecto}"/>
+                        <h:outputText value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorMontoDefecto}" title="#{bundle.ViewTipoHaberTrabajadorTitle_tipoHaberTrabajadorMontoDefecto}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoHaberTrabajadorLabel_tipoHaberTrabajadorImponible}"/>
+                        <h:selectBooleanCheckbox id="tipoHaberTrabajadorImponible" value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorImponible}" title="#{bundle.EditTipoHaberTrabajadorTitle_tipoHaberTrabajadorImponible}" required="true" requiredMessage="#{bundle.EditTipoHaberTrabajadorRequiredMessage_tipoHaberTrabajadorImponible}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewTipoHaberTrabajadorLabel_tipoHaberTrabajadorFechaIngreso}"/>
+                        <h:outputText value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorFechaIngreso}" title="#{bundle.ViewTipoHaberTrabajadorTitle_tipoHaberTrabajadorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoHaberTrabajadorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

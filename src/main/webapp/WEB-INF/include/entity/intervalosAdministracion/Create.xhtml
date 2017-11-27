@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IntervalosAdministracionCreateDlg" widgetVar="IntervalosAdministracionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateIntervalosAdministracionTitle}" closeOnEscape="true">
+
+            <h:form id="IntervalosAdministracionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{intervalosAdministracionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateIntervalosAdministracionLabel_intervalosAdministracionNombre}" for="intervalosAdministracionNombre" />
+                        <p:inputText id="intervalosAdministracionNombre" value="#{intervalosAdministracionController.selected.intervalosAdministracionNombre}" title="#{bundle.CreateIntervalosAdministracionTitle_intervalosAdministracionNombre}" required="true" requiredMessage="#{bundle.CreateIntervalosAdministracionRequiredMessage_intervalosAdministracionNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateIntervalosAdministracionLabel_intervalosAdministracionDesde}" for="intervalosAdministracionDesde" />
+                        <p:inputText id="intervalosAdministracionDesde" value="#{intervalosAdministracionController.selected.intervalosAdministracionDesde}" title="#{bundle.CreateIntervalosAdministracionTitle_intervalosAdministracionDesde}" required="true" requiredMessage="#{bundle.CreateIntervalosAdministracionRequiredMessage_intervalosAdministracionDesde}"/>
+
+                        <p:outputLabel value="#{bundle.CreateIntervalosAdministracionLabel_intervalosAdministracionHasta}" for="intervalosAdministracionHasta" />
+                        <p:inputText id="intervalosAdministracionHasta" value="#{intervalosAdministracionController.selected.intervalosAdministracionHasta}" title="#{bundle.CreateIntervalosAdministracionTitle_intervalosAdministracionHasta}" required="true" requiredMessage="#{bundle.CreateIntervalosAdministracionRequiredMessage_intervalosAdministracionHasta}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{intervalosAdministracionController.saveNew}" value="#{bundle.Save}" update="display,:IntervalosAdministracionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('IntervalosAdministracionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('IntervalosAdministracionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AbonoLiquidacionCreateDlg" widgetVar="AbonoLiquidacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAbonoLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="AbonoLiquidacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{abonoLiquidacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateAbonoLiquidacionLabel_abonoLiquidacionMonto}" for="abonoLiquidacionMonto" />
+                        <p:inputText id="abonoLiquidacionMonto" value="#{abonoLiquidacionController.selected.abonoLiquidacionMonto}" title="#{bundle.CreateAbonoLiquidacionTitle_abonoLiquidacionMonto}" required="true" requiredMessage="#{bundle.CreateAbonoLiquidacionRequiredMessage_abonoLiquidacionMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateAbonoLiquidacionLabel_abonoLiquidacionDescripcion}" for="abonoLiquidacionDescripcion" />
+                        <p:inputText id="abonoLiquidacionDescripcion" value="#{abonoLiquidacionController.selected.abonoLiquidacionDescripcion}" title="#{bundle.CreateAbonoLiquidacionTitle_abonoLiquidacionDescripcion}" required="true" requiredMessage="#{bundle.CreateAbonoLiquidacionRequiredMessage_abonoLiquidacionDescripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreateAbonoLiquidacionLabel_abonoLiquidacionFechaIngreso}" for="abonoLiquidacionFechaIngreso" />
+                        <p:calendar id="abonoLiquidacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{abonoLiquidacionController.selected.abonoLiquidacionFechaIngreso}" title="#{bundle.CreateAbonoLiquidacionTitle_abonoLiquidacionFechaIngreso}" required="true" requiredMessage="#{bundle.CreateAbonoLiquidacionRequiredMessage_abonoLiquidacionFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateAbonoLiquidacionLabel_abonoLiquidacionIdAbono}" for="abonoLiquidacionIdAbono" />
+                        <p:selectOneMenu id="abonoLiquidacionIdAbono" value="#{abonoLiquidacionController.selected.abonoLiquidacionIdAbono}" required="true" requiredMessage="#{bundle.CreateAbonoLiquidacionRequiredMessage_abonoLiquidacionIdAbono}" converter="abonoBusConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{abonoBusController.items}"
+                                           var="abonoLiquidacionIdAbonoItem"
+                                           itemValue="#{abonoLiquidacionIdAbonoItem}"
+                                           itemLabel="#{abonoLiquidacionIdAbonoItem.abonoBusDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateAbonoLiquidacionLabel_abonoLiquidacionIdLiquidacionEmpresa}" for="abonoLiquidacionIdLiquidacionEmpresa" />
+                        <p:selectOneMenu id="abonoLiquidacionIdLiquidacionEmpresa" value="#{abonoLiquidacionController.selected.abonoLiquidacionIdLiquidacionEmpresa}" required="true" requiredMessage="#{bundle.CreateAbonoLiquidacionRequiredMessage_abonoLiquidacionIdLiquidacionEmpresa}" converter="liquidacionEmpresaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{liquidacionEmpresaController.items}"
+                                           var="abonoLiquidacionIdLiquidacionEmpresaItem"
+                                           itemValue="#{abonoLiquidacionIdLiquidacionEmpresaItem}"
+                                           itemLabel="#{abonoLiquidacionIdLiquidacionEmpresaItem.liquidacionEmpresaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{abonoLiquidacionController.saveNew}" value="#{bundle.Save}" update="display,:AbonoLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AbonoLiquidacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AbonoLiquidacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

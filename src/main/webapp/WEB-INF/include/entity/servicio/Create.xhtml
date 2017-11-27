@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ServicioCreateDlg" widgetVar="ServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateServicioTitle}" closeOnEscape="true">
+
+            <h:form id="ServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{servicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioNumeroServicio}" for="servicioNumeroServicio" />
+                        <p:inputText id="servicioNumeroServicio" value="#{servicioController.selected.servicioNumeroServicio}" title="#{bundle.CreateServicioTitle_servicioNumeroServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioNumeroServicio}"/>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioLongitud}" for="servicioLongitud" />
+                        <p:inputText id="servicioLongitud" value="#{servicioController.selected.servicioLongitud}" title="#{bundle.CreateServicioTitle_servicioLongitud}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioLongitud}"/>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioNombre}" for="servicioNombre" />
+                        <p:inputText id="servicioNombre" value="#{servicioController.selected.servicioNombre}" title="#{bundle.CreateServicioTitle_servicioNombre}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioOrigen}" for="servicioOrigen" />
+                        <p:inputText id="servicioOrigen" value="#{servicioController.selected.servicioOrigen}" title="#{bundle.CreateServicioTitle_servicioOrigen}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioOrigen}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioDestino}" for="servicioDestino" />
+                        <p:inputText id="servicioDestino" value="#{servicioController.selected.servicioDestino}" title="#{bundle.CreateServicioTitle_servicioDestino}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioDestino}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioFolio}" for="servicioFolio" />
+                        <p:inputText id="servicioFolio" value="#{servicioController.selected.servicioFolio}" title="#{bundle.CreateServicioTitle_servicioFolio}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioFechaIngreso}" for="servicioFechaIngreso" />
+                        <p:calendar id="servicioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{servicioController.selected.servicioFechaIngreso}" title="#{bundle.CreateServicioTitle_servicioFechaIngreso}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioIdTerminal}" for="servicioIdTerminal" />
+                        <p:selectOneMenu id="servicioIdTerminal" value="#{servicioController.selected.servicioIdTerminal}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioIdTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="servicioIdTerminalItem"
+                                           itemValue="#{servicioIdTerminalItem}"
+                                           itemLabel="#{servicioIdTerminalItem.terminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateServicioLabel_servicioIdUnidad}" for="servicioIdUnidad" />
+                        <p:selectOneMenu id="servicioIdUnidad" value="#{servicioController.selected.servicioIdUnidad}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_servicioIdUnidad}" converter="unidadNegocioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="servicioIdUnidadItem"
+                                           itemValue="#{servicioIdUnidadItem}"
+                                           itemLabel="#{servicioIdUnidadItem.unidadNegocioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{servicioController.saveNew}" value="#{bundle.Save}" update="display,:ServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

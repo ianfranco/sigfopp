@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoTrabajadorListForm">
+
+        <p:panel header="#{bundle.ListTipoTrabajadorTitle}">
+            <p:contextMenu id="TipoTrabajadorDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoTrabajadorListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoTrabajadorListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoTrabajadorListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoTrabajadorListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TipoTrabajadorMenuItem_relacionLaboralList}" icon="ui-icon-search"  action="#{tipoTrabajadorController.navigateRelacionLaboralList}" disabled="#{empty tipoTrabajadorController.selected.relacionLaboralList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoTrabajadorController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoTrabajadorId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoTrabajadorController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoTrabajadorController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoTrabajadorId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoTrabajadorDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoTrabajadorDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoTrabajadorListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoTrabajadorId}" filterBy="#{item.tipoTrabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoTrabajadorTitle_tipoTrabajadorId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoTrabajadorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoTrabajadorNombre}" filterBy="#{item.tipoTrabajadorNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoTrabajadorTitle_tipoTrabajadorNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoTrabajadorNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoTrabajadorFechaIngreso}" filterBy="#{item.tipoTrabajadorFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoTrabajadorTitle_tipoTrabajadorFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoTrabajadorFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoTrabajadorController.prepareCreate}" update=":TipoTrabajadorCreateForm" oncomplete="PF('TipoTrabajadorCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoTrabajadorViewForm" oncomplete="PF('TipoTrabajadorViewDialog').show()" disabled="#{empty tipoTrabajadorController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoTrabajadorEditForm" oncomplete="PF('TipoTrabajadorEditDialog').show()" disabled="#{empty tipoTrabajadorController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoTrabajadorController.delete}" update=":growl,datalist" disabled="#{empty tipoTrabajadorController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

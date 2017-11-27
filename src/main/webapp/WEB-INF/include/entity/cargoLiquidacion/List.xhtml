@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CargoLiquidacionListForm">
+
+        <p:panel header="#{bundle.ListCargoLiquidacionTitle}">
+            <p:contextMenu id="CargoLiquidacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CargoLiquidacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CargoLiquidacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CargoLiquidacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargoLiquidacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CargoLiquidacionMenuItem_cargoLiquidacionIdCargo}" icon="ui-icon-search"  actionListener="#{cargoLiquidacionController.prepareCargoLiquidacionIdCargo}" update=":CargoBusViewForm" oncomplete="PF('CargoBusViewDialog').show()" disabled="#{empty cargoLiquidacionController.selected.cargoLiquidacionIdCargo}"/>  
+                <p:menuitem value="#{bundle.CargoLiquidacionMenuItem_cargoLiquidacionIdLiquidacionEmpresa}" icon="ui-icon-search"  actionListener="#{cargoLiquidacionController.prepareCargoLiquidacionIdLiquidacionEmpresa}" update=":LiquidacionEmpresaViewForm" oncomplete="PF('LiquidacionEmpresaViewDialog').show()" disabled="#{empty cargoLiquidacionController.selected.cargoLiquidacionIdLiquidacionEmpresa}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cargoLiquidacionController.items}"
+                         lazy="false"
+                         rowKey="#{item.cargoLiquidacionId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{cargoLiquidacionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cargoLiquidacionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cargoLiquidacionId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargoLiquidacionDataTableContextMenu" listener="#{cargoLiquidacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargoLiquidacionDataTableContextMenu" listener="#{cargoLiquidacionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cargoLiquidacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CargoLiquidacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cargoLiquidacionId}" filterBy="#{item.cargoLiquidacionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoLiquidacionTitle_cargoLiquidacionId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoLiquidacionId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoLiquidacionMonto}" filterBy="#{item.cargoLiquidacionMonto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoLiquidacionTitle_cargoLiquidacionMonto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoLiquidacionMonto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoLiquidacionDescripcion}" filterBy="#{item.cargoLiquidacionDescripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoLiquidacionTitle_cargoLiquidacionDescripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoLiquidacionDescripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoLiquidacionFechaIngreso}" filterBy="#{item.cargoLiquidacionFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoLiquidacionTitle_cargoLiquidacionFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoLiquidacionFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoLiquidacionIdCargo.cargoBusDescripcion}" filterBy="#{item.cargoLiquidacionIdCargo.cargoBusDescripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoLiquidacionTitle_cargoLiquidacionIdCargo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoLiquidacionIdCargo.cargoBusDescripcion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoLiquidacionIdLiquidacionEmpresa.liquidacionEmpresaId}" filterBy="#{item.cargoLiquidacionIdLiquidacionEmpresa.liquidacionEmpresaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoLiquidacionTitle_cargoLiquidacionIdLiquidacionEmpresa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoLiquidacionIdLiquidacionEmpresa.liquidacionEmpresaId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cargoLiquidacionController.prepareCreate}" update=":CargoLiquidacionCreateForm" oncomplete="PF('CargoLiquidacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CargoLiquidacionViewForm" oncomplete="PF('CargoLiquidacionViewDialog').show()" disabled="#{empty cargoLiquidacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargoLiquidacionEditForm" oncomplete="PF('CargoLiquidacionEditDialog').show()" disabled="#{empty cargoLiquidacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cargoLiquidacionController.delete}" update=":growl,datalist" disabled="#{empty cargoLiquidacionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

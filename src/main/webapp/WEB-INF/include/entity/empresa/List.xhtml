@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EmpresaListForm">
+
+        <p:panel header="#{bundle.ListEmpresaTitle}">
+            <p:contextMenu id="EmpresaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EmpresaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EmpresaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EmpresaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EmpresaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.EmpresaMenuItem_liquidacionEmpresaList}" icon="ui-icon-search"  action="#{empresaController.navigateLiquidacionEmpresaList}" disabled="#{empty empresaController.selected.liquidacionEmpresaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_representanteEmpresaList}" icon="ui-icon-search"  action="#{empresaController.navigateRepresentanteEmpresaList}" disabled="#{empty empresaController.selected.representanteEmpresaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_liquidacionSueldoList}" icon="ui-icon-search"  action="#{empresaController.navigateLiquidacionSueldoList}" disabled="#{empty empresaController.selected.liquidacionSueldoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_reconocimientoDeudaList}" icon="ui-icon-search"  action="#{empresaController.navigateReconocimientoDeudaList}" disabled="#{empty empresaController.selected.reconocimientoDeudaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_busList}" icon="ui-icon-search"  action="#{empresaController.navigateBusList}" disabled="#{empty empresaController.selected.busList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_relacionLaboralList}" icon="ui-icon-search"  action="#{empresaController.navigateRelacionLaboralList}" disabled="#{empty empresaController.selected.relacionLaboralList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_empresaIdCajaCompensacion}" icon="ui-icon-search"  actionListener="#{empresaController.prepareEmpresaIdCajaCompensacion}" update=":CajaCompensacionViewForm" oncomplete="PF('CajaCompensacionViewDialog').show()" disabled="#{empty empresaController.selected.empresaIdCajaCompensacion}"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_empresaIdCuentaBancaria}" icon="ui-icon-search"  actionListener="#{empresaController.prepareEmpresaIdCuentaBancaria}" update=":CuentaBancariaViewForm" oncomplete="PF('CuentaBancariaViewDialog').show()" disabled="#{empty empresaController.selected.empresaIdCuentaBancaria}"/>  
+                <p:menuitem value="#{bundle.EmpresaMenuItem_empresaIdMutual}" icon="ui-icon-search"  actionListener="#{empresaController.prepareEmpresaIdMutual}" update=":MutualViewForm" oncomplete="PF('MutualViewDialog').show()" disabled="#{empty empresaController.selected.empresaIdMutual}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{empresaController.items}"
+                         lazy="false"
+                         rowKey="#{item.empresaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{empresaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{empresaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.empresaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmpresaDataTableContextMenu" listener="#{empresaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmpresaDataTableContextMenu" listener="#{empresaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{empresaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EmpresaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.empresaId}" filterBy="#{item.empresaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEmpresaTitle_empresaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.empresaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.empresaRut}" filterBy="#{item.empresaRut}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEmpresaTitle_empresaRut}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.empresaRut}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.empresaNombre}" filterBy="#{item.empresaNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEmpresaTitle_empresaNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.empresaNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.empresaGiro}" filterBy="#{item.empresaGiro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEmpresaTitle_empresaGiro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.empresaGiro}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.empresaDireccion}" filterBy="#{item.empresaDireccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEmpresaTitle_empresaDireccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.empresaDireccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.empresaTelefono}" filterBy="#{item.empresaTelefono}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEmpresaTitle_empresaTelefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.empresaTelefono}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.empresaCelular}" filterBy="#{item.empresaCelular}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaCelular}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaCelular}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.empresaEmail}" filterBy="#{item.empresaEmail}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaEmail}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaEmail}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.empresaPorcentajeMutual}" filterBy="#{item.empresaPorcentajeMutual}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaPorcentajeMutual}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaPorcentajeMutual}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.empresaAportePatronal}" filterBy="#{item.empresaAportePatronal}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaAportePatronal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaAportePatronal}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.empresaFechaIngreso}" filterBy="#{item.empresaFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.empresaIdCajaCompensacion.cajaCompensacionId}" filterBy="#{item.empresaIdCajaCompensacion.cajaCompensacionId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaIdCajaCompensacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaIdCajaCompensacion.cajaCompensacionId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.empresaIdCuentaBancaria.cuentaBancariaId}" filterBy="#{item.empresaIdCuentaBancaria.cuentaBancariaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaIdCuentaBancaria}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaIdCuentaBancaria.cuentaBancariaId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.empresaIdMutual.mutualId}" filterBy="#{item.empresaIdMutual.mutualId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEmpresaTitle_empresaIdMutual}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.empresaIdMutual.mutualId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{empresaController.prepareCreate}" update=":EmpresaCreateForm" oncomplete="PF('EmpresaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":EmpresaViewForm" oncomplete="PF('EmpresaViewDialog').show()" disabled="#{empty empresaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EmpresaEditForm" oncomplete="PF('EmpresaEditDialog').show()" disabled="#{empty empresaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{empresaController.delete}" update=":growl,datalist" disabled="#{empty empresaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

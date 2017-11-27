@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CalleServicioEditDlg" widgetVar="CalleServicioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCalleServicioTitle}" closeOnEscape="true">
+
+            <h:form id="CalleServicioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{calleServicioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCalleServicioLabel_calleServicioId}" for="calleServicioId" />
+                        <h:outputText id="calleServicioId" value="#{calleServicioController.selected.calleServicioId}" />
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_calleServicioNumeroOrden}" for="calleServicioNumeroOrden" />
+                        <p:inputText id="calleServicioNumeroOrden" value="#{calleServicioController.selected.calleServicioNumeroOrden}" title="#{bundle.EditCalleServicioTitle_calleServicioNumeroOrden}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_calleServicioNumeroOrden}"/>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_calleServicioSentido}" for="calleServicioSentido" />
+                        <p:selectBooleanCheckbox id="calleServicioSentido" value="#{calleServicioController.selected.calleServicioSentido}" />
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_calleServicioFechaIngreso}" for="calleServicioFechaIngreso" />
+                        <p:calendar id="calleServicioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{calleServicioController.selected.calleServicioFechaIngreso}" title="#{bundle.EditCalleServicioTitle_calleServicioFechaIngreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_calleServicioIdCalle}" for="calleServicioIdCalle" />
+                        <p:selectOneMenu id="calleServicioIdCalle" value="#{calleServicioController.selected.calleServicioIdCalle}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_calleServicioIdCalle}" converter="calleConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{calleController.items}"
+                                           var="calleServicioIdCalleItem"
+                                           itemValue="#{calleServicioIdCalleItem}"
+                                           itemLabel="#{calleServicioIdCalleItem.calleId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditCalleServicioLabel_calleServicioIdServicio}" for="calleServicioIdServicio" />
+                        <p:selectOneMenu id="calleServicioIdServicio" value="#{calleServicioController.selected.calleServicioIdServicio}" required="true" requiredMessage="#{bundle.EditCalleServicioRequiredMessage_calleServicioIdServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{servicioController.items}"
+                                           var="calleServicioIdServicioItem"
+                                           itemValue="#{calleServicioIdServicioItem}"
+                                           itemLabel="#{calleServicioIdServicioItem.servicioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calleServicioController.save}" value="#{bundle.Save}" update="display,:CalleServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleServicioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CalleServicioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CargoBusEditDlg" widgetVar="CargoBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCargoBusTitle}" closeOnEscape="true">
+
+            <h:form id="CargoBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{cargoBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusId}" for="cargoBusId" />
+                        <h:outputText id="cargoBusId" value="#{cargoBusController.selected.cargoBusId}" />
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusFechaInicio}" for="cargoBusFechaInicio" />
+                        <p:calendar id="cargoBusFechaInicio" pattern="MM/dd/yyyy" value="#{cargoBusController.selected.cargoBusFechaInicio}" title="#{bundle.EditCargoBusTitle_cargoBusFechaInicio}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusFechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusFechaTermino}" for="cargoBusFechaTermino" />
+                        <p:calendar id="cargoBusFechaTermino" pattern="MM/dd/yyyy" value="#{cargoBusController.selected.cargoBusFechaTermino}" title="#{bundle.EditCargoBusTitle_cargoBusFechaTermino}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusFechaTermino}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusCuotaActual}" for="cargoBusCuotaActual" />
+                        <p:inputText id="cargoBusCuotaActual" value="#{cargoBusController.selected.cargoBusCuotaActual}" title="#{bundle.EditCargoBusTitle_cargoBusCuotaActual}"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusTotalCuotas}" for="cargoBusTotalCuotas" />
+                        <p:inputText id="cargoBusTotalCuotas" value="#{cargoBusController.selected.cargoBusTotalCuotas}" title="#{bundle.EditCargoBusTitle_cargoBusTotalCuotas}"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusMontoFijo}" for="cargoBusMontoFijo" />
+                        <p:inputText id="cargoBusMontoFijo" value="#{cargoBusController.selected.cargoBusMontoFijo}" title="#{bundle.EditCargoBusTitle_cargoBusMontoFijo}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusMontoFijo}"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusDescripcion}" for="cargoBusDescripcion" />
+                        <p:inputText id="cargoBusDescripcion" value="#{cargoBusController.selected.cargoBusDescripcion}" title="#{bundle.EditCargoBusTitle_cargoBusDescripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusActivo}" for="cargoBusActivo" />
+                        <p:selectBooleanCheckbox id="cargoBusActivo" value="#{cargoBusController.selected.cargoBusActivo}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusFechaIngreso}" for="cargoBusFechaIngreso" />
+                        <p:calendar id="cargoBusFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{cargoBusController.selected.cargoBusFechaIngreso}" title="#{bundle.EditCargoBusTitle_cargoBusFechaIngreso}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusIdBus}" for="cargoBusIdBus" />
+                        <p:selectOneMenu id="cargoBusIdBus" value="#{cargoBusController.selected.cargoBusIdBus}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="cargoBusIdBusItem"
+                                           itemValue="#{cargoBusIdBusItem}"
+                                           itemLabel="#{cargoBusIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditCargoBusLabel_cargoBusIdTipoCargo}" for="cargoBusIdTipoCargo" />
+                        <p:selectOneMenu id="cargoBusIdTipoCargo" value="#{cargoBusController.selected.cargoBusIdTipoCargo}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusIdTipoCargo}" converter="tipoCargoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoCargoController.items}"
+                                           var="cargoBusIdTipoCargoItem"
+                                           itemValue="#{cargoBusIdTipoCargoItem}"
+                                           itemLabel="#{cargoBusIdTipoCargoItem.tipoCargoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cargoBusController.save}" value="#{bundle.Save}" update="display,:CargoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CargoBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CargoBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

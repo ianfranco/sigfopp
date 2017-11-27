@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CompraCombustibleListForm">
+
+        <p:panel header="#{bundle.ListCompraCombustibleTitle}">
+            <p:contextMenu id="CompraCombustibleDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CompraCombustibleListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CompraCombustibleListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CompraCombustibleListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CompraCombustibleListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CompraCombustibleMenuItem_compraCombustibleIdTipo}" icon="ui-icon-search"  actionListener="#{compraCombustibleController.prepareCompraCombustibleIdTipo}" update=":TipoCombustibleViewForm" oncomplete="PF('TipoCombustibleViewDialog').show()" disabled="#{empty compraCombustibleController.selected.compraCombustibleIdTipo}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{compraCombustibleController.items}"
+                         lazy="false"
+                         rowKey="#{item.compraCombustibleId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{compraCombustibleController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{compraCombustibleController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.compraCombustibleId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompraCombustibleDataTableContextMenu" listener="#{compraCombustibleController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CompraCombustibleDataTableContextMenu" listener="#{compraCombustibleController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{compraCombustibleController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CompraCombustibleListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.compraCombustibleId}" filterBy="#{item.compraCombustibleId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.compraCombustibleId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.compraCombustibleFechaEmisionFactura}" filterBy="#{item.compraCombustibleFechaEmisionFactura}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleFechaEmisionFactura}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.compraCombustibleFechaEmisionFactura}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.compraCombustibleFechaPago}" filterBy="#{item.compraCombustibleFechaPago}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleFechaPago}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.compraCombustibleFechaPago}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.compraCombustibleCantidadLitros}" filterBy="#{item.compraCombustibleCantidadLitros}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleCantidadLitros}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.compraCombustibleCantidadLitros}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.compraCombustiblePbaseSiu}" filterBy="#{item.compraCombustiblePbaseSiu}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustiblePbaseSiu}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.compraCombustiblePbaseSiu}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.compraCombustibleIevU}" filterBy="#{item.compraCombustibleIevU}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleIevU}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.compraCombustibleIevU}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleIefU}" filterBy="#{item.compraCombustibleIefU}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleIefU}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleIefU}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleDiaVigIe}" filterBy="#{item.compraCombustibleDiaVigIe}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleDiaVigIe}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleDiaVigIe}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleBaseAfecta}" filterBy="#{item.compraCombustibleBaseAfecta}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleBaseAfecta}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleBaseAfecta}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleFeep}" filterBy="#{item.compraCombustibleFeep}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleFeep}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleFeep}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleIev}" filterBy="#{item.compraCombustibleIev}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleIev}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleIev}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleIef}" filterBy="#{item.compraCombustibleIef}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleIef}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleIef}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleIva}" filterBy="#{item.compraCombustibleIva}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleIva}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleIva}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleTotalCompra}" filterBy="#{item.compraCombustibleTotalCompra}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleTotalCompra}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleTotalCompra}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleFechaIngreso}" filterBy="#{item.compraCombustibleFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.compraCombustibleIdTipo.tipoCombustibleId}" filterBy="#{item.compraCombustibleIdTipo.tipoCombustibleId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCompraCombustibleTitle_compraCombustibleIdTipo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.compraCombustibleIdTipo.tipoCombustibleId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{compraCombustibleController.prepareCreate}" update=":CompraCombustibleCreateForm" oncomplete="PF('CompraCombustibleCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CompraCombustibleViewForm" oncomplete="PF('CompraCombustibleViewDialog').show()" disabled="#{empty compraCombustibleController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CompraCombustibleEditForm" oncomplete="PF('CompraCombustibleEditDialog').show()" disabled="#{empty compraCombustibleController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{compraCombustibleController.delete}" update=":growl,datalist" disabled="#{empty compraCombustibleController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

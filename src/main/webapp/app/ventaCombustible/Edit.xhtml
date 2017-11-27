@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="VentaCombustibleEditDlg" widgetVar="VentaCombustibleEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditVentaCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="VentaCombustibleEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ventaCombustibleController.selected != null}" style="width: 500px;">
+
+                        <p:outputLabel value="Valor x Litro:" for="ventaCombustibleValor" style="font-size:x-large;"/>
+                        <p:outputLabel id="ventaCombustibleValor" value="$ #{ventaCombustibleController.selected.ventaCombustiblePrecio}" title="#{bundle.CreateVentaCombustibleTitle_ventaCombustibleValor}" style="font-size:x-large;"/>
+
+                        <p:outputLabel value="Fecha:" for="fechaRecaudacionPetroleo" />
+                        <p:calendar id="fechaRecaudacionPetroleo" pattern="dd/MM/yyyy" value="#{ventaCombustibleController.selected.ventaCombustibleFecha}" required="true" requiredMessage="Debe seleccionar la fecha" locale="es" >
+                        </p:calendar>
+
+                        <p:outputLabel value="Surtidor:" for="ventaCombustibleIdSurtidor" />
+                        <p:selectOneMenu id="ventaCombustibleIdSurtidor" value="#{ventaCombustibleController.selected.ventaCombustibleIdSurtidor}" required="true" requiredMessage="#{bundle.CreateVentaCombustibleRequiredMessage_ventaCombustibleIdSurtidor}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{surtidorController.items}"
+                                           var="ventaCombustibleIdSurtidorItem"
+                                           itemValue="#{ventaCombustibleIdSurtidorItem}"
+                                           itemLabel="#{ventaCombustibleIdSurtidorItem.surtidorIdentificador}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Operador"/>
+                        <p:selectOneMenu value="#{ventaCombustibleController.unidadSelected}" converter="omnifaces.SelectItemsConverter" required="true" requiredMessage="Debe seleccionar el Operador"> 
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ventaCombustibleController.unidadItems}"
+                                           var="unidad"                                           
+                                           itemValue="#{unidad}"
+                                           itemLabel="#{unidad.unidadNegocioNumero} - #{unidad.unidadNegocioIdOperadorTransporte.operadorTransporteNombre}"
+                                           />
+                            <p:ajax event="valueChange" listener="#{ventaCombustibleController.handleOperadorChange}" update="ventaCombustibleIdGuia"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="N° Bus" for="ventaCombustibleIdGuia" />
+                        <h:panelGroup>
+
+                            <p:selectOneMenu id="ventaCombustibleIdGuia" value="#{ventaCombustibleController.selected.ventaCombustibleIdBus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="omnifaces.SelectItemsConverter">
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{ventaCombustibleController.busItems}"
+                                               var="ventaCombustibleBus"
+                                               itemValue="#{ventaCombustibleBus}"
+                                               itemLabel="#{ventaCombustibleBus.busNumero}"
+                                               />
+                                <p:ajax event="valueChange" listener="#{ventaCombustibleController.handleBusChange}" update="growl"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Total" for="ventaCombustibleValorCombustible" />
+                        <p:inputNumber decimalPlaces="0" id="ventaCombustibleValorCombustible" value="#{ventaCombustibleController.selected.ventaCombustibleTotal}" required="true" requiredMessage="Debe ingresar el total de la venta" onfocus="this.setSelectionRange(0, this.value.length)" >
+                            <p:ajax event="valueChange" listener="#{ventaCombustibleController.handleTotalChange}" update="ventaCombustibleCantidad"/>
+                        </p:inputNumber>
+
+                        <p:outputLabel value="N° de Litros" for="ventaCombustibleCantidad" />
+                        <p:inputNumber id="ventaCombustibleCantidad" value="#{ventaCombustibleController.selected.ventaCombustibleCantidad}"/>
+
+                        <p:outputLabel value="N° Boleta" for="ventaCombustibleNumeroBoleta" />
+                        <p:inputNumber decimalPlaces="0"  id="ventaCombustibleNumeroBoleta" value="#{ventaCombustibleController.selected.ventaCombustibleNumeroBoleta}" required="true" requiredMessage="Debe ingresar el N° de Boleta" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaCombustibleController.save}" value="#{bundle.Save}" update="display,:VentaCombustibleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaCombustibleEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaCombustibleEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

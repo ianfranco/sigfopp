@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoFlotaViewDlg" widgetVar="EgresoFlotaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoFlotaTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoFlotaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoFlotaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaId}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaId}" title="#{bundle.ViewEgresoFlotaTitle_egresoFlotaId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaValorDefecto}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaValorDefecto}" title="#{bundle.ViewEgresoFlotaTitle_egresoFlotaValorDefecto}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaPorcentaje}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaPorcentaje}" title="#{bundle.ViewEgresoFlotaTitle_egresoFlotaPorcentaje}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaNumeroOrden}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaNumeroOrden}" title="#{bundle.ViewEgresoFlotaTitle_egresoFlotaNumeroOrden}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaActivo}"/>
+                        <h:selectBooleanCheckbox id="egresoFlotaActivo" value="#{egresoFlotaController.selected.egresoFlotaActivo}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaActivo}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaFechaIngreso}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaFechaIngreso}" title="#{bundle.ViewEgresoFlotaTitle_egresoFlotaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaFechaActualizacion}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaFechaActualizacion}" title="#{bundle.ViewEgresoFlotaTitle_egresoFlotaFechaActualizacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaIdEgreso}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaIdEgreso.egresoId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoFlotaLabel_egresoFlotaIdFlota}"/>
+                        <h:outputText value="#{egresoFlotaController.selected.egresoFlotaIdFlota.flotaId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoFlotaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

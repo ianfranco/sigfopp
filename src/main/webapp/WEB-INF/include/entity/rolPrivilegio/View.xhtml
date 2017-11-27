@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RolPrivilegioViewDlg" widgetVar="RolPrivilegioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewRolPrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="RolPrivilegioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{rolPrivilegioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewRolPrivilegioLabel_rolPrivilegioId}"/>
+                        <h:outputText value="#{rolPrivilegioController.selected.rolPrivilegioId}" title="#{bundle.ViewRolPrivilegioTitle_rolPrivilegioId}"/>
+
+                        <h:outputText value="#{bundle.ViewRolPrivilegioLabel_rolPrivilegioIdPrivilegio}"/>
+                        <h:outputText value="#{rolPrivilegioController.selected.rolPrivilegioIdPrivilegio.privilegioDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewRolPrivilegioLabel_rolPrivilegioIdRol}"/>
+                        <h:outputText value="#{rolPrivilegioController.selected.rolPrivilegioIdRol.rolDescripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('RolPrivilegioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

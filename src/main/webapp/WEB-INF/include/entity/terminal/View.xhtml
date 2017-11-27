@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TerminalViewDlg" widgetVar="TerminalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="TerminalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{terminalController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalId}"/>
+                        <h:outputText value="#{terminalController.selected.terminalId}" title="#{bundle.ViewTerminalTitle_terminalId}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalNombre}"/>
+                        <h:outputText value="#{terminalController.selected.terminalNombre}" title="#{bundle.ViewTerminalTitle_terminalNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalDireccion}"/>
+                        <h:outputText value="#{terminalController.selected.terminalDireccion}" title="#{bundle.ViewTerminalTitle_terminalDireccion}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalSuperficie}"/>
+                        <h:outputText value="#{terminalController.selected.terminalSuperficie}" title="#{bundle.ViewTerminalTitle_terminalSuperficie}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalTelefono}"/>
+                        <h:outputText value="#{terminalController.selected.terminalTelefono}" title="#{bundle.ViewTerminalTitle_terminalTelefono}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalEmail}"/>
+                        <h:outputText value="#{terminalController.selected.terminalEmail}" title="#{bundle.ViewTerminalTitle_terminalEmail}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalUbicacionLongitud}"/>
+                        <h:outputText value="#{terminalController.selected.terminalUbicacionLongitud}" title="#{bundle.ViewTerminalTitle_terminalUbicacionLongitud}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalUbicacionLatitud}"/>
+                        <h:outputText value="#{terminalController.selected.terminalUbicacionLatitud}" title="#{bundle.ViewTerminalTitle_terminalUbicacionLatitud}"/>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalFechaIngreso}"/>
+                        <h:outputText value="#{terminalController.selected.terminalFechaIngreso}" title="#{bundle.ViewTerminalTitle_terminalFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewTerminalLabel_terminalIdComuna}"/>
+                        <h:outputText value="#{terminalController.selected.terminalIdComuna.comunaId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TerminalViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

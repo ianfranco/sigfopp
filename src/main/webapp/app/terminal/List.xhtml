@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <h:form id="TerminalListForm" class="form-height">
+
+        <p:contextMenu id="TerminalDataTableContextMenu" for="datalist:datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TerminalListForm:datalist:datalist:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TerminalListForm:datalist:datalist:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TerminalListForm:datalist:datalist:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TerminalListForm:datalist:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+        </p:contextMenu>
+
+        <coco:datatable id="datalist"
+                        value="#{terminalController.items}"
+                        rowKey="#{item.terminalId}"
+                        selection="#{terminalController.selected}"
+                        filtered="#{terminalController.filtered}"
+                        rowselect=":TerminalListForm:datalist:datalist:createButton,:TerminalListForm:datalist:datalist:viewButton,:TerminalListForm:datalist:datalist:editButton,:TerminalListForm:datalist:datalist:deleteButton,:TerminalListForm:TerminalDataTableContextMenu"
+                        rowDblselect="document.getElementById('TerminalListForm:datalist:datalist:editButton').click()"
+                        contextMenu=":TerminalListForm:datalist:datalist:createButton :TerminalListForm:datalist:datalist:viewButton :TerminalListForm:datalist:datalist:editButton :TerminalListForm:datalist:datalist:deleteButton"
+                        selectListener="#{terminalController.resetParents()}"
+                        >
+
+            <p:ajax event="colResize" listener="#{terminalController.onResize}"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <h:outputText value="Terminales"/>   
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="pull-right">
+                            <p:columnToggler datasource="datalist" trigger="toggler">
+                                <p:ajax event="toggle" listener="#{terminalController.onToggle}" />
+                            </p:columnToggler>
+                            <p:commandButton id="toggler" type="button" value="#{bundle.Columns}" class="btn-primary" icon="fa fa-list"/>
+                            <p:commandButton value="#{bundle.Save}" styleClass="btn-success" icon="fa fa-edit" update=":growl,@this"/>     
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputLabel value="#{rowIndex+1}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.terminalNombre}" filterBy="#{item.terminalNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputLabel value="#{item.terminalNombre}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.terminalDireccion}" filterBy="#{item.terminalDireccion}">
+                <f:facet name="header">
+                    <h:outputText value="Dirección"/>
+                </f:facet>
+                <h:outputLabel value="#{item.terminalDireccion}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.terminalIdComuna.comunaNombre}" filterBy="#{item.terminalIdComuna.comunaNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Comuna"/>
+                </f:facet>
+                <h:outputLabel value="#{item.terminalIdComuna.comunaNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.terminalSuperficie}" filterBy="#{item.terminalSuperficie}" style="text-align: center;">
+                <f:facet name="header">
+                    <h:outputText value="Superficie"/>
+                </f:facet>
+                <h:outputLabel value="#{item.terminalSuperficie}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.terminalTelefono}" filterBy="#{item.terminalTelefono}">
+                <f:facet name="header">
+                    <h:outputText value="Teléfono"/>
+                </f:facet>
+                <h:outputLabel value="#{item.terminalTelefono}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.terminalEmail}" filterBy="#{item.terminalEmail}">
+                <f:facet name="header">
+                    <h:outputText value="Email"/>
+                </f:facet>
+                <h:outputLabel value="#{item.terminalEmail}"/>
+            </p:column>
+
+            <!--
+                                <p:column sortBy="#{item.terminalUbicacionLongitud}" filterBy="#{item.terminalUbicacionLongitud}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListTerminalTitle_terminalUbicacionLongitud}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.terminalUbicacionLongitud}"/>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.terminalUbicacionLatitud}" filterBy="#{item.terminalUbicacionLatitud}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListTerminalTitle_terminalUbicacionLatitud}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.terminalUbicacionLatitud}"/>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.terminalFechaIngreso}" filterBy="#{item.terminalFechaIngreso}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListTerminalTitle_terminalFechaIngreso}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.terminalFechaIngreso}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+            -->
+            <!--
+                                <p:column sortBy="#{item.terminalIdComuna.comunaId}" filterBy="#{item.terminalIdComuna.comunaId}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{bundle.ListTerminalTitle_terminalIdComuna}"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.terminalIdComuna.comunaId}"/>
+                                </p:column>
+            -->
+
+
+            <f:facet name="{buttons}">
+                <div class="footer-left">
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="#{bundle.Create}" actionListener="#{terminalController.prepareCreate}" update=":TerminalCreateForm" oncomplete="PF('TerminalCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty terminalController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":TerminalEditForm" oncomplete="PF('TerminalEditDialog').show()" disabled="#{empty terminalController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="#{bundle.Delete}" actionListener="#{terminalController.delete}" update=":growl,datalist" disabled="#{empty terminalController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </div>
+            </f:facet>
+
+        </coco:datatable>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="LiquidacionSueldoEditDlg" widgetVar="LiquidacionSueldoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditLiquidacionSueldoTitle}" closeOnEscape="true">
+
+            <h:form id="LiquidacionSueldoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="LiquidacionSueldoTabView">
+
+                        <p:tab id="LiquidacionSueldoTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{liquidacionSueldoController.selected != null}">
+
+                                <h:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoId}" for="liquidacionSueldoId" />
+                                <h:outputText id="liquidacionSueldoId" value="#{liquidacionSueldoController.selected.liquidacionSueldoId}" />
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoNombreTerminal}" for="liquidacionSueldoNombreTerminal" />
+                                <p:inputText id="liquidacionSueldoNombreTerminal" value="#{liquidacionSueldoController.selected.liquidacionSueldoNombreTerminal}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoNombreTerminal}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoNombreTerminal}" size="100" maxlength="100"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoFecha}" for="liquidacionSueldoFecha" />
+                                <p:calendar id="liquidacionSueldoFecha" pattern="MM/dd/yyyy" value="#{liquidacionSueldoController.selected.liquidacionSueldoFecha}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoFecha}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoFecha}" showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoBruto}" for="liquidacionSueldoMontoBruto" />
+                                <p:inputText id="liquidacionSueldoMontoBruto" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoBruto}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoBruto}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoBruto}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoSueldoBase}" for="liquidacionSueldoMontoSueldoBase" />
+                                <p:inputText id="liquidacionSueldoMontoSueldoBase" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoSueldoBase}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoSueldoBase}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoSueldoBase}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoHorasExtras}" for="liquidacionSueldoHorasExtras" />
+                                <p:inputText id="liquidacionSueldoHorasExtras" value="#{liquidacionSueldoController.selected.liquidacionSueldoHorasExtras}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoHorasExtras}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoHorasExtras}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoImponible}" for="liquidacionSueldoMontoImponible" />
+                                <p:inputText id="liquidacionSueldoMontoImponible" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoImponible}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoImponible}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoImponible}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoImponibleAjustado}" for="liquidacionSueldoMontoImponibleAjustado" />
+                                <p:inputText id="liquidacionSueldoMontoImponibleAjustado" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoImponibleAjustado}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoImponibleAjustado}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoImponibleAjustado}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCincoTotal}" for="liquidacionSueldoMontoCincoTotal" />
+                                <p:inputText id="liquidacionSueldoMontoCincoTotal" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCincoTotal}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCincoTotal}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoCincoTotal}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCincoFiltrado}" for="liquidacionSueldoMontoCincoFiltrado" />
+                                <p:inputText id="liquidacionSueldoMontoCincoFiltrado" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCincoFiltrado}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCincoFiltrado}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoCincoFiltrado}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoAhorro}" for="liquidacionSueldoMontoAhorro" />
+                                <p:inputText id="liquidacionSueldoMontoAhorro" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoAhorro}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoAhorro}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoAbono}" for="liquidacionSueldoMontoAbono" />
+                                <p:inputText id="liquidacionSueldoMontoAbono" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoAbono}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoAbono}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoAbono}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoFeriado}" for="liquidacionSueldoMontoFeriado" />
+                                <p:inputText id="liquidacionSueldoMontoFeriado" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoFeriado}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoFeriado}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoNoImponible}" for="liquidacionSueldoMontoNoImponible" />
+                                <p:inputText id="liquidacionSueldoMontoNoImponible" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoNoImponible}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoNoImponible}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoNoImponible}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoNumeroCarga}" for="liquidacionSueldoNumeroCarga" />
+                                <p:inputText id="liquidacionSueldoNumeroCarga" value="#{liquidacionSueldoController.selected.liquidacionSueldoNumeroCarga}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoNumeroCarga}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCarga}" for="liquidacionSueldoMontoCarga" />
+                                <p:inputText id="liquidacionSueldoMontoCarga" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCarga}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCarga}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoRetroactivo}" for="liquidacionSueldoMontoRetroactivo" />
+                                <p:inputText id="liquidacionSueldoMontoRetroactivo" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoRetroactivo}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoRetroactivo}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoFechaContrato}" for="liquidacionSueldoFechaContrato" />
+                                <p:calendar id="liquidacionSueldoFechaContrato" pattern="MM/dd/yyyy" value="#{liquidacionSueldoController.selected.liquidacionSueldoFechaContrato}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoFechaContrato}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoFechaContrato}" showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoFechaFiniquito}" for="liquidacionSueldoFechaFiniquito" />
+                                <p:calendar id="liquidacionSueldoFechaFiniquito" pattern="MM/dd/yyyy" value="#{liquidacionSueldoController.selected.liquidacionSueldoFechaFiniquito}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoFechaFiniquito}"  showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoFechaDesdeFeriado}" for="liquidacionSueldoFechaDesdeFeriado" />
+                                <p:calendar id="liquidacionSueldoFechaDesdeFeriado" pattern="MM/dd/yyyy" value="#{liquidacionSueldoController.selected.liquidacionSueldoFechaDesdeFeriado}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoFechaDesdeFeriado}"  showOn="button"/>
+
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab id="LiquidacionSueldoTab2" title="#{bundle.TabHeaderPrefix} 2">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{liquidacionSueldoController.selected != null}">
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoFechaHastaFeriado}" for="liquidacionSueldoFechaHastaFeriado" />
+                                <p:calendar id="liquidacionSueldoFechaHastaFeriado" pattern="MM/dd/yyyy" value="#{liquidacionSueldoController.selected.liquidacionSueldoFechaHastaFeriado}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoFechaHastaFeriado}"  showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoDiasFeriado}" for="liquidacionSueldoDiasFeriado" />
+                                <p:inputText id="liquidacionSueldoDiasFeriado" value="#{liquidacionSueldoController.selected.liquidacionSueldoDiasFeriado}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoDiasFeriado}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoDiasLicencias}" for="liquidacionSueldoDiasLicencias" />
+                                <p:inputText id="liquidacionSueldoDiasLicencias" value="#{liquidacionSueldoController.selected.liquidacionSueldoDiasLicencias}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoDiasLicencias}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoDiasDescanso}" for="liquidacionSueldoDiasDescanso" />
+                                <p:inputText id="liquidacionSueldoDiasDescanso" value="#{liquidacionSueldoController.selected.liquidacionSueldoDiasDescanso}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoDiasDescanso}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoDiasGuias}" for="liquidacionSueldoDiasGuias" />
+                                <p:inputText id="liquidacionSueldoDiasGuias" value="#{liquidacionSueldoController.selected.liquidacionSueldoDiasGuias}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoDiasGuias}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoDiasTrabajados}" for="liquidacionSueldoDiasTrabajados" />
+                                <p:inputText id="liquidacionSueldoDiasTrabajados" value="#{liquidacionSueldoController.selected.liquidacionSueldoDiasTrabajados}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoDiasTrabajados}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoNombrePrevision}" for="liquidacionSueldoNombrePrevision" />
+                                <p:inputText id="liquidacionSueldoNombrePrevision" value="#{liquidacionSueldoController.selected.liquidacionSueldoNombrePrevision}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoNombrePrevision}" size="100" maxlength="100"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoPorcentajePrevision}" for="liquidacionSueldoPorcentajePrevision" />
+                                <p:inputText id="liquidacionSueldoPorcentajePrevision" value="#{liquidacionSueldoController.selected.liquidacionSueldoPorcentajePrevision}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoPorcentajePrevision}" size="45" maxlength="45"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoPrevision}" for="liquidacionSueldoMontoPrevision" />
+                                <p:inputText id="liquidacionSueldoMontoPrevision" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoPrevision}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoPrevision}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoPrevision}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoApv}" for="liquidacionSueldoMontoApv" />
+                                <p:inputText id="liquidacionSueldoMontoApv" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoApv}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoApv}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoApv}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCesantiaTrabajador}" for="liquidacionSueldoMontoCesantiaTrabajador" />
+                                <p:inputText id="liquidacionSueldoMontoCesantiaTrabajador" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCesantiaTrabajador}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCesantiaTrabajador}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoCesantiaTrabajador}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCesantiaEmpresa}" for="liquidacionSueldoMontoCesantiaEmpresa" />
+                                <p:inputText id="liquidacionSueldoMontoCesantiaEmpresa" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCesantiaEmpresa}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCesantiaEmpresa}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoCesantiaEmpresa}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCesantiaTotal}" for="liquidacionSueldoMontoCesantiaTotal" />
+                                <p:inputText id="liquidacionSueldoMontoCesantiaTotal" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCesantiaTotal}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCesantiaTotal}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoCesantiaTotal}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoSis}" for="liquidacionSueldoMontoSis" />
+                                <p:inputText id="liquidacionSueldoMontoSis" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoSis}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoSis}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoSis}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoInp}" for="liquidacionSueldoMontoInp" />
+                                <p:inputText id="liquidacionSueldoMontoInp" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoInp}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoInp}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoInp}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCajaCompensacion}" for="liquidacionSueldoMontoCajaCompensacion" />
+                                <p:inputText id="liquidacionSueldoMontoCajaCompensacion" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCajaCompensacion}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCajaCompensacion}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoCajaCompensacion}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoNombreIsapre}" for="liquidacionSueldoNombreIsapre" />
+                                <p:inputText id="liquidacionSueldoNombreIsapre" value="#{liquidacionSueldoController.selected.liquidacionSueldoNombreIsapre}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoNombreIsapre}" size="45" maxlength="45"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoIsapre}" for="liquidacionSueldoMontoIsapre" />
+                                <p:inputText id="liquidacionSueldoMontoIsapre" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoIsapre}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoIsapre}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoIsapre}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoSindicato}" for="liquidacionSueldoMontoSindicato" />
+                                <p:inputText id="liquidacionSueldoMontoSindicato" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoSindicato}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoSindicato}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoSindicato}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoSaldoAnterior}" for="liquidacionSueldoMontoSaldoAnterior" />
+                                <p:inputText id="liquidacionSueldoMontoSaldoAnterior" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoSaldoAnterior}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoSaldoAnterior}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoSaldoAnterior}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoRetencionJudicial}" for="liquidacionSueldoMontoRetencionJudicial" />
+                                <p:inputText id="liquidacionSueldoMontoRetencionJudicial" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoRetencionJudicial}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoRetencionJudicial}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoRetencionJudicial}"/>
+
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab id="LiquidacionSueldoTab3" title="#{bundle.TabHeaderPrefix} 3">
+                            <p:panelGrid  columns="2" columnClasses="column" rendered="#{liquidacionSueldoController.selected != null}">
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoCreditoSalud}" for="liquidacionSueldoMontoCreditoSalud" />
+                                <p:inputText id="liquidacionSueldoMontoCreditoSalud" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoCreditoSalud}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoCreditoSalud}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoCreditoSalud}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoSeguro}" for="liquidacionSueldoMontoSeguro" />
+                                <p:inputText id="liquidacionSueldoMontoSeguro" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoSeguro}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoSeguro}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoSeguro}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoTotalDescuentos}" for="liquidacionSueldoMontoTotalDescuentos" />
+                                <p:inputText id="liquidacionSueldoMontoTotalDescuentos" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoTotalDescuentos}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoTotalDescuentos}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoTotalDescuentos}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoAlcanceLiquido}" for="liquidacionSueldoMontoAlcanceLiquido" />
+                                <p:inputText id="liquidacionSueldoMontoAlcanceLiquido" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoAlcanceLiquido}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoAlcanceLiquido}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoAlcanceLiquido}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoAnticipo}" for="liquidacionSueldoMontoAnticipo" />
+                                <p:inputText id="liquidacionSueldoMontoAnticipo" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoAnticipo}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoAnticipo}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoAnticipo}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoMontoSaldo}" for="liquidacionSueldoMontoSaldo" />
+                                <p:inputText id="liquidacionSueldoMontoSaldo" value="#{liquidacionSueldoController.selected.liquidacionSueldoMontoSaldo}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoMontoSaldo}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoMontoSaldo}"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoFechaIngreso}" for="liquidacionSueldoFechaIngreso" />
+                                <p:calendar id="liquidacionSueldoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{liquidacionSueldoController.selected.liquidacionSueldoFechaIngreso}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoFechaIngreso}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoFechaIngreso}" showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoFechaActualizacion}" for="liquidacionSueldoFechaActualizacion" />
+                                <p:calendar id="liquidacionSueldoFechaActualizacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{liquidacionSueldoController.selected.liquidacionSueldoFechaActualizacion}" title="#{bundle.EditLiquidacionSueldoTitle_liquidacionSueldoFechaActualizacion}"  showOn="button"/>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoIdEmpresa}" for="liquidacionSueldoIdEmpresa" />
+                                <p:selectOneMenu id="liquidacionSueldoIdEmpresa" value="#{liquidacionSueldoController.selected.liquidacionSueldoIdEmpresa}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoIdEmpresa}" converter="empresaConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{empresaController.items}"
+                                                   var="liquidacionSueldoIdEmpresaItem"
+                                                   itemValue="#{liquidacionSueldoIdEmpresaItem}"
+                                                   itemLabel="#{liquidacionSueldoIdEmpresaItem.empresaId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoIdTerminal}" for="liquidacionSueldoIdTerminal" />
+                                <p:selectOneMenu id="liquidacionSueldoIdTerminal" value="#{liquidacionSueldoController.selected.liquidacionSueldoIdTerminal}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoIdTerminal}" converter="terminalConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{terminalController.items}"
+                                                   var="liquidacionSueldoIdTerminalItem"
+                                                   itemValue="#{liquidacionSueldoIdTerminalItem}"
+                                                   itemLabel="#{liquidacionSueldoIdTerminalItem.terminalId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoIdTipoContrato}" for="liquidacionSueldoIdTipoContrato" />
+                                <p:selectOneMenu id="liquidacionSueldoIdTipoContrato" value="#{liquidacionSueldoController.selected.liquidacionSueldoIdTipoContrato}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoIdTipoContrato}" converter="tipoContratoConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{tipoContratoController.items}"
+                                                   var="liquidacionSueldoIdTipoContratoItem"
+                                                   itemValue="#{liquidacionSueldoIdTipoContratoItem}"
+                                                   itemLabel="#{liquidacionSueldoIdTipoContratoItem.tipoContratoId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{bundle.EditLiquidacionSueldoLabel_liquidacionSueldoIdTrabajador}" for="liquidacionSueldoIdTrabajador" />
+                                <p:selectOneMenu id="liquidacionSueldoIdTrabajador" value="#{liquidacionSueldoController.selected.liquidacionSueldoIdTrabajador}" required="true" requiredMessage="#{bundle.EditLiquidacionSueldoRequiredMessage_liquidacionSueldoIdTrabajador}" converter="trabajadorConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{trabajadorController.items}"
+                                                   var="liquidacionSueldoIdTrabajadorItem"
+                                                   itemValue="#{liquidacionSueldoIdTrabajadorItem}"
+                                                   itemLabel="#{liquidacionSueldoIdTrabajadorItem.trabajadorId.toString()}"
+                                                   />
+
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton actionListener="#{liquidacionSueldoController.save}" value="#{bundle.Save}" update="display,:LiquidacionSueldoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('LiquidacionSueldoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('LiquidacionSueldoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

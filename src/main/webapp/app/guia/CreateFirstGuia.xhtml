@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Guía" closeOnEscape="true">
+
+            <h:form id="GuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{guiaFirstController.selected != null}">
+                    <p:panelGrid columns="4" columnClasses="column, , column, ">
+                        <p:outputLabel value="Folio" for="guiaFolio" />
+                        <p:inputText id="guiaFolio" value="#{guiaFirstController.selected.guiaFolio}" title="#{bundle.CreateGuiaTitle_guiaFolio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaFolio}" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                        <p:outputLabel value="" />
+                        <p:outputLabel value="" />
+
+                        <p:outputLabel value="N° Bus" for="guiaIdBus" />
+                        <p:selectOneMenu id="guiaIdBus" value="#{guiaFirstController.selected.guiaIdBus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaIdBus}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="guiaIdBusItem"
+                                           itemValue="#{guiaIdBusItem}"
+                                           itemLabel="#{guiaIdBusItem.busNumero}"
+                                           />
+                            <p:ajax event="valueChange" update="guiaIdBusPatente" global="false"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="PPU" for="guiaIdBusPatente" />
+                        <p:outputLabel value="#{guiaFirstController.selected.guiaIdBus.busPatente}" id="guiaIdBusPatente" />
+
+                        <p:outputLabel value="N° Conductor" for="guiaIdTrabajador" />
+                        <p:selectOneMenu id="guiaIdTrabajador" value="#{guiaFirstController.selected.guiaIdTrabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaIdTrabajador}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="guiaIdTrabajadorItem"
+                                           itemValue="#{guiaIdTrabajadorItem}"
+                                           itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                           />
+                            <p:ajax event="valueChange" update="guiaIdTrabajadorNombre" global="false"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Nombre" for="guiaIdTrabajadorNombre" />
+                        <p:outputLabel value="#{guiaFirstController.selected.guiaIdTrabajador.trabajadorNombres} #{guiaController.selected.guiaIdTrabajador.trabajadorApellidoPaterno} #{guiaController.selected.guiaIdTrabajador.trabajadorApellidoMaterno}" id="guiaIdTrabajadorNombre" />
+
+                        <p:outputLabel value="Turno" for="guiaTurno" />
+                        <p:inputText id="guiaTurno" value="#{guiaFirstController.selected.guiaTurno}" title="#{bundle.CreateGuiaTitle_guiaTurno}" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                        <p:outputLabel value="Estado" for="guiaIdEstado" />
+                        <p:selectOneMenu id="guiaIdEstado" value="#{guiaFirstController.selected.guiaIdEstado}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaIdEstado}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadoGuiaController.items}"
+                                           var="guiaIdEstadoItem"
+                                           itemValue="#{guiaIdEstadoItem}"
+                                           itemLabel="#{guiaIdEstadoItem.estadoGuiaNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                    </p:panelGrid>
+                    <h:panelGroup>
+                        <h:panelGrid columns="3">
+                            <f:facet name="footer">
+                                <p:commandButton actionListener="#{guiaFirstController.saveNew}" value="#{bundle.Save}" update="display,:GuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GuiaCreateDialog'));">
+                                    <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                                </p:commandButton>
+
+                                <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                            </f:facet>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <p:panelGrid>
+
+
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TerminalCreateDlg" widgetVar="TerminalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ingresar Nuevo Terminal" closeOnEscape="true">
+
+            <h:form id="TerminalCreateForm">
+
+                <h:panelGroup id="display" rendered="#{terminalController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Nombre" for="terminalNombre" />
+                        <p:inputText id="terminalNombre" value="#{terminalController.selected.terminalNombre}" title="#{bundle.CreateTerminalTitle_terminalNombre}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_terminalNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Dirección" for="terminalDireccion" />
+                        <p:inputText id="terminalDireccion" value="#{terminalController.selected.terminalDireccion}" title="#{bundle.CreateTerminalTitle_terminalDireccion}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_terminalDireccion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Comuna" for="terminalIdComuna" />
+                        <p:selectOneMenu id="terminalIdComuna" value="#{terminalController.selected.terminalIdComuna}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_terminalIdComuna}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{comunaController.items}"
+                                           var="terminalIdComunaItem"
+                                           itemValue="#{terminalIdComunaItem}"
+                                           itemLabel="#{terminalIdComunaItem.comunaNombre}"
+                                           />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="Superficie " for="terminalSuperficie" />
+                        <p:inputText id="terminalSuperficie" placeholder="[mts2]" value="#{terminalController.selected.terminalSuperficie}" title="#{bundle.CreateTerminalTitle_terminalSuperficie}"/>
+
+                        <p:outputLabel value="Teléfono" for="terminalTelefono" />
+                        <p:inputText id="terminalTelefono" value="#{terminalController.selected.terminalTelefono}" title="#{bundle.CreateTerminalTitle_terminalTelefono}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Email" for="terminalEmail" />
+                        <p:inputText id="terminalEmail" value="#{terminalController.selected.terminalEmail}" title="#{bundle.CreateTerminalTitle_terminalEmail}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Longitud" for="terminalUbicacionLongitud" />
+                        <p:inputText id="terminalUbicacionLongitud" value="#{terminalController.selected.terminalUbicacionLongitud}" title="#{bundle.CreateTerminalTitle_terminalUbicacionLongitud}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_terminalUbicacionLongitud}"/>
+
+                        <p:outputLabel value="Latitud" for="terminalUbicacionLatitud" />
+                        <p:inputText id="terminalUbicacionLatitud" value="#{terminalController.selected.terminalUbicacionLatitud}" title="#{bundle.CreateTerminalTitle_terminalUbicacionLatitud}" required="true" requiredMessage="#{bundle.CreateTerminalRequiredMessage_terminalUbicacionLatitud}"/>
+
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{terminalController.saveNew}" value="#{bundle.Save}" update="display,:TerminalListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TerminalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TerminalCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

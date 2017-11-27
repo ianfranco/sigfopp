@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TerminalEditDlg" widgetVar="TerminalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="TerminalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{terminalController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTerminalLabel_terminalId}" for="terminalId" />
+                        <h:outputText id="terminalId" value="#{terminalController.selected.terminalId}" />
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalNombre}" for="terminalNombre" />
+                        <p:inputText id="terminalNombre" value="#{terminalController.selected.terminalNombre}" title="#{bundle.EditTerminalTitle_terminalNombre}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_terminalNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalDireccion}" for="terminalDireccion" />
+                        <p:inputText id="terminalDireccion" value="#{terminalController.selected.terminalDireccion}" title="#{bundle.EditTerminalTitle_terminalDireccion}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_terminalDireccion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalSuperficie}" for="terminalSuperficie" />
+                        <p:inputText id="terminalSuperficie" value="#{terminalController.selected.terminalSuperficie}" title="#{bundle.EditTerminalTitle_terminalSuperficie}"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalTelefono}" for="terminalTelefono" />
+                        <p:inputText id="terminalTelefono" value="#{terminalController.selected.terminalTelefono}" title="#{bundle.EditTerminalTitle_terminalTelefono}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalEmail}" for="terminalEmail" />
+                        <p:inputText id="terminalEmail" value="#{terminalController.selected.terminalEmail}" title="#{bundle.EditTerminalTitle_terminalEmail}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalUbicacionLongitud}" for="terminalUbicacionLongitud" />
+                        <p:inputText id="terminalUbicacionLongitud" value="#{terminalController.selected.terminalUbicacionLongitud}" title="#{bundle.EditTerminalTitle_terminalUbicacionLongitud}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_terminalUbicacionLongitud}"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalUbicacionLatitud}" for="terminalUbicacionLatitud" />
+                        <p:inputText id="terminalUbicacionLatitud" value="#{terminalController.selected.terminalUbicacionLatitud}" title="#{bundle.EditTerminalTitle_terminalUbicacionLatitud}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_terminalUbicacionLatitud}"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalFechaIngreso}" for="terminalFechaIngreso" />
+                        <p:calendar id="terminalFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{terminalController.selected.terminalFechaIngreso}" title="#{bundle.EditTerminalTitle_terminalFechaIngreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditTerminalLabel_terminalIdComuna}" for="terminalIdComuna" />
+                        <p:selectOneMenu id="terminalIdComuna" value="#{terminalController.selected.terminalIdComuna}" required="true" requiredMessage="#{bundle.EditTerminalRequiredMessage_terminalIdComuna}" converter="comunaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{comunaController.items}"
+                                           var="terminalIdComunaItem"
+                                           itemValue="#{terminalIdComunaItem}"
+                                           itemLabel="#{terminalIdComunaItem.comunaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{terminalController.save}" value="#{bundle.Save}" update="display,:TerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TerminalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TerminalEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

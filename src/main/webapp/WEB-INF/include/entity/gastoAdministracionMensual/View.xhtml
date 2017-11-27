@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GastoAdministracionMensualViewDlg" widgetVar="GastoAdministracionMensualViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewGastoAdministracionMensualTitle}" closeOnEscape="true">
+
+            <h:form id="GastoAdministracionMensualViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{gastoAdministracionMensualController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualId}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualId}" title="#{bundle.ViewGastoAdministracionMensualTitle_gastoAdministracionMensualId}"/>
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualFolio}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualFolio}" title="#{bundle.ViewGastoAdministracionMensualTitle_gastoAdministracionMensualFolio}"/>
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualNombre}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualNombre}" title="#{bundle.ViewGastoAdministracionMensualTitle_gastoAdministracionMensualNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualFechaGasto}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualFechaGasto}" title="#{bundle.ViewGastoAdministracionMensualTitle_gastoAdministracionMensualFechaGasto}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualValor}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualValor}" title="#{bundle.ViewGastoAdministracionMensualTitle_gastoAdministracionMensualValor}"/>
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualObservacion}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualObservacion}" title="#{bundle.ViewGastoAdministracionMensualTitle_gastoAdministracionMensualObservacion}"/>
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualFechaIngreso}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualFechaIngreso}" title="#{bundle.ViewGastoAdministracionMensualTitle_gastoAdministracionMensualFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewGastoAdministracionMensualLabel_gastoAdministracionMensualIdDepartamento}"/>
+                        <h:outputText value="#{gastoAdministracionMensualController.selected.gastoAdministracionMensualIdDepartamento.departamentoId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('GastoAdministracionMensualViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

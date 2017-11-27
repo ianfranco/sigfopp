@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NumeralSurtidorViewDlg" widgetVar="NumeralSurtidorViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewNumeralSurtidorTitle}" closeOnEscape="true">
+
+            <h:form id="NumeralSurtidorViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{numeralSurtidorController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewNumeralSurtidorLabel_numeralSurtidorId}"/>
+                        <h:outputText value="#{numeralSurtidorController.selected.numeralSurtidorId}" title="#{bundle.ViewNumeralSurtidorTitle_numeralSurtidorId}"/>
+
+                        <h:outputText value="#{bundle.ViewNumeralSurtidorLabel_numeralSurtidorFechaNumeral}"/>
+                        <h:outputText value="#{numeralSurtidorController.selected.numeralSurtidorFechaNumeral}" title="#{bundle.ViewNumeralSurtidorTitle_numeralSurtidorFechaNumeral}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewNumeralSurtidorLabel_numeralSurtidorNumeralInicial}"/>
+                        <h:outputText value="#{numeralSurtidorController.selected.numeralSurtidorNumeralInicial}" title="#{bundle.ViewNumeralSurtidorTitle_numeralSurtidorNumeralInicial}"/>
+
+                        <h:outputText value="#{bundle.ViewNumeralSurtidorLabel_numeralSurtidorNumeralFinal}"/>
+                        <h:outputText value="#{numeralSurtidorController.selected.numeralSurtidorNumeralFinal}" title="#{bundle.ViewNumeralSurtidorTitle_numeralSurtidorNumeralFinal}"/>
+
+                        <h:outputText value="#{bundle.ViewNumeralSurtidorLabel_numeralSurtidorIndicadorMuestra}"/>
+                        <h:outputText value="#{numeralSurtidorController.selected.numeralSurtidorIndicadorMuestra}" title="#{bundle.ViewNumeralSurtidorTitle_numeralSurtidorIndicadorMuestra}"/>
+
+                        <h:outputText value="#{bundle.ViewNumeralSurtidorLabel_numeralSurtidorFechaIngreso}"/>
+                        <h:outputText value="#{numeralSurtidorController.selected.numeralSurtidorFechaIngreso}" title="#{bundle.ViewNumeralSurtidorTitle_numeralSurtidorFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewNumeralSurtidorLabel_numeralSurtidorIdSurtidor}"/>
+                        <h:outputText value="#{numeralSurtidorController.selected.numeralSurtidorIdSurtidor.surtidorId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('NumeralSurtidorViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

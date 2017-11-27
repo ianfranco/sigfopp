@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoDiaFrecuenciaListForm">
+
+        <p:panel header="#{bundle.ListTipoDiaFrecuenciaTitle}">
+            <p:contextMenu id="TipoDiaFrecuenciaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoDiaFrecuenciaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoDiaFrecuenciaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoDiaFrecuenciaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoDiaFrecuenciaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TipoDiaFrecuenciaMenuItem_frecuenciaServicioList}" icon="ui-icon-search"  action="#{tipoDiaFrecuenciaController.navigateFrecuenciaServicioList}" disabled="#{empty tipoDiaFrecuenciaController.selected.frecuenciaServicioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoDiaFrecuenciaController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoDiaFrecuenciaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoDiaFrecuenciaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoDiaFrecuenciaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoDiaFrecuenciaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoDiaFrecuenciaDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoDiaFrecuenciaDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoDiaFrecuenciaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoDiaFrecuenciaId}" filterBy="#{item.tipoDiaFrecuenciaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoDiaFrecuenciaTitle_tipoDiaFrecuenciaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDiaFrecuenciaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDiaFrecuenciaNombre}" filterBy="#{item.tipoDiaFrecuenciaNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoDiaFrecuenciaTitle_tipoDiaFrecuenciaNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDiaFrecuenciaNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDiaFrecuenciaActivo}" filterBy="#{item.tipoDiaFrecuenciaActivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoDiaFrecuenciaTitle_tipoDiaFrecuenciaActivo}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="tipoDiaFrecuenciaActivo" value="#{item.tipoDiaFrecuenciaActivo}" title="#{bundle.EditTipoDiaFrecuenciaTitle_tipoDiaFrecuenciaActivo}" required="true" requiredMessage="#{bundle.EditTipoDiaFrecuenciaRequiredMessage_tipoDiaFrecuenciaActivo}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDiaFrecuenciaFechaIngreso}" filterBy="#{item.tipoDiaFrecuenciaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoDiaFrecuenciaTitle_tipoDiaFrecuenciaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDiaFrecuenciaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoDiaFrecuenciaController.prepareCreate}" update=":TipoDiaFrecuenciaCreateForm" oncomplete="PF('TipoDiaFrecuenciaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoDiaFrecuenciaViewForm" oncomplete="PF('TipoDiaFrecuenciaViewDialog').show()" disabled="#{empty tipoDiaFrecuenciaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoDiaFrecuenciaEditForm" oncomplete="PF('TipoDiaFrecuenciaEditDialog').show()" disabled="#{empty tipoDiaFrecuenciaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoDiaFrecuenciaController.delete}" update=":growl,datalist" disabled="#{empty tipoDiaFrecuenciaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

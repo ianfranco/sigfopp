@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DepartamentoListForm">
+
+        <p:panel header="#{bundle.ListDepartamentoTitle}">
+            <p:contextMenu id="DepartamentoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DepartamentoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DepartamentoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DepartamentoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DepartamentoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.DepartamentoMenuItem_gastoAdministracionMensualList}" icon="ui-icon-search"  action="#{departamentoController.navigateGastoAdministracionMensualList}" disabled="#{empty departamentoController.selected.gastoAdministracionMensualList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{departamentoController.items}"
+                         lazy="false"
+                         rowKey="#{item.departamentoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{departamentoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{departamentoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.departamentoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DepartamentoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DepartamentoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DepartamentoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.departamentoId}" filterBy="#{item.departamentoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDepartamentoTitle_departamentoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.departamentoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.departamentoNombre}" filterBy="#{item.departamentoNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDepartamentoTitle_departamentoNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.departamentoNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.departamentoActivo}" filterBy="#{item.departamentoActivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDepartamentoTitle_departamentoActivo}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="departamentoActivo" value="#{item.departamentoActivo}" title="#{bundle.EditDepartamentoTitle_departamentoActivo}" required="true" requiredMessage="#{bundle.EditDepartamentoRequiredMessage_departamentoActivo}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.departamentoFechaIngreso}" filterBy="#{item.departamentoFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDepartamentoTitle_departamentoFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.departamentoFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{departamentoController.prepareCreate}" update=":DepartamentoCreateForm" oncomplete="PF('DepartamentoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DepartamentoViewForm" oncomplete="PF('DepartamentoViewDialog').show()" disabled="#{empty departamentoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DepartamentoEditForm" oncomplete="PF('DepartamentoEditDialog').show()" disabled="#{empty departamentoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{departamentoController.delete}" update=":growl,datalist" disabled="#{empty departamentoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

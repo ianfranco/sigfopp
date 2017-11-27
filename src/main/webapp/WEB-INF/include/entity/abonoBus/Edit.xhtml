@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AbonoBusEditDlg" widgetVar="AbonoBusEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAbonoBusTitle}" closeOnEscape="true">
+
+            <h:form id="AbonoBusEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{abonoBusController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusId}" for="abonoBusId" />
+                        <h:outputText id="abonoBusId" value="#{abonoBusController.selected.abonoBusId}" />
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusFechaInicio}" for="abonoBusFechaInicio" />
+                        <p:calendar id="abonoBusFechaInicio" pattern="MM/dd/yyyy" value="#{abonoBusController.selected.abonoBusFechaInicio}" title="#{bundle.EditAbonoBusTitle_abonoBusFechaInicio}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusFechaInicio}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusFechaTermino}" for="abonoBusFechaTermino" />
+                        <p:calendar id="abonoBusFechaTermino" pattern="MM/dd/yyyy" value="#{abonoBusController.selected.abonoBusFechaTermino}" title="#{bundle.EditAbonoBusTitle_abonoBusFechaTermino}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusFechaTermino}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusCuotaActual}" for="abonoBusCuotaActual" />
+                        <p:inputText id="abonoBusCuotaActual" value="#{abonoBusController.selected.abonoBusCuotaActual}" title="#{bundle.EditAbonoBusTitle_abonoBusCuotaActual}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusCuotaActual}"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusTotalCuotas}" for="abonoBusTotalCuotas" />
+                        <p:inputText id="abonoBusTotalCuotas" value="#{abonoBusController.selected.abonoBusTotalCuotas}" title="#{bundle.EditAbonoBusTitle_abonoBusTotalCuotas}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusTotalCuotas}"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusMontoFijo}" for="abonoBusMontoFijo" />
+                        <p:inputText id="abonoBusMontoFijo" value="#{abonoBusController.selected.abonoBusMontoFijo}" title="#{bundle.EditAbonoBusTitle_abonoBusMontoFijo}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusMontoFijo}"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusDescripcion}" for="abonoBusDescripcion" />
+                        <p:inputText id="abonoBusDescripcion" value="#{abonoBusController.selected.abonoBusDescripcion}" title="#{bundle.EditAbonoBusTitle_abonoBusDescripcion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusActivo}" for="abonoBusActivo" />
+                        <p:selectBooleanCheckbox id="abonoBusActivo" value="#{abonoBusController.selected.abonoBusActivo}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusFechaIngreso}" for="abonoBusFechaIngreso" />
+                        <p:calendar id="abonoBusFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{abonoBusController.selected.abonoBusFechaIngreso}" title="#{bundle.EditAbonoBusTitle_abonoBusFechaIngreso}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusIdBus}" for="abonoBusIdBus" />
+                        <p:selectOneMenu id="abonoBusIdBus" value="#{abonoBusController.selected.abonoBusIdBus}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="abonoBusIdBusItem"
+                                           itemValue="#{abonoBusIdBusItem}"
+                                           itemLabel="#{abonoBusIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditAbonoBusLabel_abonoBusIdTipoAbono}" for="abonoBusIdTipoAbono" />
+                        <p:selectOneMenu id="abonoBusIdTipoAbono" value="#{abonoBusController.selected.abonoBusIdTipoAbono}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusIdTipoAbono}" converter="tipoAbonoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoAbonoController.items}"
+                                           var="abonoBusIdTipoAbonoItem"
+                                           itemValue="#{abonoBusIdTipoAbonoItem}"
+                                           itemLabel="#{abonoBusIdTipoAbonoItem.tipoAbonoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{abonoBusController.save}" value="#{bundle.Save}" update="display,:AbonoBusListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AbonoBusEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AbonoBusEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CtvResumenViewDlg" widgetVar="CtvResumenViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCtvResumenTitle}" closeOnEscape="true">
+
+            <h:form id="CtvResumenViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{ctvResumenController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCtvResumenLabel_ctvResumenId}"/>
+                        <h:outputText value="#{ctvResumenController.selected.ctvResumenId}" title="#{bundle.ViewCtvResumenTitle_ctvResumenId}"/>
+
+                        <h:outputText value="#{bundle.ViewCtvResumenLabel_ctvResumenNumero}"/>
+                        <h:outputText value="#{ctvResumenController.selected.ctvResumenNumero}" title="#{bundle.ViewCtvResumenTitle_ctvResumenNumero}"/>
+
+                        <h:outputText value="#{bundle.ViewCtvResumenLabel_ctvResumenCantidadBolsas}"/>
+                        <h:outputText value="#{ctvResumenController.selected.ctvResumenCantidadBolsas}" title="#{bundle.ViewCtvResumenTitle_ctvResumenCantidadBolsas}"/>
+
+                        <h:outputText value="#{bundle.ViewCtvResumenLabel_ctvResumenTotalTransportado}"/>
+                        <h:outputText value="#{ctvResumenController.selected.ctvResumenTotalTransportado}" title="#{bundle.ViewCtvResumenTitle_ctvResumenTotalTransportado}"/>
+
+                        <h:outputText value="#{bundle.ViewCtvResumenLabel_ctvResumenFechaHoraRetiro}"/>
+                        <h:outputText value="#{ctvResumenController.selected.ctvResumenFechaHoraRetiro}" title="#{bundle.ViewCtvResumenTitle_ctvResumenFechaHoraRetiro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCtvResumenLabel_ctvResumenIdResumenRecaudacion}"/>
+                        <h:outputText value="#{ctvResumenController.selected.ctvResumenIdResumenRecaudacion.resumenRecaudacionId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CtvResumenViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

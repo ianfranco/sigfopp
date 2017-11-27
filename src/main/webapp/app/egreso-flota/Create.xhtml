@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoFlotaCreateDlg" widgetVar="EgresoFlotaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEgresoFlotaTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoFlotaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{egresoFlotaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:pickList id="PojoPickList" 
+                                    value="#{egresoFlotaController.egresoFlotaItems}" 
+                                    var="egresoFlota"                                     
+                                    itemValue="#{egresoFlota}" 
+                                    itemLabel="#{egresoFlota}" 
+                                    showSourceControls="true" 
+                                    showTargetControls="true" 
+                                    showCheckbox="true" 
+                                    responsive="true"
+                                    showSourceFilter="true" 
+                                    showTargetFilter="true" 
+                                    filterMatchMode="contains" 
+                                    converter="omnifaces.SelectItemsConverter">
+
+                            <f:facet name="sourceCaption">Disponibles</f:facet>
+                            <f:facet name="targetCaption">Asociados</f:facet>
+
+                            <p:ajax event="transfer" listener="#{egresoFlotaController.onTransfer}" update="growl" />
+                            <p:ajax event="select" listener="#{egresoFlotaController.onSelect}" update="growl" />
+                            <p:ajax event="unselect" listener="#{egresoFlotaController.onUnselect}" update="growl" />
+                            <p:ajax event="reorder" listener="#{egresoFlotaController.onReorder}" update="growl" />
+
+                            <p:column style="width:10%">
+                                <h:outputText styleClass="ui-theme ui-theme-#{egresoFlota}" />
+                            </p:column>
+
+                            <p:column style="width:90%;">
+                                <h:outputText value="#{egresoFlota}" />
+                            </p:column>
+                        </p:pickList>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoFlotaController.saveNew}" value="#{bundle.Save}" update="display,:EgresoFlotaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoFlotaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoFlotaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

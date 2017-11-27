@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <h:form id="EgresoProcesoRecaudacionListForm" class="form-height">
+        <p:panel>
+            <f:facet name="header">
+                Egresos x Procesos
+            </f:facet>
+            <p:panelGrid columns="5" style="margin-bottom: 10px;width: 100%;">
+                <h:outputLabel value="Proceso" for="busIdFlota" />
+                <p:selectOneMenu id="busIdFlota" value="#{egresoProcesoRecaudacionController.procesoRecaudacion}" required="true" requiredMessage="Debe seleccionar el Proceso" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{procesoRecaudacionController.items}"
+                                   var="busIdFlotaItem"
+                                   itemValue="#{busIdFlotaItem}"
+                                   itemLabel="#{busIdFlotaItem.procesoRecaudacionNombre}"
+
+                                   />
+                </p:selectOneMenu>
+                <p:commandButton value="Buscar" id="addButton" actionListener="#{egresoProcesoRecaudacionController.find(event)}" styleClass="ui-priority-primary" update="datalist, growl" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>                
+            </p:panelGrid>
+            <p:dataTable id="datalist"
+                         value="#{egresoProcesoRecaudacionController.model}"
+                         widgetVar="datalist"
+                         var="item"
+                         rowKey="#{item.egresoProcesoRecaudacionId}"
+                         selection="#{egresoProcesoRecaudacionController.selected}"
+                         selectionMode="single"
+                         rowIndexVar="rowIndex"
+                         draggableRows="true" 
+                         emptyMessage="No se han encontrado registros">
+
+                <p:ajax event="rowReorder" listener="#{egresoProcesoRecaudacionController.onRowReorder}" update=":growl" process="@none" partialSubmit="true" />
+                <p:ajax event="rowSelect"   update="deleteButton, :growl" listener="#{egresoProcesoRecaudacionController.selectEgresoProcesoRecaudacion}" global="false"/>
+                <p:ajax event="rowUnselect" update="deleteButton" listener="#{egresoProcesoRecaudacionController.resetParents}" global="false"/>  
+
+                <f:facet name="header">
+                    Detalle x Proceso #{egresoProcesoRecaudacionController.procesoRecaudacion.procesoRecaudacionNombre}
+                </f:facet>
+
+                <p:column style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputLabel value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.egresoProcesoRecaudacionIdEgreso.egresoNombre}" filterBy="#{item.egresoProcesoRecaudacionIdEgreso.egresoNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="Egreso"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.egresoProcesoRecaudacionIdEgreso.egresoNombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.egresoProcesoRecaudacionValorDefecto}" filterBy="#{item.egresoProcesoRecaudacionValorDefecto}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Valor x Defecto" />
+                    </f:facet>
+                    <p:inputNumber value="#{item.egresoProcesoRecaudacionValorDefecto}"  decimalPlaces="0" symbol="$ "/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoProcesoRecaudacionPorcentaje}" filterBy="#{item.egresoProcesoRecaudacionPorcentaje}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="% Porcentaje" />
+                    </f:facet>
+                    <p:inputNumber value="#{item.egresoProcesoRecaudacionPorcentaje}"  decimalPlaces="0"/>
+                </p:column>
+
+                <p:column sortBy="#{item.egresoProcesoRecaudacionActivo}" filterBy="#{item.egresoProcesoRecaudacionActivo}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Activo"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox id="egresoProcesoRecaudacionActivo" value="#{item.egresoProcesoRecaudacionActivo}" title="#{bundle.EditEgresoProcesoRecaudacionTitle_egresoProcesoRecaudacionActivo}" required="true" requiredMessage="#{bundle.EditEgresoProcesoRecaudacionRequiredMessage_egresoProcesoRecaudacionActivo}" />
+                </p:column>
+
+                <p:column sortBy="#{item.lastUpdate}" filterBy="#{item.lastUpdate}" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="F.Ingreso"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.lastUpdate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputLabel>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-save" value="Guardar" update="datalist, :growl" disabled="#{empty egresoProcesoRecaudacionController.procesoRecaudacion}" actionListener="#{egresoProcesoRecaudacionController.save}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Actualizar los egresos?" icon="fa fa-warning"/>
+                    </p:commandButton>
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="Agregar" actionListener="#{egresoProcesoRecaudacionController.prepareCreate}" update=":EgresoProcesoRecaudacionEditForm" disabled="#{empty egresoProcesoRecaudacionController.procesoRecaudacion}" oncomplete="PF('EgresoProcesoRecaudacionEditDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="Eliminar" actionListener="#{egresoProcesoRecaudacionController.delete}" update=":growl,datalist" disabled="#{empty egresoProcesoRecaudacionController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </f:facet>
+
+            </p:dataTable>
+        </p:panel>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

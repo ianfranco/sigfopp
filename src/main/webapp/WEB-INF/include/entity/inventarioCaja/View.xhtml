@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InventarioCajaViewDlg" widgetVar="InventarioCajaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewInventarioCajaTitle}" closeOnEscape="true">
+
+            <h:form id="InventarioCajaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{inventarioCajaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewInventarioCajaLabel_inventarioCajaId}"/>
+                        <h:outputText value="#{inventarioCajaController.selected.inventarioCajaId}" title="#{bundle.ViewInventarioCajaTitle_inventarioCajaId}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioCajaLabel_inventarioCajaEstado}"/>
+                        <h:selectBooleanCheckbox id="inventarioCajaEstado" value="#{inventarioCajaController.selected.inventarioCajaEstado}" title="#{bundle.EditInventarioCajaTitle_inventarioCajaEstado}" required="true" requiredMessage="#{bundle.EditInventarioCajaRequiredMessage_inventarioCajaEstado}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioCajaLabel_inventarioCajaSerie}"/>
+                        <h:outputText value="#{inventarioCajaController.selected.inventarioCajaSerie}" title="#{bundle.ViewInventarioCajaTitle_inventarioCajaSerie}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioCajaLabel_inventarioCajaIdentificador}"/>
+                        <h:outputText value="#{inventarioCajaController.selected.inventarioCajaIdentificador}" title="#{bundle.ViewInventarioCajaTitle_inventarioCajaIdentificador}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioCajaLabel_inventarioCajaFechaIngreso}"/>
+                        <h:outputText value="#{inventarioCajaController.selected.inventarioCajaFechaIngreso}" title="#{bundle.ViewInventarioCajaTitle_inventarioCajaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewInventarioCajaLabel_inventarioCajaIdInventarioInterno}"/>
+                        <h:outputText value="#{inventarioCajaController.selected.inventarioCajaIdInventarioInterno.inventarioInternoId}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioCajaLabel_inventarioCajaIdCaja}"/>
+                        <h:outputText value="#{inventarioCajaController.selected.inventarioCajaIdCaja.cajaTerminalId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('InventarioCajaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

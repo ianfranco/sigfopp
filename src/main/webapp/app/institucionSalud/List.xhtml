@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <h:form id="InstitucionSaludListForm" class="form-height">
+
+        <p:contextMenu id="InstitucionSaludDataTableContextMenu" for="datalist:datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('InstitucionSaludListForm:datalist:datalist:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('InstitucionSaludListForm:datalist:datalist:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('InstitucionSaludListForm:datalist:datalist:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('InstitucionSaludListForm:datalist:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+        </p:contextMenu>
+
+        <coco:datatable id="datalist"
+                        value="#{institucionSaludController.lazyList}"
+                        rowKey="#{item.institucionSaludId}"
+                        selection="#{institucionSaludController.selected}"
+                        filtered="#{institucionSaludController.filtered}"
+                        rowselect=":InstitucionSaludListForm:datalist:datalist:createButton,:InstitucionSaludListForm:datalist:datalist:viewButton,:InstitucionSaludListForm:datalist:datalist:editButton,:InstitucionSaludListForm:datalist:datalist:deleteButton,:InstitucionSaludListForm:InstitucionSaludDataTableContextMenu"
+                        rowDblselect="document.getElementById('InstitucionSaludListForm:datalist:datalist:editButton').click()"
+                        contextMenu=":InstitucionSaludListForm:datalist:datalist:createButton :InstitucionSaludListForm:datalist:datalist:viewButton :InstitucionSaludListForm:datalist:datalist:editButton :InstitucionSaludListForm:datalist:datalist:deleteButton"
+                        selectListener="#{institucionSaludController.resetParents()}"
+                        >
+
+            <p:ajax event="colResize" listener="#{institucionSaludController.onResize}"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <h:outputText value="Isapres"/>   
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="pull-right">
+                            <p:columnToggler datasource="datalist" trigger="toggler">
+                                <p:ajax event="toggle" listener="#{institucionSaludController.onToggle}" />
+                            </p:columnToggler>
+                            <p:commandButton id="toggler" type="button" value="#{bundle.Columns}" class="btn-primary" icon="fa fa-list"/>
+                            <p:commandButton value="#{bundle.Save}" styleClass="btn-success" icon="fa fa-edit" update=":growl,@this"/>     
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column sortBy="#{rowIndex+1}" filterBy="#{rowIndex+1}">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputLabel value="#{rowIndex+1}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.institucionSaludNombre}" filterBy="#{item.institucionSaludNombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListInstitucionSaludTitle_institucionSaludNombre}"/>
+                </f:facet>
+                <h:outputLabel value="#{item.institucionSaludNombre}"/>
+            </p:column>
+
+
+            <f:facet name="{buttons}">
+                <div class="footer-left">
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="#{bundle.Create}" actionListener="#{institucionSaludController.prepareCreate}" update=":InstitucionSaludCreateForm" oncomplete="PF('InstitucionSaludCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":InstitucionSaludViewForm" oncomplete="PF('InstitucionSaludViewDialog').show()" disabled="#{empty institucionSaludController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":InstitucionSaludEditForm" oncomplete="PF('InstitucionSaludEditDialog').show()" disabled="#{empty institucionSaludController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="#{bundle.Delete}" actionListener="#{institucionSaludController.delete}" update=":growl,datalist" disabled="#{empty institucionSaludController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </div>
+            </f:facet>
+
+        </coco:datatable>
+
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

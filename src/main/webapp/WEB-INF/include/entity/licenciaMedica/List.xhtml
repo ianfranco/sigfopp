@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LicenciaMedicaListForm">
+
+        <p:panel header="#{bundle.ListLicenciaMedicaTitle}">
+            <p:contextMenu id="LicenciaMedicaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('LicenciaMedicaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('LicenciaMedicaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('LicenciaMedicaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('LicenciaMedicaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.LicenciaMedicaMenuItem_licenciaMedicaIdTrabajador}" icon="ui-icon-search"  actionListener="#{licenciaMedicaController.prepareLicenciaMedicaIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty licenciaMedicaController.selected.licenciaMedicaIdTrabajador}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{licenciaMedicaController.items}"
+                         lazy="false"
+                         rowKey="#{item.licenciaMedicaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{licenciaMedicaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{licenciaMedicaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.licenciaMedicaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LicenciaMedicaDataTableContextMenu" listener="#{licenciaMedicaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LicenciaMedicaDataTableContextMenu" listener="#{licenciaMedicaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{licenciaMedicaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('LicenciaMedicaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.licenciaMedicaId}" filterBy="#{item.licenciaMedicaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.licenciaMedicaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.licenciaMedicaNumero}" filterBy="#{item.licenciaMedicaNumero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaNumero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.licenciaMedicaNumero}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.licenciaMedicaFechaRecepcion}" filterBy="#{item.licenciaMedicaFechaRecepcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaFechaRecepcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.licenciaMedicaFechaRecepcion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.licenciaMedicaFechaEmision}" filterBy="#{item.licenciaMedicaFechaEmision}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaFechaEmision}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.licenciaMedicaFechaEmision}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.licenciaMedicaFechaDesdeReposo}" filterBy="#{item.licenciaMedicaFechaDesdeReposo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaFechaDesdeReposo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.licenciaMedicaFechaDesdeReposo}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.licenciaMedicaFechaHastaReposo}" filterBy="#{item.licenciaMedicaFechaHastaReposo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaFechaHastaReposo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.licenciaMedicaFechaHastaReposo}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.licenciaMedicaDiagnosticoLicencia}" filterBy="#{item.licenciaMedicaDiagnosticoLicencia}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaDiagnosticoLicencia}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.licenciaMedicaDiagnosticoLicencia}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.licenciaMedicaFechaIngreso}" filterBy="#{item.licenciaMedicaFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.licenciaMedicaFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.licenciaMedicaIdTrabajador.trabajadorId}" filterBy="#{item.licenciaMedicaIdTrabajador.trabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLicenciaMedicaTitle_licenciaMedicaIdTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.licenciaMedicaIdTrabajador.trabajadorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{licenciaMedicaController.prepareCreate}" update=":LicenciaMedicaCreateForm" oncomplete="PF('LicenciaMedicaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":LicenciaMedicaViewForm" oncomplete="PF('LicenciaMedicaViewDialog').show()" disabled="#{empty licenciaMedicaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LicenciaMedicaEditForm" oncomplete="PF('LicenciaMedicaEditDialog').show()" disabled="#{empty licenciaMedicaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{licenciaMedicaController.delete}" update=":growl,datalist" disabled="#{empty licenciaMedicaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

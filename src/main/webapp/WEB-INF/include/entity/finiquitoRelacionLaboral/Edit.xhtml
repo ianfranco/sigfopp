@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="FiniquitoRelacionLaboralEditDlg" widgetVar="FiniquitoRelacionLaboralEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditFiniquitoRelacionLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="FiniquitoRelacionLaboralEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{finiquitoRelacionLaboralController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralId}" for="finiquitoRelacionLaboralId" />
+                        <h:outputText id="finiquitoRelacionLaboralId" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralId}" />
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralFechaFiniquito}" for="finiquitoRelacionLaboralFechaFiniquito" />
+                        <p:calendar id="finiquitoRelacionLaboralFechaFiniquito" pattern="MM/dd/yyyy" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralFechaFiniquito}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralFechaFiniquito}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_finiquitoRelacionLaboralFechaFiniquito}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralMontoFiniquito}" for="finiquitoRelacionLaboralMontoFiniquito" />
+                        <p:inputText id="finiquitoRelacionLaboralMontoFiniquito" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralMontoFiniquito}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralMontoFiniquito}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_finiquitoRelacionLaboralMontoFiniquito}"/>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralAniosServicio}" for="finiquitoRelacionLaboralAniosServicio" />
+                        <p:inputText id="finiquitoRelacionLaboralAniosServicio" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralAniosServicio}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralAniosServicio}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_finiquitoRelacionLaboralAniosServicio}"/>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralAniosAdicionales}" for="finiquitoRelacionLaboralAniosAdicionales" />
+                        <p:inputText id="finiquitoRelacionLaboralAniosAdicionales" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralAniosAdicionales}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralAniosAdicionales}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_finiquitoRelacionLaboralAniosAdicionales}"/>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralFechaIngreso}" for="finiquitoRelacionLaboralFechaIngreso" />
+                        <p:calendar id="finiquitoRelacionLaboralFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralFechaIngreso}" title="#{bundle.EditFiniquitoRelacionLaboralTitle_finiquitoRelacionLaboralFechaIngreso}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_finiquitoRelacionLaboralFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralIdCausalFiniquito}" for="finiquitoRelacionLaboralIdCausalFiniquito" />
+                        <p:selectOneMenu id="finiquitoRelacionLaboralIdCausalFiniquito" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralIdCausalFiniquito}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_finiquitoRelacionLaboralIdCausalFiniquito}" converter="causalFiniquitoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{causalFiniquitoController.items}"
+                                           var="finiquitoRelacionLaboralIdCausalFiniquitoItem"
+                                           itemValue="#{finiquitoRelacionLaboralIdCausalFiniquitoItem}"
+                                           itemLabel="#{finiquitoRelacionLaboralIdCausalFiniquitoItem.causalFiniquitoDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditFiniquitoRelacionLaboralLabel_finiquitoRelacionLaboralIdRelacionLaboral}" for="finiquitoRelacionLaboralIdRelacionLaboral" />
+                        <p:selectOneMenu id="finiquitoRelacionLaboralIdRelacionLaboral" value="#{finiquitoRelacionLaboralController.selected.finiquitoRelacionLaboralIdRelacionLaboral}" required="true" requiredMessage="#{bundle.EditFiniquitoRelacionLaboralRequiredMessage_finiquitoRelacionLaboralIdRelacionLaboral}" converter="relacionLaboralConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{relacionLaboralController.items}"
+                                           var="finiquitoRelacionLaboralIdRelacionLaboralItem"
+                                           itemValue="#{finiquitoRelacionLaboralIdRelacionLaboralItem}"
+                                           itemLabel="#{finiquitoRelacionLaboralIdRelacionLaboralItem.relacionLaboralId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{finiquitoRelacionLaboralController.save}" value="#{bundle.Save}" update="display,:FiniquitoRelacionLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FiniquitoRelacionLaboralEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('FiniquitoRelacionLaboralEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

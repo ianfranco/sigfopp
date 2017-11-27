@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstadoGuiaCreateDlg" widgetVar="EstadoGuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEstadoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="EstadoGuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{estadoGuiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateEstadoGuiaLabel_estadoGuiaId}" for="estadoGuiaId" />
+                        <p:inputText id="estadoGuiaId" value="#{estadoGuiaController.selected.estadoGuiaId}" title="#{bundle.CreateEstadoGuiaTitle_estadoGuiaId}" required="true" requiredMessage="#{bundle.CreateEstadoGuiaRequiredMessage_estadoGuiaId}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEstadoGuiaLabel_estadoGuiaNombre}" for="estadoGuiaNombre" />
+                        <p:inputText id="estadoGuiaNombre" value="#{estadoGuiaController.selected.estadoGuiaNombre}" title="#{bundle.CreateEstadoGuiaTitle_estadoGuiaNombre}" required="true" requiredMessage="#{bundle.CreateEstadoGuiaRequiredMessage_estadoGuiaNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateEstadoGuiaLabel_estadoGuiaActivo}" for="estadoGuiaActivo" />
+                        <p:selectBooleanCheckbox id="estadoGuiaActivo" value="#{estadoGuiaController.selected.estadoGuiaActivo}" required="true" requiredMessage="#{bundle.CreateEstadoGuiaRequiredMessage_estadoGuiaActivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEstadoGuiaLabel_estadoGuiaFechaIngreso}" for="estadoGuiaFechaIngreso" />
+                        <p:calendar id="estadoGuiaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{estadoGuiaController.selected.estadoGuiaFechaIngreso}" title="#{bundle.CreateEstadoGuiaTitle_estadoGuiaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateEstadoGuiaRequiredMessage_estadoGuiaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estadoGuiaController.saveNew}" value="#{bundle.Save}" update="display,:EstadoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EstadoGuiaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EstadoGuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

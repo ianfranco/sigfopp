@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SurtidorEditDlg" widgetVar="SurtidorEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Editar Surtidor" closeOnEscape="true">
+
+            <h:form id="SurtidorEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{surtidorController.selected != null}">
+
+                        <p:outputLabel value="Identificador" for="surtidorIdentificador" />
+                        <p:inputText id="surtidorIdentificador" value="#{surtidorController.selected.surtidorIdentificador}" title="#{bundle.CreateSurtidorTitle_surtidorIdentificador}" required="true" requiredMessage="#{bundle.CreateSurtidorRequiredMessage_surtidorIdentificador}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Terminal" for="surtidorIdTerminal" />
+                        <p:selectOneMenu id="surtidorIdTerminal" value="#{surtidorController.selected.surtidorIdTerminal}" required="true" requiredMessage="#{bundle.CreateSurtidorRequiredMessage_surtidorIdTerminal}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="surtidorIdTerminalItem"
+                                           itemValue="#{surtidorIdTerminalItem}"
+                                           itemLabel="#{surtidorIdTerminalItem.terminalNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Observaciones" for="surtidorObservaciones" />
+                        <p:inputTextarea id="surtidorObservaciones" value="#{surtidorController.selected.surtidorObservaciones}" title="#{bundle.CreateSurtidorTitle_surtidorObservaciones}" cols="50" rows="4"/>
+
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{surtidorController.save}" value="#{bundle.Save}" update="display,:SurtidorListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SurtidorEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('SurtidorEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

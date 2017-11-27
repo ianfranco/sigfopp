@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="GuiaListForm">
+
+        <p:panel header="#{bundle.ListGuiaTitle}">
+            <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('GuiaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('GuiaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('GuiaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('GuiaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.GuiaMenuItem_serieBoletoGuiaList}" icon="ui-icon-search"  action="#{guiaController.navigateSerieBoletoGuiaList}" disabled="#{empty guiaController.selected.serieBoletoGuiaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_ventaBoletoList}" icon="ui-icon-search"  action="#{guiaController.navigateVentaBoletoList}" disabled="#{empty guiaController.selected.ventaBoletoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_ventaCombustibleList}" icon="ui-icon-search"  action="#{guiaController.navigateVentaCombustibleList}" disabled="#{empty guiaController.selected.ventaCombustibleList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_guiaIdBus}" icon="ui-icon-search"  actionListener="#{guiaController.prepareGuiaIdBus}" update=":BusViewForm" oncomplete="PF('BusViewDialog').show()" disabled="#{empty guiaController.selected.guiaIdBus}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_guiaIdEstado}" icon="ui-icon-search"  actionListener="#{guiaController.prepareGuiaIdEstado}" update=":EstadoGuiaViewForm" oncomplete="PF('EstadoGuiaViewDialog').show()" disabled="#{empty guiaController.selected.guiaIdEstado}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_guiaIdCajaTerminal}" icon="ui-icon-search"  actionListener="#{guiaController.prepareGuiaIdCajaTerminal}" update=":CajaTerminalViewForm" oncomplete="PF('CajaTerminalViewDialog').show()" disabled="#{empty guiaController.selected.guiaIdCajaTerminal}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_guiaIdTrabajador}" icon="ui-icon-search"  actionListener="#{guiaController.prepareGuiaIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty guiaController.selected.guiaIdTrabajador}"/>  
+                <p:menuitem value="#{bundle.GuiaMenuItem_egresoGuiaList}" icon="ui-icon-search"  action="#{guiaController.navigateEgresoGuiaList}" disabled="#{empty guiaController.selected.egresoGuiaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{guiaController.items}"
+                         lazy="false"
+                         rowKey="#{item.guiaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{guiaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{guiaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.guiaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GuiaDataTableContextMenu" listener="#{guiaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:GuiaDataTableContextMenu" listener="#{guiaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{guiaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('GuiaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.guiaId}" filterBy="#{item.guiaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_guiaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guiaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.guiaFolio}" filterBy="#{item.guiaFolio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_guiaFolio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guiaFolio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.guiaFecha}" filterBy="#{item.guiaFecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_guiaFecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guiaFecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.guiaRecaudacion}" filterBy="#{item.guiaRecaudacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_guiaRecaudacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guiaRecaudacion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.guiaTotalIngresos}" filterBy="#{item.guiaTotalIngresos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_guiaTotalIngresos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guiaTotalIngresos}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.guiaTotalEgresos}" filterBy="#{item.guiaTotalEgresos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListGuiaTitle_guiaTotalEgresos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.guiaTotalEgresos}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.guiaViajeEspecial}" filterBy="#{item.guiaViajeEspecial}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaViajeEspecial}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaViajeEspecial}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaOtrosIngresos}" filterBy="#{item.guiaOtrosIngresos}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaOtrosIngresos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaOtrosIngresos}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaSaldo}" filterBy="#{item.guiaSaldo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaSaldo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaSaldo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaNumeroVueltas}" filterBy="#{item.guiaNumeroVueltas}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaNumeroVueltas}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaNumeroVueltas}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaTurno}" filterBy="#{item.guiaTurno}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaTurno}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaTurno}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaObservacion}" filterBy="#{item.guiaObservacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaObservacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaObservacion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaRecaudada}" filterBy="#{item.guiaRecaudada}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaRecaudada}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="guiaRecaudada" value="#{item.guiaRecaudada}" title="#{bundle.EditGuiaTitle_guiaRecaudada}"  disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaFechaIngreso}" filterBy="#{item.guiaFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaIdBus.busId}" filterBy="#{item.guiaIdBus.busId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaIdBus}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaIdBus.busId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaIdEstado.estadoGuiaId}" filterBy="#{item.guiaIdEstado.estadoGuiaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaIdEstado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaIdEstado.estadoGuiaId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaIdCajaTerminal.cajaTerminalId}" filterBy="#{item.guiaIdCajaTerminal.cajaTerminalId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaIdCajaTerminal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaIdCajaTerminal.cajaTerminalId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.guiaIdTrabajador.trabajadorId}" filterBy="#{item.guiaIdTrabajador.trabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListGuiaTitle_guiaIdTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.guiaIdTrabajador.trabajadorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{guiaController.prepareCreate}" update=":GuiaCreateForm" oncomplete="PF('GuiaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":GuiaViewForm" oncomplete="PF('GuiaViewDialog').show()" disabled="#{empty guiaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":GuiaEditForm" oncomplete="PF('GuiaEditDialog').show()" disabled="#{empty guiaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{guiaController.delete}" update=":growl,datalist" disabled="#{empty guiaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProcesoRecaudacionListForm">
+
+        <p:panel header="#{bundle.ListProcesoRecaudacionTitle}">
+            <p:contextMenu id="ProcesoRecaudacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ProcesoRecaudacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ProcesoRecaudacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ProcesoRecaudacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ProcesoRecaudacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ProcesoRecaudacionMenuItem_busList}" icon="ui-icon-search"  action="#{procesoRecaudacionController.navigateBusList}" disabled="#{empty procesoRecaudacionController.selected.busList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.ProcesoRecaudacionMenuItem_procesoRecaudacionIdCajaTerminal}" icon="ui-icon-search"  actionListener="#{procesoRecaudacionController.prepareProcesoRecaudacionIdCajaTerminal}" update=":CajaTerminalViewForm" oncomplete="PF('CajaTerminalViewDialog').show()" disabled="#{empty procesoRecaudacionController.selected.procesoRecaudacionIdCajaTerminal}"/>  
+                <p:menuitem value="#{bundle.ProcesoRecaudacionMenuItem_procesoRecaudacionIdCuentaBancaria}" icon="ui-icon-search"  actionListener="#{procesoRecaudacionController.prepareProcesoRecaudacionIdCuentaBancaria}" update=":CuentaBancariaViewForm" oncomplete="PF('CuentaBancariaViewDialog').show()" disabled="#{empty procesoRecaudacionController.selected.procesoRecaudacionIdCuentaBancaria}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{procesoRecaudacionController.items}"
+                         lazy="false"
+                         rowKey="#{item.procesoRecaudacionId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{procesoRecaudacionController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{procesoRecaudacionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.procesoRecaudacionId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProcesoRecaudacionDataTableContextMenu" listener="#{procesoRecaudacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProcesoRecaudacionDataTableContextMenu" listener="#{procesoRecaudacionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{procesoRecaudacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProcesoRecaudacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.procesoRecaudacionId}" filterBy="#{item.procesoRecaudacionId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_procesoRecaudacionId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.procesoRecaudacionId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.procesoRecaudacionNombre}" filterBy="#{item.procesoRecaudacionNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_procesoRecaudacionNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.procesoRecaudacionNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.procesoRecaudacionActivo}" filterBy="#{item.procesoRecaudacionActivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_procesoRecaudacionActivo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.procesoRecaudacionActivo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.procesoRecaudacionFechaIngreso}" filterBy="#{item.procesoRecaudacionFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_procesoRecaudacionFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.procesoRecaudacionFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.procesoRecaudacionIdCajaTerminal.cajaTerminalId}" filterBy="#{item.procesoRecaudacionIdCajaTerminal.cajaTerminalId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_procesoRecaudacionIdCajaTerminal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.procesoRecaudacionIdCajaTerminal.cajaTerminalId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.procesoRecaudacionIdCuentaBancaria.cuentaBancariaId}" filterBy="#{item.procesoRecaudacionIdCuentaBancaria.cuentaBancariaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListProcesoRecaudacionTitle_procesoRecaudacionIdCuentaBancaria}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.procesoRecaudacionIdCuentaBancaria.cuentaBancariaId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{procesoRecaudacionController.prepareCreate}" update=":ProcesoRecaudacionCreateForm" oncomplete="PF('ProcesoRecaudacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ProcesoRecaudacionViewForm" oncomplete="PF('ProcesoRecaudacionViewDialog').show()" disabled="#{empty procesoRecaudacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ProcesoRecaudacionEditForm" oncomplete="PF('ProcesoRecaudacionEditDialog').show()" disabled="#{empty procesoRecaudacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{procesoRecaudacionController.delete}" update=":growl,datalist" disabled="#{empty procesoRecaudacionController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

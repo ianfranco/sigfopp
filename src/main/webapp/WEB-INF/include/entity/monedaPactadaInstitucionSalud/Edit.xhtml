@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MonedaPactadaInstitucionSaludEditDlg" widgetVar="MonedaPactadaInstitucionSaludEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditMonedaPactadaInstitucionSaludTitle}" closeOnEscape="true">
+
+            <h:form id="MonedaPactadaInstitucionSaludEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{monedaPactadaInstitucionSaludController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditMonedaPactadaInstitucionSaludLabel_monedaPactadaInstitucionSaludId}" for="monedaPactadaInstitucionSaludId" />
+                        <h:outputText id="monedaPactadaInstitucionSaludId" value="#{monedaPactadaInstitucionSaludController.selected.monedaPactadaInstitucionSaludId}" />
+
+                        <p:outputLabel value="#{bundle.EditMonedaPactadaInstitucionSaludLabel_monedaPactadaInstitucionSaludNombre}" for="monedaPactadaInstitucionSaludNombre" />
+                        <p:inputText id="monedaPactadaInstitucionSaludNombre" value="#{monedaPactadaInstitucionSaludController.selected.monedaPactadaInstitucionSaludNombre}" title="#{bundle.EditMonedaPactadaInstitucionSaludTitle_monedaPactadaInstitucionSaludNombre}" required="true" requiredMessage="#{bundle.EditMonedaPactadaInstitucionSaludRequiredMessage_monedaPactadaInstitucionSaludNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditMonedaPactadaInstitucionSaludLabel_monedaPactadaInstitucionSaludFechaIngreso}" for="monedaPactadaInstitucionSaludFechaIngreso" />
+                        <p:calendar id="monedaPactadaInstitucionSaludFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{monedaPactadaInstitucionSaludController.selected.monedaPactadaInstitucionSaludFechaIngreso}" title="#{bundle.EditMonedaPactadaInstitucionSaludTitle_monedaPactadaInstitucionSaludFechaIngreso}" required="true" requiredMessage="#{bundle.EditMonedaPactadaInstitucionSaludRequiredMessage_monedaPactadaInstitucionSaludFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{monedaPactadaInstitucionSaludController.save}" value="#{bundle.Save}" update="display,:MonedaPactadaInstitucionSaludListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('MonedaPactadaInstitucionSaludEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('MonedaPactadaInstitucionSaludEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

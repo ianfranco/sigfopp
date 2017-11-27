@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoViewDlg" widgetVar="EgresoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoLabel_egresoId}"/>
+                        <h:outputText value="#{egresoController.selected.egresoId}" title="#{bundle.ViewEgresoTitle_egresoId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoLabel_egresoNombreEgreso}"/>
+                        <h:outputText value="#{egresoController.selected.egresoNombreEgreso}" title="#{bundle.ViewEgresoTitle_egresoNombreEgreso}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoLabel_egresoObligatorio}"/>
+                        <h:selectBooleanCheckbox id="egresoObligatorio" value="#{egresoController.selected.egresoObligatorio}" title="#{bundle.EditEgresoTitle_egresoObligatorio}"  disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoLabel_egresoActivo}"/>
+                        <h:selectBooleanCheckbox id="egresoActivo" value="#{egresoController.selected.egresoActivo}" title="#{bundle.EditEgresoTitle_egresoActivo}" required="true" requiredMessage="#{bundle.EditEgresoRequiredMessage_egresoActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoLabel_egresoFechaIngreso}"/>
+                        <h:outputText value="#{egresoController.selected.egresoFechaIngreso}" title="#{bundle.ViewEgresoTitle_egresoFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

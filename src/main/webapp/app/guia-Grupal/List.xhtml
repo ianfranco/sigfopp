@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <p:panel>
+        <f:facet name="header">
+            Registro de Guías
+        </f:facet>
+
+        <h:form id="selector">
+            <p:panelGrid columns="11" style="width: 100%;margin-bottom: 10px;">
+                <p:outputLabel value="Fecha"/>
+                <p:calendar id="fecha" pattern="dd/MM/yy" value="#{guiaGrupalController.fecha}" locale="es"/>
+
+                <p:outputLabel value="Folio Inicial"/>
+                <p:inputNumber id="folioInicial" decimalPlaces="0" value="#{guiaGrupalController.folioInicio}" required="true" requiredMessage="Debe ingresar el Folio"/>
+
+                <h:outputLabel value="Grupo/Servicio" for="busIdGrupoServicio" />
+                <p:selectOneMenu id="busIdGrupoServicio" value="#{guiaGrupalController.grupoServicio}" required="true" requiredMessage="Debe seleccionar el Grupo/Servicio" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{guiaGrupalController.grupoServicioList}"
+                                   var="busIdGrupoServicioItem"
+                                   itemValue="#{busIdGrupoServicioItem}"
+                                   itemLabel="#{busIdGrupoServicioItem.grupoServicioIdentificador}"
+                                   />
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Datos previos" />
+                <h:panelGroup>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="Conductor" />
+                        <p:selectBooleanCheckbox value="#{guiaGrupalController.mantenerConductor}"/>
+
+                        <p:outputLabel value="Estado" />
+                        <p:selectBooleanCheckbox value="#{guiaGrupalController.mantenerEstado}"/>
+                    </p:panelGrid>
+                </h:panelGroup>
+                
+                <p:outputLabel value="Deshabilitar Folio" for="deshabilitarFolio"/>
+                <p:selectBooleanCheckbox id="deshabilitarFolio" value="#{guiaGrupalController.deshabilitarFolio}" />
+
+
+                <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="@(.clase), GuiaListForm:datalist, growl, :GuiaListForm:datalist:createButton" style="width:120px" actionListener="#{guiaGrupalController.load}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                </p:commandButton>
+            </p:panelGrid>
+        </h:form>
+        <h:form id="GuiaListForm" class="form-height">
+
+            <p:dataTable id="datalist"
+                         value="#{guiaGrupalController.model}"
+                         widgetVar="datalist"
+                         var="item"
+                         rowKey="#{item.guiaId}"
+                         selection="#{guiaGrupalController.selected}" 
+                         selectionMode="single"
+                         emptyMessage="No se han encontrado registros"
+                         rowIndexVar="rowIndex">
+
+                <f:facet name="header">
+                    Guías a la Fecha: #{guiaGrupalController.formatFecha}
+                </f:facet>
+
+                <p:column style="width: 30px">
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputLabel value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.guiaIdBus.busNumero}" filterBy="#{item.guiaIdBus.busNumero}">
+                    <f:facet name="header">
+                        <h:outputText value="N° Bus"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.guiaIdBus.busNumero}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.guiaIdBus.busIdUnidadNegocio.unidadNegocioNumero}" filterBy="#{item.guiaIdBus.busIdUnidadNegocio.unidadNegocioNumero}">
+                    <f:facet name="header">
+                        <h:outputText value="Unidad"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.guiaIdBus.busIdUnidadNegocio.unidadNegocioNumero}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.guiaIdBus.busPatente}" filterBy="#{item.guiaIdBus.busPatente}">
+                    <f:facet name="header">
+                        <h:outputText value="PPU"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.guiaIdBus.busPatente}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.guiaIdBus.busIdFlota.flotaNombre}" filterBy="#{item.guiaIdBus.busIdFlota.flotaNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="Flota"/>
+                    </f:facet>
+                    <h:outputLabel value="#{item.guiaIdBus.busIdFlota.flotaNombre}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.guiaFolio}" filterBy="#{item.guiaFolio}">
+                    <f:facet name="header">
+                        <h:outputText value="Folio"/>
+                    </f:facet>
+                    <p:inputNumber value="#{item.guiaFolio}" decimalPlaces="0" size="15" disabled="#{guiaGrupalController.deshabilitarFolio}" />
+                </p:column>
+
+                <p:column sortBy="#{item.guiaIdTrabajador.trabajadorCodigo}" filterBy="#{item.guiaIdTrabajador.trabajadorCodigo}">
+                    <f:facet name="header">
+                        <h:outputText value="N° Cond."/>
+                    </f:facet>
+                    <p:selectOneMenu id="guiaIdTrabajador" value="#{item.guiaIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Trabajador" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{trabajadorController.items}"
+                                       var="guiaIdTrabajadorItem"
+                                       itemValue="#{guiaIdTrabajadorItem}"
+                                       itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                       />
+                        <p:ajax event="valueChange" update="guiaIdTrabajadorNombre" global="false"/>
+                    </p:selectOneMenu>
+                </p:column>
+
+                <p:column sortBy="#{item.guiaIdTrabajador.trabajadorApellidoPaterno}" filterBy="#{item.guiaIdTrabajador.trabajadorApellidoPaterno}">
+                    <f:facet name="header">
+                        <h:outputText value="Conductor"/>
+                    </f:facet>
+                    <h:outputLabel id="guiaIdTrabajadorNombre" value="#{item.guiaIdTrabajador.trabajadorApellidoPaterno} #{item.guiaIdTrabajador.trabajadorNombres}"/>
+                </p:column>
+
+                <p:column sortBy="#{item.guiaIdEstado}" filterBy="#{item.guiaIdEstado}">
+                    <f:facet name="header">
+                        <h:outputText value="Tipo"/>
+                    </f:facet>
+                    <p:selectOneMenu id="guiaIdEstado" value="#{item.guiaIdEstado}" required="true" requiredMessage="Debe seleccionar el Estado" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                        <f:selectItems value="#{estadoGuiaController.items}"
+                                       var="guiaIdEstado"
+                                       itemValue="#{guiaIdEstado}"
+                                       itemLabel="#{guiaIdEstado.estadoGuiaNombre}"
+                                       />
+                    </p:selectOneMenu>
+                </p:column>
+                
+                <p:column sortBy="#{item.guiaObservacion}" filterBy="#{item.guiaObservacion}">
+                    <f:facet name="header">
+                        <h:outputText value="Observación"/>
+                    </f:facet>
+                    <h:outputLabel id="guiaObservacion" value="#{item.guiaObservacion}"/>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus"   value="Guardar" actionListener="#{guiaGrupalController.saveNew}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()" disabled="#{empty guiaGrupalController.grupoServicio}" update="datalist, growl">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Ingresar Guías?" icon="fa fa-warning"/>
+                    </p:commandButton>                    
+                    <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":GuiaViewForm" oncomplete="PF('GuiaViewDialog').show()" disabled="#{empty guiaGrupalController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>                    
+                    <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="#{bundle.Delete}" actionListener="#{guiaController.delete}" update=":growl,datalist" disabled="#{empty guiaGrupalController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="¿Ingresar guías?" icon="fa fa-warning"/>
+                    </p:commandButton>
+                </f:facet>
+
+            </p:dataTable>
+
+            <ui:include src="/confirmation.xhtml"/>
+        </h:form>
+    </p:panel>
+</ui:composition>

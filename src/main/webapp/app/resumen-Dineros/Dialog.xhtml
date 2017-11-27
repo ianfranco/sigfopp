@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:form id="ResumenDinerosDialogForm" class="form-height">
+        <p:dialog id="DialogResumenCreateDlg" header="Dineros Recaudados al #{resumenDinerosController.stringDate}" widgetVar="DialogResumenCreateDialog" modal="true" resizable="false" appendTo="@(body)" closeOnEscape="true" width="500">
+
+            <p:dataTable id="datalistResumen"                         
+                         scrollHeight="500" 
+                         scrollable="false"                         
+                         value="#{resumenDinerosController.egresoRecaudacionList}"
+                         widgetVar="datalistResumen"
+                         var="itemResumen"
+                         rowKey="#{itemResumen.egresoResumenRecaudacionId}"                         
+                         rowIndexVar="rowIndex"
+                         emptyMessage="No se han encontrado registros"                         
+                         >
+
+                <f:facet name="header">
+                    Detalle 
+                </f:facet>
+
+                <p:column style="text-align: center;font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="#"/>
+                    </f:facet>
+                    <h:outputText value="#{rowIndex+1}"/>
+                </p:column>
+
+                <p:column style="text-align: center;font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="Egreso"/>
+                    </f:facet>
+                    <p:outputLabel value="#{itemResumen.egresoResumenRecaudacionIdEgreso.egresoNombre}"/>
+                </p:column>
+
+                <p:column style="text-align: center;font-weight: 900;">
+                    <f:facet name="header">
+                        <h:outputText value="Valor"/>
+                    </f:facet>
+                    <p:outputLabel value="#{itemResumen.egresoResumenRecaudacionTotal}">
+                        <f:convertNumber currencySymbol="$"/>
+                    </p:outputLabel>
+                </p:column>
+
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="2" style="text-align:right;font-weight: 900;" footerText="Total:" />
+                        <p:column footerText="#{resumenDinerosController.resumenTotalFormat}" style="text-align:center;font-weight: 900;"/>
+                    </p:row>
+                </p:columnGroup>
+
+            </p:dataTable>
+
+        </p:dialog>
+
+    </h:form>
+</ui:composition>

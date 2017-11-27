@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoDiaFrecuenciaCreateDlg" widgetVar="TipoDiaFrecuenciaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoDiaFrecuenciaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoDiaFrecuenciaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoDiaFrecuenciaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoDiaFrecuenciaLabel_tipoDiaFrecuenciaNombre}" for="tipoDiaFrecuenciaNombre" />
+                        <p:inputText id="tipoDiaFrecuenciaNombre" value="#{tipoDiaFrecuenciaController.selected.tipoDiaFrecuenciaNombre}" title="#{bundle.CreateTipoDiaFrecuenciaTitle_tipoDiaFrecuenciaNombre}" required="true" requiredMessage="#{bundle.CreateTipoDiaFrecuenciaRequiredMessage_tipoDiaFrecuenciaNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoDiaFrecuenciaLabel_tipoDiaFrecuenciaActivo}" for="tipoDiaFrecuenciaActivo" />
+                        <p:selectBooleanCheckbox id="tipoDiaFrecuenciaActivo" value="#{tipoDiaFrecuenciaController.selected.tipoDiaFrecuenciaActivo}" required="true" requiredMessage="#{bundle.CreateTipoDiaFrecuenciaRequiredMessage_tipoDiaFrecuenciaActivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoDiaFrecuenciaLabel_tipoDiaFrecuenciaFechaIngreso}" for="tipoDiaFrecuenciaFechaIngreso" />
+                        <p:calendar id="tipoDiaFrecuenciaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoDiaFrecuenciaController.selected.tipoDiaFrecuenciaFechaIngreso}" title="#{bundle.CreateTipoDiaFrecuenciaTitle_tipoDiaFrecuenciaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoDiaFrecuenciaRequiredMessage_tipoDiaFrecuenciaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoDiaFrecuenciaController.saveNew}" value="#{bundle.Save}" update="display,:TipoDiaFrecuenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoDiaFrecuenciaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoDiaFrecuenciaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

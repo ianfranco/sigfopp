@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstitucionPrevisionViewDlg" widgetVar="InstitucionPrevisionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewInstitucionPrevisionTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionPrevisionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{institucionPrevisionController.selected != null}">
+
+                        <h:outputText value="#"/>
+                        <h:outputText value="#{institucionPrevisionController.selected.institucionPrevisionId}" title="#{bundle.ViewInstitucionPrevisionTitle_institucionPrevisionId}"/>
+
+                        <h:outputText value="Nombre"/>
+                        <h:outputText value="#{institucionPrevisionController.selected.institucionPrevisionNombre}" title="#{bundle.ViewInstitucionPrevisionTitle_institucionPrevisionNombre}"/>
+
+                        <h:outputText value="Comisión"/>
+                        <h:outputText value="#{institucionPrevisionController.selected.institucionPrevisionComision}" title="#{bundle.ViewInstitucionPrevisionTitle_institucionPrevisionComision}"/>
+
+                        <h:outputText value="Porcentaje"/>
+                        <h:outputText value="#{institucionPrevisionController.selected.institucionPrevisionPorcentajeDescuento}" title="#{bundle.ViewInstitucionPrevisionTitle_institucionPrevisionPorcentajeDescuento}"/>
+
+                        <h:outputText value="F.Ingreso"/>
+                        <h:outputText value="#{institucionPrevisionController.selected.institucionPrevisionFechaIngreso}" title="#{bundle.ViewInstitucionPrevisionTitle_institucionPrevisionFechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="F.Actualización"/>
+                        <h:outputText value="#{institucionPrevisionController.selected.institucionPrevisionFechaActualizacion}" title="#{bundle.ViewInstitucionPrevisionTitle_institucionPrevisionFechaActualizacion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('InstitucionPrevisionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

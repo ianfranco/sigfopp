@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DescuentoLiquidacionCreateDlg" widgetVar="DescuentoLiquidacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDescuentoLiquidacionTitle}" closeOnEscape="true">
+
+            <h:form id="DescuentoLiquidacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{descuentoLiquidacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoLiquidacionLabel_descuentoLiquidacionIdRelacionLaboral}" for="descuentoLiquidacionIdRelacionLaboral" />
+                        <p:inputText id="descuentoLiquidacionIdRelacionLaboral" value="#{descuentoLiquidacionController.selected.descuentoLiquidacionIdRelacionLaboral}" title="#{bundle.CreateDescuentoLiquidacionTitle_descuentoLiquidacionIdRelacionLaboral}" required="true" requiredMessage="#{bundle.CreateDescuentoLiquidacionRequiredMessage_descuentoLiquidacionIdRelacionLaboral}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoLiquidacionLabel_descuentoLiquidacionFecha}" for="descuentoLiquidacionFecha" />
+                        <p:calendar id="descuentoLiquidacionFecha" pattern="MM/dd/yyyy" value="#{descuentoLiquidacionController.selected.descuentoLiquidacionFecha}" title="#{bundle.CreateDescuentoLiquidacionTitle_descuentoLiquidacionFecha}" required="true" requiredMessage="#{bundle.CreateDescuentoLiquidacionRequiredMessage_descuentoLiquidacionFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoLiquidacionLabel_descuentoLiquidacionMonto}" for="descuentoLiquidacionMonto" />
+                        <p:inputText id="descuentoLiquidacionMonto" value="#{descuentoLiquidacionController.selected.descuentoLiquidacionMonto}" title="#{bundle.CreateDescuentoLiquidacionTitle_descuentoLiquidacionMonto}" required="true" requiredMessage="#{bundle.CreateDescuentoLiquidacionRequiredMessage_descuentoLiquidacionMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoLiquidacionLabel_descuentoLiquidacionDescripcion}" for="descuentoLiquidacionDescripcion" />
+                        <p:inputText id="descuentoLiquidacionDescripcion" value="#{descuentoLiquidacionController.selected.descuentoLiquidacionDescripcion}" title="#{bundle.CreateDescuentoLiquidacionTitle_descuentoLiquidacionDescripcion}" required="true" requiredMessage="#{bundle.CreateDescuentoLiquidacionRequiredMessage_descuentoLiquidacionDescripcion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoLiquidacionLabel_descuentoLiquidacionFechaIngreso}" for="descuentoLiquidacionFechaIngreso" />
+                        <p:calendar id="descuentoLiquidacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{descuentoLiquidacionController.selected.descuentoLiquidacionFechaIngreso}" title="#{bundle.CreateDescuentoLiquidacionTitle_descuentoLiquidacionFechaIngreso}" required="true" requiredMessage="#{bundle.CreateDescuentoLiquidacionRequiredMessage_descuentoLiquidacionFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoLiquidacionLabel_descuentoLiquidacionIdDescuentoTrabajador}" for="descuentoLiquidacionIdDescuentoTrabajador" />
+                        <p:selectOneMenu id="descuentoLiquidacionIdDescuentoTrabajador" value="#{descuentoLiquidacionController.selected.descuentoLiquidacionIdDescuentoTrabajador}" required="true" requiredMessage="#{bundle.CreateDescuentoLiquidacionRequiredMessage_descuentoLiquidacionIdDescuentoTrabajador}" converter="descuentoTrabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{descuentoTrabajadorController.items}"
+                                           var="descuentoLiquidacionIdDescuentoTrabajadorItem"
+                                           itemValue="#{descuentoLiquidacionIdDescuentoTrabajadorItem}"
+                                           itemLabel="#{descuentoLiquidacionIdDescuentoTrabajadorItem.descuentoTrabajadorDescripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateDescuentoLiquidacionLabel_descuentoLiquidacionIdLiquidacionSueldo}" for="descuentoLiquidacionIdLiquidacionSueldo" />
+                        <p:selectOneMenu id="descuentoLiquidacionIdLiquidacionSueldo" value="#{descuentoLiquidacionController.selected.descuentoLiquidacionIdLiquidacionSueldo}" required="true" requiredMessage="#{bundle.CreateDescuentoLiquidacionRequiredMessage_descuentoLiquidacionIdLiquidacionSueldo}" converter="liquidacionSueldoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{liquidacionSueldoController.items}"
+                                           var="descuentoLiquidacionIdLiquidacionSueldoItem"
+                                           itemValue="#{descuentoLiquidacionIdLiquidacionSueldoItem}"
+                                           itemLabel="#{descuentoLiquidacionIdLiquidacionSueldoItem.liquidacionSueldoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{descuentoLiquidacionController.saveNew}" value="#{bundle.Save}" update="display,:DescuentoLiquidacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DescuentoLiquidacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DescuentoLiquidacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

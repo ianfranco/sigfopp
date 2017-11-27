@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContratoUnidadViewDlg" widgetVar="ContratoUnidadViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewContratoUnidadTitle}" closeOnEscape="true">
+
+            <h:form id="ContratoUnidadViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{contratoUnidadController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadId}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadId}" title="#{bundle.ViewContratoUnidadTitle_contratoUnidadId}"/>
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadIdentificador}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadIdentificador}" title="#{bundle.ViewContratoUnidadTitle_contratoUnidadIdentificador}"/>
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadDesde}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadDesde}" title="#{bundle.ViewContratoUnidadTitle_contratoUnidadDesde}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadHasta}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadHasta}" title="#{bundle.ViewContratoUnidadTitle_contratoUnidadHasta}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadNombre}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadNombre}" title="#{bundle.ViewContratoUnidadTitle_contratoUnidadNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadDescripcion}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadDescripcion}" title="#{bundle.ViewContratoUnidadTitle_contratoUnidadDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadFechaIngreso}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadFechaIngreso}" title="#{bundle.ViewContratoUnidadTitle_contratoUnidadFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewContratoUnidadLabel_contratoUnidadIdUnidadNegocio}"/>
+                        <h:outputText value="#{contratoUnidadController.selected.contratoUnidadIdUnidadNegocio.unidadNegocioId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ContratoUnidadViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

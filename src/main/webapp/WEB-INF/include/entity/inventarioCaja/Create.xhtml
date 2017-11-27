@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InventarioCajaCreateDlg" widgetVar="InventarioCajaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInventarioCajaTitle}" closeOnEscape="true">
+
+            <h:form id="InventarioCajaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{inventarioCajaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateInventarioCajaLabel_inventarioCajaEstado}" for="inventarioCajaEstado" />
+                        <p:selectBooleanCheckbox id="inventarioCajaEstado" value="#{inventarioCajaController.selected.inventarioCajaEstado}" required="true" requiredMessage="#{bundle.CreateInventarioCajaRequiredMessage_inventarioCajaEstado}"/>
+
+                        <p:outputLabel value="#{bundle.CreateInventarioCajaLabel_inventarioCajaSerie}" for="inventarioCajaSerie" />
+                        <p:inputText id="inventarioCajaSerie" value="#{inventarioCajaController.selected.inventarioCajaSerie}" title="#{bundle.CreateInventarioCajaTitle_inventarioCajaSerie}" required="true" requiredMessage="#{bundle.CreateInventarioCajaRequiredMessage_inventarioCajaSerie}"/>
+
+                        <p:outputLabel value="#{bundle.CreateInventarioCajaLabel_inventarioCajaIdentificador}" for="inventarioCajaIdentificador" />
+                        <p:inputText id="inventarioCajaIdentificador" value="#{inventarioCajaController.selected.inventarioCajaIdentificador}" title="#{bundle.CreateInventarioCajaTitle_inventarioCajaIdentificador}" required="true" requiredMessage="#{bundle.CreateInventarioCajaRequiredMessage_inventarioCajaIdentificador}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{bundle.CreateInventarioCajaLabel_inventarioCajaFechaIngreso}" for="inventarioCajaFechaIngreso" />
+                        <p:calendar id="inventarioCajaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{inventarioCajaController.selected.inventarioCajaFechaIngreso}" title="#{bundle.CreateInventarioCajaTitle_inventarioCajaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateInventarioCajaRequiredMessage_inventarioCajaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateInventarioCajaLabel_inventarioCajaIdInventarioInterno}" for="inventarioCajaIdInventarioInterno" />
+                        <p:selectOneMenu id="inventarioCajaIdInventarioInterno" value="#{inventarioCajaController.selected.inventarioCajaIdInventarioInterno}" required="true" requiredMessage="#{bundle.CreateInventarioCajaRequiredMessage_inventarioCajaIdInventarioInterno}" converter="inventarioInternoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{inventarioInternoController.items}"
+                                           var="inventarioCajaIdInventarioInternoItem"
+                                           itemValue="#{inventarioCajaIdInventarioInternoItem}"
+                                           itemLabel="#{inventarioCajaIdInventarioInternoItem.inventarioInternoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateInventarioCajaLabel_inventarioCajaIdCaja}" for="inventarioCajaIdCaja" />
+                        <p:selectOneMenu id="inventarioCajaIdCaja" value="#{inventarioCajaController.selected.inventarioCajaIdCaja}" required="true" requiredMessage="#{bundle.CreateInventarioCajaRequiredMessage_inventarioCajaIdCaja}" converter="cajaTerminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cajaTerminalController.items}"
+                                           var="inventarioCajaIdCajaItem"
+                                           itemValue="#{inventarioCajaIdCajaItem}"
+                                           itemLabel="#{inventarioCajaIdCajaItem.cajaTerminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{inventarioCajaController.saveNew}" value="#{bundle.Save}" update="display,:InventarioCajaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InventarioCajaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InventarioCajaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

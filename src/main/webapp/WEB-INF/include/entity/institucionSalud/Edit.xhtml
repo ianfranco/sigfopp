@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="InstitucionSaludEditDlg" widgetVar="InstitucionSaludEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditInstitucionSaludTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionSaludEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{institucionSaludController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditInstitucionSaludLabel_institucionSaludId}" for="institucionSaludId" />
+                        <h:outputText id="institucionSaludId" value="#{institucionSaludController.selected.institucionSaludId}" />
+
+                        <p:outputLabel value="#{bundle.EditInstitucionSaludLabel_institucionSaludNombre}" for="institucionSaludNombre" />
+                        <p:inputText id="institucionSaludNombre" value="#{institucionSaludController.selected.institucionSaludNombre}" title="#{bundle.EditInstitucionSaludTitle_institucionSaludNombre}" required="true" requiredMessage="#{bundle.EditInstitucionSaludRequiredMessage_institucionSaludNombre}" size="255" maxlength="255"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{institucionSaludController.save}" value="#{bundle.Save}" update="display,:InstitucionSaludListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstitucionSaludEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InstitucionSaludEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompraCombustibleCreateDlg" widgetVar="CompraCombustibleCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCompraCombustibleTitle}" closeOnEscape="true">
+
+            <h:form id="CompraCombustibleCreateForm">
+
+                <h:panelGroup id="display" rendered="#{compraCombustibleController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleFechaEmisionFactura}" for="compraCombustibleFechaEmisionFactura" />
+                        <p:calendar id="compraCombustibleFechaEmisionFactura" pattern="MM/dd/yyyy" value="#{compraCombustibleController.selected.compraCombustibleFechaEmisionFactura}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleFechaEmisionFactura}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleFechaEmisionFactura}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleFechaPago}" for="compraCombustibleFechaPago" />
+                        <p:calendar id="compraCombustibleFechaPago" pattern="MM/dd/yyyy" value="#{compraCombustibleController.selected.compraCombustibleFechaPago}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleFechaPago}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleFechaPago}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleCantidadLitros}" for="compraCombustibleCantidadLitros" />
+                        <p:inputText id="compraCombustibleCantidadLitros" value="#{compraCombustibleController.selected.compraCombustibleCantidadLitros}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleCantidadLitros}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleCantidadLitros}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustiblePbaseSiu}" for="compraCombustiblePbaseSiu" />
+                        <p:inputText id="compraCombustiblePbaseSiu" value="#{compraCombustibleController.selected.compraCombustiblePbaseSiu}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustiblePbaseSiu}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustiblePbaseSiu}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleIevU}" for="compraCombustibleIevU" />
+                        <p:inputText id="compraCombustibleIevU" value="#{compraCombustibleController.selected.compraCombustibleIevU}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleIevU}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleIevU}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleIefU}" for="compraCombustibleIefU" />
+                        <p:inputText id="compraCombustibleIefU" value="#{compraCombustibleController.selected.compraCombustibleIefU}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleIefU}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleIefU}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleDiaVigIe}" for="compraCombustibleDiaVigIe" />
+                        <p:calendar id="compraCombustibleDiaVigIe" pattern="MM/dd/yyyy" value="#{compraCombustibleController.selected.compraCombustibleDiaVigIe}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleDiaVigIe}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleDiaVigIe}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleBaseAfecta}" for="compraCombustibleBaseAfecta" />
+                        <p:inputText id="compraCombustibleBaseAfecta" value="#{compraCombustibleController.selected.compraCombustibleBaseAfecta}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleBaseAfecta}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleBaseAfecta}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleFeep}" for="compraCombustibleFeep" />
+                        <p:inputText id="compraCombustibleFeep" value="#{compraCombustibleController.selected.compraCombustibleFeep}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleFeep}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleFeep}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleIev}" for="compraCombustibleIev" />
+                        <p:inputText id="compraCombustibleIev" value="#{compraCombustibleController.selected.compraCombustibleIev}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleIev}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleIev}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleIef}" for="compraCombustibleIef" />
+                        <p:inputText id="compraCombustibleIef" value="#{compraCombustibleController.selected.compraCombustibleIef}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleIef}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleIef}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleIva}" for="compraCombustibleIva" />
+                        <p:inputText id="compraCombustibleIva" value="#{compraCombustibleController.selected.compraCombustibleIva}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleIva}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleIva}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleTotalCompra}" for="compraCombustibleTotalCompra" />
+                        <p:inputText id="compraCombustibleTotalCompra" value="#{compraCombustibleController.selected.compraCombustibleTotalCompra}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleTotalCompra}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleTotalCompra}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleFechaIngreso}" for="compraCombustibleFechaIngreso" />
+                        <p:calendar id="compraCombustibleFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{compraCombustibleController.selected.compraCombustibleFechaIngreso}" title="#{bundle.CreateCompraCombustibleTitle_compraCombustibleFechaIngreso}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCompraCombustibleLabel_compraCombustibleIdTipo}" for="compraCombustibleIdTipo" />
+                        <p:selectOneMenu id="compraCombustibleIdTipo" value="#{compraCombustibleController.selected.compraCombustibleIdTipo}" required="true" requiredMessage="#{bundle.CreateCompraCombustibleRequiredMessage_compraCombustibleIdTipo}" converter="tipoCombustibleConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoCombustibleController.items}"
+                                           var="compraCombustibleIdTipoItem"
+                                           itemValue="#{compraCombustibleIdTipoItem}"
+                                           itemLabel="#{compraCombustibleIdTipoItem.tipoCombustibleId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{compraCombustibleController.saveNew}" value="#{bundle.Save}" update="display,:CompraCombustibleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CompraCombustibleCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CompraCombustibleCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

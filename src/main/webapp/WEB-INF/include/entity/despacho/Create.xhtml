@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DespachoCreateDlg" widgetVar="DespachoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateDespachoTitle}" closeOnEscape="true">
+
+            <h:form id="DespachoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{despachoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateDespachoLabel_despachoFechaHora}" for="despachoFechaHora" />
+                        <p:calendar id="despachoFechaHora" pattern="MM/dd/yyyy HH:mm:ss" value="#{despachoController.selected.despachoFechaHora}" title="#{bundle.CreateDespachoTitle_despachoFechaHora}" required="true" requiredMessage="#{bundle.CreateDespachoRequiredMessage_despachoFechaHora}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateDespachoLabel_despachoFechaIngreso}" for="despachoFechaIngreso" />
+                        <p:calendar id="despachoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{despachoController.selected.despachoFechaIngreso}" title="#{bundle.CreateDespachoTitle_despachoFechaIngreso}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateDespachoLabel_despachoIdBus}" for="despachoIdBus" />
+                        <p:selectOneMenu id="despachoIdBus" value="#{despachoController.selected.despachoIdBus}" required="true" requiredMessage="#{bundle.CreateDespachoRequiredMessage_despachoIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="despachoIdBusItem"
+                                           itemValue="#{despachoIdBusItem}"
+                                           itemLabel="#{despachoIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateDespachoLabel_despachoIdTrabajador}" for="despachoIdTrabajador" />
+                        <p:selectOneMenu id="despachoIdTrabajador" value="#{despachoController.selected.despachoIdTrabajador}" required="true" requiredMessage="#{bundle.CreateDespachoRequiredMessage_despachoIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="despachoIdTrabajadorItem"
+                                           itemValue="#{despachoIdTrabajadorItem}"
+                                           itemLabel="#{despachoIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateDespachoLabel_despachoIdInspector}" for="despachoIdInspector" />
+                        <p:selectOneMenu id="despachoIdInspector" value="#{despachoController.selected.despachoIdInspector}" required="true" requiredMessage="#{bundle.CreateDespachoRequiredMessage_despachoIdInspector}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="despachoIdInspectorItem"
+                                           itemValue="#{despachoIdInspectorItem}"
+                                           itemLabel="#{despachoIdInspectorItem.usuarioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateDespachoLabel_despachoIdServicio}" for="despachoIdServicio" />
+                        <p:selectOneMenu id="despachoIdServicio" value="#{despachoController.selected.despachoIdServicio}" required="true" requiredMessage="#{bundle.CreateDespachoRequiredMessage_despachoIdServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{servicioController.items}"
+                                           var="despachoIdServicioItem"
+                                           itemValue="#{despachoIdServicioItem}"
+                                           itemLabel="#{despachoIdServicioItem.servicioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{despachoController.saveNew}" value="#{bundle.Save}" update="display,:DespachoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DespachoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('DespachoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

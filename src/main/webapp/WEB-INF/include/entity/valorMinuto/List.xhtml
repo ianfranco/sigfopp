@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ValorMinutoListForm">
+
+        <p:panel header="#{bundle.ListValorMinutoTitle}">
+            <p:contextMenu id="ValorMinutoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ValorMinutoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ValorMinutoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ValorMinutoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ValorMinutoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ValorMinutoMenuItem_registroMinutoList}" icon="ui-icon-search"  action="#{valorMinutoController.navigateRegistroMinutoList}" disabled="#{empty valorMinutoController.selected.registroMinutoList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{valorMinutoController.items}"
+                         lazy="false"
+                         rowKey="#{item.valorMinutoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{valorMinutoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{valorMinutoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.valorMinutoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ValorMinutoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ValorMinutoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ValorMinutoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.valorMinutoId}" filterBy="#{item.valorMinutoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListValorMinutoTitle_valorMinutoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorMinutoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valorMinutoNombre}" filterBy="#{item.valorMinutoNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListValorMinutoTitle_valorMinutoNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorMinutoNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valorMinutoValor}" filterBy="#{item.valorMinutoValor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListValorMinutoTitle_valorMinutoValor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorMinutoValor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valorMinutoFechaIngreso}" filterBy="#{item.valorMinutoFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListValorMinutoTitle_valorMinutoFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorMinutoFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{valorMinutoController.prepareCreate}" update=":ValorMinutoCreateForm" oncomplete="PF('ValorMinutoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ValorMinutoViewForm" oncomplete="PF('ValorMinutoViewDialog').show()" disabled="#{empty valorMinutoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ValorMinutoEditForm" oncomplete="PF('ValorMinutoEditDialog').show()" disabled="#{empty valorMinutoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{valorMinutoController.delete}" update=":growl,datalist" disabled="#{empty valorMinutoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

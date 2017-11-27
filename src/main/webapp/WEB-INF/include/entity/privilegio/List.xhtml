@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PrivilegioListForm">
+
+        <p:panel header="#{bundle.ListPrivilegioTitle}">
+            <p:contextMenu id="PrivilegioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('PrivilegioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('PrivilegioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('PrivilegioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('PrivilegioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.PrivilegioMenuItem_rolPrivilegioList}" icon="ui-icon-search"  action="#{privilegioController.navigateRolPrivilegioList}" disabled="#{empty privilegioController.selected.rolPrivilegioList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.PrivilegioMenuItem_logList}" icon="ui-icon-search"  action="#{privilegioController.navigateLogList}" disabled="#{empty privilegioController.selected.logList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{privilegioController.items}"
+                         lazy="false"
+                         rowKey="#{item.privilegioId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{privilegioController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{privilegioController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.privilegioId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PrivilegioDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PrivilegioDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PrivilegioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.privilegioId}" filterBy="#{item.privilegioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPrivilegioTitle_privilegioId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.privilegioId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.privilegioNombre}" filterBy="#{item.privilegioNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPrivilegioTitle_privilegioNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.privilegioNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.privilegioDescripcion}" filterBy="#{item.privilegioDescripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListPrivilegioTitle_privilegioDescripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.privilegioDescripcion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{privilegioController.prepareCreate}" update=":PrivilegioCreateForm" oncomplete="PF('PrivilegioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":PrivilegioViewForm" oncomplete="PF('PrivilegioViewDialog').show()" disabled="#{empty privilegioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PrivilegioEditForm" oncomplete="PF('PrivilegioEditDialog').show()" disabled="#{empty privilegioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{privilegioController.delete}" update=":growl,datalist" disabled="#{empty privilegioController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

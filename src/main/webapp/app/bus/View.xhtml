@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BusViewDlg" widgetVar="BusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Ficha Bus" closeOnEscape="true">
+
+            <h:form id="BusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" columnClasses="column, , column, " >
+                        <h:outputText value="#"/>
+                        <h:outputText value="#{busController.selected.busId}" title="#{bundle.ViewBusTitle_busId}"/>
+
+                        <h:outputText value=""/>
+                        <h:outputText value=""/>
+
+                        <h:outputText value="N°"/>
+                        <h:outputText value="#{busController.selected.busNumero}" title="#{bundle.ViewBusTitle_busNumero}"/>
+
+                        <h:outputText value="Unidad"/>
+                        <h:outputText value="#{busController.selected.busIdUnidadNegocio.unidadNegocioNumero}"/>
+
+                        <h:outputText value="PPU"/>
+                        <h:outputText value="#{busController.selected.busPatente}" title="#{bundle.ViewBusTitle_busPatente}"/>
+
+                        <h:outputText value="Año"/>
+                        <h:outputText value="#{busController.selected.busAnio}" title="#{bundle.ViewBusTitle_busAnio}"/>
+
+                        <h:outputText value="Empresa"/>
+                        <h:outputText value="#{busController.selected.busIdEmpresa.empresaNombre}"/>
+
+                        <h:outputText value="Flota"/>
+                        <h:outputText value="#{busController.selected.busIdFlota.flotaNombre}"/>
+
+                        <h:outputText value="Administrador"/>
+                        <h:outputText value="#{busController.selected.busAdministrador}" title="#{bundle.ViewBusTitle_busAdministrador}"/>
+
+                        <h:outputText value="Terminal"/>
+                        <h:outputText value="#{busController.selected.busIdTerminal.terminalNombre}"/>
+
+                        <h:outputText value="Grupo/Servicio"/>
+                        <h:outputText value="#{busController.selected.busIdGrupoServicio.grupoServicioIdentificador}"/>
+                        
+                        <h:outputText value="Proceso Recaudación"/>
+                        <h:outputText value="#{busController.selected.busIdProcesoRecaudacion.procesoRecaudacionNombre}"/>
+
+                        <h:outputText value="Modelo"/>
+                        <h:outputText value="#{busController.selected.busIdModelo.modeloMarcaBusNombre}"/>
+
+                        <h:outputText value="N° Motor"/>
+                        <h:outputText value="#{busController.selected.busNumeroMotor}" title="#{bundle.ViewBusTitle_busNumeroMotor}"/>
+
+                        <h:outputText value="N° Chasis"/>
+                        <h:outputText value="#{busController.selected.busNumeroChasis}" title="#{bundle.ViewBusTitle_busNumeroChasis}"/>
+
+                        <h:outputText value="Carrocería"/>
+                        <h:outputText value="#{busController.selected.busCarroceria}" title="#{bundle.ViewBusTitle_busCarroceria}"/>
+
+                        <h:outputText value="R.Técnica"/>
+                        <h:outputText value="#{busController.selected.busFechaRevisionTecnica}" title="#{bundle.ViewBusTitle_busFechaRevisionTecnica}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="Activo"/>
+                        <h:selectBooleanCheckbox id="busActivo" value="#{busController.selected.busActivo}" title="#{bundle.EditBusTitle_busActivo}"  disabled="true"/>
+
+                        <h:outputText value="Estado"/>
+                        <h:outputText value="#{busController.selected.busIdEstadoBus.estadoBusNombre}"/>
+
+                        <h:outputText value="F.Ingreso"/>
+                        <h:outputText value="#{busController.selected.lastUpdate}" title="#{bundle.ViewBusTitle_busFechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                    </p:panelGrid>
+
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('BusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

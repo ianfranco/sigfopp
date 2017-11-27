@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="JornadaTrabajadorCreateDlg" widgetVar="JornadaTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateJornadaTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="JornadaTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{jornadaTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateJornadaTrabajadorLabel_jornadaTrabajadorFechaIngreso}" for="jornadaTrabajadorFechaIngreso" />
+                        <p:calendar id="jornadaTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{jornadaTrabajadorController.selected.jornadaTrabajadorFechaIngreso}" title="#{bundle.CreateJornadaTrabajadorTitle_jornadaTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.CreateJornadaTrabajadorRequiredMessage_jornadaTrabajadorFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaTrabajadorLabel_jornadaTrabajadorIdJornadaLaboral}" for="jornadaTrabajadorIdJornadaLaboral" />
+                        <p:selectOneMenu id="jornadaTrabajadorIdJornadaLaboral" value="#{jornadaTrabajadorController.selected.jornadaTrabajadorIdJornadaLaboral}" required="true" requiredMessage="#{bundle.CreateJornadaTrabajadorRequiredMessage_jornadaTrabajadorIdJornadaLaboral}" converter="jornadaLaboralConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{jornadaLaboralController.items}"
+                                           var="jornadaTrabajadorIdJornadaLaboralItem"
+                                           itemValue="#{jornadaTrabajadorIdJornadaLaboralItem}"
+                                           itemLabel="#{jornadaTrabajadorIdJornadaLaboralItem.jornadaLaboralId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaTrabajadorLabel_jornadaTrabajadorIdTrabajador}" for="jornadaTrabajadorIdTrabajador" />
+                        <p:selectOneMenu id="jornadaTrabajadorIdTrabajador" value="#{jornadaTrabajadorController.selected.jornadaTrabajadorIdTrabajador}" required="true" requiredMessage="#{bundle.CreateJornadaTrabajadorRequiredMessage_jornadaTrabajadorIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="jornadaTrabajadorIdTrabajadorItem"
+                                           itemValue="#{jornadaTrabajadorIdTrabajadorItem}"
+                                           itemLabel="#{jornadaTrabajadorIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{jornadaTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:JornadaTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('JornadaTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('JornadaTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

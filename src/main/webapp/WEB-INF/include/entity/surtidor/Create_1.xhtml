@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SurtidorCreateDlg" widgetVar="SurtidorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSurtidorTitle}" closeOnEscape="true">
+
+            <h:form id="SurtidorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{surtidorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateSurtidorLabel_surtidorIdentificador}" for="surtidorIdentificador" />
+                        <p:inputText id="surtidorIdentificador" value="#{surtidorController.selected.surtidorIdentificador}" title="#{bundle.CreateSurtidorTitle_surtidorIdentificador}" required="true" requiredMessage="#{bundle.CreateSurtidorRequiredMessage_surtidorIdentificador}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateSurtidorLabel_surtidorObservaciones}" for="surtidorObservaciones" />
+                        <p:inputText id="surtidorObservaciones" value="#{surtidorController.selected.surtidorObservaciones}" title="#{bundle.CreateSurtidorTitle_surtidorObservaciones}" size="200" maxlength="200"/>
+
+                        <p:outputLabel value="#{bundle.CreateSurtidorLabel_surtidorFechaIngreso}" for="surtidorFechaIngreso" />
+                        <p:calendar id="surtidorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{surtidorController.selected.surtidorFechaIngreso}" title="#{bundle.CreateSurtidorTitle_surtidorFechaIngreso}" required="true" requiredMessage="#{bundle.CreateSurtidorRequiredMessage_surtidorFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateSurtidorLabel_surtidorIdTerminal}" for="surtidorIdTerminal" />
+                        <p:selectOneMenu id="surtidorIdTerminal" value="#{surtidorController.selected.surtidorIdTerminal}" required="true" requiredMessage="#{bundle.CreateSurtidorRequiredMessage_surtidorIdTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="surtidorIdTerminalItem"
+                                           itemValue="#{surtidorIdTerminalItem}"
+                                           itemLabel="#{surtidorIdTerminalItem.terminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{surtidorController.saveNew}" value="#{bundle.Save}" update="display,:SurtidorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SurtidorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('SurtidorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

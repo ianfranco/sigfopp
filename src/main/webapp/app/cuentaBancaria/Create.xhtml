@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CuentaBancariaCreateDlg" widgetVar="CuentaBancariaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ingresar Nueva Cuenta Banco" closeOnEscape="true">
+
+            <h:form id="CuentaBancariaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cuentaBancariaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Titular" for="cuentaBancariaNombreTitular" />
+                        <p:inputText id="cuentaBancariaNombreTitular" value="#{cuentaBancariaController.selected.cuentaBancariaNombreTitular}" title="#{bundle.CreateCuentaBancariaTitle_cuentaBancariaNombreTitular}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaRequiredMessage_cuentaBancariaNombreTitular}" size="40" maxlength="250"/>
+
+                        <p:outputLabel value="Rut" for="cuentaBancariaRutTitular" />
+                        <p:inputText id="cuentaBancariaRutTitular" value="#{cuentaBancariaController.selected.cuentaBancariaRutTitular}" title="#{bundle.CreateCuentaBancariaTitle_cuentaBancariaRutTitular}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaRequiredMessage_cuentaBancariaRutTitular}" size="9" maxlength="10"/>
+
+                        <p:outputLabel value="Banco" for="cuentaBancariaIdBanco" />
+                        <p:selectOneMenu id="cuentaBancariaIdBanco" value="#{cuentaBancariaController.selected.cuentaBancariaIdBanco}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaRequiredMessage_cuentaBancariaIdBanco}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{bancoController.items}"
+                                           var="cuentaBancariaIdBancoItem"
+                                           itemValue="#{cuentaBancariaIdBancoItem}"
+                                           itemLabel="#{cuentaBancariaIdBancoItem.bancoNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Tipo" for="cuentaBancariaIdTipoCuenta" />
+                        <p:selectOneMenu id="cuentaBancariaIdTipoCuenta" value="#{cuentaBancariaController.selected.cuentaBancariaIdTipoCuenta}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaRequiredMessage_cuentaBancariaIdTipoCuenta}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoCuentaBancoController.items}"
+                                           var="cuentaBancariaIdTipoCuentaItem"
+                                           itemValue="#{cuentaBancariaIdTipoCuentaItem}"
+                                           itemLabel="#{cuentaBancariaIdTipoCuentaItem.tipoCuentaBancoNombre}"
+                                           />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="N° Cuenta" for="cuentaBancariaNumero" />
+                        <p:inputText id="cuentaBancariaNumero" value="#{cuentaBancariaController.selected.cuentaBancariaNumero}" title="#{bundle.CreateCuentaBancariaTitle_cuentaBancariaNumero}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaRequiredMessage_cuentaBancariaNumero}"/>
+                        
+                        <p:outputLabel value="Activa" for="cuentaBancariaActiva" />
+                        <p:selectBooleanCheckbox id="cuentaBancariaActiva" value="#{cuentaBancariaController.selected.cuentaBancariaActiva}" required="true" requiredMessage="#{bundle.CreateCuentaBancariaRequiredMessage_cuentaBancariaActiva}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cuentaBancariaController.saveNew}" value="#{bundle.Save}" update="display,:CuentaBancariaListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CuentaBancariaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CuentaBancariaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

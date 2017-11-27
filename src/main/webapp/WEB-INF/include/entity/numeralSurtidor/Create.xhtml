@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NumeralSurtidorCreateDlg" widgetVar="NumeralSurtidorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateNumeralSurtidorTitle}" closeOnEscape="true">
+
+            <h:form id="NumeralSurtidorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{numeralSurtidorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateNumeralSurtidorLabel_numeralSurtidorFechaNumeral}" for="numeralSurtidorFechaNumeral" />
+                        <p:calendar id="numeralSurtidorFechaNumeral" pattern="MM/dd/yyyy" value="#{numeralSurtidorController.selected.numeralSurtidorFechaNumeral}" title="#{bundle.CreateNumeralSurtidorTitle_numeralSurtidorFechaNumeral}" required="true" requiredMessage="#{bundle.CreateNumeralSurtidorRequiredMessage_numeralSurtidorFechaNumeral}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateNumeralSurtidorLabel_numeralSurtidorNumeralInicial}" for="numeralSurtidorNumeralInicial" />
+                        <p:inputText id="numeralSurtidorNumeralInicial" value="#{numeralSurtidorController.selected.numeralSurtidorNumeralInicial}" title="#{bundle.CreateNumeralSurtidorTitle_numeralSurtidorNumeralInicial}" required="true" requiredMessage="#{bundle.CreateNumeralSurtidorRequiredMessage_numeralSurtidorNumeralInicial}"/>
+
+                        <p:outputLabel value="#{bundle.CreateNumeralSurtidorLabel_numeralSurtidorNumeralFinal}" for="numeralSurtidorNumeralFinal" />
+                        <p:inputText id="numeralSurtidorNumeralFinal" value="#{numeralSurtidorController.selected.numeralSurtidorNumeralFinal}" title="#{bundle.CreateNumeralSurtidorTitle_numeralSurtidorNumeralFinal}" required="true" requiredMessage="#{bundle.CreateNumeralSurtidorRequiredMessage_numeralSurtidorNumeralFinal}"/>
+
+                        <p:outputLabel value="#{bundle.CreateNumeralSurtidorLabel_numeralSurtidorIndicadorMuestra}" for="numeralSurtidorIndicadorMuestra" />
+                        <p:inputText id="numeralSurtidorIndicadorMuestra" value="#{numeralSurtidorController.selected.numeralSurtidorIndicadorMuestra}" title="#{bundle.CreateNumeralSurtidorTitle_numeralSurtidorIndicadorMuestra}"/>
+
+                        <p:outputLabel value="#{bundle.CreateNumeralSurtidorLabel_numeralSurtidorFechaIngreso}" for="numeralSurtidorFechaIngreso" />
+                        <p:calendar id="numeralSurtidorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{numeralSurtidorController.selected.numeralSurtidorFechaIngreso}" title="#{bundle.CreateNumeralSurtidorTitle_numeralSurtidorFechaIngreso}" required="true" requiredMessage="#{bundle.CreateNumeralSurtidorRequiredMessage_numeralSurtidorFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateNumeralSurtidorLabel_numeralSurtidorIdSurtidor}" for="numeralSurtidorIdSurtidor" />
+                        <p:selectOneMenu id="numeralSurtidorIdSurtidor" value="#{numeralSurtidorController.selected.numeralSurtidorIdSurtidor}" required="true" requiredMessage="#{bundle.CreateNumeralSurtidorRequiredMessage_numeralSurtidorIdSurtidor}" converter="surtidorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{surtidorController.items}"
+                                           var="numeralSurtidorIdSurtidorItem"
+                                           itemValue="#{numeralSurtidorIdSurtidorItem}"
+                                           itemLabel="#{numeralSurtidorIdSurtidorItem.surtidorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{numeralSurtidorController.saveNew}" value="#{bundle.Save}" update="display,:NumeralSurtidorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('NumeralSurtidorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('NumeralSurtidorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

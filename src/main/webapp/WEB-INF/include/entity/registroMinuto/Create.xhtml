@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegistroMinutoCreateDlg" widgetVar="RegistroMinutoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRegistroMinutoTitle}" closeOnEscape="true">
+
+            <h:form id="RegistroMinutoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{registroMinutoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateRegistroMinutoLabel_registroMinutoFechaIngreso}" for="registroMinutoFechaIngreso" />
+                        <p:calendar id="registroMinutoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{registroMinutoController.selected.registroMinutoFechaIngreso}" title="#{bundle.CreateRegistroMinutoTitle_registroMinutoFechaIngreso}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateRegistroMinutoLabel_registroMinutoFechaMinuto}" for="registroMinutoFechaMinuto" />
+                        <p:calendar id="registroMinutoFechaMinuto" pattern="MM/dd/yyyy HH:mm:ss" value="#{registroMinutoController.selected.registroMinutoFechaMinuto}" title="#{bundle.CreateRegistroMinutoTitle_registroMinutoFechaMinuto}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoFechaMinuto}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateRegistroMinutoLabel_registroMinutoMonto}" for="registroMinutoMonto" />
+                        <p:inputText id="registroMinutoMonto" value="#{registroMinutoController.selected.registroMinutoMonto}" title="#{bundle.CreateRegistroMinutoTitle_registroMinutoMonto}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateRegistroMinutoLabel_registroMinutoIdValorMinuto}" for="registroMinutoIdValorMinuto" />
+                        <p:selectOneMenu id="registroMinutoIdValorMinuto" value="#{registroMinutoController.selected.registroMinutoIdValorMinuto}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoIdValorMinuto}" converter="valorMinutoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{valorMinutoController.items}"
+                                           var="registroMinutoIdValorMinutoItem"
+                                           itemValue="#{registroMinutoIdValorMinutoItem}"
+                                           itemLabel="#{registroMinutoIdValorMinutoItem.valorMinutoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateRegistroMinutoLabel_registroMinutoDesdeIdBus}" for="registroMinutoDesdeIdBus" />
+                        <p:selectOneMenu id="registroMinutoDesdeIdBus" value="#{registroMinutoController.selected.registroMinutoDesdeIdBus}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoDesdeIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="registroMinutoDesdeIdBusItem"
+                                           itemValue="#{registroMinutoDesdeIdBusItem}"
+                                           itemLabel="#{registroMinutoDesdeIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateRegistroMinutoLabel_registroMinutoHastaIdBus}" for="registroMinutoHastaIdBus" />
+                        <p:selectOneMenu id="registroMinutoHastaIdBus" value="#{registroMinutoController.selected.registroMinutoHastaIdBus}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoHastaIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="registroMinutoHastaIdBusItem"
+                                           itemValue="#{registroMinutoHastaIdBusItem}"
+                                           itemLabel="#{registroMinutoHastaIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroMinutoController.saveNew}" value="#{bundle.Save}" update="display,:RegistroMinutoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RegistroMinutoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RegistroMinutoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

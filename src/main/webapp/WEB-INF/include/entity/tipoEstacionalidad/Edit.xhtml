@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoEstacionalidadEditDlg" widgetVar="TipoEstacionalidadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoEstacionalidadTitle}" closeOnEscape="true">
+
+            <h:form id="TipoEstacionalidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoEstacionalidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoEstacionalidadLabel_tipoEstacionalidadId}" for="tipoEstacionalidadId" />
+                        <h:outputText id="tipoEstacionalidadId" value="#{tipoEstacionalidadController.selected.tipoEstacionalidadId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoEstacionalidadLabel_tipoEstacionalidadNombre}" for="tipoEstacionalidadNombre" />
+                        <p:inputText id="tipoEstacionalidadNombre" value="#{tipoEstacionalidadController.selected.tipoEstacionalidadNombre}" title="#{bundle.EditTipoEstacionalidadTitle_tipoEstacionalidadNombre}" required="true" requiredMessage="#{bundle.EditTipoEstacionalidadRequiredMessage_tipoEstacionalidadNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoEstacionalidadLabel_tipoEstacionalidadFechaIngreso}" for="tipoEstacionalidadFechaIngreso" />
+                        <p:calendar id="tipoEstacionalidadFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoEstacionalidadController.selected.tipoEstacionalidadFechaIngreso}" title="#{bundle.EditTipoEstacionalidadTitle_tipoEstacionalidadFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoEstacionalidadRequiredMessage_tipoEstacionalidadFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoEstacionalidadController.save}" value="#{bundle.Save}" update="display,:TipoEstacionalidadListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoEstacionalidadEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoEstacionalidadEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

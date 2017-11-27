@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="InventarioInternoListForm">
+
+        <p:panel header="#{bundle.ListInventarioInternoTitle}">
+            <p:contextMenu id="InventarioInternoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('InventarioInternoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('InventarioInternoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('InventarioInternoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('InventarioInternoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.InventarioInternoMenuItem_inventarioInternoIdBoleto}" icon="ui-icon-search"  actionListener="#{inventarioInternoController.prepareInventarioInternoIdBoleto}" update=":BoletoViewForm" oncomplete="PF('BoletoViewDialog').show()" disabled="#{empty inventarioInternoController.selected.inventarioInternoIdBoleto}"/>  
+                <p:menuitem value="#{bundle.InventarioInternoMenuItem_inventarioCajaList}" icon="ui-icon-search"  action="#{inventarioInternoController.navigateInventarioCajaList}" disabled="#{empty inventarioInternoController.selected.inventarioCajaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{inventarioInternoController.items}"
+                         lazy="false"
+                         rowKey="#{item.inventarioInternoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{inventarioInternoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{inventarioInternoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.inventarioInternoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InventarioInternoDataTableContextMenu" listener="#{inventarioInternoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:InventarioInternoDataTableContextMenu" listener="#{inventarioInternoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{inventarioInternoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('InventarioInternoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.inventarioInternoId}" filterBy="#{item.inventarioInternoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInventarioInternoTitle_inventarioInternoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.inventarioInternoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.inventarioInternoSerie}" filterBy="#{item.inventarioInternoSerie}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInventarioInternoTitle_inventarioInternoSerie}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.inventarioInternoSerie}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.inventarioInternoIdentificador}" filterBy="#{item.inventarioInternoIdentificador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInventarioInternoTitle_inventarioInternoIdentificador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.inventarioInternoIdentificador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.inventarioInternoEstado}" filterBy="#{item.inventarioInternoEstado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInventarioInternoTitle_inventarioInternoEstado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="inventarioInternoEstado" value="#{item.inventarioInternoEstado}" title="#{bundle.EditInventarioInternoTitle_inventarioInternoEstado}" required="true" requiredMessage="#{bundle.EditInventarioInternoRequiredMessage_inventarioInternoEstado}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.inventarioInternoFechaIngreso}" filterBy="#{item.inventarioInternoFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInventarioInternoTitle_inventarioInternoFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.inventarioInternoFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.inventarioInternoIdBoleto.boletoId}" filterBy="#{item.inventarioInternoIdBoleto.boletoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListInventarioInternoTitle_inventarioInternoIdBoleto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.inventarioInternoIdBoleto.boletoId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{inventarioInternoController.prepareCreate}" update=":InventarioInternoCreateForm" oncomplete="PF('InventarioInternoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":InventarioInternoViewForm" oncomplete="PF('InventarioInternoViewDialog').show()" disabled="#{empty inventarioInternoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InventarioInternoEditForm" oncomplete="PF('InventarioInternoEditDialog').show()" disabled="#{empty inventarioInternoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{inventarioInternoController.delete}" update=":growl,datalist" disabled="#{empty inventarioInternoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

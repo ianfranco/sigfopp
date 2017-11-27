@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="VentaBoletoEditDlg" widgetVar="VentaBoletoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditVentaBoletoTitle}" closeOnEscape="true">
+
+            <h:form id="VentaBoletoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ventaBoletoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditVentaBoletoLabel_ventaBoletoId}" for="ventaBoletoId" />
+                        <h:outputText id="ventaBoletoId" value="#{ventaBoletoController.selected.ventaBoletoId}" />
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_ventaBoletoValorVentaBoleto}" for="ventaBoletoValorVentaBoleto" />
+                        <p:inputText id="ventaBoletoValorVentaBoleto" value="#{ventaBoletoController.selected.ventaBoletoValorVentaBoleto}" title="#{bundle.EditVentaBoletoTitle_ventaBoletoValorVentaBoleto}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoValorVentaBoleto}"/>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_ventaBoletoRecaudado}" for="ventaBoletoRecaudado" />
+                        <p:selectBooleanCheckbox id="ventaBoletoRecaudado" value="#{ventaBoletoController.selected.ventaBoletoRecaudado}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoRecaudado}"/>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_ventaBoletoFechaIngreso}" for="ventaBoletoFechaIngreso" />
+                        <p:calendar id="ventaBoletoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventaBoletoController.selected.ventaBoletoFechaIngreso}" title="#{bundle.EditVentaBoletoTitle_ventaBoletoFechaIngreso}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_ventaBoletoIdGuia}" for="ventaBoletoIdGuia" />
+                        <p:selectOneMenu id="ventaBoletoIdGuia" value="#{ventaBoletoController.selected.ventaBoletoIdGuia}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoIdGuia}" converter="guiaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{guiaController.items}"
+                                           var="ventaBoletoIdGuiaItem"
+                                           itemValue="#{ventaBoletoIdGuiaItem}"
+                                           itemLabel="#{ventaBoletoIdGuiaItem.guiaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditVentaBoletoLabel_ventaBoletoIdInventarioCaja}" for="ventaBoletoIdInventarioCaja" />
+                        <p:selectOneMenu id="ventaBoletoIdInventarioCaja" value="#{ventaBoletoController.selected.ventaBoletoIdInventarioCaja}" required="true" requiredMessage="#{bundle.EditVentaBoletoRequiredMessage_ventaBoletoIdInventarioCaja}" converter="inventarioCajaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{inventarioCajaController.items}"
+                                           var="ventaBoletoIdInventarioCajaItem"
+                                           itemValue="#{ventaBoletoIdInventarioCajaItem}"
+                                           itemLabel="#{ventaBoletoIdInventarioCajaItem.inventarioCajaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaBoletoController.save}" value="#{bundle.Save}" update="display,:VentaBoletoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaBoletoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('VentaBoletoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

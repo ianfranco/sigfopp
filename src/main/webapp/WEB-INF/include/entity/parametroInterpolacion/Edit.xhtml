@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ParametroInterpolacionEditDlg" widgetVar="ParametroInterpolacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditParametroInterpolacionTitle}" closeOnEscape="true">
+
+            <h:form id="ParametroInterpolacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{parametroInterpolacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditParametroInterpolacionLabel_parametroInterpolacionId}" for="parametroInterpolacionId" />
+                        <h:outputText id="parametroInterpolacionId" value="#{parametroInterpolacionController.selected.parametroInterpolacionId}" />
+
+                        <p:outputLabel value="#{bundle.EditParametroInterpolacionLabel_parametroInterpolacionNombre}" for="parametroInterpolacionNombre" />
+                        <p:inputText id="parametroInterpolacionNombre" value="#{parametroInterpolacionController.selected.parametroInterpolacionNombre}" title="#{bundle.EditParametroInterpolacionTitle_parametroInterpolacionNombre}" required="true" requiredMessage="#{bundle.EditParametroInterpolacionRequiredMessage_parametroInterpolacionNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditParametroInterpolacionLabel_parametroInterpolacionValor}" for="parametroInterpolacionValor" />
+                        <p:inputText id="parametroInterpolacionValor" value="#{parametroInterpolacionController.selected.parametroInterpolacionValor}" title="#{bundle.EditParametroInterpolacionTitle_parametroInterpolacionValor}" required="true" requiredMessage="#{bundle.EditParametroInterpolacionRequiredMessage_parametroInterpolacionValor}"/>
+
+                        <p:outputLabel value="#{bundle.EditParametroInterpolacionLabel_parametroInterpolacionUnidad}" for="parametroInterpolacionUnidad" />
+                        <p:inputText id="parametroInterpolacionUnidad" value="#{parametroInterpolacionController.selected.parametroInterpolacionUnidad}" title="#{bundle.EditParametroInterpolacionTitle_parametroInterpolacionUnidad}" required="true" requiredMessage="#{bundle.EditParametroInterpolacionRequiredMessage_parametroInterpolacionUnidad}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{parametroInterpolacionController.save}" value="#{bundle.Save}" update="display,:ParametroInterpolacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ParametroInterpolacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ParametroInterpolacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

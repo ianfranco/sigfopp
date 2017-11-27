@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ValorFijoCreateDlg" widgetVar="ValorFijoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateValorFijoTitle}" closeOnEscape="true">
+
+            <h:form id="ValorFijoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{valorFijoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateValorFijoLabel_valorFijoNombreValor}" for="valorFijoNombreValor" />
+                        <p:inputText id="valorFijoNombreValor" value="#{valorFijoController.selected.valorFijoNombreValor}" title="#{bundle.CreateValorFijoTitle_valorFijoNombreValor}" required="true" requiredMessage="#{bundle.CreateValorFijoRequiredMessage_valorFijoNombreValor}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateValorFijoLabel_valorFijoMonto}" for="valorFijoMonto" />
+                        <p:inputText id="valorFijoMonto" value="#{valorFijoController.selected.valorFijoMonto}" title="#{bundle.CreateValorFijoTitle_valorFijoMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateValorFijoLabel_valorFijoFechaIngreso}" for="valorFijoFechaIngreso" />
+                        <p:calendar id="valorFijoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{valorFijoController.selected.valorFijoFechaIngreso}" title="#{bundle.CreateValorFijoTitle_valorFijoFechaIngreso}"  showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorFijoController.saveNew}" value="#{bundle.Save}" update="display,:ValorFijoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorFijoCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorFijoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

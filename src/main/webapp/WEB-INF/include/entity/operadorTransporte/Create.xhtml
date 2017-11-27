@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperadorTransporteCreateDlg" widgetVar="OperadorTransporteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOperadorTransporteTitle}" closeOnEscape="true">
+
+            <h:form id="OperadorTransporteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{operadorTransporteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateOperadorTransporteLabel_operadorTransporteRut}" for="operadorTransporteRut" />
+                        <p:inputText id="operadorTransporteRut" value="#{operadorTransporteController.selected.operadorTransporteRut}" title="#{bundle.CreateOperadorTransporteTitle_operadorTransporteRut}" required="true" requiredMessage="#{bundle.CreateOperadorTransporteRequiredMessage_operadorTransporteRut}" size="9" maxlength="9"/>
+
+                        <p:outputLabel value="#{bundle.CreateOperadorTransporteLabel_operadorTransporteNombre}" for="operadorTransporteNombre" />
+                        <p:inputText id="operadorTransporteNombre" value="#{operadorTransporteController.selected.operadorTransporteNombre}" title="#{bundle.CreateOperadorTransporteTitle_operadorTransporteNombre}" required="true" requiredMessage="#{bundle.CreateOperadorTransporteRequiredMessage_operadorTransporteNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateOperadorTransporteLabel_operadorTransporteFechaIngreso}" for="operadorTransporteFechaIngreso" />
+                        <p:calendar id="operadorTransporteFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{operadorTransporteController.selected.operadorTransporteFechaIngreso}" title="#{bundle.CreateOperadorTransporteTitle_operadorTransporteFechaIngreso}" required="true" requiredMessage="#{bundle.CreateOperadorTransporteRequiredMessage_operadorTransporteFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operadorTransporteController.saveNew}" value="#{bundle.Save}" update="display,:OperadorTransporteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OperadorTransporteCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('OperadorTransporteCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

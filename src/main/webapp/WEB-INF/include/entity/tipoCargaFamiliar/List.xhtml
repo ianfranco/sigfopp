@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoCargaFamiliarListForm">
+
+        <p:panel header="#{bundle.ListTipoCargaFamiliarTitle}">
+            <p:contextMenu id="TipoCargaFamiliarDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoCargaFamiliarListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoCargaFamiliarListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoCargaFamiliarListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoCargaFamiliarListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TipoCargaFamiliarMenuItem_cargaTrabajadorList}" icon="ui-icon-search"  action="#{tipoCargaFamiliarController.navigateCargaTrabajadorList}" disabled="#{empty tipoCargaFamiliarController.selected.cargaTrabajadorList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoCargaFamiliarController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoCargaFamiliarId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoCargaFamiliarController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoCargaFamiliarController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoCargaFamiliarId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoCargaFamiliarDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoCargaFamiliarDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoCargaFamiliarListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoCargaFamiliarId}" filterBy="#{item.tipoCargaFamiliarId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoCargaFamiliarTitle_tipoCargaFamiliarId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCargaFamiliarId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoCargaFamiliarNombre}" filterBy="#{item.tipoCargaFamiliarNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoCargaFamiliarTitle_tipoCargaFamiliarNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCargaFamiliarNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoCargaFamiliarFechaIngreso}" filterBy="#{item.tipoCargaFamiliarFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoCargaFamiliarTitle_tipoCargaFamiliarFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoCargaFamiliarFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoCargaFamiliarController.prepareCreate}" update=":TipoCargaFamiliarCreateForm" oncomplete="PF('TipoCargaFamiliarCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoCargaFamiliarViewForm" oncomplete="PF('TipoCargaFamiliarViewDialog').show()" disabled="#{empty tipoCargaFamiliarController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoCargaFamiliarEditForm" oncomplete="PF('TipoCargaFamiliarEditDialog').show()" disabled="#{empty tipoCargaFamiliarController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoCargaFamiliarController.delete}" update=":growl,datalist" disabled="#{empty tipoCargaFamiliarController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

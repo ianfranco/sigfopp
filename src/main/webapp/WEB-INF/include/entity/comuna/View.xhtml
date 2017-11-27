@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComunaViewDlg" widgetVar="ComunaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewComunaTitle}" closeOnEscape="true">
+
+            <h:form id="ComunaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{comunaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewComunaLabel_comunaId}"/>
+                        <h:outputText value="#{comunaController.selected.comunaId}" title="#{bundle.ViewComunaTitle_comunaId}"/>
+
+                        <h:outputText value="#{bundle.ViewComunaLabel_comunaNombre}"/>
+                        <h:outputText value="#{comunaController.selected.comunaNombre}" title="#{bundle.ViewComunaTitle_comunaNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewComunaLabel_comunaFechaIngreso}"/>
+                        <h:outputText value="#{comunaController.selected.comunaFechaIngreso}" title="#{bundle.ViewComunaTitle_comunaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewComunaLabel_comunaIdCiudad}"/>
+                        <h:outputText value="#{comunaController.selected.comunaIdCiudad.ciudadId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ComunaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

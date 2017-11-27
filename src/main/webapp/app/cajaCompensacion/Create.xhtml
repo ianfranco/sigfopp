@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CajaCompensacionCreateDlg" widgetVar="CajaCompensacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCajaCompensacionTitle}" closeOnEscape="true">
+
+            <h:form id="CajaCompensacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cajaCompensacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Nombre" for="cajaCompensacionNombre" />
+                        <p:inputText id="cajaCompensacionNombre" value="#{cajaCompensacionController.selected.cajaCompensacionNombre}" title="#{bundle.CreateCajaCompensacionTitle_cajaCompensacionNombre}" required="true" requiredMessage="#{bundle.CreateCajaCompensacionRequiredMessage_cajaCompensacionNombre}" size="100" maxlength="255"/>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cajaCompensacionController.saveNew}" value="#{bundle.Save}" update="display,:CajaCompensacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CajaCompensacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CajaCompensacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

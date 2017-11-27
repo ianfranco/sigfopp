@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrivilegioViewDlg" widgetVar="PrivilegioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewPrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="PrivilegioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{privilegioController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewPrivilegioLabel_privilegioId}"/>
+                        <h:outputText value="#{privilegioController.selected.privilegioId}" title="#{bundle.ViewPrivilegioTitle_privilegioId}"/>
+
+                        <h:outputText value="#{bundle.ViewPrivilegioLabel_privilegioNombre}"/>
+                        <h:outputText value="#{privilegioController.selected.privilegioNombre}" title="#{bundle.ViewPrivilegioTitle_privilegioNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewPrivilegioLabel_privilegioDescripcion}"/>
+                        <h:outputText value="#{privilegioController.selected.privilegioDescripcion}" title="#{bundle.ViewPrivilegioTitle_privilegioDescripcion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('PrivilegioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

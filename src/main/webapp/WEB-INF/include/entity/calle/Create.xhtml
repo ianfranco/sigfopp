@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CalleCreateDlg" widgetVar="CalleCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCalleTitle}" closeOnEscape="true">
+
+            <h:form id="CalleCreateForm">
+
+                <h:panelGroup id="display" rendered="#{calleController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCalleLabel_calleNombre}" for="calleNombre" />
+                        <p:inputText id="calleNombre" value="#{calleController.selected.calleNombre}" title="#{bundle.CreateCalleTitle_calleNombre}" required="true" requiredMessage="#{bundle.CreateCalleRequiredMessage_calleNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateCalleLabel_calleFechaIngreso}" for="calleFechaIngreso" />
+                        <p:calendar id="calleFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{calleController.selected.calleFechaIngreso}" title="#{bundle.CreateCalleTitle_calleFechaIngreso}" required="true" requiredMessage="#{bundle.CreateCalleRequiredMessage_calleFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCalleLabel_calleIdComuna}" for="calleIdComuna" />
+                        <p:selectOneMenu id="calleIdComuna" value="#{calleController.selected.calleIdComuna}" required="true" requiredMessage="#{bundle.CreateCalleRequiredMessage_calleIdComuna}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{comunaController.items}"
+                                           var="calleIdComunaItem"
+                                           itemValue="#{calleIdComunaItem}"
+                                           itemLabel="#{calleIdComunaItem.comunaNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{calleController.saveNew}" value="#{bundle.Save}" update="display,:CalleListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CalleCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CalleCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

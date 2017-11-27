@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CuentaBancariaViewDlg" widgetVar="CuentaBancariaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCuentaBancariaTitle}" closeOnEscape="true">
+
+            <h:form id="CuentaBancariaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cuentaBancariaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaId}"/>
+                        <h:outputText value="#{cuentaBancariaController.selected.cuentaBancariaId}" title="#{bundle.ViewCuentaBancariaTitle_cuentaBancariaId}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaNumero}"/>
+                        <h:outputText value="#{cuentaBancariaController.selected.cuentaBancariaNumero}" title="#{bundle.ViewCuentaBancariaTitle_cuentaBancariaNumero}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaNombreTitular}"/>
+                        <h:outputText value="#{cuentaBancariaController.selected.cuentaBancariaNombreTitular}" title="#{bundle.ViewCuentaBancariaTitle_cuentaBancariaNombreTitular}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaRutTitular}"/>
+                        <h:outputText value="#{cuentaBancariaController.selected.cuentaBancariaRutTitular}" title="#{bundle.ViewCuentaBancariaTitle_cuentaBancariaRutTitular}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaActiva}"/>
+                        <h:selectBooleanCheckbox id="cuentaBancariaActiva" value="#{cuentaBancariaController.selected.cuentaBancariaActiva}" title="#{bundle.EditCuentaBancariaTitle_cuentaBancariaActiva}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaActiva}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaFechaIngreso}"/>
+                        <h:outputText value="#{cuentaBancariaController.selected.cuentaBancariaFechaIngreso}" title="#{bundle.ViewCuentaBancariaTitle_cuentaBancariaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaIdBanco}"/>
+                        <h:outputText value="#{cuentaBancariaController.selected.cuentaBancariaIdBanco.bancoId}"/>
+
+                        <h:outputText value="#{bundle.ViewCuentaBancariaLabel_cuentaBancariaIdTipoCuenta}"/>
+                        <h:outputText value="#{cuentaBancariaController.selected.cuentaBancariaIdTipoCuenta.tipoCuentaBancoId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CuentaBancariaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

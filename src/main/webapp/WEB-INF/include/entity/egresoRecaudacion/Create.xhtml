@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoRecaudacionCreateDlg" widgetVar="EgresoRecaudacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEgresoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoRecaudacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{egresoRecaudacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_egresoRecaudacionTotalEgreso}" for="egresoRecaudacionTotalEgreso" />
+                        <p:inputText id="egresoRecaudacionTotalEgreso" value="#{egresoRecaudacionController.selected.egresoRecaudacionTotalEgreso}" title="#{bundle.CreateEgresoRecaudacionTitle_egresoRecaudacionTotalEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_egresoRecaudacionTotalEgreso}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_egresoRecaudacionIdEgreso}" for="egresoRecaudacionIdEgreso" />
+                        <p:selectOneMenu id="egresoRecaudacionIdEgreso" value="#{egresoRecaudacionController.selected.egresoRecaudacionIdEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_egresoRecaudacionIdEgreso}" converter="egresoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoRecaudacionIdEgresoItem"
+                                           itemValue="#{egresoRecaudacionIdEgresoItem}"
+                                           itemLabel="#{egresoRecaudacionIdEgresoItem.egresoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoRecaudacionLabel_egresoRecaudacionIdResumenRecaudacion}" for="egresoRecaudacionIdResumenRecaudacion" />
+                        <p:selectOneMenu id="egresoRecaudacionIdResumenRecaudacion" value="#{egresoRecaudacionController.selected.egresoRecaudacionIdResumenRecaudacion}" required="true" requiredMessage="#{bundle.CreateEgresoRecaudacionRequiredMessage_egresoRecaudacionIdResumenRecaudacion}" converter="resumenRecaudacionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{resumenRecaudacionController.items}"
+                                           var="egresoRecaudacionIdResumenRecaudacionItem"
+                                           itemValue="#{egresoRecaudacionIdResumenRecaudacionItem}"
+                                           itemLabel="#{egresoRecaudacionIdResumenRecaudacionItem.resumenRecaudacionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoRecaudacionController.saveNew}" value="#{bundle.Save}" update="display,:EgresoRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoRecaudacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoRecaudacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleBilletesCtvViewDlg" widgetVar="DetalleBilletesCtvViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewDetalleBilletesCtvTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleBilletesCtvViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleBilletesCtvController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewDetalleBilletesCtvLabel_detalleBilletesCtvId}"/>
+                        <h:outputText value="#{detalleBilletesCtvController.selected.detalleBilletesCtvId}" title="#{bundle.ViewDetalleBilletesCtvTitle_detalleBilletesCtvId}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleBilletesCtvLabel_detalleBilletesCtvNumeroSello}"/>
+                        <h:outputText value="#{detalleBilletesCtvController.selected.detalleBilletesCtvNumeroSello}" title="#{bundle.ViewDetalleBilletesCtvTitle_detalleBilletesCtvNumeroSello}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleBilletesCtvLabel_detalleBilletesCtvNumeroBolsa}"/>
+                        <h:outputText value="#{detalleBilletesCtvController.selected.detalleBilletesCtvNumeroBolsa}" title="#{bundle.ViewDetalleBilletesCtvTitle_detalleBilletesCtvNumeroBolsa}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleBilletesCtvLabel_detalleBilletesCtvDocumentos}"/>
+                        <h:outputText value="#{detalleBilletesCtvController.selected.detalleBilletesCtvDocumentos}" title="#{bundle.ViewDetalleBilletesCtvTitle_detalleBilletesCtvDocumentos}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleBilletesCtvLabel_detalleBilletesCtvEfectivo}"/>
+                        <h:outputText value="#{detalleBilletesCtvController.selected.detalleBilletesCtvEfectivo}" title="#{bundle.ViewDetalleBilletesCtvTitle_detalleBilletesCtvEfectivo}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleBilletesCtvLabel_detalleBilletesCtvTotalBolsa}"/>
+                        <h:outputText value="#{detalleBilletesCtvController.selected.detalleBilletesCtvTotalBolsa}" title="#{bundle.ViewDetalleBilletesCtvTitle_detalleBilletesCtvTotalBolsa}"/>
+
+                        <h:outputText value="#{bundle.ViewDetalleBilletesCtvLabel_detalleBilletesCtvIdCtvResumen}"/>
+                        <h:outputText value="#{detalleBilletesCtvController.selected.detalleBilletesCtvIdCtvResumen.ctvResumenId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('DetalleBilletesCtvViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

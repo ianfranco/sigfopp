@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MetodoPagoViewDlg" widgetVar="MetodoPagoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewMetodoPagoTitle}" closeOnEscape="true">
+
+            <h:form id="MetodoPagoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{metodoPagoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewMetodoPagoLabel_metodoPagoId}"/>
+                        <h:outputText value="#{metodoPagoController.selected.metodoPagoId}" title="#{bundle.ViewMetodoPagoTitle_metodoPagoId}"/>
+
+                        <h:outputText value="#{bundle.ViewMetodoPagoLabel_metodoPagoNombre}"/>
+                        <h:outputText value="#{metodoPagoController.selected.metodoPagoNombre}" title="#{bundle.ViewMetodoPagoTitle_metodoPagoNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewMetodoPagoLabel_metodoPagoValor}"/>
+                        <h:outputText value="#{metodoPagoController.selected.metodoPagoValor}" title="#{bundle.ViewMetodoPagoTitle_metodoPagoValor}"/>
+
+                        <h:outputText value="#{bundle.ViewMetodoPagoLabel_metodoPagoActivo}"/>
+                        <h:selectBooleanCheckbox id="metodoPagoActivo" value="#{metodoPagoController.selected.metodoPagoActivo}" title="#{bundle.EditMetodoPagoTitle_metodoPagoActivo}" required="true" requiredMessage="#{bundle.EditMetodoPagoRequiredMessage_metodoPagoActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewMetodoPagoLabel_metodoPagoFechaIngreso}"/>
+                        <h:outputText value="#{metodoPagoController.selected.metodoPagoFechaIngreso}" title="#{bundle.ViewMetodoPagoTitle_metodoPagoFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('MetodoPagoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

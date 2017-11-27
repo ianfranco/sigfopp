@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ServicioViewDlg" widgetVar="ServicioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Ficha Servicio" closeOnEscape="true">
+
+            <h:form id="ServicioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{servicioController.selected != null}">
+
+                        <h:outputText value="#"/>
+                        <h:outputText value="#{servicioController.selected.servicioId}" title="#{bundle.ViewServicioTitle_servicioId}"/>
+
+                        <h:outputText value="N°"/>
+                        <h:outputText value="#{servicioController.selected.servicioNumeroServicio}" title="#{bundle.ViewServicioTitle_servicioNumeroServicio}"/>
+
+                        <h:outputText value="Folio"/>
+                        <h:outputText value="#{servicioController.selected.servicioFolio}" title="#{bundle.ViewServicioTitle_servicioFolio}"/>
+
+                        <h:outputText value="Nombre"/>
+                        <h:outputText value="#{servicioController.selected.servicioNombre}" title="#{bundle.ViewServicioTitle_servicioNombre}"/>
+
+                        <h:outputText value="Terminal"/>
+                        <h:outputText value="#{servicioController.selected.servicioIdTerminal.terminalNombre}"/>
+
+                        <h:outputText value="Unidad"/>
+                        <h:outputText value="#{servicioController.selected.servicioIdUnidad.unidadNegocioNumero}"/>
+                        
+                        <h:outputText value="Origen"/>
+                        <h:outputText value="#{servicioController.selected.servicioOrigen}" title="#{bundle.ViewServicioTitle_servicioOrigen}"/>
+
+                        <h:outputText value="Destino"/>
+                        <h:outputText value="#{servicioController.selected.servicioDestino}" title="#{bundle.ViewServicioTitle_servicioDestino}"/>
+
+                        <h:outputText value="Longitud"/>
+                        <h:outputText value="#{servicioController.selected.servicioLongitud}" title="#{bundle.ViewServicioTitle_servicioLongitud}"/>
+                        
+                        <h:outputText value="F.Ingreso"/>
+                        <h:outputText value="#{servicioController.selected.lastUpdate}" title="#{bundle.ViewServicioTitle_servicioFechaIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ServicioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

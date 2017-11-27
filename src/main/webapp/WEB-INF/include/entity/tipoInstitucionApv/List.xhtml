@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoInstitucionApvListForm">
+
+        <p:panel header="#{bundle.ListTipoInstitucionApvTitle}">
+            <p:contextMenu id="TipoInstitucionApvDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoInstitucionApvListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoInstitucionApvListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoInstitucionApvListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoInstitucionApvListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TipoInstitucionApvMenuItem_institucionApvList}" icon="ui-icon-search"  action="#{tipoInstitucionApvController.navigateInstitucionApvList}" disabled="#{empty tipoInstitucionApvController.selected.institucionApvList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoInstitucionApvController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoInstitucionApvId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoInstitucionApvController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoInstitucionApvController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoInstitucionApvId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoInstitucionApvDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoInstitucionApvDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoInstitucionApvListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoInstitucionApvId}" filterBy="#{item.tipoInstitucionApvId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoInstitucionApvTitle_tipoInstitucionApvId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoInstitucionApvId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoInstitucionApvNombre}" filterBy="#{item.tipoInstitucionApvNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoInstitucionApvTitle_tipoInstitucionApvNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoInstitucionApvNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoInstitucionApvFechaIngreso}" filterBy="#{item.tipoInstitucionApvFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoInstitucionApvTitle_tipoInstitucionApvFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoInstitucionApvFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoInstitucionApvController.prepareCreate}" update=":TipoInstitucionApvCreateForm" oncomplete="PF('TipoInstitucionApvCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoInstitucionApvViewForm" oncomplete="PF('TipoInstitucionApvViewDialog').show()" disabled="#{empty tipoInstitucionApvController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoInstitucionApvEditForm" oncomplete="PF('TipoInstitucionApvEditDialog').show()" disabled="#{empty tipoInstitucionApvController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoInstitucionApvController.delete}" update=":growl,datalist" disabled="#{empty tipoInstitucionApvController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

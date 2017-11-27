@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CargoBusListForm">
+
+        <p:panel header="#{bundle.ListCargoBusTitle}">
+            <p:contextMenu id="CargoBusDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CargoBusListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CargoBusListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CargoBusListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargoBusListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CargoBusMenuItem_cargoLiquidacionList}" icon="ui-icon-search"  action="#{cargoBusController.navigateCargoLiquidacionList}" disabled="#{empty cargoBusController.selected.cargoLiquidacionList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.CargoBusMenuItem_cargoBusIdBus}" icon="ui-icon-search"  actionListener="#{cargoBusController.prepareCargoBusIdBus}" update=":BusViewForm" oncomplete="PF('BusViewDialog').show()" disabled="#{empty cargoBusController.selected.cargoBusIdBus}"/>  
+                <p:menuitem value="#{bundle.CargoBusMenuItem_cargoBusIdTipoCargo}" icon="ui-icon-search"  actionListener="#{cargoBusController.prepareCargoBusIdTipoCargo}" update=":TipoCargoViewForm" oncomplete="PF('TipoCargoViewDialog').show()" disabled="#{empty cargoBusController.selected.cargoBusIdTipoCargo}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cargoBusController.items}"
+                         lazy="false"
+                         rowKey="#{item.cargoBusId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{cargoBusController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cargoBusController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cargoBusId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{cargoBusController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargoBusDataTableContextMenu" listener="#{cargoBusController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cargoBusController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CargoBusListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cargoBusId}" filterBy="#{item.cargoBusId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoBusId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoBusFechaInicio}" filterBy="#{item.cargoBusFechaInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusFechaInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoBusFechaInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoBusFechaTermino}" filterBy="#{item.cargoBusFechaTermino}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusFechaTermino}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoBusFechaTermino}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoBusCuotaActual}" filterBy="#{item.cargoBusCuotaActual}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusCuotaActual}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoBusCuotaActual}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoBusTotalCuotas}" filterBy="#{item.cargoBusTotalCuotas}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusTotalCuotas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoBusTotalCuotas}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargoBusMontoFijo}" filterBy="#{item.cargoBusMontoFijo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusMontoFijo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargoBusMontoFijo}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.cargoBusDescripcion}" filterBy="#{item.cargoBusDescripcion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusDescripcion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargoBusDescripcion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cargoBusActivo}" filterBy="#{item.cargoBusActivo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusActivo}"/>
+                                        </f:facet>
+                                        <h:selectBooleanCheckbox id="cargoBusActivo" value="#{item.cargoBusActivo}" title="#{bundle.EditCargoBusTitle_cargoBusActivo}" required="true" requiredMessage="#{bundle.EditCargoBusRequiredMessage_cargoBusActivo}" disabled="true"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cargoBusFechaIngreso}" filterBy="#{item.cargoBusFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargoBusFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cargoBusIdBus.busId}" filterBy="#{item.cargoBusIdBus.busId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusIdBus}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargoBusIdBus.busId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cargoBusIdTipoCargo.tipoCargoId}" filterBy="#{item.cargoBusIdTipoCargo.tipoCargoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCargoBusTitle_cargoBusIdTipoCargo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cargoBusIdTipoCargo.tipoCargoId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cargoBusController.prepareCreate}" update=":CargoBusCreateForm" oncomplete="PF('CargoBusCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CargoBusViewForm" oncomplete="PF('CargoBusViewDialog').show()" disabled="#{empty cargoBusController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargoBusEditForm" oncomplete="PF('CargoBusEditDialog').show()" disabled="#{empty cargoBusController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cargoBusController.delete}" update=":growl,datalist" disabled="#{empty cargoBusController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

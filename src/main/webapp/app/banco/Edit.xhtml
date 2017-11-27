@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="BancoEditDlg" widgetVar="BancoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Editar Banco" closeOnEscape="true">
+
+            <h:form id="BancoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{bancoController.selected != null}">
+
+                        <p:outputLabel value="Nombre" for="bancoNombre" />
+                        <p:inputText id="bancoNombre" value="#{bancoController.selected.bancoNombre}" title="#{bundle.EditBancoTitle_bancoNombre}" required="true" requiredMessage="#{bundle.EditBancoRequiredMessage_bancoNombre}" size="45" maxlength="45"/>
+                       
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bancoController.save}" value="#{bundle.Save}" update="display,:BancoListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BancoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BancoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

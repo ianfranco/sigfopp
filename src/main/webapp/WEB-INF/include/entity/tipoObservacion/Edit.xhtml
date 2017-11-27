@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoObservacionEditDlg" widgetVar="TipoObservacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoObservacionTitle}" closeOnEscape="true">
+
+            <h:form id="TipoObservacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoObservacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoObservacionLabel_tipoObservacionId}" for="tipoObservacionId" />
+                        <h:outputText id="tipoObservacionId" value="#{tipoObservacionController.selected.tipoObservacionId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoObservacionLabel_tipoObservacionNombre}" for="tipoObservacionNombre" />
+                        <p:inputText id="tipoObservacionNombre" value="#{tipoObservacionController.selected.tipoObservacionNombre}" title="#{bundle.EditTipoObservacionTitle_tipoObservacionNombre}" required="true" requiredMessage="#{bundle.EditTipoObservacionRequiredMessage_tipoObservacionNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoObservacionLabel_tipoObservacionFechaIngreso}" for="tipoObservacionFechaIngreso" />
+                        <p:calendar id="tipoObservacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoObservacionController.selected.tipoObservacionFechaIngreso}" title="#{bundle.EditTipoObservacionTitle_tipoObservacionFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoObservacionRequiredMessage_tipoObservacionFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoObservacionController.save}" value="#{bundle.Save}" update="display,:TipoObservacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoObservacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoObservacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

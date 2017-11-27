@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <title>Login</title>
+        
+        <style type="text/css">            
+            .form-signin{
+                margin: 0 auto;
+                max-width: 330px;
+                padding: 15px;
+            }            
+        </style>
+    </h:head>
+    <h:body style="padding-top: 60px; background-color: darkslategray;">
+        <b:container>
+            <h:form styleClass="form-signin" prependId="false">
+                <h2 class="form-signin-header">Ingrese sus datos para acceder a la aplicación</h2>
+                
+                <b:inputText id="rut" placeholder="Rut:" value="">
+                    <f:facet name="prepend">
+                        <b:icon name="user"/>
+                    </f:facet>
+                </b:inputText>
+                
+                <b:inputText id="pass" placeholder="Password:" value="" type="password">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key"/>
+                    </f:facet>
+                </b:inputText>
+                
+                <b:selectBooleanCheckbox value="true" caption="Recordarme"/>
+                <b:commandButton look="primary btn-look" value="Login" icon="log-in" />
+                
+            </h:form>
+        </b:container>
+    </h:body>
+</html>

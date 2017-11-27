@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoDemandaListForm">
+
+        <p:panel header="#{bundle.ListTipoDemandaTitle}">
+            <p:contextMenu id="TipoDemandaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoDemandaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoDemandaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoDemandaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoDemandaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TipoDemandaMenuItem_frecuenciaServicioList}" icon="ui-icon-search"  action="#{tipoDemandaController.navigateFrecuenciaServicioList}" disabled="#{empty tipoDemandaController.selected.frecuenciaServicioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoDemandaController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoDemandaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoDemandaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoDemandaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoDemandaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoDemandaDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoDemandaDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoDemandaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoDemandaId}" filterBy="#{item.tipoDemandaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoDemandaTitle_tipoDemandaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDemandaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDemandaNombre}" filterBy="#{item.tipoDemandaNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoDemandaTitle_tipoDemandaNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDemandaNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDemandaFechaIngreso}" filterBy="#{item.tipoDemandaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoDemandaTitle_tipoDemandaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDemandaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoDemandaController.prepareCreate}" update=":TipoDemandaCreateForm" oncomplete="PF('TipoDemandaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoDemandaViewForm" oncomplete="PF('TipoDemandaViewDialog').show()" disabled="#{empty tipoDemandaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoDemandaEditForm" oncomplete="PF('TipoDemandaEditDialog').show()" disabled="#{empty tipoDemandaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoDemandaController.delete}" update=":growl,datalist" disabled="#{empty tipoDemandaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

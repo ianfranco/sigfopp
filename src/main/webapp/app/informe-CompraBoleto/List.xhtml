@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CompraBoletoListForm">
+
+
+        <p:dataTable id="datalist"
+                     value="#{compraBoletoController.items}"
+                     lazy="false"
+                     rowKey="#{item.compraBoletoId}"
+                     var="item"
+                     paginator="true"
+                     rowIndexVar="rowIndex"
+                     rows="100"
+                     rowsPerPageTemplate="50, 100, 200, 500"
+                     selectionMode="single"
+                     selection="#{compraBoletoController.selected}">
+
+            <f:facet name="header">
+                Compras de Boletos 
+            </f:facet>
+
+            <p:column style="width:50px">
+                <p:rowToggler />
+            </p:column>
+
+            <p:column sortBy="#{item.compraBoletoId}" filterBy="#{item.compraBoletoId}">
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputLabel value="#{rowIndex+1}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.compraBoletoFolioFactura}" filterBy="#{item.compraBoletoFolioFactura}">
+                <f:facet name="header">
+                    <h:outputText value="Folio"/>
+                </f:facet>
+                <h:outputLabel value="#{item.compraBoletoFolioFactura}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.compraBoletoTotal}" filterBy="#{item.compraBoletoTotal}">
+                <f:facet name="header">
+                    <h:outputText value="Total"/>
+                </f:facet>
+                <h:outputLabel value="#{item.compraBoletoTotal}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.compraBoletoFecha}" filterBy="#{item.compraBoletoFecha}">
+                <f:facet name="header">
+                    <h:outputText value="Fecha"/>
+                </f:facet>
+                <h:outputLabel value="#{item.compraBoletoFecha}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                </h:outputLabel>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="N° de Paquetes"/>
+                </f:facet>
+                <h:outputLabel value="#{item.detalleCompraBoletoList.size()}"/>
+            </p:column>
+
+            <p:rowExpansion>
+                <p:dataTable id="datalist2"
+                             value="#{item.detalleCompraBoletoList}" 
+                             widgetVar="datalist"
+                             var="item2"
+                             rowKey="#{item2.detalleCompraBoletoId}"                                 
+                             rowIndexVar="rowIndex2"
+                             emptyMessage="No se han encontrado registros" 
+                             style="width: 100%"
+                             tableStyle="table-layout: auto">
+
+                    <f:facet name="header">
+                        Detalle Compra
+                    </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputLabel value="#{rowIndex2+1}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Tipo Boleto"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.detalleCompraBoletoIdBoleto.boletoNombre}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Identificador"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.detalleCompraBoletoIdentificador}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Serie"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.detalleCompraBoletoSerie}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="N° Rollos"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.detalleCompraBoletoCantidadRollos}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Total"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.detalleCompraBoletoTotal}">
+                            <f:convertNumber currencyCode="$"/>
+                        </h:outputLabel>
+                    </p:column>
+
+                </p:dataTable>
+            </p:rowExpansion>
+        </p:dataTable>
+
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

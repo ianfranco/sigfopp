@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoRecaudacionEditDlg" widgetVar="EgresoRecaudacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEgresoRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoRecaudacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoRecaudacionController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_egresoRecaudacionId}" for="egresoRecaudacionId" />
+                        <h:outputText id="egresoRecaudacionId" value="#{egresoRecaudacionController.selected.egresoRecaudacionId}" />
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_egresoRecaudacionTotalEgreso}" for="egresoRecaudacionTotalEgreso" />
+                        <p:inputText id="egresoRecaudacionTotalEgreso" value="#{egresoRecaudacionController.selected.egresoRecaudacionTotalEgreso}" title="#{bundle.EditEgresoRecaudacionTitle_egresoRecaudacionTotalEgreso}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_egresoRecaudacionTotalEgreso}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_egresoRecaudacionIdEgreso}" for="egresoRecaudacionIdEgreso" />
+                        <p:selectOneMenu id="egresoRecaudacionIdEgreso" value="#{egresoRecaudacionController.selected.egresoRecaudacionIdEgreso}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_egresoRecaudacionIdEgreso}" converter="egresoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoRecaudacionIdEgresoItem"
+                                           itemValue="#{egresoRecaudacionIdEgresoItem}"
+                                           itemLabel="#{egresoRecaudacionIdEgresoItem.egresoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditEgresoRecaudacionLabel_egresoRecaudacionIdResumenRecaudacion}" for="egresoRecaudacionIdResumenRecaudacion" />
+                        <p:selectOneMenu id="egresoRecaudacionIdResumenRecaudacion" value="#{egresoRecaudacionController.selected.egresoRecaudacionIdResumenRecaudacion}" required="true" requiredMessage="#{bundle.EditEgresoRecaudacionRequiredMessage_egresoRecaudacionIdResumenRecaudacion}" converter="resumenRecaudacionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{resumenRecaudacionController.items}"
+                                           var="egresoRecaudacionIdResumenRecaudacionItem"
+                                           itemValue="#{egresoRecaudacionIdResumenRecaudacionItem}"
+                                           itemLabel="#{egresoRecaudacionIdResumenRecaudacionItem.resumenRecaudacionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoRecaudacionController.save}" value="#{bundle.Save}" update="display,:EgresoRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoRecaudacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoRecaudacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

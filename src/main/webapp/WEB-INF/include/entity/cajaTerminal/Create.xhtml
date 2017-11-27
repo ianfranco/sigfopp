@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CajaTerminalCreateDlg" widgetVar="CajaTerminalCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCajaTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="CajaTerminalCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cajaTerminalController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateCajaTerminalLabel_cajaTerminalNombreCaja}" for="cajaTerminalNombreCaja" />
+                        <p:inputText id="cajaTerminalNombreCaja" value="#{cajaTerminalController.selected.cajaTerminalNombreCaja}" title="#{bundle.CreateCajaTerminalTitle_cajaTerminalNombreCaja}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalNombreCaja}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateCajaTerminalLabel_cajaTerminalActiva}" for="cajaTerminalActiva" />
+                        <p:selectBooleanCheckbox id="cajaTerminalActiva" value="#{cajaTerminalController.selected.cajaTerminalActiva}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalActiva}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCajaTerminalLabel_cajaTerminalFechaIngreso}" for="cajaTerminalFechaIngreso" />
+                        <p:calendar id="cajaTerminalFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{cajaTerminalController.selected.cajaTerminalFechaIngreso}" title="#{bundle.CreateCajaTerminalTitle_cajaTerminalFechaIngreso}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateCajaTerminalLabel_cajaTerminalIdTerminal}" for="cajaTerminalIdTerminal" />
+                        <p:selectOneMenu id="cajaTerminalIdTerminal" value="#{cajaTerminalController.selected.cajaTerminalIdTerminal}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalIdTerminal}" converter="terminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="cajaTerminalIdTerminalItem"
+                                           itemValue="#{cajaTerminalIdTerminalItem}"
+                                           itemLabel="#{cajaTerminalIdTerminalItem.terminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateCajaTerminalLabel_cajaTerminalIdUsuario}" for="cajaTerminalIdUsuario" />
+                        <p:selectOneMenu id="cajaTerminalIdUsuario" value="#{cajaTerminalController.selected.cajaTerminalIdUsuario}" required="true" requiredMessage="#{bundle.CreateCajaTerminalRequiredMessage_cajaTerminalIdUsuario}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="cajaTerminalIdUsuarioItem"
+                                           itemValue="#{cajaTerminalIdUsuarioItem}"
+                                           itemLabel="#{cajaTerminalIdUsuarioItem.usuarioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cajaTerminalController.saveNew}" value="#{bundle.Save}" update="display,:CajaTerminalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CajaTerminalCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CajaTerminalCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

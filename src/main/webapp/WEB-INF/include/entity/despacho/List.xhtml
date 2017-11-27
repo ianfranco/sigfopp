@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DespachoListForm">
+
+        <p:panel header="#{bundle.ListDespachoTitle}">
+            <p:contextMenu id="DespachoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('DespachoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('DespachoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('DespachoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('DespachoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.DespachoMenuItem_despachoIdBus}" icon="ui-icon-search"  actionListener="#{despachoController.prepareDespachoIdBus}" update=":BusViewForm" oncomplete="PF('BusViewDialog').show()" disabled="#{empty despachoController.selected.despachoIdBus}"/>  
+                <p:menuitem value="#{bundle.DespachoMenuItem_despachoIdTrabajador}" icon="ui-icon-search"  actionListener="#{despachoController.prepareDespachoIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty despachoController.selected.despachoIdTrabajador}"/>  
+                <p:menuitem value="#{bundle.DespachoMenuItem_despachoIdInspector}" icon="ui-icon-search"  actionListener="#{despachoController.prepareDespachoIdInspector}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty despachoController.selected.despachoIdInspector}"/>  
+                <p:menuitem value="#{bundle.DespachoMenuItem_despachoIdServicio}" icon="ui-icon-search"  actionListener="#{despachoController.prepareDespachoIdServicio}" update=":ServicioViewForm" oncomplete="PF('ServicioViewDialog').show()" disabled="#{empty despachoController.selected.despachoIdServicio}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{despachoController.items}"
+                         lazy="false"
+                         rowKey="#{item.despachoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{despachoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{despachoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.despachoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DespachoDataTableContextMenu" listener="#{despachoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DespachoDataTableContextMenu" listener="#{despachoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{despachoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DespachoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.despachoId}" filterBy="#{item.despachoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDespachoTitle_despachoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.despachoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.despachoFechaHora}" filterBy="#{item.despachoFechaHora}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDespachoTitle_despachoFechaHora}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.despachoFechaHora}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.despachoFechaIngreso}" filterBy="#{item.despachoFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDespachoTitle_despachoFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.despachoFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.despachoIdBus.busId}" filterBy="#{item.despachoIdBus.busId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDespachoTitle_despachoIdBus}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.despachoIdBus.busId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.despachoIdTrabajador.trabajadorId}" filterBy="#{item.despachoIdTrabajador.trabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDespachoTitle_despachoIdTrabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.despachoIdTrabajador.trabajadorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.despachoIdInspector.usuarioId}" filterBy="#{item.despachoIdInspector.usuarioId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListDespachoTitle_despachoIdInspector}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.despachoIdInspector.usuarioId}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.despachoIdServicio.servicioId}" filterBy="#{item.despachoIdServicio.servicioId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListDespachoTitle_despachoIdServicio}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.despachoIdServicio.servicioId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{despachoController.prepareCreate}" update=":DespachoCreateForm" oncomplete="PF('DespachoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":DespachoViewForm" oncomplete="PF('DespachoViewDialog').show()" disabled="#{empty despachoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":DespachoEditForm" oncomplete="PF('DespachoEditDialog').show()" disabled="#{empty despachoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{despachoController.delete}" update=":growl,datalist" disabled="#{empty despachoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

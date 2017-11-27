@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:wc="http://googlecode.com/wickedcharts">
+
+    <ui:composition>
+        <h:form>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <i class="fa fa-cogs">
+                    </i>
+                    1° Entrega: Carga de información de Guías de Sol y Mar, Buses, Empresarios y Conductores
+                </div>
+                <div class="panel-body" style="height: 70%;position: absolute;overflow-y: scroll">
+                    <div class="row">
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3>Recaudación</h3>
+                                    <p></p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-cogs"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/recaudacionCompleta/index','Buses')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div>                        
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3>#{countPage.busCount}</h3>
+                                    <p>N° de Buses</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-bus"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/bus/index','Buses')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>#{countPage.empresaCount}</h3>
+                                    <p>N° de Empresas</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-android-contacts"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/empresa/index','Address List')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-blue">
+                                <div class="inner">
+                                    <h3>#{countPage.servicioCount}</h3>
+                                    <p>N° de Servicios</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-arrow-swap"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/servicio/index','Category List')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h3>#{countPage.flotaCount}</h3>
+                                    <p>N° de Flotas</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-network"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/flota/index','City List')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3>#{countPage.cajaRecaudacionCount}</h3>
+                                    <p>N° de Cajas de Recaudación</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-cash"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/cajaRecaudacion/index','Country List')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-gray">
+                                <div class="inner">
+                                    <h3>#{countPage.trabajadorCount}</h3>
+                                    <p>N° de Conductores</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/trabajador/index','Customer List')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-green">
+                                <div class="inner">
+                                    <h3>#{countPage.usuarioCount}</h3>
+                                    <p>N° de Usuarios</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/usuario/index','Film Actor List')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+                        <div class="col-lg-3 col-xs-6">
+                            <div class="small-box bg-light-blue">
+                                <div class="inner">
+                                    <h3>#{countPage.terminalCount}</h3>
+                                    <p>N° de Terminales</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-stats-bars"></i>
+                                </div>
+                                <p:commandLink class="small-box-footer" action="#{menuController.setPage('/app/terminal/index','Film Category List')}" update="myPanel,myDashBoard"  onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                    <i class="fa fa-arrow-circle-right"></i> Ingresar
+                                </p:commandLink>
+                            </div>
+                        </div> 
+
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        
+    </ui:composition>
+
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ValorUtmEditDlg" widgetVar="ValorUtmEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditValorUtmTitle}" closeOnEscape="true">
+
+            <h:form id="ValorUtmEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{valorUtmController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditValorUtmLabel_valorUtmId}" for="valorUtmId" />
+                        <h:outputText id="valorUtmId" value="#{valorUtmController.selected.valorUtmId}" />
+
+                        <p:outputLabel value="#{bundle.EditValorUtmLabel_valorUtmFecha}" for="valorUtmFecha" />
+                        <p:calendar id="valorUtmFecha" pattern="MM/dd/yyyy" value="#{valorUtmController.selected.valorUtmFecha}" title="#{bundle.EditValorUtmTitle_valorUtmFecha}" required="true" requiredMessage="#{bundle.EditValorUtmRequiredMessage_valorUtmFecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditValorUtmLabel_valorUtmMonto}" for="valorUtmMonto" />
+                        <p:inputText id="valorUtmMonto" value="#{valorUtmController.selected.valorUtmMonto}" title="#{bundle.EditValorUtmTitle_valorUtmMonto}" required="true" requiredMessage="#{bundle.EditValorUtmRequiredMessage_valorUtmMonto}"/>
+
+                        <p:outputLabel value="#{bundle.EditValorUtmLabel_valorUtmFechaIngreso}" for="valorUtmFechaIngreso" />
+                        <p:calendar id="valorUtmFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{valorUtmController.selected.valorUtmFechaIngreso}" title="#{bundle.EditValorUtmTitle_valorUtmFechaIngreso}" required="true" requiredMessage="#{bundle.EditValorUtmRequiredMessage_valorUtmFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{valorUtmController.save}" value="#{bundle.Save}" update="display,:ValorUtmListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ValorUtmEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ValorUtmEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TrabajadorAdicionalSaludCreateDlg" widgetVar="TrabajadorAdicionalSaludCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTrabajadorAdicionalSaludTitle}" closeOnEscape="true">
+
+            <h:form id="TrabajadorAdicionalSaludCreateForm">
+
+                <h:panelGroup id="display" rendered="#{trabajadorAdicionalSaludController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludPorcentaje}" for="trabajadorAdicionalSaludPorcentaje" />
+                        <p:inputText id="trabajadorAdicionalSaludPorcentaje" value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludPorcentaje}" title="#{bundle.CreateTrabajadorAdicionalSaludTitle_trabajadorAdicionalSaludPorcentaje}" required="true" requiredMessage="#{bundle.CreateTrabajadorAdicionalSaludRequiredMessage_trabajadorAdicionalSaludPorcentaje}"/>
+
+                        <p:outputLabel value="#{bundle.CreateTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludMontoFijo}" for="trabajadorAdicionalSaludMontoFijo" />
+                        <p:inputText id="trabajadorAdicionalSaludMontoFijo" value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludMontoFijo}" title="#{bundle.CreateTrabajadorAdicionalSaludTitle_trabajadorAdicionalSaludMontoFijo}" required="true" requiredMessage="#{bundle.CreateTrabajadorAdicionalSaludRequiredMessage_trabajadorAdicionalSaludMontoFijo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludIdMoneda}" for="trabajadorAdicionalSaludIdMoneda" />
+                        <p:selectOneMenu id="trabajadorAdicionalSaludIdMoneda" value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludIdMoneda}" required="true" requiredMessage="#{bundle.CreateTrabajadorAdicionalSaludRequiredMessage_trabajadorAdicionalSaludIdMoneda}" converter="monedaPactadaInstitucionSaludConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{monedaPactadaInstitucionSaludController.items}"
+                                           var="trabajadorAdicionalSaludIdMonedaItem"
+                                           itemValue="#{trabajadorAdicionalSaludIdMonedaItem}"
+                                           itemLabel="#{trabajadorAdicionalSaludIdMonedaItem.monedaPactadaInstitucionSaludId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateTrabajadorAdicionalSaludLabel_trabajadorAdicionalSaludIdTrabajador}" for="trabajadorAdicionalSaludIdTrabajador" />
+                        <p:selectOneMenu id="trabajadorAdicionalSaludIdTrabajador" value="#{trabajadorAdicionalSaludController.selected.trabajadorAdicionalSaludIdTrabajador}" required="true" requiredMessage="#{bundle.CreateTrabajadorAdicionalSaludRequiredMessage_trabajadorAdicionalSaludIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="trabajadorAdicionalSaludIdTrabajadorItem"
+                                           itemValue="#{trabajadorAdicionalSaludIdTrabajadorItem}"
+                                           itemLabel="#{trabajadorAdicionalSaludIdTrabajadorItem.trabajadorId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{trabajadorAdicionalSaludController.saveNew}" value="#{bundle.Save}" update="display,:TrabajadorAdicionalSaludListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TrabajadorAdicionalSaludCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TrabajadorAdicionalSaludCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="JornadaLaboralCreateDlg" widgetVar="JornadaLaboralCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateJornadaLaboralTitle}" closeOnEscape="true">
+
+            <h:form id="JornadaLaboralCreateForm">
+
+                <h:panelGroup id="display" rendered="#{jornadaLaboralController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralId}" for="jornadaLaboralId" />
+                        <p:inputText id="jornadaLaboralId" value="#{jornadaLaboralController.selected.jornadaLaboralId}" title="#{bundle.CreateJornadaLaboralTitle_jornadaLaboralId}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralId}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralNombre}" for="jornadaLaboralNombre" />
+                        <p:inputText id="jornadaLaboralNombre" value="#{jornadaLaboralController.selected.jornadaLaboralNombre}" title="#{bundle.CreateJornadaLaboralTitle_jornadaLaboralNombre}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralNombre}" size="60" maxlength="60"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralLunes}" for="jornadaLaboralLunes" />
+                        <p:selectBooleanCheckbox id="jornadaLaboralLunes" value="#{jornadaLaboralController.selected.jornadaLaboralLunes}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralLunes}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralMartes}" for="jornadaLaboralMartes" />
+                        <p:selectBooleanCheckbox id="jornadaLaboralMartes" value="#{jornadaLaboralController.selected.jornadaLaboralMartes}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralMartes}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralMiercoles}" for="jornadaLaboralMiercoles" />
+                        <p:selectBooleanCheckbox id="jornadaLaboralMiercoles" value="#{jornadaLaboralController.selected.jornadaLaboralMiercoles}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralMiercoles}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralJueves}" for="jornadaLaboralJueves" />
+                        <p:selectBooleanCheckbox id="jornadaLaboralJueves" value="#{jornadaLaboralController.selected.jornadaLaboralJueves}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralJueves}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralViernes}" for="jornadaLaboralViernes" />
+                        <p:selectBooleanCheckbox id="jornadaLaboralViernes" value="#{jornadaLaboralController.selected.jornadaLaboralViernes}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralViernes}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralSabado}" for="jornadaLaboralSabado" />
+                        <p:selectBooleanCheckbox id="jornadaLaboralSabado" value="#{jornadaLaboralController.selected.jornadaLaboralSabado}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralSabado}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralDomingo}" for="jornadaLaboralDomingo" />
+                        <p:selectBooleanCheckbox id="jornadaLaboralDomingo" value="#{jornadaLaboralController.selected.jornadaLaboralDomingo}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralDomingo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateJornadaLaboralLabel_jornadaLaboralIdHorarioJornada}" for="jornadaLaboralIdHorarioJornada" />
+                        <p:selectOneMenu id="jornadaLaboralIdHorarioJornada" value="#{jornadaLaboralController.selected.jornadaLaboralIdHorarioJornada}" required="true" requiredMessage="#{bundle.CreateJornadaLaboralRequiredMessage_jornadaLaboralIdHorarioJornada}" converter="horarioJornadaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{horarioJornadaController.items}"
+                                           var="jornadaLaboralIdHorarioJornadaItem"
+                                           itemValue="#{jornadaLaboralIdHorarioJornadaItem}"
+                                           itemLabel="#{jornadaLaboralIdHorarioJornadaItem.horarioJornadaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{jornadaLaboralController.saveNew}" value="#{bundle.Save}" update="display,:JornadaLaboralListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('JornadaLaboralCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('JornadaLaboralCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

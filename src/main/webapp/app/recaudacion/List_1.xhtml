@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:coco="http://xmlns.jcp.org/jsf/composite/ui">
+
+    <p:panel>
+        <f:facet name="header">
+            Recaudación General
+        </f:facet>
+
+        <h:form id="selector" class="form-height">
+            <p:panelGrid columns="7" style="width: 100%;margin-bottom: 10px;">
+                <h:outputLabel value="F. Recaudación:" for="fechaRecaudacion" style="text-align: right;"/>
+                <p:calendar id="fechaRecaudacion" value="#{recaudacionGeneralController.fechaRecaudacion}" locale="es" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe seleccionar la fecha"/>
+
+                <h:outputLabel value="Caja Recaudación" for="cajaRecaudacionIdCaja" style="text-align: right;"/>
+                <p:selectOneMenu id="cajaRecaudacionIdCaja" value="#{recaudacionGeneralController.cajaRecaudacion}" required="true" requiredMessage="Debe seleccionar la Caja de Recaudación" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                    <f:selectItems value="#{recaudacionGeneralController.cajaRecaudacionItems}"
+                                   var="cajaId"
+                                   itemValue="#{cajaId}"
+                                   itemLabel="#{cajaId.cajaRecaudacionNombre}"
+                                   />                    
+                </p:selectOneMenu>
+
+                <p:commandButton id="value2" ajax="true" icon="fa fa-database" value="Cargar Guías" update="@(.clase), tabs:GuiaListForm:datalist, tabs:VentaCombustibleListForm:datalist, tabs:RecaudacionMinutoListForm:datalist, growl" styleClass="btn btn-primary" style="width:120px" actionListener="#{recaudacionGeneralController.load}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                </p:commandButton>
+            </p:panelGrid>
+        </h:form>
+    </p:panel>
+
+    <p:tabView dynamic="true" style="width: 100%;margin-top: 10px;" activeIndex="0" id="tabs">
+        <p:tab title="Guías">
+            <h:form id="GuiaListForm">
+                <p:contextMenu id="GuiaDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('tabs:GuiaListForm:datalist:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('tabs:GuiaListForm:datalist:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('tabs:GuiaListForm:datalist:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('tabs:GuiaListForm:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                </p:contextMenu>
+
+                <h:panelGrid >
+                    <p:dataTable id="datalist"
+                                 selection="#{recaudacionGeneralController.selected}"                         
+                                 scrollHeight="500" 
+                                 scrollable="false"                         
+                                 value="#{recaudacionGeneralController.recaudacionDataModel}"
+                                 widgetVar="datalistWidget"
+                                 var="item"
+                                 rowKey="#{item.recaudacionId}"
+                                 selectionMode="single"
+                                 rowIndexVar="rowIndex"
+                                 emptyMessage="No se han encontrado registros"                         
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 style="width: 100%;margin-top: 10px;">
+
+                        <p:ajax event="colResize" listener="#{recaudacionGeneralController.onResize}"/>
+                        <p:ajax event="rowSelect"   update=":tabs:GuiaListForm:datalist:createButton, :tabs:GuiaListForm:datalist:viewButton, :tabs:GuiaListForm:datalist:editButton, :tabs:GuiaListForm:datalist:deleteButton, :FichaForm:Ficha, :tabs:GuiaListForm:datalist:printer" listener="#{recaudacionGeneralController.loadGuia}" global="false"/>
+                        <p:ajax event="rowUnselect" update=":tabs:GuiaListForm:datalist:createButton, :tabs:GuiaListForm:datalist:viewButton, :tabs:GuiaListForm:datalist:editButton, :tabs:GuiaListForm:datalist:deleteButton, :FichaForm:Ficha, :tabs:GuiaListForm:datalist:printer" listener="#{egresoBusController.resetParents}" global="false"/>  
+
+                        <f:facet name="header">
+                            <div class="row row-nomargin">
+                                <div class="col-lg-3">
+                                    <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    Recaudación al: <p:outputLabel value="#{recaudacionGeneralController.fechaRecaudacion}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="pull-right">
+                                        <h:commandLink value="Excel" styleClass="btn btn-primary" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionDataModel}">
+                                            <p:dataExporter type="xls" target="tabs:GuiaListForm:datalist" fileName="Recaudacion" pageOnly="true"/>
+                                        </h:commandLink>
+                                        <h:commandLink value="PDF" styleClass="btn btn-primary" actionListener="#{recaudacionGeneralController.exportPdf2(actionEvent)}" id="pdf" target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionDataModel}"/>
+                                        <h:commandLink value="Impresión" styleClass="btn btn-primary" actionListener="#{recaudacionGeneralController.exportPdf2(actionEvent)}"  target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionDataModel}">
+                                            <p:printer target="tabs:GuiaListForm:datalist" />
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <p:column style="text-align: center; font-weight: 900;">
+                            <f:facet name="header">
+                                <h:outputText value="#"/>
+                            </f:facet>
+                            <h:outputText value="#{rowIndex+1}"/>
+                        </p:column>
+
+
+                        <p:column filterBy="#{item.recaudacionIdentificador}" style="text-align: center; font-weight: 900;">
+                            <f:facet name="header">
+                                <h:outputText value="Folio"/>
+                            </f:facet>
+                            <h:outputText value="#{item.recaudacionIdentificador}"/>
+                        </p:column>
+
+                        <p:column filterBy="#{item.recaudacionIdBus.busNumero}" style="text-align: center; font-weight: 900;">
+                            <f:facet name="header">
+                                <h:outputText value="N° Bus"/>
+                            </f:facet>
+                            <h:outputText value="#{item.recaudacionIdBus.busNumero}"/>
+                        </p:column>
+
+                        <p:column filterBy="#{item.recaudacionIdTrabajador.trabajadorApellidoPaterno}" style="text-align: center; font-weight: 900;">
+                            <f:facet name="header">
+                                <h:outputText value="Conductor"/>
+                            </f:facet>
+                            <h:outputText value="#{item.recaudacionIdTrabajador.trabajadorApellidoPaterno}"/>
+                        </p:column>
+
+                        <p:columns styleClass="clase"
+                                   value="#{recaudacionGeneralController.mapsItems.get(0).keySet().toArray()}" 
+                                   var="key" 
+                                   headerText="#{recaudacionGeneralController.resultsHeader.get(col)}" 
+                                   footerText="#{recaudacionGeneralController.resultsTotals.get(col)}"
+                                   columnIndexVar="col" 
+                                   filterBy="#{item.link[key]}"                                   
+                                   style="text-align: center; font-weight: 900;">
+                            <h:outputText  value="#{item.link[key]}">
+                                <f:convertNumber currencySymbol="$"/>
+                            </h:outputText>
+                        </p:columns>
+
+                        <p:column filterBy="#{item.recaudacionTotal}" footerText="#{recaudacionGeneralController.getFormatValue(recaudacionGeneralController.totalRecaudacion)}" style="text-align: center; font-weight: 900;" styleClass="clase">
+                            <f:facet name="header">
+                                <h:outputText value="Líquido"/>
+                            </f:facet>
+                            <h:outputText value="#{item.recaudacionTotal}" class="clase">
+                                <f:convertNumber currencySymbol="$ " currencyCode="$ "/>
+                            </h:outputText>                    
+                        </p:column>
+
+                        <f:facet name="footer">                    
+                            <p:commandButton id="createButton"  styleClass="btn btn-primary" icon="fa fa-plus"   value="#{bundle.Create}" actionListener="#{recaudacionGeneralController.prepareCreate}" disabled="#{empty recaudacionGeneralController.cajaRecaudacion}" update=":GuiaCreateForm" oncomplete="PF('GuiaCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="viewButton"    styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":GuiaViewForm" oncomplete="PF('GuiaViewDialog').show()" disabled="#{empty recaudacionGeneralController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="editButton"  rendered="false"  styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":GuiaEditForm" oncomplete="PF('GuiaEditDialog').show()" disabled="#{empty recaudacionGeneralController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="deleteButton"  styleClass="btn btn-primary" icon="fa fa-trash"  value="Cancelar Recaudación" actionListener="#{recaudacionGeneralController.delete}" update=":growl,datalist" disabled="#{empty recaudacionGeneralController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                            </p:commandButton>
+                            <p:commandButton id="printer" value="Imprimir Vale" update=":FichaForm:Ficha" icon="fa fa-print" styleClass="btn btn-primary" disabled="#{empty recaudacionGeneralController.selected}">
+                                <p:printer target=":FichaForm:Ficha"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>
+                </h:panelGrid>
+                <ui:include src="/confirmation.xhtml"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="Combustible">
+            <h:form id="VentaCombustibleListForm" class="form-height">
+
+                <p:contextMenu id="VentaCombustibleDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('tabs:VentaCombustibleListForm:datalist:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('tabs:VentaCombustibleListForm:datalist:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('tabs:VentaCombustibleListForm:datalist:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('tabs:VentaCombustibleListForm:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                </p:contextMenu>
+
+                <p:dataTable id="datalist"
+                             value="#{recaudacionGeneralController.recaudacionCombustibleItems}"                     
+                             selection="#{recaudacionGeneralController.recaudacionCombustible}"
+                             scrollHeight="500" 
+                             scrollable="false" 
+                             widgetVar="datalistWidget"
+                             var="item"
+                             rowKey="#{item.recaudacionCombustibleId}"
+                             selectionMode="single"
+                             rowIndexVar="rowIndex"
+                             emptyMessage="No se han encontrado registros"
+                             style="padding-top: 10px;">
+
+                    <p:ajax event="colResize" listener="#{recaudacionGeneralController.onResize}"/>
+                    <p:ajax event="rowSelect" update=":tabs:VentaCombustibleListForm:ficha, :tabs:VentaCombustibleListForm:datalist:createButton,:tabs:VentaCombustibleListForm:datalist:viewButton,:tabs:VentaCombustibleListForm:datalist:editButton,:tabs:VentaCombustibleListForm:datalist:deleteButton,:tabs:VentaCombustibleListForm:datalist:printer, :tabs:VentaCombustibleListForm:VentaCombustibleDataTableContextMenu" global="false" listener="#{recaudacionCombustibleController.load}" />
+                    <p:ajax event="rowUnselect" update=":tabs:VentaCombustibleListForm:ficha, :tabs:VentaCombustibleListForm:datalist:createButton,:tabs:VentaCombustibleListForm:datalist:viewButton,:tabs:VentaCombustibleListForm:datalist:editButton,:tabs:VentaCombustibleListForm:datalist:deleteButton,:tabs:VentaCombustibleListForm:datalist:printer,:tabs:VentaCombustibleListForm:VentaCombustibleDataTableContextMenu" global="false"/>
+
+                    <f:facet name="header">
+                        <div class="row row-nomargin">
+                            <div class="col-lg-3">
+                                <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                            </div>
+                            <div class="col-lg-6">                           
+                                Recaudación al: <p:outputLabel value="#{recaudacionGeneralController.fechaRecaudacion}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="pull-right">
+                                    <h:commandLink value="Excel" styleClass="btn btn-primary" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionCombustibleController.items}">
+                                        <p:dataExporter type="xls" target="tabs:VentaCombustibleListForm:datalist" fileName="Registro de Minutos" pageOnly="true"/>
+                                    </h:commandLink>
+                                    <h:commandLink value="PDF" styleClass="btn btn-primary" actionListener="#{recaudacionGeneralController.exportPdf2(actionEvent)}" id="pdf" target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionCombustibleItems}"/>
+                                    <h:commandLink value="Impresión" styleClass="btn btn-primary" actionListener="#{recaudacionGeneralController.exportPdf2(actionEvent)}"  target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionCombustibleItems}">
+                                        <p:printer target="tabs:VentaCombustibleListForm:datalist" />
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </div>
+                    </f:facet>
+
+                    <f:facet name="header">
+
+                    </f:facet>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#"/>
+                        </f:facet>
+                        <h:outputLabel value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionCombustibleIdVentaCombustible.ventaCombustibleNumeroBoleta}" filterBy="#{item.recaudacionCombustibleIdVentaCombustible.ventaCombustibleNumeroBoleta}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Boleta"/>
+                        </f:facet>
+                        <h:outputText value="#{item.recaudacionCombustibleIdVentaCombustible.ventaCombustibleNumeroBoleta}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha}" filterBy="#{item.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha"/>
+                        </f:facet>
+                        <h:outputText value="#{item.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busNumero}" filterBy="#{item.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busNumero}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Bus"/>
+                        </f:facet>
+                        <h:outputText value="#{item.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busNumero}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busIdUnidadNegocio.unidadNegocioNumero}" filterBy="#{item.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busIdUnidadNegocio.unidadNegocioNumero}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="Operador"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busIdUnidadNegocio.unidadNegocioIdOperadorTransporte.operadorTransporteNombre}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionCombustibleMonto}" footerText="#{recaudacionGeneralController.getFormatValue(recaudacionGeneralController.totalCombustible)}" filterBy="#{item.recaudacionCombustibleMonto}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="Monto"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.recaudacionCombustibleMonto}" >
+                            <f:convertNumber currencySymbol="$" />
+                        </h:outputLabel>                
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionCombustibleIdRecaudacion.recaudacionHora}" filterBy="#{item.recaudacionCombustibleIdRecaudacion.recaudacionHora}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="Hora Recaudación"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.recaudacionCombustibleIdRecaudacion.recaudacionHora}" >
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputLabel>                
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus" disabled="#{empty recaudacionGeneralController.cajaRecaudacion}"  value="#{bundle.Create}" actionListener="#{recaudacionGeneralController.prepareCreate}" update=":VentaCombustibleCreateForm" oncomplete="PF('VentaCombustibleCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                        <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":VentaCombustibleViewForm" oncomplete="PF('VentaCombustibleViewDialog').show()" disabled="#{empty recaudacionGeneralController.recaudacionCombustible}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                        <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":VentaCombustibleEditForm" oncomplete="PF('VentaCombustibleEditDialog').show()" disabled="#{empty recaudacionGeneralController.recaudacionCombustible}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                        <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="Cancelar Recaudación" actionListener="#{recaudacionCombustibleController.delete}" update=":growl,datalist" disabled="#{empty recaudacionGeneralController.recaudacionCombustible}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                        </p:commandButton>
+                        <p:commandButton id="printer" value="Imprimir Vale" update=":tabs:VentaCombustibleListForm:ficha" icon="fa fa-print" styleClass="btn btn-primary" disabled="#{empty recaudacionGeneralController.recaudacionCombustible or !recaudacionGeneralController.print}">
+                            <p:printer target=":tabs:VentaCombustibleListForm:ficha"/>
+                        </p:commandButton>                            
+                        <p:selectBooleanButton id="value1" style="visibility: hidden" styleClass="btn btn-primary" value="#{booleanBarController.status}"  onLabel="Ocultar Deudas"  offLabel="Mostrar Deudas" onIcon="fa fa-arrow-down" offIcon="fa fa-arrow-up">
+                            <p:ajax listener="#{booleanBarController.onChange}" />
+                        </p:selectBooleanButton>
+                    </f:facet>
+                </p:dataTable>
+
+
+                <p:panel id="noprint" style="visibility: hidden">
+                    <h:panelGrid id="ficha">
+                        <h:outputLabel value="Recaudación Petroleo" style="text-align: center;font-size: 25px; width: 100%;"/>
+                        <h:outputLabel value="Ñandu Tur S.A." style="text-align: center;font-size: 15px;width: 100%;"/>
+
+                        <h:panelGrid id="f" style="maring-top: 20px;" columns="2">
+                            <h:outputLabel value="Fecha:" style="width: 70px;"/>
+                            <h:outputLabel value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionFecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputLabel>
+
+                            <h:outputLabel value="Caja:" style="width: 70px; "/>
+                            <h:outputLabel value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdCaja.cajaRecaudacionNombre}" style="width: 70px;"/>
+
+                            <h:outputLabel value="N° Bus:" style="width: 70px; font-size: 20px;"/>
+                            <h:outputLabel value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busNumero}" style="font-size: 20px;"/>
+
+                        </h:panelGrid>
+
+                        <table style="width:100%">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                            </tr>
+                            <ui:repeat value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionCombustibleList}" var="egreso" >
+                                <tr>                        
+                                    <td>
+                                        <h:outputLabel value="#{egreso.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha}" style="width: 70px; font-size: 20px;">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputLabel>
+                                    </td>
+                                    <td>
+                                        <h:outputLabel value="#{egreso.recaudacionCombustibleMonto}" style="width: 70px; font-size: 20px;"/>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+
+                        </table>
+
+                    </h:panelGrid>
+
+                </p:panel>
+                <ui:include src="/confirmation.xhtml"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="Minutos">
+            <h:form id="RecaudacionMinutoListForm" class="form-height">
+
+                <p:contextMenu id="RecaudacionMinutoDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('tabs:RecaudacionMinutoListForm:datalist:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('tabs:RecaudacionMinutoListForm:datalist:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('tabs:RecaudacionMinutoListForm:datalist:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('tabs:RecaudacionMinutoListForm:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                </p:contextMenu>
+
+                <p:dataTable id="datalist"
+                             value="#{recaudacionGeneralController.recaudacionMinutoItems}"                     
+                             selection="#{recaudacionGeneralController.recaudacionMinuto}"
+                             scrollHeight="500" 
+                             scrollable="false" 
+                             widgetVar="datalistWidget"
+                             var="item"
+                             rowKey="#{item.recaudacionMinutoId}"
+                             selectionMode="single"
+                             rowIndexVar="rowIndex"
+                             emptyMessage="No se han encontrado registros"
+                             style="padding-top: 10px;">
+
+                    <p:ajax event="colResize" listener="#{recaudacionGeneralController.onResize}"/>
+                    <p:ajax event="rowSelect" update=":tabs:RecaudacionMinutoListForm:ficha, :tabs:RecaudacionMinutoListForm:datalist:createButton,:tabs:RecaudacionMinutoListForm:datalist:viewButton,:tabs:RecaudacionMinutoListForm:datalist:editButton,:tabs:RecaudacionMinutoListForm:datalist:deleteButton,:tabs:RecaudacionMinutoListForm:datalist:printer, :tabs:RecaudacionMinutoListForm:RecaudacionMinutoDataTableContextMenu" global="false" listener="#{recaudacionMinutoController.load}" />
+                    <p:ajax event="rowUnselect" update=":tabs:RecaudacionMinutoListForm:ficha, :tabs:RecaudacionMinutoListForm:datalist:createButton,:tabs:RecaudacionMinutoListForm:datalist:viewButton,:tabs:RecaudacionMinutoListForm:datalist:editButton,:tabs:RecaudacionMinutoListForm:datalist:deleteButton,:tabs:RecaudacionMinutoListForm:datalist:printer,:tabs:RecaudacionMinutoListForm:RecaudacionMinutoDataTableContextMenu" global="false"/>
+
+                    <f:facet name="header">
+                        <div class="row row-nomargin">
+                            <div class="col-lg-3">
+                                <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                            </div>
+                            <div class="col-lg-6">
+                                Recaudación al: <p:outputLabel value="#{recaudacionGeneralController.fechaRecaudacion}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>                            
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="pull-right">
+                                    <h:commandLink value="Excel" styleClass="btn btn-primary" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionMinutoItems}">
+                                        <p:dataExporter type="xls" target="tabs:RecaudacionMinutoListForm:datalist" fileName="Registro de Minutos" pageOnly="true"/>
+                                    </h:commandLink>
+                                    <h:commandLink value="PDF" styleClass="btn btn-primary" actionListener="#{recaudacionGeneralController.exportPdf2(actionEvent)}" id="pdf" target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionMinutoItems}"/>
+                                    <h:commandLink value="Impresión" styleClass="btn btn-primary" actionListener="#{recaudacionGeneralController.exportPdf2(actionEvent)}"  target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionGeneralController.recaudacionMinutoItems}">
+                                        <p:printer target="tabs:RecaudacionMinutoListForm:datalist" />
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </div>
+                    </f:facet>
+
+                    <f:facet name="header">
+
+                    </f:facet>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#"/>
+                        </f:facet>
+                        <h:outputLabel value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoDesdeIdBus.busNumero}" filterBy="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoDesdeIdBus.busNumero}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Bus Paga"/>
+                        </f:facet>
+                        <h:outputText value="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoDesdeIdBus.busNumero}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoHastaIdBus.busNumero}" filterBy="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoHastaIdBus.busNumero}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="N° Bus Recibe"/>
+                        </f:facet>
+                        <h:outputText value="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoHastaIdBus.busNumero}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoFechaMinuto}" filterBy="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoFechaMinuto}" style="text-align: center; font-weight: 900;">
+                        <f:facet name="header">
+                            <h:outputText value="F. Minuto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.recaudacionMinutoIdRegistroMinuto.registroMinutoFechaMinuto}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionMinutoMonto}" footerText="#{recaudacionGeneralController.getFormatValue(recaudacionGeneralController.totalMinutos)}" filterBy="#{item.recaudacionCombustibleMonto}" style="text-align: center; font-weight: 900;" >
+                        <f:facet name="header">
+                            <h:outputText value="Monto"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.recaudacionMinutoMonto}" >
+                            <f:convertNumber currencySymbol="$" />
+                        </h:outputLabel>                
+                    </p:column>
+
+                    <p:column sortBy="#{item.recaudacionMinutoIdRecaudacion.recaudacionHora}" filterBy="#{item.recaudacionMinutoIdRecaudacion.recaudacionHora}" style="text-align: center; font-weight: 900;" >
+                        <f:facet name="header">
+                            <h:outputText value="Hora Recaudación"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.recaudacionMinutoIdRecaudacion.recaudacionHora}" >
+                            <f:convertDateTime pattern="HH:mm:ss" />
+                        </h:outputLabel>                
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus" disabled="#{empty recaudacionGeneralController.cajaRecaudacion}"  value="#{bundle.Create}" actionListener="#{recaudacionGeneralController.prepareCreate}" update=":VentaCombustibleCreateForm" oncomplete="PF('VentaCombustibleCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                        <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":VentaCombustibleViewForm" oncomplete="PF('VentaCombustibleViewDialog').show()" disabled="#{empty recaudacionGeneralController.recaudacionMinuto}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                        <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":VentaCombustibleEditForm" oncomplete="PF('VentaCombustibleEditDialog').show()" disabled="#{empty recaudacionGeneralController.recaudacionMinuto}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                        <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="Cancelar Recaudación" actionListener="#{recaudacionMinutoController.delete}" update=":growl,datalist" disabled="#{empty recaudacionGeneralController.recaudacionMinuto}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                            <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                        </p:commandButton>
+                        <p:commandButton id="printer" value="Imprimir Vale" update=":tabs:RecaudacionMinutoListForm:ficha" icon="fa fa-print" styleClass="btn btn-primary" disabled="#{empty recaudacionMinutoController.selected or !recaudacionMinutoController.print}">
+                            <p:printer target=":tabs:RecaudacionMinutoListForm:ficha"/>
+                        </p:commandButton>                        
+                        <p:selectBooleanButton id="value1" style="visibility: hidden" styleClass="btn btn-primary" value="#{booleanBarController.status}"  onLabel="Ocultar Deudas"  offLabel="Mostrar Deudas" onIcon="fa fa-arrow-down" offIcon="fa fa-arrow-up">
+                            <p:ajax listener="#{booleanBarController.onChange}" />
+                        </p:selectBooleanButton>
+                    </f:facet>
+                </p:dataTable>
+
+
+                <p:panel id="noprint" style="visibility: hidden">
+                    <h:panelGrid id="ficha">
+                        <h:outputLabel value="Recaudación Minutos" style="text-align: center;font-size: 25px; width: 100%;"/>
+                        <h:outputLabel value="Ñandu Tur S.A." style="text-align: center;font-size: 15px;width: 100%;"/>
+
+                        <h:panelGrid id="f" style="maring-top: 20px;" columns="2">
+                            <h:outputLabel value="Fecha:" style="width: 70px;"/>
+                            <h:outputLabel value="#{recaudacionGeneralController.recaudacionMinuto.recaudacionMinutoIdRecaudacion.recaudacionFecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputLabel>
+
+                            <h:outputLabel value="Caja:" style="width: 70px; "/>
+                            <h:outputLabel value="#{recaudacionGeneralController.recaudacionMinuto.recaudacionMinutoIdRecaudacion.recaudacionIdCaja.cajaRecaudacionNombre}" style="width: 70px;"/>
+
+                            <h:outputLabel value="N° Bus:" style="width: 70px; font-size: 20px;"/>
+                            <h:outputLabel value="#{recaudacionGeneralController.recaudacionMinuto.recaudacionMinutoIdRecaudacion.recaudacionIdBus.busNumero}" style="font-size: 20px;"/>
+
+                        </h:panelGrid>
+
+                        <table style="width:100%">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                            </tr>
+
+                        </table>
+
+                    </h:panelGrid>
+
+                </p:panel>
+                <ui:include src="/confirmation.xhtml"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="Extra">
+            <h:form id="RecaudacionExtraListForm" class="form-height">
+
+                <p:contextMenu id="RecaudacionExtraDataTableContextMenu" for="datalist">  
+                    <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('tabs:RecaudacionExtraListForm:datalist:createButton').click();" icon="ui-icon-plus"/>
+                    <p:menuitem value="#{bundle.View}" onclick="document.getElementById('tabs:RecaudacionExtraListForm:datalist:viewButton').click();" icon="ui-icon-search"/>
+                    <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('tabs:RecaudacionExtraListForm:datalist:editButton').click();" icon="ui-icon-pencil"/>
+                    <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('tabs:RecaudacionExtraListForm:datalist:deleteButton').click();" icon="ui-icon-trash"/>
+                    <p:separator/>
+                </p:contextMenu>
+                <p:panel header="Recaudación Extra" id="resumen" style="padding-bottom: 10px;">
+
+                    <p:dataTable id="datalist"
+                                 value="#{recaudacionExtraController.recaudacionExtraDataModel}"                     
+                                 selection="#{recaudacionExtraController.selected}"
+                                 scrollHeight="500" 
+                                 scrollable="false" 
+                                 widgetVar="datalistWidget"
+                                 var="item"
+                                 rowKey="#{item.recaudacionExtraId}"
+                                 selectionMode="single"
+                                 rowIndexVar="rowIndex"
+                                 emptyMessage="No se han encontrado registros"
+                                 style="padding-top: 10px;">
+
+                        <p:ajax event="colResize" listener="#{recaudacionExtraController.onResize}"/>
+                        <p:ajax event="rowSelect" update=":tabs:RecaudacionExtraListForm:ficha, :tabs:RecaudacionExtraListForm:datalist:createButton,:tabs:RecaudacionExtraListForm:datalist:viewButton,:tabs:RecaudacionExtraListForm:datalist:editButton,:tabs:RecaudacionExtraListForm:datalist:deleteButton,:tabs:RecaudacionExtraListForm:datalist:printer, :tabs:RecaudacionExtraListForm:RecaudacionExtraDataTableContextMenu" global="false" listener="#{recaudacionExtraController.load}" />
+                        <p:ajax event="rowUnselect" update=":tabs:RecaudacionExtraListForm:ficha, :tabs:RecaudacionExtraListForm:datalist:createButton,:tabs:RecaudacionExtraListForm:datalist:viewButton,:tabs:RecaudacionExtraListForm:datalist:editButton,:tabs:RecaudacionExtraListForm:datalist:deleteButton,:tabs:RecaudacionExtraListForm:datalist:printer,:tabs:RecaudacionExtraListForm:RecaudacionExtraDataTableContextMenu" global="false"/>
+
+                        <f:facet name="header">
+                            <div class="row row-nomargin">
+                                <div class="col-lg-3">
+                                    <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    Recaudación al: <p:outputLabel value="#{recaudacionExtraController.fechaRecaudacion}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </p:outputLabel>                            
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="pull-right">
+                                        <h:commandLink value="Excel" styleClass="btn btn-primary" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionExtraController.items}">
+                                            <p:dataExporter type="xls" target="tabs:RecaudacionExtraListForm:datalist" fileName="Registro de Minutos" pageOnly="true"/>
+                                        </h:commandLink>
+                                        <h:commandLink value="PDF" styleClass="btn btn-primary" actionListener="#{recaudacionExtraController.exportPdf2(actionEvent)}" id="pdf" target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionExtraController.items}"/>
+                                        <h:commandLink value="Impresión" styleClass="btn btn-primary" actionListener="#{recaudacionExtraController.exportPdf2(actionEvent)}"  target="blank" style="height: 28px;display: inline-block;vertical-align: middle;line-height: normal;margin-right: 5px" disabled="#{empty recaudacionExtraController.items}">
+                                            <p:printer target="tabs:RecaudacionExtraListForm:datalist" />
+                                        </h:commandLink>
+                                    </div>
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <f:facet name="header">
+
+                        </f:facet>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#"/>
+                            </f:facet>
+                            <h:outputLabel value="#{rowIndex+1}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{item.recaudacionExtraNombre}" filterBy="#{item.recaudacionExtraNombre}" style="text-align: center; font-weight: 900;">
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.recaudacionExtraNombre}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{item.recaudacionExtraMonto}" footerText="#{recaudacionExtraController.getFormatValue(recaudacionExtraController.totalRecaudacion)}" filterBy="#{item.recaudacionExtraMonto}" style="text-align: center; font-weight: 900;">
+                            <f:facet name="header">
+                                <h:outputText value="Monto"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.recaudacionExtraMonto}" >
+                                <f:convertNumber currencySymbol="$" />
+                            </h:outputLabel>                
+                        </p:column>
+
+                        <p:column sortBy="#{item.recaudacionExtraIdRecaudacion.recaudacionHora}" filterBy="#{item.recaudacionExtraIdRecaudacion.recaudacionHora}" style="text-align: center; font-weight: 900;">
+                            <f:facet name="header">
+                                <h:outputText value="Hora Recaudación"/>
+                            </f:facet>
+                            <h:outputLabel value="#{item.recaudacionExtraIdRecaudacion.recaudacionHora}" >
+                                <f:convertDateTime pattern="HH:mm:ss" />
+                            </h:outputLabel>                
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" styleClass="btn btn-primary" icon="fa fa-plus" disabled="#{empty recaudacionExtraController.cajaRecaudacion}"  value="#{bundle.Create}" actionListener="#{recaudacionExtraController.prepareCreate(event)}" update=":RecaudacionExtraCreateForm" oncomplete="PF('RecaudacionExtraCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="viewButton"   styleClass="btn btn-primary" icon="fa fa-search" value="#{bundle.View}" update=":RecaudacionExtraViewForm" oncomplete="PF('RecaudacionExtraViewDialog').show()" disabled="#{empty recaudacionExtraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="editButton"   styleClass="btn btn-primary" icon="fa fa-pencil" value="#{bundle.Edit}" update=":RecaudacionExtraEditForm" oncomplete="PF('RecaudacionExtraEditDialog').show()" disabled="#{empty recaudacionExtraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="deleteButton" styleClass="btn btn-primary" icon="fa fa-trash"  value="Cancelar Recaudación" actionListener="#{recaudacionExtraController.delete}" update=":growl,datalist, :tabs:RecaudacionExtraListForm:resumen" disabled="#{empty recaudacionExtraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="fa fa-warning"/>
+                            </p:commandButton>
+                            <p:commandButton id="printer" value="Imprimir Vale" update=":tabs:RecaudacionExtraListForm:ficha" icon="fa fa-print" styleClass="btn btn-primary" disabled="#{empty recaudacionExtraController.selected or !recaudacionExtraController.print}">
+                                <p:printer target=":tabs:RecaudacionExtraListForm:ficha"/>
+                            </p:commandButton>                    
+                            <p:selectBooleanButton id="value1" style="visibility: hidden" styleClass="btn btn-primary" value="#{booleanBarController.status}"  onLabel="Ocultar Deudas"  offLabel="Mostrar Deudas" onIcon="fa fa-arrow-down" offIcon="fa fa-arrow-up">
+                                <p:ajax listener="#{booleanBarController.onChange}" />
+                            </p:selectBooleanButton>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+
+                <p:panel id="noprint" style="visibility: hidden">
+                    <h:panelGrid id="ficha">
+                        <h:outputLabel value="Recaudación Petroleo" style="text-align: center;font-size: 25px; width: 100%;"/>
+                        <h:outputLabel value="Ñandu Tur S.A." style="text-align: center;font-size: 15px;width: 100%;"/>
+
+                        <h:panelGrid id="f" style="maring-top: 20px;" columns="2">
+
+                        </h:panelGrid>
+
+                        <table style="width:100%">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                            </tr>
+
+                        </table>
+
+                    </h:panelGrid>
+
+                </p:panel>
+                <ui:include src="/confirmation.xhtml"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="Resumen">
+
+        </p:tab>
+    </p:tabView>
+
+    <h:form id="FichaForm">
+        <p:panel id="noprint" style="visibility: hidden">
+
+            <h:panelGrid id="Ficha">
+                <h:outputLabel value="Recaudación" style="text-align: center;font-size: 25px; width: 100%;"/>
+                <h:outputLabel value="Ñandu Tur S.A." style="text-align: center;font-size: 15px;width: 100%;"/>
+
+                <h:panelGrid id="f" style="maring-top: 20px;" columns="2">
+                    <h:outputLabel value="Fecha:" style="width: 70px;"/>
+                    <h:outputLabel value="#{recaudacionGeneralController.selected.recaudacionFecha}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputLabel>
+
+                    <h:outputLabel value="Caja:" style="width: 70px; "/>
+                    <h:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdCaja.cajaRecaudacionNombre}" style="width: 70px;"/>
+
+                    <h:outputLabel value="N° Bus:" style="width: 70px; font-size: 20px;"/>
+                    <h:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdBus.busNumero}" style="font-size: 20px;"/>
+                </h:panelGrid>
+
+                <p:panelGrid>
+                    <ui:repeat value="#{recaudacionGeneralController.recaudacionEgresoItems}" var="egreso" >
+                        <h:outputLabel value="#{egreso.recaudacionEgresoIdEgreso.egresoNombre} :" style="text-align: right; width: 60%;" />
+                        <h:outputLabel value="#{egreso.recaudacionEgresoMonto}" style="text-align: right; width: 40%;">
+                            <f:convertNumber currencyCode="$"/>
+                        </h:outputLabel>
+                    </ui:repeat>
+
+                    <h:outputLabel value="Total:" style="text-align: right;width: 60%;"/>
+                    <h:outputLabel value="#{recaudacionGeneralController.selected.recaudacionTotal}" style="text-align: right;width: 40%; ">
+                        <f:convertNumber currencyCode="$"/>
+                    </h:outputLabel>
+                </p:panelGrid>
+
+
+            </h:panelGrid>
+        </p:panel>
+    </h:form>
+
+
+
+
+
+</ui:composition>

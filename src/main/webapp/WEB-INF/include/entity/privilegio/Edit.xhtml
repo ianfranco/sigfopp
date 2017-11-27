@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PrivilegioEditDlg" widgetVar="PrivilegioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditPrivilegioTitle}" closeOnEscape="true">
+
+            <h:form id="PrivilegioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{privilegioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditPrivilegioLabel_privilegioId}" for="privilegioId" />
+                        <h:outputText id="privilegioId" value="#{privilegioController.selected.privilegioId}" />
+
+                        <p:outputLabel value="#{bundle.EditPrivilegioLabel_privilegioNombre}" for="privilegioNombre" />
+                        <p:inputText id="privilegioNombre" value="#{privilegioController.selected.privilegioNombre}" title="#{bundle.EditPrivilegioTitle_privilegioNombre}" required="true" requiredMessage="#{bundle.EditPrivilegioRequiredMessage_privilegioNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.EditPrivilegioLabel_privilegioDescripcion}" for="privilegioDescripcion" />
+                        <p:inputText id="privilegioDescripcion" value="#{privilegioController.selected.privilegioDescripcion}" title="#{bundle.EditPrivilegioTitle_privilegioDescripcion}" required="true" requiredMessage="#{bundle.EditPrivilegioRequiredMessage_privilegioDescripcion}" size="255" maxlength="255"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{privilegioController.save}" value="#{bundle.Save}" update="display,:PrivilegioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PrivilegioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PrivilegioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

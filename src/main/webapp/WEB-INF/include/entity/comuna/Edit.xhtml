@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ComunaEditDlg" widgetVar="ComunaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditComunaTitle}" closeOnEscape="true">
+
+            <h:form id="ComunaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{comunaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditComunaLabel_comunaId}" for="comunaId" />
+                        <h:outputText id="comunaId" value="#{comunaController.selected.comunaId}" />
+
+                        <p:outputLabel value="#{bundle.EditComunaLabel_comunaNombre}" for="comunaNombre" />
+                        <p:inputText id="comunaNombre" value="#{comunaController.selected.comunaNombre}" title="#{bundle.EditComunaTitle_comunaNombre}" required="true" requiredMessage="#{bundle.EditComunaRequiredMessage_comunaNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditComunaLabel_comunaFechaIngreso}" for="comunaFechaIngreso" />
+                        <p:calendar id="comunaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{comunaController.selected.comunaFechaIngreso}" title="#{bundle.EditComunaTitle_comunaFechaIngreso}" required="true" requiredMessage="#{bundle.EditComunaRequiredMessage_comunaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditComunaLabel_comunaIdCiudad}" for="comunaIdCiudad" />
+                        <p:selectOneMenu id="comunaIdCiudad" value="#{comunaController.selected.comunaIdCiudad}" required="true" requiredMessage="#{bundle.EditComunaRequiredMessage_comunaIdCiudad}" converter="ciudadConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ciudadController.items}"
+                                           var="comunaIdCiudadItem"
+                                           itemValue="#{comunaIdCiudadItem}"
+                                           itemLabel="#{comunaIdCiudadItem.ciudadId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{comunaController.save}" value="#{bundle.Save}" update="display,:ComunaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComunaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ComunaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

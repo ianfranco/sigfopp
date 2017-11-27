@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaCombustibleEditDlg" widgetVar="VentaCombustibleEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Edición Recaudación de Petroleo" closeOnEscape="true">
+
+            <h:form id="VentaCombustibleEditForm" onkeypress="return event.keyCode !== 13">
+                <h:panelGroup id="display" rendered="#{recaudacionGeneralController.recaudacionCombustible != null}">
+                    <p:panelGrid>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:focus context="guiaIdTrabajador"/>
+
+                            <p:column style="font-weight: bold;text-align: right;">N° Boleta:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:outputLabel value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdentificador}" />                                
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;"></p:column>
+                            <p:column rowspan="1" style="font-weight: bold;width: 250px;"></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;text-align: right;">N° Conductor:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:selectOneMenu id="guiaIdTrabajador" value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Conductor" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{trabajadorController.items}"
+                                                   var="guiaIdTrabajadorItem"
+                                                   itemValue="#{guiaIdTrabajadorItem}"
+                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                                   />
+                                    <p:ajax event="valueChange" update="guiaIdTrabajadorNombre, okButton" global="false"/>
+                                </p:selectOneMenu>
+                            </p:column>
+
+                            <p:column style="font-weight: bold;" rowspan="1">Conductor:</p:column>
+                            <p:column rowspan="1"><p:outputLabel  value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdTrabajador.trabajadorApellidoPaterno} #{recaudacionCombustibleController.recaudacion.recaudacionIdTrabajador.trabajadorApellidoMaterno} #{recaudacionCombustibleController.recaudacion.recaudacionIdTrabajador.trabajadorNombres.charAt(0)}." id="guiaIdTrabajadorNombre" /></p:column>
+                        </p:row>
+
+                        <!-- SEGUNDA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;text-align: right;">N° Bus:</p:column>
+                            <p:column><p:outputLabel id="guiaIdBus" value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busNumero}"/>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;text-align: right;">PPU:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdBus.busPatente}" id="guiaIdBusPatente" /></p:column>
+                        </p:row>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;text-align: right;">Deuda Petroleo:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:outputLabel id="deudaCombustible" value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdVentaCombustible.ventaCombustibleTotal}">
+                                    <f:convertNumber currencySymbol="$"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column style="text-align: right;;font-weight: bold;">Fecha:</p:column>
+                            <p:column style="font-weight: bold;font-weight: 800;">
+                                <p:outputLabel id="fechaDeuda" value="#{recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </p:outputLabel>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="text-align: center;font-weight: bold;font-weight: 800;" colspan="4" ></p:column>
+                        </p:row>
+
+
+                        <p:row>
+                            <p:column  colspan="3" style="background: #e5e5e5;">
+
+                            </p:column>
+                            <p:column  style="background: #e5e5e5;">
+                                <p:commandButton id="okButton" actionListener="#{recaudacionCombustibleController.save}" value="#{bundle.Save}" disabled="#{empty recaudacionGeneralController.recaudacionCombustible.recaudacionCombustibleIdRecaudacion.recaudacionIdTrabajador}" update="display,:tabs:VentaCombustibleListForm:datalist,:growl, :tabs:VentaCombustibleListForm:ficha" styleClass="btn btn-primary" onstart="PF('Loading').show()" oncomplete="PF('VentaCombustibleEditDialog').hide();updateFicha();" onsuccess="PF('Loading').hide();" ajax="true">
+                                </p:commandButton>
+                                <p:remoteCommand name="updateFicha" update=":tabs:VentaCombustibleListForm:ficha" />
+                                <p:commandButton value="Cerrar" oncomplete="PF('VentaCombustibleEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true" styleClass="btn btn-primary"/>                                
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>        
+
+    </ui:composition>
+
+</html>

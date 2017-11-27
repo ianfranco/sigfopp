@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="FormaPagoEditDlg" widgetVar="FormaPagoEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditFormaPagoTitle}" closeOnEscape="true">
+
+            <h:form id="FormaPagoEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{formaPagoController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditFormaPagoLabel_formaPagoId}" for="formaPagoId" />
+                        <h:outputText id="formaPagoId" value="#{formaPagoController.selected.formaPagoId}" />
+
+                        <p:outputLabel value="#{bundle.EditFormaPagoLabel_formaPagoNombre}" for="formaPagoNombre" />
+                        <p:inputText id="formaPagoNombre" value="#{formaPagoController.selected.formaPagoNombre}" title="#{bundle.EditFormaPagoTitle_formaPagoNombre}" required="true" requiredMessage="#{bundle.EditFormaPagoRequiredMessage_formaPagoNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditFormaPagoLabel_formaPagoFechaIngreso}" for="formaPagoFechaIngreso" />
+                        <p:calendar id="formaPagoFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{formaPagoController.selected.formaPagoFechaIngreso}" title="#{bundle.EditFormaPagoTitle_formaPagoFechaIngreso}" required="true" requiredMessage="#{bundle.EditFormaPagoRequiredMessage_formaPagoFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{formaPagoController.save}" value="#{bundle.Save}" update="display,:FormaPagoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FormaPagoEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('FormaPagoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

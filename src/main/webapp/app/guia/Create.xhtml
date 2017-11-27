@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Guía" closeOnEscape="true">
+
+            <h:form id="GuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{guiaController.selected != null}">
+                    <p:panelGrid columns="4" columnClasses="column, , column, ">
+                        <p:outputLabel value="Folio" for="guiaFolio" />
+                        <p:inputText id="guiaFolio" value="#{guiaController.selected.guiaFolio}" title="#{bundle.CreateGuiaTitle_guiaFolio}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaFolio}"/>
+
+                        <p:outputLabel value="Fecha" for="guiaFecha" />
+                        <p:calendar id="guiaFecha" pattern="dd/MM/yyyy" value="#{guiaController.selected.guiaFecha}" title="#{bundle.CreateGuiaTitle_guiaFecha}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaFecha}" />
+
+                        <p:outputLabel value="N° Bus" for="guiaIdBus" />
+                        <p:selectOneMenu id="guiaIdBus" value="#{guiaController.selected.guiaIdBus}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="guiaIdBusItem"
+                                           itemValue="#{guiaIdBusItem}"
+                                           itemLabel="#{guiaIdBusItem.busNumero}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="N° Conductor" for="guiaIdTrabajador" />
+                        <p:selectOneMenu id="guiaIdTrabajador" value="#{guiaController.selected.guiaIdTrabajador}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaIdTrabajador}" converter="trabajadorConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{trabajadorController.items}"
+                                           var="guiaIdTrabajadorItem"
+                                           itemValue="#{guiaIdTrabajadorItem}"
+                                           itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="T.Ingresos" for="guiaTotalIngresos" />
+                        <p:inputText id="guiaTotalIngresos" value="#{guiaController.selected.guiaTotalIngresos}" title="#{bundle.CreateGuiaTitle_guiaTotalIngresos}"/>
+
+                        <p:outputLabel value="Saldo" for="guiaSaldo" />
+                        <p:inputText id="guiaSaldo" value="#{guiaController.selected.guiaSaldo}" title="#{bundle.CreateGuiaTitle_guiaSaldo}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaSaldo}"/>
+
+                        <p:outputLabel value="Caja" for="guiaIdCajaTerminal" />
+                        <p:selectOneMenu id="guiaIdCajaTerminal" value="#{guiaController.selected.guiaIdCajaTerminal}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaIdCajaTerminal}" converter="cajaTerminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cajaTerminalController.items}"
+                                           var="guiaIdCajaTerminalItem"
+                                           itemValue="#{guiaIdCajaTerminalItem}"
+                                           itemLabel="#{guiaIdCajaTerminalItem.cajaTerminalNombreCaja}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="V.Especial" for="guiaViajeEspecial" />
+                        <p:inputText id="guiaViajeEspecial" value="#{guiaController.selected.guiaViajeEspecial}" title="#{bundle.CreateGuiaTitle_guiaViajeEspecial}"/>
+
+                        <p:outputLabel value="Otros Ingresos" for="guiaOtrosIngresos" />
+                        <p:inputText id="guiaOtrosIngresos" value="#{guiaController.selected.guiaOtrosIngresos}" title="#{bundle.CreateGuiaTitle_guiaOtrosIngresos}"/>
+
+                        <p:outputLabel value="T.Egresos" for="guiaTotalEgresos" />
+                        <p:inputText id="guiaTotalEgresos" value="#{guiaController.selected.guiaTotalEgresos}" title="#{bundle.CreateGuiaTitle_guiaTotalEgresos}"/>
+
+                        <p:outputLabel value="N° Vueltas" for="guiaNumeroVueltas" />
+                        <p:inputText id="guiaNumeroVueltas" value="#{guiaController.selected.guiaNumeroVueltas}" title="#{bundle.CreateGuiaTitle_guiaNumeroVueltas}"/>
+
+                        <p:outputLabel value="Turno" for="guiaTurno" />
+                        <p:inputText id="guiaTurno" value="#{guiaController.selected.guiaTurno}" title="#{bundle.CreateGuiaTitle_guiaTurno}"/>
+
+                        <p:outputLabel value="Observación" for="guiaObservacion" />
+                        <p:inputTextarea id="guiaObservacion" value="#{guiaController.selected.guiaObservacion}" title="#{bundle.CreateGuiaTitle_guiaObservacion}" rows="4" cols="20"/>
+
+                        <p:outputLabel value="Estado" for="guiaIdEstado" />
+                        <p:selectOneMenu id="guiaIdEstado" value="#{guiaController.selected.guiaIdEstado}" required="true" requiredMessage="#{bundle.CreateGuiaRequiredMessage_guiaIdEstado}" converter="estadoGuiaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadoGuiaController.items}"
+                                           var="guiaIdEstadoItem"
+                                           itemValue="#{guiaIdEstadoItem}"
+                                           itemLabel="#{guiaIdEstadoItem.estadoGuiaNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Recaudada?" for="guiaRecaudada" />
+                        <p:selectBooleanCheckbox id="guiaRecaudada" value="#{guiaController.selected.guiaRecaudada}" />
+
+                        <f:facet name="footer">
+                            <p:commandButton actionListener="#{guiaController.saveNew}" value="#{bundle.Save}" update="display,:GuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('GuiaCreateDialog'));">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                            </p:commandButton>
+
+                            <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('GuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                        </f:facet>
+
+                    </p:panelGrid>
+
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

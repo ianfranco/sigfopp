@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstitucionPrevisionCreateDlg" widgetVar="InstitucionPrevisionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInstitucionPrevisionTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionPrevisionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{institucionPrevisionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="Nombre" for="institucionPrevisionNombre" />
+                        <p:inputText id="institucionPrevisionNombre" value="#{institucionPrevisionController.selected.institucionPrevisionNombre}" title="#{bundle.CreateInstitucionPrevisionTitle_institucionPrevisionNombre}" required="true" requiredMessage="#{bundle.CreateInstitucionPrevisionRequiredMessage_institucionPrevisionNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="Comisión" for="institucionPrevisionComision" />
+                        <p:inputText id="institucionPrevisionComision" value="#{institucionPrevisionController.selected.institucionPrevisionComision}" title="#{bundle.CreateInstitucionPrevisionTitle_institucionPrevisionComision}"/>
+
+                        <p:outputLabel value="Porcentaje" for="institucionPrevisionPorcentajeDescuento" />
+                        <p:inputText id="institucionPrevisionPorcentajeDescuento" value="#{institucionPrevisionController.selected.institucionPrevisionPorcentajeDescuento}" title="#{bundle.CreateInstitucionPrevisionTitle_institucionPrevisionPorcentajeDescuento}" required="true" requiredMessage="#{bundle.CreateInstitucionPrevisionRequiredMessage_institucionPrevisionPorcentajeDescuento}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{institucionPrevisionController.saveNew}" value="#{bundle.Save}" update="display,:InstitucionPrevisionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstitucionPrevisionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InstitucionPrevisionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

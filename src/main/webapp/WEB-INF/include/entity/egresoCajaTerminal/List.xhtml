@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EgresoCajaTerminalListForm">
+
+        <p:panel header="#{bundle.ListEgresoCajaTerminalTitle}">
+            <p:contextMenu id="EgresoCajaTerminalDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('EgresoCajaTerminalListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('EgresoCajaTerminalListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('EgresoCajaTerminalListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('EgresoCajaTerminalListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.EgresoCajaTerminalMenuItem_egresoCajaTerminalIdEgreso}" icon="ui-icon-search"  actionListener="#{egresoCajaTerminalController.prepareEgresoCajaTerminalIdEgreso}" update=":EgresoViewForm" oncomplete="PF('EgresoViewDialog').show()" disabled="#{empty egresoCajaTerminalController.selected.egresoCajaTerminalIdEgreso}"/>  
+                <p:menuitem value="#{bundle.EgresoCajaTerminalMenuItem_egresoCajaTerminalIdCajaTerminal}" icon="ui-icon-search"  actionListener="#{egresoCajaTerminalController.prepareEgresoCajaTerminalIdCajaTerminal}" update=":CajaTerminalViewForm" oncomplete="PF('CajaTerminalViewDialog').show()" disabled="#{empty egresoCajaTerminalController.selected.egresoCajaTerminalIdCajaTerminal}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{egresoCajaTerminalController.items}"
+                         lazy="false"
+                         rowKey="#{item.egresoCajaTerminalId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{egresoCajaTerminalController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{egresoCajaTerminalController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.egresoCajaTerminalId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoCajaTerminalDataTableContextMenu" listener="#{egresoCajaTerminalController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EgresoCajaTerminalDataTableContextMenu" listener="#{egresoCajaTerminalController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{egresoCajaTerminalController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EgresoCajaTerminalListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.egresoCajaTerminalId}" filterBy="#{item.egresoCajaTerminalId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoCajaTerminalId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoCajaTerminalValorDefecto}" filterBy="#{item.egresoCajaTerminalValorDefecto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalValorDefecto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoCajaTerminalValorDefecto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoCajaTerminalPorcentaje}" filterBy="#{item.egresoCajaTerminalPorcentaje}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalPorcentaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoCajaTerminalPorcentaje}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoCajaTerminalNumeroOrden}" filterBy="#{item.egresoCajaTerminalNumeroOrden}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalNumeroOrden}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoCajaTerminalNumeroOrden}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoCajaActivo}" filterBy="#{item.egresoCajaActivo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaActivo}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="egresoCajaActivo" value="#{item.egresoCajaActivo}" title="#{bundle.EditEgresoCajaTerminalTitle_egresoCajaActivo}" required="true" requiredMessage="#{bundle.EditEgresoCajaTerminalRequiredMessage_egresoCajaActivo}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.egresoCajaTerminalFechaIngreso}" filterBy="#{item.egresoCajaTerminalFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.egresoCajaTerminalFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.egresoCajaTerminalFechaActualizacion}" filterBy="#{item.egresoCajaTerminalFechaActualizacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalFechaActualizacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoCajaTerminalFechaActualizacion}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.egresoCajaTerminalIdEgreso.egresoId}" filterBy="#{item.egresoCajaTerminalIdEgreso.egresoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalIdEgreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoCajaTerminalIdEgreso.egresoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.egresoCajaTerminalIdCajaTerminal.cajaTerminalId}" filterBy="#{item.egresoCajaTerminalIdCajaTerminal.cajaTerminalId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListEgresoCajaTerminalTitle_egresoCajaTerminalIdCajaTerminal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.egresoCajaTerminalIdCajaTerminal.cajaTerminalId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{egresoCajaTerminalController.prepareCreate}" update=":EgresoCajaTerminalCreateForm" oncomplete="PF('EgresoCajaTerminalCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":EgresoCajaTerminalViewForm" oncomplete="PF('EgresoCajaTerminalViewDialog').show()" disabled="#{empty egresoCajaTerminalController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EgresoCajaTerminalEditForm" oncomplete="PF('EgresoCajaTerminalEditDialog').show()" disabled="#{empty egresoCajaTerminalController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{egresoCajaTerminalController.delete}" update=":growl,datalist" disabled="#{empty egresoCajaTerminalController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

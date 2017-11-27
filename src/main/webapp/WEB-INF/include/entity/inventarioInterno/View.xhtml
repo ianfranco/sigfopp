@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InventarioInternoViewDlg" widgetVar="InventarioInternoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewInventarioInternoTitle}" closeOnEscape="true">
+
+            <h:form id="InventarioInternoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{inventarioInternoController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_inventarioInternoId}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.inventarioInternoId}" title="#{bundle.ViewInventarioInternoTitle_inventarioInternoId}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_inventarioInternoSerie}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.inventarioInternoSerie}" title="#{bundle.ViewInventarioInternoTitle_inventarioInternoSerie}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_inventarioInternoIdentificador}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.inventarioInternoIdentificador}" title="#{bundle.ViewInventarioInternoTitle_inventarioInternoIdentificador}"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_inventarioInternoEstado}"/>
+                        <h:selectBooleanCheckbox id="inventarioInternoEstado" value="#{inventarioInternoController.selected.inventarioInternoEstado}" title="#{bundle.EditInventarioInternoTitle_inventarioInternoEstado}" required="true" requiredMessage="#{bundle.EditInventarioInternoRequiredMessage_inventarioInternoEstado}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_inventarioInternoFechaIngreso}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.inventarioInternoFechaIngreso}" title="#{bundle.ViewInventarioInternoTitle_inventarioInternoFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewInventarioInternoLabel_inventarioInternoIdBoleto}"/>
+                        <h:outputText value="#{inventarioInternoController.selected.inventarioInternoIdBoleto.boletoId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('InventarioInternoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

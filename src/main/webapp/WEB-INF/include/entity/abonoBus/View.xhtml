@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AbonoBusViewDlg" widgetVar="AbonoBusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewAbonoBusTitle}" closeOnEscape="true">
+
+            <h:form id="AbonoBusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{abonoBusController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusId}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusId}" title="#{bundle.ViewAbonoBusTitle_abonoBusId}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusFechaInicio}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusFechaInicio}" title="#{bundle.ViewAbonoBusTitle_abonoBusFechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusFechaTermino}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusFechaTermino}" title="#{bundle.ViewAbonoBusTitle_abonoBusFechaTermino}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusCuotaActual}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusCuotaActual}" title="#{bundle.ViewAbonoBusTitle_abonoBusCuotaActual}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusTotalCuotas}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusTotalCuotas}" title="#{bundle.ViewAbonoBusTitle_abonoBusTotalCuotas}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusMontoFijo}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusMontoFijo}" title="#{bundle.ViewAbonoBusTitle_abonoBusMontoFijo}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusDescripcion}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusDescripcion}" title="#{bundle.ViewAbonoBusTitle_abonoBusDescripcion}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusActivo}"/>
+                        <h:selectBooleanCheckbox id="abonoBusActivo" value="#{abonoBusController.selected.abonoBusActivo}" title="#{bundle.EditAbonoBusTitle_abonoBusActivo}" required="true" requiredMessage="#{bundle.EditAbonoBusRequiredMessage_abonoBusActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusFechaIngreso}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusFechaIngreso}" title="#{bundle.ViewAbonoBusTitle_abonoBusFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusIdBus}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusIdBus.busId}"/>
+
+                        <h:outputText value="#{bundle.ViewAbonoBusLabel_abonoBusIdTipoAbono}"/>
+                        <h:outputText value="#{abonoBusController.selected.abonoBusIdTipoAbono.tipoAbonoId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('AbonoBusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

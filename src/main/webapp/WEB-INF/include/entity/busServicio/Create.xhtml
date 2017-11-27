@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BusServicioCreateDlg" widgetVar="BusServicioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateBusServicioTitle}" closeOnEscape="true">
+
+            <h:form id="BusServicioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{busServicioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateBusServicioLabel_busServicioFechaIngreso}" for="busServicioFechaIngreso" />
+                        <p:calendar id="busServicioFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{busServicioController.selected.busServicioFechaIngreso}" title="#{bundle.CreateBusServicioTitle_busServicioFechaIngreso}" required="true" requiredMessage="#{bundle.CreateBusServicioRequiredMessage_busServicioFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateBusServicioLabel_busServicioIdBus}" for="busServicioIdBus" />
+                        <p:selectOneMenu id="busServicioIdBus" value="#{busServicioController.selected.busServicioIdBus}" required="true" requiredMessage="#{bundle.CreateBusServicioRequiredMessage_busServicioIdBus}" converter="busConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{busController.items}"
+                                           var="busServicioIdBusItem"
+                                           itemValue="#{busServicioIdBusItem}"
+                                           itemLabel="#{busServicioIdBusItem.busId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateBusServicioLabel_busServicioIdServicio}" for="busServicioIdServicio" />
+                        <p:selectOneMenu id="busServicioIdServicio" value="#{busServicioController.selected.busServicioIdServicio}" required="true" requiredMessage="#{bundle.CreateBusServicioRequiredMessage_busServicioIdServicio}" converter="servicioConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{servicioController.items}"
+                                           var="busServicioIdServicioItem"
+                                           itemValue="#{busServicioIdServicioItem}"
+                                           itemLabel="#{busServicioIdServicioItem.servicioId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{busServicioController.saveNew}" value="#{bundle.Save}" update="display,:BusServicioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusServicioCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BusServicioCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TipoContratoListForm">
+
+        <p:panel header="#{bundle.ListTipoContratoTitle}">
+            <p:contextMenu id="TipoContratoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('TipoContratoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('TipoContratoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('TipoContratoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('TipoContratoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.TipoContratoMenuItem_liquidacionSueldoList}" icon="ui-icon-search"  action="#{tipoContratoController.navigateLiquidacionSueldoList}" disabled="#{empty tipoContratoController.selected.liquidacionSueldoList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.TipoContratoMenuItem_relacionLaboralList}" icon="ui-icon-search"  action="#{tipoContratoController.navigateRelacionLaboralList}" disabled="#{empty tipoContratoController.selected.relacionLaboralList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{tipoContratoController.items}"
+                         lazy="false"
+                         rowKey="#{item.tipoContratoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{tipoContratoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{tipoContratoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.tipoContratoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoContratoDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TipoContratoDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TipoContratoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.tipoContratoId}" filterBy="#{item.tipoContratoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoContratoTitle_tipoContratoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoContratoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoContratoNombre}" filterBy="#{item.tipoContratoNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoContratoTitle_tipoContratoNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoContratoNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoContratoFechaIngreso}" filterBy="#{item.tipoContratoFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListTipoContratoTitle_tipoContratoFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoContratoFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoContratoController.prepareCreate}" update=":TipoContratoCreateForm" oncomplete="PF('TipoContratoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":TipoContratoViewForm" oncomplete="PF('TipoContratoViewDialog').show()" disabled="#{empty tipoContratoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoContratoEditForm" oncomplete="PF('TipoContratoEditDialog').show()" disabled="#{empty tipoContratoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoContratoController.delete}" update=":growl,datalist" disabled="#{empty tipoContratoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

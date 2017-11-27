@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CuentaBancariaListForm">
+
+        <p:panel header="#{bundle.ListCuentaBancariaTitle}">
+            <p:contextMenu id="CuentaBancariaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CuentaBancariaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CuentaBancariaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CuentaBancariaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CuentaBancariaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CuentaBancariaMenuItem_trabajadorList}" icon="ui-icon-search"  action="#{cuentaBancariaController.navigateTrabajadorList}" disabled="#{empty cuentaBancariaController.selected.trabajadorList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.CuentaBancariaMenuItem_cuentaBancariaIdBanco}" icon="ui-icon-search"  actionListener="#{cuentaBancariaController.prepareCuentaBancariaIdBanco}" update=":BancoViewForm" oncomplete="PF('BancoViewDialog').show()" disabled="#{empty cuentaBancariaController.selected.cuentaBancariaIdBanco}"/>  
+                <p:menuitem value="#{bundle.CuentaBancariaMenuItem_cuentaBancariaIdTipoCuenta}" icon="ui-icon-search"  actionListener="#{cuentaBancariaController.prepareCuentaBancariaIdTipoCuenta}" update=":TipoCuentaBancoViewForm" oncomplete="PF('TipoCuentaBancoViewDialog').show()" disabled="#{empty cuentaBancariaController.selected.cuentaBancariaIdTipoCuenta}"/>  
+                <p:menuitem value="#{bundle.CuentaBancariaMenuItem_empresaList}" icon="ui-icon-search"  action="#{cuentaBancariaController.navigateEmpresaList}" disabled="#{empty cuentaBancariaController.selected.empresaList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.CuentaBancariaMenuItem_procesoRecaudacionList}" icon="ui-icon-search"  action="#{cuentaBancariaController.navigateProcesoRecaudacionList}" disabled="#{empty cuentaBancariaController.selected.procesoRecaudacionList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cuentaBancariaController.items}"
+                         lazy="false"
+                         rowKey="#{item.cuentaBancariaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{cuentaBancariaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cuentaBancariaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cuentaBancariaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CuentaBancariaDataTableContextMenu" listener="#{cuentaBancariaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CuentaBancariaDataTableContextMenu" listener="#{cuentaBancariaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cuentaBancariaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CuentaBancariaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cuentaBancariaId}" filterBy="#{item.cuentaBancariaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuentaBancariaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cuentaBancariaNumero}" filterBy="#{item.cuentaBancariaNumero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaNumero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuentaBancariaNumero}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cuentaBancariaNombreTitular}" filterBy="#{item.cuentaBancariaNombreTitular}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaNombreTitular}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuentaBancariaNombreTitular}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cuentaBancariaRutTitular}" filterBy="#{item.cuentaBancariaRutTitular}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaRutTitular}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuentaBancariaRutTitular}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cuentaBancariaActiva}" filterBy="#{item.cuentaBancariaActiva}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaActiva}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="cuentaBancariaActiva" value="#{item.cuentaBancariaActiva}" title="#{bundle.EditCuentaBancariaTitle_cuentaBancariaActiva}" required="true" requiredMessage="#{bundle.EditCuentaBancariaRequiredMessage_cuentaBancariaActiva}" disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cuentaBancariaFechaIngreso}" filterBy="#{item.cuentaBancariaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuentaBancariaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.cuentaBancariaIdBanco.bancoId}" filterBy="#{item.cuentaBancariaIdBanco.bancoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaIdBanco}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cuentaBancariaIdBanco.bancoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.cuentaBancariaIdTipoCuenta.tipoCuentaBancoId}" filterBy="#{item.cuentaBancariaIdTipoCuenta.tipoCuentaBancoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListCuentaBancariaTitle_cuentaBancariaIdTipoCuenta}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.cuentaBancariaIdTipoCuenta.tipoCuentaBancoId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cuentaBancariaController.prepareCreate}" update=":CuentaBancariaCreateForm" oncomplete="PF('CuentaBancariaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CuentaBancariaViewForm" oncomplete="PF('CuentaBancariaViewDialog').show()" disabled="#{empty cuentaBancariaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CuentaBancariaEditForm" oncomplete="PF('CuentaBancariaEditDialog').show()" disabled="#{empty cuentaBancariaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cuentaBancariaController.delete}" update=":growl,datalist" disabled="#{empty cuentaBancariaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

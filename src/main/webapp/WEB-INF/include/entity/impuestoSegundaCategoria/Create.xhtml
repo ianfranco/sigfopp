@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImpuestoSegundaCategoriaCreateDlg" widgetVar="ImpuestoSegundaCategoriaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateImpuestoSegundaCategoriaTitle}" closeOnEscape="true">
+
+            <h:form id="ImpuestoSegundaCategoriaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{impuestoSegundaCategoriaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaDesde}" for="impuestoSegundaCategoriaDesde" />
+                        <p:inputText id="impuestoSegundaCategoriaDesde" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaDesde}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaDesde}" required="true" requiredMessage="#{bundle.CreateImpuestoSegundaCategoriaRequiredMessage_impuestoSegundaCategoriaDesde}"/>
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaHasta}" for="impuestoSegundaCategoriaHasta" />
+                        <p:inputText id="impuestoSegundaCategoriaHasta" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaHasta}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaHasta}" required="true" requiredMessage="#{bundle.CreateImpuestoSegundaCategoriaRequiredMessage_impuestoSegundaCategoriaHasta}"/>
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaFactor}" for="impuestoSegundaCategoriaFactor" />
+                        <p:inputText id="impuestoSegundaCategoriaFactor" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaFactor}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaFactor}"/>
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaRebaja}" for="impuestoSegundaCategoriaRebaja" />
+                        <p:inputText id="impuestoSegundaCategoriaRebaja" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaRebaja}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaRebaja}"/>
+
+                        <p:outputLabel value="#{bundle.CreateImpuestoSegundaCategoriaLabel_impuestoSegundaCategoriaFechaIngreso}" for="impuestoSegundaCategoriaFechaIngreso" />
+                        <p:calendar id="impuestoSegundaCategoriaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{impuestoSegundaCategoriaController.selected.impuestoSegundaCategoriaFechaIngreso}" title="#{bundle.CreateImpuestoSegundaCategoriaTitle_impuestoSegundaCategoriaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateImpuestoSegundaCategoriaRequiredMessage_impuestoSegundaCategoriaFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{impuestoSegundaCategoriaController.saveNew}" value="#{bundle.Save}" update="display,:ImpuestoSegundaCategoriaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ImpuestoSegundaCategoriaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ImpuestoSegundaCategoriaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

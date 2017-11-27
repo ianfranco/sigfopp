@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ContratoUnidadListForm">
+
+        <p:panel header="#{bundle.ListContratoUnidadTitle}">
+            <p:contextMenu id="ContratoUnidadDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ContratoUnidadListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ContratoUnidadListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ContratoUnidadListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ContratoUnidadListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ContratoUnidadMenuItem_contratoUnidadIdUnidadNegocio}" icon="ui-icon-search"  actionListener="#{contratoUnidadController.prepareContratoUnidadIdUnidadNegocio}" update=":UnidadNegocioViewForm" oncomplete="PF('UnidadNegocioViewDialog').show()" disabled="#{empty contratoUnidadController.selected.contratoUnidadIdUnidadNegocio}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{contratoUnidadController.items}"
+                         lazy="false"
+                         rowKey="#{item.contratoUnidadId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{contratoUnidadController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{contratoUnidadController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.contratoUnidadId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ContratoUnidadDataTableContextMenu" listener="#{contratoUnidadController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ContratoUnidadDataTableContextMenu" listener="#{contratoUnidadController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{contratoUnidadController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ContratoUnidadListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.contratoUnidadId}" filterBy="#{item.contratoUnidadId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contratoUnidadId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contratoUnidadIdentificador}" filterBy="#{item.contratoUnidadIdentificador}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadIdentificador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contratoUnidadIdentificador}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contratoUnidadDesde}" filterBy="#{item.contratoUnidadDesde}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadDesde}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contratoUnidadDesde}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contratoUnidadHasta}" filterBy="#{item.contratoUnidadHasta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadHasta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contratoUnidadHasta}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contratoUnidadNombre}" filterBy="#{item.contratoUnidadNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contratoUnidadNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contratoUnidadDescripcion}" filterBy="#{item.contratoUnidadDescripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadDescripcion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contratoUnidadDescripcion}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.contratoUnidadFechaIngreso}" filterBy="#{item.contratoUnidadFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.contratoUnidadFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.contratoUnidadIdUnidadNegocio.unidadNegocioId}" filterBy="#{item.contratoUnidadIdUnidadNegocio.unidadNegocioId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListContratoUnidadTitle_contratoUnidadIdUnidadNegocio}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.contratoUnidadIdUnidadNegocio.unidadNegocioId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{contratoUnidadController.prepareCreate}" update=":ContratoUnidadCreateForm" oncomplete="PF('ContratoUnidadCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ContratoUnidadViewForm" oncomplete="PF('ContratoUnidadViewDialog').show()" disabled="#{empty contratoUnidadController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ContratoUnidadEditForm" oncomplete="PF('ContratoUnidadEditDialog').show()" disabled="#{empty contratoUnidadController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{contratoUnidadController.delete}" update=":growl,datalist" disabled="#{empty contratoUnidadController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

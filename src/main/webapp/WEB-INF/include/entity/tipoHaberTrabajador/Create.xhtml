@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoHaberTrabajadorCreateDlg" widgetVar="TipoHaberTrabajadorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoHaberTrabajadorTitle}" closeOnEscape="true">
+
+            <h:form id="TipoHaberTrabajadorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoHaberTrabajadorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateTipoHaberTrabajadorLabel_tipoHaberTrabajadorNombre}" for="tipoHaberTrabajadorNombre" />
+                        <p:inputText id="tipoHaberTrabajadorNombre" value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorNombre}" title="#{bundle.CreateTipoHaberTrabajadorTitle_tipoHaberTrabajadorNombre}" required="true" requiredMessage="#{bundle.CreateTipoHaberTrabajadorRequiredMessage_tipoHaberTrabajadorNombre}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoHaberTrabajadorLabel_tipoHaberTrabajadorMontoDefecto}" for="tipoHaberTrabajadorMontoDefecto" />
+                        <p:inputText id="tipoHaberTrabajadorMontoDefecto" value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorMontoDefecto}" title="#{bundle.CreateTipoHaberTrabajadorTitle_tipoHaberTrabajadorMontoDefecto}" required="true" requiredMessage="#{bundle.CreateTipoHaberTrabajadorRequiredMessage_tipoHaberTrabajadorMontoDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoHaberTrabajadorLabel_tipoHaberTrabajadorImponible}" for="tipoHaberTrabajadorImponible" />
+                        <p:selectBooleanCheckbox id="tipoHaberTrabajadorImponible" value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorImponible}" required="true" requiredMessage="#{bundle.CreateTipoHaberTrabajadorRequiredMessage_tipoHaberTrabajadorImponible}"/>
+
+                        <p:outputLabel value="#{bundle.CreateTipoHaberTrabajadorLabel_tipoHaberTrabajadorFechaIngreso}" for="tipoHaberTrabajadorFechaIngreso" />
+                        <p:calendar id="tipoHaberTrabajadorFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoHaberTrabajadorController.selected.tipoHaberTrabajadorFechaIngreso}" title="#{bundle.CreateTipoHaberTrabajadorTitle_tipoHaberTrabajadorFechaIngreso}" required="true" requiredMessage="#{bundle.CreateTipoHaberTrabajadorRequiredMessage_tipoHaberTrabajadorFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoHaberTrabajadorController.saveNew}" value="#{bundle.Save}" update="display,:TipoHaberTrabajadorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoHaberTrabajadorCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoHaberTrabajadorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

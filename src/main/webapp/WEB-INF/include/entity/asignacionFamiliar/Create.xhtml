@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AsignacionFamiliarCreateDlg" widgetVar="AsignacionFamiliarCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAsignacionFamiliarTitle}" closeOnEscape="true">
+
+            <h:form id="AsignacionFamiliarCreateForm">
+
+                <h:panelGroup id="display" rendered="#{asignacionFamiliarController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_asignacionFamiliarCodigo}" for="asignacionFamiliarCodigo" />
+                        <p:inputText id="asignacionFamiliarCodigo" value="#{asignacionFamiliarController.selected.asignacionFamiliarCodigo}" title="#{bundle.CreateAsignacionFamiliarTitle_asignacionFamiliarCodigo}" required="true" requiredMessage="#{bundle.CreateAsignacionFamiliarRequiredMessage_asignacionFamiliarCodigo}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_asignacionFamiliarTramo}" for="asignacionFamiliarTramo" />
+                        <p:inputText id="asignacionFamiliarTramo" value="#{asignacionFamiliarController.selected.asignacionFamiliarTramo}" title="#{bundle.CreateAsignacionFamiliarTitle_asignacionFamiliarTramo}" required="true" requiredMessage="#{bundle.CreateAsignacionFamiliarRequiredMessage_asignacionFamiliarTramo}" size="255" maxlength="255"/>
+
+                        <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_asignacionFamiliarMonto}" for="asignacionFamiliarMonto" />
+                        <p:inputText id="asignacionFamiliarMonto" value="#{asignacionFamiliarController.selected.asignacionFamiliarMonto}" title="#{bundle.CreateAsignacionFamiliarTitle_asignacionFamiliarMonto}" required="true" requiredMessage="#{bundle.CreateAsignacionFamiliarRequiredMessage_asignacionFamiliarMonto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_asignacionFamiliarDesde}" for="asignacionFamiliarDesde" />
+                        <p:inputText id="asignacionFamiliarDesde" value="#{asignacionFamiliarController.selected.asignacionFamiliarDesde}" title="#{bundle.CreateAsignacionFamiliarTitle_asignacionFamiliarDesde}" required="true" requiredMessage="#{bundle.CreateAsignacionFamiliarRequiredMessage_asignacionFamiliarDesde}"/>
+
+                        <p:outputLabel value="#{bundle.CreateAsignacionFamiliarLabel_asignacionFamiliarHasta}" for="asignacionFamiliarHasta" />
+                        <p:inputText id="asignacionFamiliarHasta" value="#{asignacionFamiliarController.selected.asignacionFamiliarHasta}" title="#{bundle.CreateAsignacionFamiliarTitle_asignacionFamiliarHasta}" required="true" requiredMessage="#{bundle.CreateAsignacionFamiliarRequiredMessage_asignacionFamiliarHasta}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{asignacionFamiliarController.saveNew}" value="#{bundle.Save}" update="display,:AsignacionFamiliarListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AsignacionFamiliarCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AsignacionFamiliarCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

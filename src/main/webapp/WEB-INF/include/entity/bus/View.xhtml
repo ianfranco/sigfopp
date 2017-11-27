@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BusViewDlg" widgetVar="BusViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewBusTitle}" closeOnEscape="true">
+
+            <h:form id="BusViewForm">
+
+                <h:panelGroup id="display">
+                    <p:tabView id="BusTabView">
+
+                        <p:tab id="BusTab1" title="#{bundle.TabHeaderPrefix} 1">
+                            <p:panelGrid columns="2" columnClasses="column" rendered="#{busController.selected != null}">
+                                <h:outputText value="#{bundle.ViewBusLabel_busId}"/>
+                                <h:outputText value="#{busController.selected.busId}" title="#{bundle.ViewBusTitle_busId}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busNumero}"/>
+                                <h:outputText value="#{busController.selected.busNumero}" title="#{bundle.ViewBusTitle_busNumero}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busPatente}"/>
+                                <h:outputText value="#{busController.selected.busPatente}" title="#{bundle.ViewBusTitle_busPatente}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busAdministrador}"/>
+                                <h:outputText value="#{busController.selected.busAdministrador}" title="#{bundle.ViewBusTitle_busAdministrador}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busAnio}"/>
+                                <h:outputText value="#{busController.selected.busAnio}" title="#{bundle.ViewBusTitle_busAnio}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busFechaRevisionTecnica}"/>
+                                <h:outputText value="#{busController.selected.busFechaRevisionTecnica}" title="#{bundle.ViewBusTitle_busFechaRevisionTecnica}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busNumeroMotor}"/>
+                                <h:outputText value="#{busController.selected.busNumeroMotor}" title="#{bundle.ViewBusTitle_busNumeroMotor}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busNumeroChasis}"/>
+                                <h:outputText value="#{busController.selected.busNumeroChasis}" title="#{bundle.ViewBusTitle_busNumeroChasis}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busCarroceria}"/>
+                                <h:outputText value="#{busController.selected.busCarroceria}" title="#{bundle.ViewBusTitle_busCarroceria}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busActivo}"/>
+                                <h:selectBooleanCheckbox id="busActivo" value="#{busController.selected.busActivo}" title="#{bundle.EditBusTitle_busActivo}"  disabled="true"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busFechaIngreso}"/>
+                                <h:outputText value="#{busController.selected.busFechaIngreso}" title="#{bundle.ViewBusTitle_busFechaIngreso}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busIdEmpresa}"/>
+                                <h:outputText value="#{busController.selected.busIdEmpresa.empresaId}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busIdEstadoBus}"/>
+                                <h:outputText value="#{busController.selected.busIdEstadoBus.estadoBusId}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busIdFlota}"/>
+                                <h:outputText value="#{busController.selected.busIdFlota.flotaId}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busIdModelo}"/>
+                                <h:outputText value="#{busController.selected.busIdModelo.modeloMarcaBusId}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busIdProcesoRecaudacion}"/>
+                                <h:outputText value="#{busController.selected.busIdProcesoRecaudacion.procesoRecaudacionId}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busIdTerminal}"/>
+                                <h:outputText value="#{busController.selected.busIdTerminal.terminalId}"/>
+
+                                <h:outputText value="#{bundle.ViewBusLabel_busIdUnidadNegocio}"/>
+                                <h:outputText value="#{busController.selected.busIdUnidadNegocio.unidadNegocioId}"/>
+                            </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('BusViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

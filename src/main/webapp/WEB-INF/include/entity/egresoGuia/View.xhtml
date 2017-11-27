@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoGuiaViewDlg" widgetVar="EgresoGuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoGuiaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoGuiaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_egresoGuiaId}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.egresoGuiaId}" title="#{bundle.ViewEgresoGuiaTitle_egresoGuiaId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_egresoGuiaMonto}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.egresoGuiaMonto}" title="#{bundle.ViewEgresoGuiaTitle_egresoGuiaMonto}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_egresoGuiaRecaudado}"/>
+                        <h:selectBooleanCheckbox id="egresoGuiaRecaudado" value="#{egresoGuiaController.selected.egresoGuiaRecaudado}" title="#{bundle.EditEgresoGuiaTitle_egresoGuiaRecaudado}" required="true" requiredMessage="#{bundle.EditEgresoGuiaRequiredMessage_egresoGuiaRecaudado}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_egresoGuiaFechaIngreso}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.egresoGuiaFechaIngreso}" title="#{bundle.ViewEgresoGuiaTitle_egresoGuiaFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_egresoGuiaIdEgreso}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.egresoGuiaIdEgreso.egresoId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoGuiaLabel_egresoGuiaIdGuia}"/>
+                        <h:outputText value="#{egresoGuiaController.selected.egresoGuiaIdGuia.guiaId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoGuiaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="GuiaViewDlg" widgetVar="GuiaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="Ficha Recaudación" closeOnEscape="true">
+
+            <h:form id="GuiaViewForm">
+
+                <h:panelGroup id="display" rendered="#{recaudacionGeneralController.selected != null}">
+                    <p:panelGrid>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">Folio:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdentificador}"/>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Empresario:</p:column>
+                            <p:column rowspan="1" style="font-weight: bold;width: 250px;"><p:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdBus.busIdEmpresa.empresaNombre}" id="guiaIdBusEmpresario" /></p:column>
+                        </p:row>
+
+
+                        <!-- SEGUNDA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Bus:</p:column>
+                            <p:column><p:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdBus.busNumero}"/>                                
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">PPU:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdBus.busPatente}" id="guiaIdBusPatente" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Conductor:</p:column>
+                            <p:column style="font-weight: bold;"><p:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdTrabajador.trabajadorCodigo}"/>                                
+                            </p:column>
+
+                            <p:column style="font-weight: bold;" rowspan="1">Conductor:</p:column>
+                            <p:column rowspan="1">
+                                <p:outputLabel value="#{recaudacionGeneralController.selected.recaudacionIdTrabajador.trabajadorApellidoPaterno} #{recaudacionGeneralController.selected.recaudacionIdTrabajador.trabajadorApellidoMaterno} #{recaudacionGeneralController.selected.recaudacionIdTrabajador.trabajadorNombres.charAt(0)}." id="guiaIdTrabajadorNombre" >
+
+                                </p:outputLabel></p:column>
+                        </p:row>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>                            
+                            <p:column colspan="2" style="font-weight: bold;">
+                                <p:dataList value="#{recaudacionGeneralController.selected.recaudacionCombustibleList}" var="car" emptyMessage="Sin recaudación" style="width: 350px;">
+                                    <f:facet name="header">
+                                        Petroleo
+                                    </f:facet>
+                                    Monto: #{recaudacionGeneralController.getFormatValue(car.recaudacionCombustibleIdVentaCombustible.ventaCombustibleTotal)} - Fecha: #{recaudacionGeneralController.getFormatFecha(car.recaudacionCombustibleIdVentaCombustible.ventaCombustibleFecha)}
+                                </p:dataList>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Total:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="$ #{recaudacionGeneralController.getFormatValue(recaudacionGeneralController.selected.totalCombustible)}" id="guiaIdTotalVentaCombustible" /></p:column>
+                        </p:row>
+                        <!-- CUARTA FILA -->
+                        <p:row>                            
+                            <p:column colspan="2" style="font-weight: bold;">
+                                <p:dataList value="#{recaudacionGeneralController.selected.recaudacionMinutoList}" var="car" emptyMessage="Sin recaudación" style="width: 350px;">
+                                    <f:facet name="header">
+                                        Minutos
+                                    </f:facet>
+                                    N° Bus:#{car.recaudacionMinutoIdRegistroMinuto.registroMinutoHastaIdBus.busNumero} / Fecha: #{recaudacionGeneralController.getFormatFecha(car.recaudacionMinutoIdRegistroMinuto.registroMinutoFechaMinuto)} Total:$ #{recaudacionGeneralController.getFormatValue(car.recaudacionMinutoIdRegistroMinuto.registroMinutoMonto)} 
+                                </p:dataList>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Total</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="$ #{recaudacionGeneralController.getFormatValue(recaudacionGeneralController.selected.totalMinutos)}" id="guiaIdTotalRegistroMinuto" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Detalle Recaudación: 
+                            </p:column>
+                            <p:column  colspan="4" style="background: #e5e5e5">                                
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="text-align: center;font-weight: bold;font-weight: 800;" colspan="4" ></p:column>
+                        </p:row>
+
+
+                        <ui:repeat value="#{recaudacionGeneralController.recaudacionEgresoItems}" var="egreso" >
+                            <p:row rendered="#{egreso.recaudacionEgresoIdEgreso.egresoId!= 2 and egreso.recaudacionEgresoIdEgreso.egresoId!= 26}">
+                                <p:column style="font-weight: bold;" colspan="2"/>
+                                <p:column style="font-weight: bold;" >#{egreso.recaudacionEgresoIdEgreso.egresoNombre}</p:column>
+                                <p:column style="font-weight: bold;" >$ #{recaudacionGeneralController.getFormatValue(egreso.recaudacionEgresoMonto)}</p:column>
+                            </p:row>
+                        </ui:repeat>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Líquido
+                            </p:column>
+                            <p:column  colspan="4" style="text-align: left;background: #e5e5e5;">
+                                <p:outputLabel styleClass="clase2" id="guiaSaldo" value="$ #{recaudacionGeneralController.getFormatValue(recaudacionGeneralController.selected.recaudacionTotal)}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="background: #e5e5e5;">
+
+                            </p:column>
+                            <p:column  style="background: #e5e5e5;">
+                                <p:commandButton id="okButton" actionListener="#{recaudacionGeneralController.saveNew}" value="#{bundle.Save}" update="display,:tabs:GuiaListForm:datalist,:growl, :FichaForm:Ficha" disabled="#{empty recaudacionGeneralController.selected.recaudacionIdBus or empty recaudacionGeneralController.selected.recaudacionIdTrabajador}" styleClass="btn btn-primary" onstart="PF('Loading').show()" oncomplete="PF('GuiaViewDialog').hide();updateFicha();" onsuccess="PF('Loading').hide();" ajax="true">
+                                </p:commandButton>
+                                <p:remoteCommand name="updateFicha" update=":FichaForm:Ficha" />
+                                <p:commandButton value="Cerrar" oncomplete="PF('GuiaViewDialog').hide()" update="display" process="@this" immediate="true" resetValues="true" styleClass="btn btn-primary"/>                                
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

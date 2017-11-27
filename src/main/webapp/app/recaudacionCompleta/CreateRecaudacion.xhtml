@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="GuiaCreateDlg" widgetVar="GuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Recaudación " closeOnEscape="true">
+            <h:form id="GuiaCreateForm" onkeypress="return event.keyCode !== 13">
+                <h:panelGroup id="display" rendered="#{recaudacionCompletaController.selected != null}">
+                    <p:panelGrid>
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:focus context="guiaFolio"/>
+
+                            <p:column style="font-weight: bold;">Folio:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:inputNumber emptyValue="zero" id="guiaFolio" value="#{recaudacionCompletaController.selected.recaudacionIdentificador}" title="#{bundle.CreateGuiaTitle_guiaFolio}" required="true" requiredMessage="Debe ingresar el folio" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)" minValue="1">
+
+                                </p:inputNumber>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Empresario:</p:column>
+                            <p:column rowspan="1" style="font-weight: bold;width: 250px;"><p:outputLabel value="#{recaudacionCompletaController.selected.recaudacionIdBus.busIdEmpresa.empresaNombre}" id="guiaIdBusEmpresario" /></p:column>
+                        </p:row>
+
+                        <!-- SEGUNDA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Bus:</p:column>
+                            <p:column><p:selectOneMenu id="guiaIdBus" value="#{recaudacionCompletaController.selected.recaudacionIdBus}" required="true" requiredMessage="Debe seleccionar el Bus" converter="omnifaces.SelectItemsConverter" >
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{recaudacionCompletaController.busItems}"
+                                                   var="guiaIdBusItem"
+                                                   itemValue="#{guiaIdBusItem}"
+                                                   itemLabel="#{guiaIdBusItem.busNumero}"
+                                                   />
+                                    <p:ajax event="valueChange" update="guiaIdBusPatente, guiaIdBusEmpresario, growl, guiaIdPetroleo, guiaIdMinutos, guiaSaldo, okButton, guiaIdTotalVentaCombustible, guiaIdTotalRegistroMinuto" listener="#{recaudacionCompletaController.handleBusChange(event)}" global="false"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">PPU:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="#{recaudacionCompletaController.selected.recaudacionIdBus.busPatente}" id="guiaIdBusPatente" /></p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="font-weight: bold;">N° Conductor:</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:selectOneMenu id="guiaIdTrabajador" value="#{recaudacionCompletaController.selected.recaudacionIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Conductor" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                    <f:selectItems value="#{trabajadorController.items}"
+                                                   var="guiaIdTrabajadorItem"
+                                                   itemValue="#{guiaIdTrabajadorItem}"
+                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                                   />
+                                    <p:ajax event="valueChange" update="guiaIdTrabajadorNombre, okButton" global="false"/>
+                                </p:selectOneMenu>
+                            </p:column>
+
+                            <p:column style="font-weight: bold;" rowspan="1">Conductor:</p:column>
+                            <p:column rowspan="1">
+                                <p:outputLabel value="#{recaudacionCompletaController.selected.recaudacionIdTrabajador.trabajadorApellidoPaterno} #{recaudacionCompletaController.selected.recaudacionIdTrabajador.trabajadorApellidoMaterno} #{recaudacionCompletaController.selected.recaudacionIdTrabajador.trabajadorNombres.charAt(0)}." id="guiaIdTrabajadorNombre" >
+
+                                </p:outputLabel></p:column>
+                        </p:row>
+
+                        <!-- PRIMERA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">Deuda</p:column>
+                            <p:column style="font-weight: bold;">
+                                <p:selectCheckboxMenu id="guiaIdPetroleo" 
+                                                      value="#{recaudacionCompletaController.selectedPetroleoHelper}" 
+                                                      label="Petroleo" 
+                                                      converter="omnifaces.SelectItemsConverter" 
+                                                      disabled="#{empty recaudacionCompletaController.ventaCombustibleItems}"                                                      
+                                                      filter="true" 
+                                                      filterMatchMode="contains" 
+                                                      style="width: 250px;"
+                                                      panelStyle="width:250px">
+                                    <f:selectItems value="#{recaudacionCompletaController.ventaCombustibleItems}"
+                                                   var="ventaCombustibleL"
+                                                   itemValue="#{ventaCombustibleL}"
+                                                   itemLabel="#{ventaCombustibleL.observacion}"
+                                                   />
+                                    <p:ajax event="change" update="guiaIdTotalVentaCombustible, guiaSaldo, @(.clase2)" listener="#{recaudacionCompletaController.calculaTotal}"/>
+                                    <p:ajax event="toggleSelect" update="guiaIdTotalVentaCombustible, guiaSaldo, @(.clase2)" listener="#{recaudacionCompletaController.calculaTotal}" />
+                                </p:selectCheckboxMenu>
+
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Total:</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="$ #{recaudacionCompletaController.getFormatValue(recaudacionCompletaController.totalRecaudacionCombustible)}" id="guiaIdTotalVentaCombustible" /></p:column>
+                        </p:row>
+                        <!-- CUARTA FILA -->
+                        <p:row>
+                            <p:column style="font-weight: bold;">Deuda</p:column>
+                            <p:column style="font-weight: bold;">
+
+                                <p:selectCheckboxMenu id="guiaIdMinutos" 
+                                                      value="#{recaudacionCompletaController.selectedMinutosHelper}" 
+                                                      label="Minutos" 
+                                                      converter="omnifaces.SelectItemsConverter" 
+                                                      disabled="#{empty recaudacionCompletaController.registroMinutoItems}"
+                                                      filter="true" 
+                                                      filterMatchMode="contains" 
+                                                      style="width: 250px;"
+                                                      panelStyle="width:250px">
+                                    <f:selectItems value="#{recaudacionCompletaController.registroMinutoItems}"
+                                                   var="registroMinutoL"
+                                                   itemValue="#{registroMinutoL}"
+                                                   itemLabel="#{registroMinutoL.observacion} "
+                                                   />
+                                    <p:ajax event="change" update="guiaIdTotalRegistroMinuto, guiaSaldo, @(.clase2)" listener="#{recaudacionCompletaController.calculaTotal}"/>
+                                    <p:ajax event="toggleSelect" update="guiaIdTotalRegistroMinuto, guiaSaldo, @(.clase2)" listener="#{recaudacionCompletaController.calculaTotal}" />
+                                </p:selectCheckboxMenu>
+
+
+                            </p:column>
+                            <p:column rowspan="1" style="font-weight: bold;">Total</p:column>
+                            <p:column rowspan="1"><p:outputLabel value="$ #{recaudacionCompletaController.getFormatValue(recaudacionCompletaController.totalRecaudacionMinuto)}" id="guiaIdTotalRegistroMinuto" /></p:column>
+                        </p:row>
+                      
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Detalle Recaudación: 
+                            </p:column>
+                            <p:column  colspan="4" style="background: #e5e5e5">                                
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="text-align: center;font-weight: bold;font-weight: 800;" colspan="4" ></p:column>
+                        </p:row>
+
+
+                        <ui:repeat value="#{recaudacionCompletaController.recaudacionEgresoItems}" var="egreso" >
+                            <p:row rendered="#{egreso.recaudacionEgresoIdEgreso.egresoId!= 2 and egreso.recaudacionEgresoIdEgreso.egresoId!= 26}">
+                                <p:column style="font-weight: bold;" colspan="2"/>
+                                <p:column style="font-weight: bold;" >#{egreso.recaudacionEgresoIdEgreso.egresoNombre}</p:column>
+                                <p:column style="font-weight: bold;" >
+                                    <p:inputNumber emptyValue="zero" minValue="0" styleClass="clase" id="egresoGuiaMonto" value="#{egreso.recaudacionEgresoMonto}" decimalPlaces="0" onfocus="this.setSelectionRange(0, this.value.length)" symbol="$ ">
+                                        <p:ajax event="valueChange" update="growl, @(.clase2)" global="false" listener="#{recaudacionCompletaController.calculaTotal}"></p:ajax>
+                                    </p:inputNumber>
+                                </p:column>
+                            </p:row>
+                        </ui:repeat>
+
+                        <p:row>
+                            <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
+                                Líquido
+                            </p:column>
+                            <p:column  colspan="4" style="text-align: left;background: #e5e5e5;">
+                                <p:outputLabel styleClass="clase2" id="guiaSaldo" value="$ #{recaudacionCompletaController.getFormatValue(recaudacionCompletaController.selected.recaudacionTotal)}" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column  colspan="3" style="background: #e5e5e5;">
+
+                            </p:column>
+                            <p:column  style="background: #e5e5e5;">
+                                <p:commandButton id="okButton" actionListener="#{recaudacionCompletaController.saveNew}" value="#{bundle.Save}" update="display,:growl" disabled="#{empty recaudacionCompletaController.selected.recaudacionIdBus or empty recaudacionCompletaController.selected.recaudacionIdTrabajador}" styleClass="btn btn-primary" onstart="PF('Loading').show()" oncomplete="PF('GuiaCreateDialog').hide();updateFicha();" onsuccess="PF('Loading').hide();" ajax="true">
+                                </p:commandButton>
+                                <p:remoteCommand name="updateFicha" update=":growl" />
+                                <p:commandButton value="Cerrar" oncomplete="PF('GuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true" styleClass="btn btn-primary"/>                                
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>        
+
+    </ui:composition>
+
+</html>

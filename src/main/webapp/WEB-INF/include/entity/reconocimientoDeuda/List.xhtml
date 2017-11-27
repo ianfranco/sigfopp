@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ReconocimientoDeudaListForm">
+
+        <p:panel header="#{bundle.ListReconocimientoDeudaTitle}">
+            <p:contextMenu id="ReconocimientoDeudaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('ReconocimientoDeudaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('ReconocimientoDeudaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('ReconocimientoDeudaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('ReconocimientoDeudaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.ReconocimientoDeudaMenuItem_reconocimientoDeudaIdEmpresa}" icon="ui-icon-search"  actionListener="#{reconocimientoDeudaController.prepareReconocimientoDeudaIdEmpresa}" update=":EmpresaViewForm" oncomplete="PF('EmpresaViewDialog').show()" disabled="#{empty reconocimientoDeudaController.selected.reconocimientoDeudaIdEmpresa}"/>  
+                <p:menuitem value="#{bundle.ReconocimientoDeudaMenuItem_reconocimientoDeudaIdTrabajador}" icon="ui-icon-search"  actionListener="#{reconocimientoDeudaController.prepareReconocimientoDeudaIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty reconocimientoDeudaController.selected.reconocimientoDeudaIdTrabajador}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{reconocimientoDeudaController.items}"
+                         lazy="false"
+                         rowKey="#{item.reconocimientoDeudaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{reconocimientoDeudaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{reconocimientoDeudaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.reconocimientoDeudaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ReconocimientoDeudaDataTableContextMenu" listener="#{reconocimientoDeudaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ReconocimientoDeudaDataTableContextMenu" listener="#{reconocimientoDeudaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{reconocimientoDeudaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ReconocimientoDeudaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.reconocimientoDeudaId}" filterBy="#{item.reconocimientoDeudaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListReconocimientoDeudaTitle_reconocimientoDeudaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reconocimientoDeudaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.reconocimientoDeudaMontoReconocimiento}" filterBy="#{item.reconocimientoDeudaMontoReconocimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListReconocimientoDeudaTitle_reconocimientoDeudaMontoReconocimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reconocimientoDeudaMontoReconocimiento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.reconocimientoDeudaDescripcionReconocimiento}" filterBy="#{item.reconocimientoDeudaDescripcionReconocimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListReconocimientoDeudaTitle_reconocimientoDeudaDescripcionReconocimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reconocimientoDeudaDescripcionReconocimiento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.reconocimientoDeudaFechaIngreso}" filterBy="#{item.reconocimientoDeudaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListReconocimientoDeudaTitle_reconocimientoDeudaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reconocimientoDeudaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.reconocimientoDeudaFechaActualizacion}" filterBy="#{item.reconocimientoDeudaFechaActualizacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListReconocimientoDeudaTitle_reconocimientoDeudaFechaActualizacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reconocimientoDeudaFechaActualizacion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.reconocimientoDeudaIdEmpresa.empresaId}" filterBy="#{item.reconocimientoDeudaIdEmpresa.empresaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListReconocimientoDeudaTitle_reconocimientoDeudaIdEmpresa}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reconocimientoDeudaIdEmpresa.empresaId}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.reconocimientoDeudaIdTrabajador.trabajadorId}" filterBy="#{item.reconocimientoDeudaIdTrabajador.trabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListReconocimientoDeudaTitle_reconocimientoDeudaIdTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.reconocimientoDeudaIdTrabajador.trabajadorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{reconocimientoDeudaController.prepareCreate}" update=":ReconocimientoDeudaCreateForm" oncomplete="PF('ReconocimientoDeudaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":ReconocimientoDeudaViewForm" oncomplete="PF('ReconocimientoDeudaViewDialog').show()" disabled="#{empty reconocimientoDeudaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ReconocimientoDeudaEditForm" oncomplete="PF('ReconocimientoDeudaEditDialog').show()" disabled="#{empty reconocimientoDeudaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{reconocimientoDeudaController.delete}" update=":growl,datalist" disabled="#{empty reconocimientoDeudaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

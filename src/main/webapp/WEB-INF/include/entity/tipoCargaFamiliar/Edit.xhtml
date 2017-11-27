@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoCargaFamiliarEditDlg" widgetVar="TipoCargaFamiliarEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoCargaFamiliarTitle}" closeOnEscape="true">
+
+            <h:form id="TipoCargaFamiliarEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoCargaFamiliarController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoCargaFamiliarLabel_tipoCargaFamiliarId}" for="tipoCargaFamiliarId" />
+                        <h:outputText id="tipoCargaFamiliarId" value="#{tipoCargaFamiliarController.selected.tipoCargaFamiliarId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoCargaFamiliarLabel_tipoCargaFamiliarNombre}" for="tipoCargaFamiliarNombre" />
+                        <p:inputText id="tipoCargaFamiliarNombre" value="#{tipoCargaFamiliarController.selected.tipoCargaFamiliarNombre}" title="#{bundle.EditTipoCargaFamiliarTitle_tipoCargaFamiliarNombre}" required="true" requiredMessage="#{bundle.EditTipoCargaFamiliarRequiredMessage_tipoCargaFamiliarNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditTipoCargaFamiliarLabel_tipoCargaFamiliarFechaIngreso}" for="tipoCargaFamiliarFechaIngreso" />
+                        <p:calendar id="tipoCargaFamiliarFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{tipoCargaFamiliarController.selected.tipoCargaFamiliarFechaIngreso}" title="#{bundle.EditTipoCargaFamiliarTitle_tipoCargaFamiliarFechaIngreso}" required="true" requiredMessage="#{bundle.EditTipoCargaFamiliarRequiredMessage_tipoCargaFamiliarFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoCargaFamiliarController.save}" value="#{bundle.Save}" update="display,:TipoCargaFamiliarListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoCargaFamiliarEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoCargaFamiliarEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="InstitucionApvEditDlg" widgetVar="InstitucionApvEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditInstitucionApvTitle}" closeOnEscape="true">
+
+            <h:form id="InstitucionApvEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{institucionApvController.selected != null}">
+
+
+                        <h:outputLabel value="#" for="institucionApvId" />
+                        <h:outputText id="institucionApvId" value="#{institucionApvController.selected.institucionApvId}" />
+
+                        <p:outputLabel value="Nombre" for="institucionApvNombre" />
+                        <p:inputText id="institucionApvNombre" value="#{institucionApvController.selected.institucionApvNombre}" title="#{bundle.EditInstitucionApvTitle_institucionApvNombre}" required="true" requiredMessage="#{bundle.EditInstitucionApvRequiredMessage_institucionApvNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditInstitucionApvLabel_institucionApvIdTipo}" for="institucionApvIdTipo" />
+                        <p:selectOneMenu id="institucionApvIdTipo" value="#{institucionApvController.selected.institucionApvIdTipo}" required="true" requiredMessage="#{bundle.EditInstitucionApvRequiredMessage_institucionApvIdTipo}" converter="tipoInstitucionApvConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoInstitucionApvController.items}"
+                                           var="institucionApvIdTipoItem"
+                                           itemValue="#{institucionApvIdTipoItem}"
+                                           itemLabel="#{institucionApvIdTipoItem.tipoInstitucionApvNombre}"
+                                           />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{institucionApvController.save}" value="#{bundle.Save}" update="display,:InstitucionApvListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('InstitucionApvEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('InstitucionApvEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

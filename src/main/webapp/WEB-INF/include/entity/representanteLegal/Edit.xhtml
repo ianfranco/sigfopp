@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RepresentanteLegalEditDlg" widgetVar="RepresentanteLegalEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditRepresentanteLegalTitle}" closeOnEscape="true">
+
+            <h:form id="RepresentanteLegalEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{representanteLegalController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditRepresentanteLegalLabel_representanteLegalId}" for="representanteLegalId" />
+                        <h:outputText id="representanteLegalId" value="#{representanteLegalController.selected.representanteLegalId}" />
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_representanteLegalNombre}" for="representanteLegalNombre" />
+                        <p:inputText id="representanteLegalNombre" value="#{representanteLegalController.selected.representanteLegalNombre}" title="#{bundle.EditRepresentanteLegalTitle_representanteLegalNombre}" required="true" requiredMessage="#{bundle.EditRepresentanteLegalRequiredMessage_representanteLegalNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_representanteLegalRut}" for="representanteLegalRut" />
+                        <p:inputText id="representanteLegalRut" value="#{representanteLegalController.selected.representanteLegalRut}" title="#{bundle.EditRepresentanteLegalTitle_representanteLegalRut}" required="true" requiredMessage="#{bundle.EditRepresentanteLegalRequiredMessage_representanteLegalRut}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_representanteLegalDireccion}" for="representanteLegalDireccion" />
+                        <p:inputText id="representanteLegalDireccion" value="#{representanteLegalController.selected.representanteLegalDireccion}" title="#{bundle.EditRepresentanteLegalTitle_representanteLegalDireccion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_representanteLegalTelefono}" for="representanteLegalTelefono" />
+                        <p:inputText id="representanteLegalTelefono" value="#{representanteLegalController.selected.representanteLegalTelefono}" title="#{bundle.EditRepresentanteLegalTitle_representanteLegalTelefono}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_representanteLegalEmail}" for="representanteLegalEmail" />
+                        <p:inputText id="representanteLegalEmail" value="#{representanteLegalController.selected.representanteLegalEmail}" title="#{bundle.EditRepresentanteLegalTitle_representanteLegalEmail}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditRepresentanteLegalLabel_representanteLegalFechaIngreso}" for="representanteLegalFechaIngreso" />
+                        <p:calendar id="representanteLegalFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{representanteLegalController.selected.representanteLegalFechaIngreso}" title="#{bundle.EditRepresentanteLegalTitle_representanteLegalFechaIngreso}" required="true" requiredMessage="#{bundle.EditRepresentanteLegalRequiredMessage_representanteLegalFechaIngreso}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{representanteLegalController.save}" value="#{bundle.Save}" update="display,:RepresentanteLegalListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RepresentanteLegalEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('RepresentanteLegalEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

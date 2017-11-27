@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="CtvResumenEditDlg" widgetVar="CtvResumenEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditCtvResumenTitle}" closeOnEscape="true">
+
+            <h:form id="CtvResumenEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ctvResumenController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditCtvResumenLabel_ctvResumenId}" for="ctvResumenId" />
+                        <h:outputText id="ctvResumenId" value="#{ctvResumenController.selected.ctvResumenId}" />
+
+                        <p:outputLabel value="#{bundle.EditCtvResumenLabel_ctvResumenNumero}" for="ctvResumenNumero" />
+                        <p:inputText id="ctvResumenNumero" value="#{ctvResumenController.selected.ctvResumenNumero}" title="#{bundle.EditCtvResumenTitle_ctvResumenNumero}" required="true" requiredMessage="#{bundle.EditCtvResumenRequiredMessage_ctvResumenNumero}"/>
+
+                        <p:outputLabel value="#{bundle.EditCtvResumenLabel_ctvResumenCantidadBolsas}" for="ctvResumenCantidadBolsas" />
+                        <p:inputText id="ctvResumenCantidadBolsas" value="#{ctvResumenController.selected.ctvResumenCantidadBolsas}" title="#{bundle.EditCtvResumenTitle_ctvResumenCantidadBolsas}" required="true" requiredMessage="#{bundle.EditCtvResumenRequiredMessage_ctvResumenCantidadBolsas}"/>
+
+                        <p:outputLabel value="#{bundle.EditCtvResumenLabel_ctvResumenTotalTransportado}" for="ctvResumenTotalTransportado" />
+                        <p:inputText id="ctvResumenTotalTransportado" value="#{ctvResumenController.selected.ctvResumenTotalTransportado}" title="#{bundle.EditCtvResumenTitle_ctvResumenTotalTransportado}" required="true" requiredMessage="#{bundle.EditCtvResumenRequiredMessage_ctvResumenTotalTransportado}"/>
+
+                        <p:outputLabel value="#{bundle.EditCtvResumenLabel_ctvResumenFechaHoraRetiro}" for="ctvResumenFechaHoraRetiro" />
+                        <p:calendar id="ctvResumenFechaHoraRetiro" pattern="MM/dd/yyyy HH:mm:ss" value="#{ctvResumenController.selected.ctvResumenFechaHoraRetiro}" title="#{bundle.EditCtvResumenTitle_ctvResumenFechaHoraRetiro}" required="true" requiredMessage="#{bundle.EditCtvResumenRequiredMessage_ctvResumenFechaHoraRetiro}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditCtvResumenLabel_ctvResumenIdResumenRecaudacion}" for="ctvResumenIdResumenRecaudacion" />
+                        <p:selectOneMenu id="ctvResumenIdResumenRecaudacion" value="#{ctvResumenController.selected.ctvResumenIdResumenRecaudacion}" required="true" requiredMessage="#{bundle.EditCtvResumenRequiredMessage_ctvResumenIdResumenRecaudacion}" converter="resumenRecaudacionConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{resumenRecaudacionController.items}"
+                                           var="ctvResumenIdResumenRecaudacionItem"
+                                           itemValue="#{ctvResumenIdResumenRecaudacionItem}"
+                                           itemLabel="#{ctvResumenIdResumenRecaudacionItem.resumenRecaudacionId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ctvResumenController.save}" value="#{bundle.Save}" update="display,:CtvResumenListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CtvResumenEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CtvResumenEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

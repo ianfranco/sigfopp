@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ParametroInterpolacionViewDlg" widgetVar="ParametroInterpolacionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewParametroInterpolacionTitle}" closeOnEscape="true">
+
+            <h:form id="ParametroInterpolacionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{parametroInterpolacionController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewParametroInterpolacionLabel_parametroInterpolacionId}"/>
+                        <h:outputText value="#{parametroInterpolacionController.selected.parametroInterpolacionId}" title="#{bundle.ViewParametroInterpolacionTitle_parametroInterpolacionId}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroInterpolacionLabel_parametroInterpolacionNombre}"/>
+                        <h:outputText value="#{parametroInterpolacionController.selected.parametroInterpolacionNombre}" title="#{bundle.ViewParametroInterpolacionTitle_parametroInterpolacionNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroInterpolacionLabel_parametroInterpolacionValor}"/>
+                        <h:outputText value="#{parametroInterpolacionController.selected.parametroInterpolacionValor}" title="#{bundle.ViewParametroInterpolacionTitle_parametroInterpolacionValor}"/>
+
+                        <h:outputText value="#{bundle.ViewParametroInterpolacionLabel_parametroInterpolacionUnidad}"/>
+                        <h:outputText value="#{parametroInterpolacionController.selected.parametroInterpolacionUnidad}" title="#{bundle.ViewParametroInterpolacionTitle_parametroInterpolacionUnidad}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('ParametroInterpolacionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

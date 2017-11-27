@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CargaRetroactivaListForm">
+
+        <p:panel header="#{bundle.ListCargaRetroactivaTitle}">
+            <p:contextMenu id="CargaRetroactivaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CargaRetroactivaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CargaRetroactivaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CargaRetroactivaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CargaRetroactivaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.CargaRetroactivaMenuItem_cargaRetroactivaIdCargaTrabajador}" icon="ui-icon-search"  actionListener="#{cargaRetroactivaController.prepareCargaRetroactivaIdCargaTrabajador}" update=":CargaTrabajadorViewForm" oncomplete="PF('CargaTrabajadorViewDialog').show()" disabled="#{empty cargaRetroactivaController.selected.cargaRetroactivaIdCargaTrabajador}"/>  
+                <p:menuitem value="#{bundle.CargaRetroactivaMenuItem_cargaRetroactivaIdTrabajador}" icon="ui-icon-search"  actionListener="#{cargaRetroactivaController.prepareCargaRetroactivaIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty cargaRetroactivaController.selected.cargaRetroactivaIdTrabajador}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cargaRetroactivaController.items}"
+                         lazy="false"
+                         rowKey="#{item.cargaRetroactivaId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{cargaRetroactivaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{cargaRetroactivaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.cargaRetroactivaId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargaRetroactivaDataTableContextMenu" listener="#{cargaRetroactivaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CargaRetroactivaDataTableContextMenu" listener="#{cargaRetroactivaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cargaRetroactivaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CargaRetroactivaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cargaRetroactivaId}" filterBy="#{item.cargaRetroactivaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaRetroactivaTitle_cargaRetroactivaId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaRetroactivaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaRetroactivaMonto}" filterBy="#{item.cargaRetroactivaMonto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaRetroactivaTitle_cargaRetroactivaMonto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaRetroactivaMonto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaRetroactivaFecha}" filterBy="#{item.cargaRetroactivaFecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaRetroactivaTitle_cargaRetroactivaFecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaRetroactivaFecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaRetroactivaFechaIngreso}" filterBy="#{item.cargaRetroactivaFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaRetroactivaTitle_cargaRetroactivaFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaRetroactivaFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaRetroactivaIdCargaTrabajador.cargaTrabajadorId}" filterBy="#{item.cargaRetroactivaIdCargaTrabajador.cargaTrabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaRetroactivaTitle_cargaRetroactivaIdCargaTrabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaRetroactivaIdCargaTrabajador.cargaTrabajadorId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cargaRetroactivaIdTrabajador.trabajadorId}" filterBy="#{item.cargaRetroactivaIdTrabajador.trabajadorId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListCargaRetroactivaTitle_cargaRetroactivaIdTrabajador}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cargaRetroactivaIdTrabajador.trabajadorId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{cargaRetroactivaController.prepareCreate}" update=":CargaRetroactivaCreateForm" oncomplete="PF('CargaRetroactivaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":CargaRetroactivaViewForm" oncomplete="PF('CargaRetroactivaViewDialog').show()" disabled="#{empty cargaRetroactivaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CargaRetroactivaEditForm" oncomplete="PF('CargaRetroactivaEditDialog').show()" disabled="#{empty cargaRetroactivaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{cargaRetroactivaController.delete}" update=":growl,datalist" disabled="#{empty cargaRetroactivaController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

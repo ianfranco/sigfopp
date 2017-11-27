@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoCajaTerminalViewDlg" widgetVar="EgresoCajaTerminalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewEgresoCajaTerminalTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoCajaTerminalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{egresoCajaTerminalController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalId}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalId}" title="#{bundle.ViewEgresoCajaTerminalTitle_egresoCajaTerminalId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalValorDefecto}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalValorDefecto}" title="#{bundle.ViewEgresoCajaTerminalTitle_egresoCajaTerminalValorDefecto}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalPorcentaje}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalPorcentaje}" title="#{bundle.ViewEgresoCajaTerminalTitle_egresoCajaTerminalPorcentaje}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalNumeroOrden}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalNumeroOrden}" title="#{bundle.ViewEgresoCajaTerminalTitle_egresoCajaTerminalNumeroOrden}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaActivo}"/>
+                        <h:selectBooleanCheckbox id="egresoCajaActivo" value="#{egresoCajaTerminalController.selected.egresoCajaActivo}" title="#{bundle.EditEgresoCajaTerminalTitle_egresoCajaActivo}" required="true" requiredMessage="#{bundle.EditEgresoCajaTerminalRequiredMessage_egresoCajaActivo}" disabled="true"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalFechaIngreso}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalFechaIngreso}" title="#{bundle.ViewEgresoCajaTerminalTitle_egresoCajaTerminalFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalFechaActualizacion}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalFechaActualizacion}" title="#{bundle.ViewEgresoCajaTerminalTitle_egresoCajaTerminalFechaActualizacion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalIdEgreso}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalIdEgreso.egresoId}"/>
+
+                        <h:outputText value="#{bundle.ViewEgresoCajaTerminalLabel_egresoCajaTerminalIdCajaTerminal}"/>
+                        <h:outputText value="#{egresoCajaTerminalController.selected.egresoCajaTerminalIdCajaTerminal.cajaTerminalId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('EgresoCajaTerminalViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

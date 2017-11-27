@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SueldoBaseListForm">
+
+        <p:panel header="#{bundle.ListSueldoBaseTitle}">
+            <p:contextMenu id="SueldoBaseDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('SueldoBaseListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('SueldoBaseListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('SueldoBaseListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('SueldoBaseListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{sueldoBaseController.items}"
+                         lazy="false"
+                         rowKey="#{item.sueldoBaseId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{sueldoBaseController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{sueldoBaseController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.sueldoBaseId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SueldoBaseDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SueldoBaseDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SueldoBaseListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.sueldoBaseId}" filterBy="#{item.sueldoBaseId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSueldoBaseTitle_sueldoBaseId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sueldoBaseId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sueldoBaseBaseNormal}" filterBy="#{item.sueldoBaseBaseNormal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSueldoBaseTitle_sueldoBaseBaseNormal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sueldoBaseBaseNormal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sueldoBaseBasePartime}" filterBy="#{item.sueldoBaseBasePartime}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSueldoBaseTitle_sueldoBaseBasePartime}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sueldoBaseBasePartime}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sueldoBaseDesde}" filterBy="#{item.sueldoBaseDesde}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSueldoBaseTitle_sueldoBaseDesde}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sueldoBaseDesde}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sueldoBaseHasta}" filterBy="#{item.sueldoBaseHasta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSueldoBaseTitle_sueldoBaseHasta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sueldoBaseHasta}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sueldoBaseFechaIngreso}" filterBy="#{item.sueldoBaseFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListSueldoBaseTitle_sueldoBaseFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sueldoBaseFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{sueldoBaseController.prepareCreate}" update=":SueldoBaseCreateForm" oncomplete="PF('SueldoBaseCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":SueldoBaseViewForm" oncomplete="PF('SueldoBaseViewDialog').show()" disabled="#{empty sueldoBaseController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SueldoBaseEditForm" oncomplete="PF('SueldoBaseEditDialog').show()" disabled="#{empty sueldoBaseController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sueldoBaseController.delete}" update=":growl,datalist" disabled="#{empty sueldoBaseController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

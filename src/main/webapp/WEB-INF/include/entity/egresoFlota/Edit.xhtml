@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EgresoFlotaEditDlg" widgetVar="EgresoFlotaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditEgresoFlotaTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoFlotaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{egresoFlotaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaId}" for="egresoFlotaId" />
+                        <h:outputText id="egresoFlotaId" value="#{egresoFlotaController.selected.egresoFlotaId}" />
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaValorDefecto}" for="egresoFlotaValorDefecto" />
+                        <p:inputText id="egresoFlotaValorDefecto" value="#{egresoFlotaController.selected.egresoFlotaValorDefecto}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaValorDefecto}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaValorDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaPorcentaje}" for="egresoFlotaPorcentaje" />
+                        <p:inputText id="egresoFlotaPorcentaje" value="#{egresoFlotaController.selected.egresoFlotaPorcentaje}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaPorcentaje}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaPorcentaje}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaNumeroOrden}" for="egresoFlotaNumeroOrden" />
+                        <p:inputText id="egresoFlotaNumeroOrden" value="#{egresoFlotaController.selected.egresoFlotaNumeroOrden}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaNumeroOrden}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaNumeroOrden}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaActivo}" for="egresoFlotaActivo" />
+                        <p:selectBooleanCheckbox id="egresoFlotaActivo" value="#{egresoFlotaController.selected.egresoFlotaActivo}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaFechaIngreso}" for="egresoFlotaFechaIngreso" />
+                        <p:calendar id="egresoFlotaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoFlotaController.selected.egresoFlotaFechaIngreso}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaFechaIngreso}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaFechaActualizacion}" for="egresoFlotaFechaActualizacion" />
+                        <p:calendar id="egresoFlotaFechaActualizacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoFlotaController.selected.egresoFlotaFechaActualizacion}" title="#{bundle.EditEgresoFlotaTitle_egresoFlotaFechaActualizacion}"  showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaIdEgreso}" for="egresoFlotaIdEgreso" />
+                        <p:selectOneMenu id="egresoFlotaIdEgreso" value="#{egresoFlotaController.selected.egresoFlotaIdEgreso}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaIdEgreso}" converter="egresoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoFlotaIdEgresoItem"
+                                           itemValue="#{egresoFlotaIdEgresoItem}"
+                                           itemLabel="#{egresoFlotaIdEgresoItem.egresoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditEgresoFlotaLabel_egresoFlotaIdFlota}" for="egresoFlotaIdFlota" />
+                        <p:selectOneMenu id="egresoFlotaIdFlota" value="#{egresoFlotaController.selected.egresoFlotaIdFlota}" required="true" requiredMessage="#{bundle.EditEgresoFlotaRequiredMessage_egresoFlotaIdFlota}" converter="flotaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{flotaController.items}"
+                                           var="egresoFlotaIdFlotaItem"
+                                           itemValue="#{egresoFlotaIdFlotaItem}"
+                                           itemLabel="#{egresoFlotaIdFlotaItem.flotaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoFlotaController.save}" value="#{bundle.Save}" update="display,:EgresoFlotaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoFlotaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoFlotaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

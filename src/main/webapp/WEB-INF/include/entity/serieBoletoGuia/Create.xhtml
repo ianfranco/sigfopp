@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SerieBoletoGuiaCreateDlg" widgetVar="SerieBoletoGuiaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSerieBoletoGuiaTitle}" closeOnEscape="true">
+
+            <h:form id="SerieBoletoGuiaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{serieBoletoGuiaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaNumeroVuelta}" for="serieBoletoGuiaNumeroVuelta" />
+                        <p:inputText id="serieBoletoGuiaNumeroVuelta" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaNumeroVuelta}" title="#{bundle.CreateSerieBoletoGuiaTitle_serieBoletoGuiaNumeroVuelta}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaNumeroVuelta}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaValorSerieBoleto}" for="serieBoletoGuiaValorSerieBoleto" />
+                        <p:inputText id="serieBoletoGuiaValorSerieBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaValorSerieBoleto}" title="#{bundle.CreateSerieBoletoGuiaTitle_serieBoletoGuiaValorSerieBoleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaValorSerieBoleto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaSerieBoleto}" for="serieBoletoGuiaSerieBoleto" />
+                        <p:inputText id="serieBoletoGuiaSerieBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaSerieBoleto}" title="#{bundle.CreateSerieBoletoGuiaTitle_serieBoletoGuiaSerieBoleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaSerieBoleto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaTerminoBoleto}" for="serieBoletoGuiaTerminoBoleto" />
+                        <p:inputText id="serieBoletoGuiaTerminoBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaTerminoBoleto}" title="#{bundle.CreateSerieBoletoGuiaTitle_serieBoletoGuiaTerminoBoleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaTerminoBoleto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaCantidadBoleto}" for="serieBoletoGuiaCantidadBoleto" />
+                        <p:inputText id="serieBoletoGuiaCantidadBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaCantidadBoleto}" title="#{bundle.CreateSerieBoletoGuiaTitle_serieBoletoGuiaCantidadBoleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaCantidadBoleto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaTotalBoleto}" for="serieBoletoGuiaTotalBoleto" />
+                        <p:inputText id="serieBoletoGuiaTotalBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaTotalBoleto}" title="#{bundle.CreateSerieBoletoGuiaTitle_serieBoletoGuiaTotalBoleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaTotalBoleto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaNuevoBoleto}" for="serieBoletoGuiaNuevoBoleto" />
+                        <p:selectBooleanCheckbox id="serieBoletoGuiaNuevoBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaNuevoBoleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaNuevoBoleto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaFechaIngreso}" for="serieBoletoGuiaFechaIngreso" />
+                        <p:calendar id="serieBoletoGuiaFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaFechaIngreso}" title="#{bundle.CreateSerieBoletoGuiaTitle_serieBoletoGuiaFechaIngreso}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaFechaIngreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaIdBoleto}" for="serieBoletoGuiaIdBoleto" />
+                        <p:selectOneMenu id="serieBoletoGuiaIdBoleto" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaIdBoleto}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaIdBoleto}" converter="boletoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{boletoController.items}"
+                                           var="serieBoletoGuiaIdBoletoItem"
+                                           itemValue="#{serieBoletoGuiaIdBoletoItem}"
+                                           itemLabel="#{serieBoletoGuiaIdBoletoItem.boletoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateSerieBoletoGuiaLabel_serieBoletoGuiaIdGuia}" for="serieBoletoGuiaIdGuia" />
+                        <p:selectOneMenu id="serieBoletoGuiaIdGuia" value="#{serieBoletoGuiaController.selected.serieBoletoGuiaIdGuia}" required="true" requiredMessage="#{bundle.CreateSerieBoletoGuiaRequiredMessage_serieBoletoGuiaIdGuia}" converter="guiaConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{guiaController.items}"
+                                           var="serieBoletoGuiaIdGuiaItem"
+                                           itemValue="#{serieBoletoGuiaIdGuiaItem}"
+                                           itemLabel="#{serieBoletoGuiaIdGuiaItem.guiaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{serieBoletoGuiaController.saveNew}" value="#{bundle.Save}" update="display,:SerieBoletoGuiaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SerieBoletoGuiaCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('SerieBoletoGuiaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

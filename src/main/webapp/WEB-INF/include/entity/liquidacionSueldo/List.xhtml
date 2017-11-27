@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LiquidacionSueldoListForm">
+
+        <p:panel header="#{bundle.ListLiquidacionSueldoTitle}">
+            <p:contextMenu id="LiquidacionSueldoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('LiquidacionSueldoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('LiquidacionSueldoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('LiquidacionSueldoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('LiquidacionSueldoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_liquidacionSueldoIdEmpresa}" icon="ui-icon-search"  actionListener="#{liquidacionSueldoController.prepareLiquidacionSueldoIdEmpresa}" update=":EmpresaViewForm" oncomplete="PF('EmpresaViewDialog').show()" disabled="#{empty liquidacionSueldoController.selected.liquidacionSueldoIdEmpresa}"/>  
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_liquidacionSueldoIdTerminal}" icon="ui-icon-search"  actionListener="#{liquidacionSueldoController.prepareLiquidacionSueldoIdTerminal}" update=":TerminalViewForm" oncomplete="PF('TerminalViewDialog').show()" disabled="#{empty liquidacionSueldoController.selected.liquidacionSueldoIdTerminal}"/>  
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_liquidacionSueldoIdTipoContrato}" icon="ui-icon-search"  actionListener="#{liquidacionSueldoController.prepareLiquidacionSueldoIdTipoContrato}" update=":TipoContratoViewForm" oncomplete="PF('TipoContratoViewDialog').show()" disabled="#{empty liquidacionSueldoController.selected.liquidacionSueldoIdTipoContrato}"/>  
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_liquidacionSueldoIdTrabajador}" icon="ui-icon-search"  actionListener="#{liquidacionSueldoController.prepareLiquidacionSueldoIdTrabajador}" update=":TrabajadorViewForm" oncomplete="PF('TrabajadorViewDialog').show()" disabled="#{empty liquidacionSueldoController.selected.liquidacionSueldoIdTrabajador}"/>  
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_haberLiquidacionList}" icon="ui-icon-search"  action="#{liquidacionSueldoController.navigateHaberLiquidacionList}" disabled="#{empty liquidacionSueldoController.selected.haberLiquidacionList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.LiquidacionSueldoMenuItem_descuentoLiquidacionList}" icon="ui-icon-search"  action="#{liquidacionSueldoController.navigateDescuentoLiquidacionList}" disabled="#{empty liquidacionSueldoController.selected.descuentoLiquidacionList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{liquidacionSueldoController.items}"
+                         lazy="false"
+                         rowKey="#{item.liquidacionSueldoId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{liquidacionSueldoController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{liquidacionSueldoController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.liquidacionSueldoId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LiquidacionSueldoDataTableContextMenu" listener="#{liquidacionSueldoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LiquidacionSueldoDataTableContextMenu" listener="#{liquidacionSueldoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{liquidacionSueldoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('LiquidacionSueldoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.liquidacionSueldoId}" filterBy="#{item.liquidacionSueldoId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.liquidacionSueldoId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.liquidacionSueldoNombreTerminal}" filterBy="#{item.liquidacionSueldoNombreTerminal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoNombreTerminal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.liquidacionSueldoNombreTerminal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.liquidacionSueldoFecha}" filterBy="#{item.liquidacionSueldoFecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoFecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.liquidacionSueldoFecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.liquidacionSueldoMontoBruto}" filterBy="#{item.liquidacionSueldoMontoBruto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoBruto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.liquidacionSueldoMontoBruto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.liquidacionSueldoMontoSueldoBase}" filterBy="#{item.liquidacionSueldoMontoSueldoBase}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoSueldoBase}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.liquidacionSueldoMontoSueldoBase}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.liquidacionSueldoHorasExtras}" filterBy="#{item.liquidacionSueldoHorasExtras}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoHorasExtras}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.liquidacionSueldoHorasExtras}"/>
+                </p:column>
+
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoImponible}" filterBy="#{item.liquidacionSueldoMontoImponible}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoImponible}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoImponible}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoImponibleAjustado}" filterBy="#{item.liquidacionSueldoMontoImponibleAjustado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoImponibleAjustado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoImponibleAjustado}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCincoTotal}" filterBy="#{item.liquidacionSueldoMontoCincoTotal}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCincoTotal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCincoTotal}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCincoFiltrado}" filterBy="#{item.liquidacionSueldoMontoCincoFiltrado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCincoFiltrado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCincoFiltrado}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoAhorro}" filterBy="#{item.liquidacionSueldoMontoAhorro}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoAhorro}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoAhorro}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoAbono}" filterBy="#{item.liquidacionSueldoMontoAbono}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoAbono}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoAbono}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoFeriado}" filterBy="#{item.liquidacionSueldoMontoFeriado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoFeriado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoFeriado}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoNoImponible}" filterBy="#{item.liquidacionSueldoMontoNoImponible}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoNoImponible}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoNoImponible}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoNumeroCarga}" filterBy="#{item.liquidacionSueldoNumeroCarga}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoNumeroCarga}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoNumeroCarga}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCarga}" filterBy="#{item.liquidacionSueldoMontoCarga}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCarga}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCarga}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoRetroactivo}" filterBy="#{item.liquidacionSueldoMontoRetroactivo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoRetroactivo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoRetroactivo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoFechaContrato}" filterBy="#{item.liquidacionSueldoFechaContrato}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoFechaContrato}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoFechaContrato}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoFechaFiniquito}" filterBy="#{item.liquidacionSueldoFechaFiniquito}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoFechaFiniquito}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoFechaFiniquito}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoFechaDesdeFeriado}" filterBy="#{item.liquidacionSueldoFechaDesdeFeriado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoFechaDesdeFeriado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoFechaDesdeFeriado}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoFechaHastaFeriado}" filterBy="#{item.liquidacionSueldoFechaHastaFeriado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoFechaHastaFeriado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoFechaHastaFeriado}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoDiasFeriado}" filterBy="#{item.liquidacionSueldoDiasFeriado}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoDiasFeriado}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoDiasFeriado}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoDiasLicencias}" filterBy="#{item.liquidacionSueldoDiasLicencias}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoDiasLicencias}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoDiasLicencias}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoDiasDescanso}" filterBy="#{item.liquidacionSueldoDiasDescanso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoDiasDescanso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoDiasDescanso}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoDiasGuias}" filterBy="#{item.liquidacionSueldoDiasGuias}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoDiasGuias}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoDiasGuias}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoDiasTrabajados}" filterBy="#{item.liquidacionSueldoDiasTrabajados}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoDiasTrabajados}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoDiasTrabajados}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoNombrePrevision}" filterBy="#{item.liquidacionSueldoNombrePrevision}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoNombrePrevision}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoNombrePrevision}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoPorcentajePrevision}" filterBy="#{item.liquidacionSueldoPorcentajePrevision}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoPorcentajePrevision}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoPorcentajePrevision}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoPrevision}" filterBy="#{item.liquidacionSueldoMontoPrevision}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoPrevision}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoPrevision}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoApv}" filterBy="#{item.liquidacionSueldoMontoApv}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoApv}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoApv}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCesantiaTrabajador}" filterBy="#{item.liquidacionSueldoMontoCesantiaTrabajador}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCesantiaTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCesantiaTrabajador}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCesantiaEmpresa}" filterBy="#{item.liquidacionSueldoMontoCesantiaEmpresa}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCesantiaEmpresa}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCesantiaEmpresa}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCesantiaTotal}" filterBy="#{item.liquidacionSueldoMontoCesantiaTotal}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCesantiaTotal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCesantiaTotal}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoSis}" filterBy="#{item.liquidacionSueldoMontoSis}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoSis}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoSis}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoInp}" filterBy="#{item.liquidacionSueldoMontoInp}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoInp}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoInp}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCajaCompensacion}" filterBy="#{item.liquidacionSueldoMontoCajaCompensacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCajaCompensacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCajaCompensacion}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoNombreIsapre}" filterBy="#{item.liquidacionSueldoNombreIsapre}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoNombreIsapre}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoNombreIsapre}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoIsapre}" filterBy="#{item.liquidacionSueldoMontoIsapre}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoIsapre}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoIsapre}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoSindicato}" filterBy="#{item.liquidacionSueldoMontoSindicato}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoSindicato}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoSindicato}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoSaldoAnterior}" filterBy="#{item.liquidacionSueldoMontoSaldoAnterior}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoSaldoAnterior}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoSaldoAnterior}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoRetencionJudicial}" filterBy="#{item.liquidacionSueldoMontoRetencionJudicial}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoRetencionJudicial}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoRetencionJudicial}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoCreditoSalud}" filterBy="#{item.liquidacionSueldoMontoCreditoSalud}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoCreditoSalud}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoCreditoSalud}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoSeguro}" filterBy="#{item.liquidacionSueldoMontoSeguro}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoSeguro}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoSeguro}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoTotalDescuentos}" filterBy="#{item.liquidacionSueldoMontoTotalDescuentos}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoTotalDescuentos}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoTotalDescuentos}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoAlcanceLiquido}" filterBy="#{item.liquidacionSueldoMontoAlcanceLiquido}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoAlcanceLiquido}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoAlcanceLiquido}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoAnticipo}" filterBy="#{item.liquidacionSueldoMontoAnticipo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoAnticipo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoAnticipo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoMontoSaldo}" filterBy="#{item.liquidacionSueldoMontoSaldo}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoMontoSaldo}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoMontoSaldo}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoFechaIngreso}" filterBy="#{item.liquidacionSueldoFechaIngreso}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoFechaIngreso}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoFechaIngreso}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoFechaActualizacion}" filterBy="#{item.liquidacionSueldoFechaActualizacion}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoFechaActualizacion}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoFechaActualizacion}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                        </h:outputText>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoIdEmpresa.empresaId}" filterBy="#{item.liquidacionSueldoIdEmpresa.empresaId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoIdEmpresa}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoIdEmpresa.empresaId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoIdTerminal.terminalId}" filterBy="#{item.liquidacionSueldoIdTerminal.terminalId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoIdTerminal}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoIdTerminal.terminalId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoIdTipoContrato.tipoContratoId}" filterBy="#{item.liquidacionSueldoIdTipoContrato.tipoContratoId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoIdTipoContrato}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoIdTipoContrato.tipoContratoId}"/>
+                                    </p:column>
+                -->
+                <!--
+                                    <p:column sortBy="#{item.liquidacionSueldoIdTrabajador.trabajadorId}" filterBy="#{item.liquidacionSueldoIdTrabajador.trabajadorId}">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{bundle.ListLiquidacionSueldoTitle_liquidacionSueldoIdTrabajador}"/>
+                                        </f:facet>
+                                        <h:outputText value="#{item.liquidacionSueldoIdTrabajador.trabajadorId}"/>
+                                    </p:column>
+                -->
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{liquidacionSueldoController.prepareCreate}" update=":LiquidacionSueldoCreateForm" oncomplete="PF('LiquidacionSueldoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":LiquidacionSueldoViewForm" oncomplete="PF('LiquidacionSueldoViewDialog').show()" disabled="#{empty liquidacionSueldoController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LiquidacionSueldoEditForm" oncomplete="PF('LiquidacionSueldoEditDialog').show()" disabled="#{empty liquidacionSueldoController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{liquidacionSueldoController.delete}" update=":growl,datalist" disabled="#{empty liquidacionSueldoController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

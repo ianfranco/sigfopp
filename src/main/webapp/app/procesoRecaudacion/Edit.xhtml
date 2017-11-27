@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProcesoRecaudacionEditDlg" widgetVar="ProcesoRecaudacionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="Editar Proceso Recaudación" closeOnEscape="true">
+
+            <h:form id="ProcesoRecaudacionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{procesoRecaudacionController.selected != null}">
+
+                        <p:outputLabel value="Nombre" for="procesoRecaudacionNombre" />
+                        <p:inputText id="procesoRecaudacionNombre" value="#{procesoRecaudacionController.selected.procesoRecaudacionNombre}" title="#{bundle.EditProcesoRecaudacionTitle_procesoRecaudacionNombre}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_procesoRecaudacionNombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Activo" for="procesoRecaudacionActivo" />
+                        <p:selectBooleanCheckbox id="procesoRecaudacionActivo" value="#{procesoRecaudacionController.selected.procesoRecaudacionActivo}" title="#{bundle.EditProcesoRecaudacionTitle_procesoRecaudacionActivo}" required="true" requiredMessage="#{bundle.EditProcesoRecaudacionRequiredMessage_procesoRecaudacionActivo}"/>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{procesoRecaudacionController.save}" value="#{bundle.Save}" update="display,:ProcesoRecaudacionListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProcesoRecaudacionEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('ProcesoRecaudacionEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

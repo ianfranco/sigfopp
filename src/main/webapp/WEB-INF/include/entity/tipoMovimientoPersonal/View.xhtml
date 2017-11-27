@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoMovimientoPersonalViewDlg" widgetVar="TipoMovimientoPersonalViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoMovimientoPersonalTitle}" closeOnEscape="true">
+
+            <h:form id="TipoMovimientoPersonalViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoMovimientoPersonalController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoMovimientoPersonalLabel_tipoMovimientoPersonalId}"/>
+                        <h:outputText value="#{tipoMovimientoPersonalController.selected.tipoMovimientoPersonalId}" title="#{bundle.ViewTipoMovimientoPersonalTitle_tipoMovimientoPersonalId}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoMovimientoPersonalLabel_tipoMovimientoPersonalNombre}"/>
+                        <h:outputText value="#{tipoMovimientoPersonalController.selected.tipoMovimientoPersonalNombre}" title="#{bundle.ViewTipoMovimientoPersonalTitle_tipoMovimientoPersonalNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoMovimientoPersonalLabel_tipoMovimientoPersonalFechaIngreso}"/>
+                        <h:outputText value="#{tipoMovimientoPersonalController.selected.tipoMovimientoPersonalFechaIngreso}" title="#{bundle.ViewTipoMovimientoPersonalTitle_tipoMovimientoPersonalFechaIngreso}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoMovimientoPersonalViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

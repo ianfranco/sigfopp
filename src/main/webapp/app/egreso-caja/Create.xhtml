@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EgresoCajaRecaudacionCreateDlg" widgetVar="EgresoCajaRecaudacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEgresoCajaRecaudacionTitle}" closeOnEscape="true">
+
+            <h:form id="EgresoCajaRecaudacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{egresoCajaRecaudacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaRecaudacionLabel_egresoCajaRecaudacionValorDefecto}" for="egresoCajaRecaudacionValorDefecto" />
+                        <p:inputText id="egresoCajaRecaudacionValorDefecto" value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionValorDefecto}" title="#{bundle.CreateEgresoCajaRecaudacionTitle_egresoCajaRecaudacionValorDefecto}" required="true" requiredMessage="#{bundle.CreateEgresoCajaRecaudacionRequiredMessage_egresoCajaRecaudacionValorDefecto}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaRecaudacionLabel_egresoCajaRecaudacionPorcentaje}" for="egresoCajaRecaudacionPorcentaje" />
+                        <p:inputText id="egresoCajaRecaudacionPorcentaje" value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionPorcentaje}" title="#{bundle.CreateEgresoCajaRecaudacionTitle_egresoCajaRecaudacionPorcentaje}" required="true" requiredMessage="#{bundle.CreateEgresoCajaRecaudacionRequiredMessage_egresoCajaRecaudacionPorcentaje}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaRecaudacionLabel_egresoCajaRecaudacionNumeroOrden}" for="egresoCajaRecaudacionNumeroOrden" />
+                        <p:inputText id="egresoCajaRecaudacionNumeroOrden" value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionNumeroOrden}" title="#{bundle.CreateEgresoCajaRecaudacionTitle_egresoCajaRecaudacionNumeroOrden}" required="true" requiredMessage="#{bundle.CreateEgresoCajaRecaudacionRequiredMessage_egresoCajaRecaudacionNumeroOrden}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaRecaudacionLabel_egresoCajaActivo}" for="egresoCajaActivo" />
+                        <p:selectBooleanCheckbox id="egresoCajaActivo" value="#{egresoCajaRecaudacionController.selected.egresoCajaActivo}" required="true" requiredMessage="#{bundle.CreateEgresoCajaRecaudacionRequiredMessage_egresoCajaActivo}"/>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaRecaudacionLabel_egresoCajaRecaudacionFechaIngreso}" for="egresoCajaRecaudacionFechaIngreso" />
+                        <p:calendar id="egresoCajaRecaudacionFechaIngreso" pattern="MM/dd/yyyy HH:mm:ss" value="#{egresoCajaRecaudacionController.selected.lastUpdate}" title="#{bundle.CreateEgresoCajaRecaudacionTitle_egresoCajaRecaudacionFechaIngreso}" required="true" requiredMessage="#{bundle.CreateEgresoCajaRecaudacionRequiredMessage_egresoCajaRecaudacionFechaIngreso}" showOn="button"/>                      
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaRecaudacionLabel_egresoCajaRecaudacionIdEgreso}" for="egresoCajaRecaudacionIdEgreso" />
+                        <p:selectOneMenu id="egresoCajaRecaudacionIdEgreso" value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionIdEgreso}" required="true" requiredMessage="#{bundle.CreateEgresoCajaRecaudacionRequiredMessage_egresoCajaRecaudacionIdEgreso}" converter="egresoConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{egresoController.items}"
+                                           var="egresoCajaRecaudacionIdEgresoItem"
+                                           itemValue="#{egresoCajaRecaudacionIdEgresoItem}"
+                                           itemLabel="#{egresoCajaRecaudacionIdEgresoItem.egresoId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateEgresoCajaRecaudacionLabel_egresoCajaRecaudacionIdCajaRecaudacion}" for="egresoCajaRecaudacionIdCajaRecaudacion" />
+                        <p:selectOneMenu id="egresoCajaRecaudacionIdCajaRecaudacion" value="#{egresoCajaRecaudacionController.selected.egresoCajaRecaudacionIdCajaRecaudacion}" required="true" requiredMessage="#{bundle.CreateEgresoCajaRecaudacionRequiredMessage_egresoCajaRecaudacionIdCajaRecaudacion}" converter="cajaTerminalConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cajaTerminalController.items}"
+                                           var="egresoCajaRecaudacionIdCajaRecaudacionItem"
+                                           itemValue="#{egresoCajaRecaudacionIdCajaRecaudacionItem}"
+                                           itemLabel="#{egresoCajaRecaudacionIdCajaRecaudacionItem.cajaTerminalId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{egresoCajaRecaudacionController.saveNew}" value="#{bundle.Save}" update="display,:EgresoCajaRecaudacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EgresoCajaRecaudacionCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('EgresoCajaRecaudacionCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

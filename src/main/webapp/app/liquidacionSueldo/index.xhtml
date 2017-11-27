@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/include/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.LiquidacionSueldoTitle}"/>
+    </ui:define>
+
+    <ui:define name="body">
+
+        <ui:include src="/WEB-INF/include/entity//liquidacionSueldo/List.xhtml"/>
+        <ui:include src="/WEB-INF/include/entity//liquidacionSueldo/View.xhtml"/>
+        <ui:include src="/WEB-INF/include/entity//liquidacionSueldo/Edit.xhtml"/>
+        <ui:include src="/WEB-INF/include/entity//liquidacionSueldo/Create.xhtml"/>
+        <ui:include src="/WEB-INF/include/entity//empresa/View.xhtml"/>
+        <ui:include src="/WEB-INF/include/entity//tipoContrato/View.xhtml"/>
+        <ui:include src="/WEB-INF/include/entity//terminal/View.xhtml"/>
+        <ui:include src="/WEB-INF/include/entity//trabajador/View.xhtml"/>
+
+    </ui:define>
+
+</ui:composition>

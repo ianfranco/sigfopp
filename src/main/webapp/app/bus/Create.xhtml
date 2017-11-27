@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BusCreateDlg" widgetVar="BusCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ingresar Nuevo Bus" closeOnEscape="true">
+
+            <h:form id="BusCreateForm">
+
+                <h:panelGroup id="display" rendered="#{busController.selected != null}">
+
+                    <p:panelGrid columns="4" columnClasses="column, , column, " >
+                        
+                        <p:outputLabel value="Unidad" for="busIdUnidadNegocio" />
+                        <p:selectOneMenu id="busIdUnidadNegocio" value="#{busController.selected.busIdUnidadNegocio}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busIdUnidadNegocio}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{unidadNegocioController.items}"
+                                           var="busIdUnidadNegocioItem"
+                                           itemValue="#{busIdUnidadNegocioItem}"
+                                           itemLabel="#{busIdUnidadNegocioItem.unidadNegocioNumero}"
+                                           />
+                            <p:ajax event="valueChange" listener="#{busController.findMaxByUnidad()}" update="busNumero"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="N°" for="busNumero" />
+                        <p:inputText id="busNumero" value="#{busController.selected.busNumero}" title="#{bundle.CreateBusTitle_busNumero}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busNumero}" size="20" onfocus="this.setSelectionRange(0, this.value.length)"/>
+                        
+                        <p:outputLabel value="PPU" for="busPatente" />
+                        <p:inputText id="busPatente" value="#{busController.selected.busPatente}" title="#{bundle.CreateBusTitle_busPatente}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busPatente}" size="20" maxlength="45" onfocus="this.setSelectionRange(0, this.value.length)">
+                            <p:tooltip value="Placa Patente Única"/>
+                        </p:inputText>
+
+                        <p:outputLabel value="Año" for="busAnio" />
+                        <p:inputText id="busAnio" value="#{busController.selected.busAnio}" title="#{bundle.CreateBusTitle_busAnio}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busAnio}" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                        <p:outputLabel value="Empresa" for="busIdEmpresa" />
+                        <p:selectOneMenu id="busIdEmpresa" value="#{busController.selected.busIdEmpresa}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busIdEmpresa}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empresaController.items}"
+                                           var="busIdEmpresaItem"
+                                           itemValue="#{busIdEmpresaItem}"
+                                           itemLabel="#{busIdEmpresaItem.empresaNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Flota" for="busIdFlota" />
+                        <p:selectOneMenu id="busIdFlota" value="#{busController.selected.busIdFlota}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busIdFlota}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{flotaController.items}"
+                                           var="busIdFlotaItem"
+                                           itemValue="#{busIdFlotaItem}"
+                                           itemLabel="#{busIdFlotaItem.flotaNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Administrador" for="busAdministrador" />
+                        <p:inputText id="busAdministrador" value="#{busController.selected.busAdministrador}" title="#{bundle.CreateBusTitle_busAdministrador}" size="40" maxlength="100" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                        <p:outputLabel value="Terminal" for="busIdTerminal" />
+                        <p:selectOneMenu id="busIdTerminal" value="#{busController.selected.busIdTerminal}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busIdTerminal}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{terminalController.items}"
+                                           var="busIdTerminalItem"
+                                           itemValue="#{busIdTerminalItem}"
+                                           itemLabel="#{busIdTerminalItem.terminalNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Grupo/Servicio" for="busIdGrupoServicio" />
+                        <p:selectOneMenu id="busIdGrupoServicio" value="#{busController.selected.busIdGrupoServicio}" required="true" requiredMessage="#{myBundle.CreateBusRequiredMessage_busIdGrupoServicio}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{grupoServicioController.items}"
+                                           var="busIdGrupoServicioItem"
+                                           itemValue="#{busIdGrupoServicioItem}"
+                                           itemLabel="#{busIdGrupoServicioItem.grupoServicioIdentificador}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Proceso Recaudación" for="busIdProcesoRecaudacion" />
+                        <p:selectOneMenu id="busIdProcesoRecaudacion" value="#{busController.selected.busIdProcesoRecaudacion}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busIdProcesoRecaudacion}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{procesoRecaudacionController.items}"
+                                           var="busIdProcesoRecaudacionItem"
+                                           itemValue="#{busIdProcesoRecaudacionItem}"
+                                           itemLabel="#{busIdProcesoRecaudacionItem.procesoRecaudacionNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Modelo" for="busIdModelo" />
+                        <p:selectOneMenu id="busIdModelo" value="#{busController.selected.busIdModelo}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busIdModelo}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{modeloMarcaBusController.items}"
+                                           var="busIdModeloItem"
+                                           itemValue="#{busIdModeloItem}"
+                                           itemLabel="#{busIdModeloItem.modeloMarcaBusNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="N° Motor" for="busNumeroMotor" />
+                        <p:inputText id="busNumeroMotor" value="#{busController.selected.busNumeroMotor}" title="#{bundle.CreateBusTitle_busNumeroMotor}" size="25" maxlength="45" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                        <p:outputLabel value="N° Chasis" for="busNumeroChasis" />
+                        <p:inputText id="busNumeroChasis" value="#{busController.selected.busNumeroChasis}" title="#{bundle.CreateBusTitle_busNumeroChasis}" size="25" maxlength="45" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                        <p:outputLabel value="Carrocería" for="busCarroceria" />
+                        <p:inputText id="busCarroceria" value="#{busController.selected.busCarroceria}" title="#{bundle.CreateBusTitle_busCarroceria}" size="25" maxlength="45" onfocus="this.setSelectionRange(0, this.value.length)"/>
+
+                        <p:outputLabel value="R.Técnica" for="busFechaRevisionTecnica" />
+                        <p:calendar id="busFechaRevisionTecnica" pattern="dd/MM/yyyy" value="#{busController.selected.busFechaRevisionTecnica}" title="#{bundle.CreateBusTitle_busFechaRevisionTecnica}"  showOn="button"/>
+
+                        <p:outputLabel value="Estado" for="busIdEstadoBus" />
+                        <p:selectOneMenu id="busIdEstadoBus" value="#{busController.selected.busIdEstadoBus}" required="true" requiredMessage="#{bundle.CreateBusRequiredMessage_busIdEstadoBus}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{estadoBusController.items}"
+                                           var="busIdEstadoBusItem"
+                                           itemValue="#{busIdEstadoBusItem}"
+                                           itemLabel="#{busIdEstadoBusItem.estadoBusNombre}"
+                                           />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Activo" for="busActivo" />
+                        <p:selectBooleanCheckbox id="busActivo" value="#{busController.selected.busActivo}" />
+
+                    </p:panelGrid>
+
+                    <p:commandButton actionListener="#{busController.saveNew}" value="#{bundle.Save}" update="display,:BusListForm:datalist:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BusCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('BusCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

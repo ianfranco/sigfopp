@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="OperadorTransporteListForm">
+
+        <p:panel header="#{bundle.ListOperadorTransporteTitle}">
+            <p:contextMenu id="OperadorTransporteDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('OperadorTransporteListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('OperadorTransporteListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('OperadorTransporteListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('OperadorTransporteListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.OperadorTransporteMenuItem_relacionLaboralList}" icon="ui-icon-search"  action="#{operadorTransporteController.navigateRelacionLaboralList}" disabled="#{empty operadorTransporteController.selected.relacionLaboralList}" ajax="false"/>  
+                <p:menuitem value="#{bundle.OperadorTransporteMenuItem_unidadNegocioList}" icon="ui-icon-search"  action="#{operadorTransporteController.navigateUnidadNegocioList}" disabled="#{empty operadorTransporteController.selected.unidadNegocioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{operadorTransporteController.items}"
+                         lazy="false"
+                         rowKey="#{item.operadorTransporteId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="50, 100, 200, 500"
+                         selectionMode="single"
+                         selection="#{operadorTransporteController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{operadorTransporteController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.operadorTransporteId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OperadorTransporteDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OperadorTransporteDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('OperadorTransporteListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.operadorTransporteId}" filterBy="#{item.operadorTransporteId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListOperadorTransporteTitle_operadorTransporteId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.operadorTransporteId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.operadorTransporteRut}" filterBy="#{item.operadorTransporteRut}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListOperadorTransporteTitle_operadorTransporteRut}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.operadorTransporteRut}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.operadorTransporteNombre}" filterBy="#{item.operadorTransporteNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListOperadorTransporteTitle_operadorTransporteNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.operadorTransporteNombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.operadorTransporteFechaIngreso}" filterBy="#{item.operadorTransporteFechaIngreso}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListOperadorTransporteTitle_operadorTransporteFechaIngreso}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.operadorTransporteFechaIngreso}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{operadorTransporteController.prepareCreate}" update=":OperadorTransporteCreateForm" oncomplete="PF('OperadorTransporteCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":OperadorTransporteViewForm" oncomplete="PF('OperadorTransporteViewDialog').show()" disabled="#{empty operadorTransporteController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":OperadorTransporteEditForm" oncomplete="PF('OperadorTransporteEditDialog').show()" disabled="#{empty operadorTransporteController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{operadorTransporteController.delete}" update=":growl,datalist" disabled="#{empty operadorTransporteController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>
