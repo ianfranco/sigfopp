@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog widgetVar="deudasPetroleoDialog" id="deudasPetroleoDlg" modal="true" resizable="false" appendTo="@(body)" header="Buses c/Deudas de Petroleo" closeOnEscape="true">
+            <h:form id="deudasPetroleoForm">
+                <p:dataTable id="datalist2"
+                             value="#{recaudacionCompletaController.deudasModel}"                     
+                             selection="#{recaudacionCompletaController.ventaCombustible}"
+                             scrollHeight="500" 
+                             scrollable="true" 
+                             widgetVar="datalistWidget2"
+                             var="item2"
+                             rowKey="#{item2.ventaCombustibleId}"
+                             selectionMode="single"
+                             rowIndexVar="rowIndex"
+                             emptyMessage="No se han encontrado registros"                      
+                             style="padding-top: 10px;">
+
+                    <f:facet name="header">
+                        <h:outputText value="Buses c/Deudas a la Fecha"/>
+                    </f:facet>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#"/>
+                        </f:facet>
+                        <h:outputLabel value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item2.ventaCombustibleIdSurtidor.surtidorIdentificador}" >
+                        <f:facet name="header">
+                            <h:outputText value="Surtidor"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.ventaCombustibleIdSurtidor.surtidorIdentificador}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item2.ventaCombustibleHora}" >
+                        <f:facet name="header">
+                            <h:outputText value="Hora"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.ventaCombustibleFecha}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputLabel>
+                    </p:column>
+
+                    <p:column sortBy="#{item2.ventaCombustibleNumeroBoleta}" >
+                        <f:facet name="header">
+                            <h:outputText value="N°Boleta"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.ventaCombustibleNumeroBoleta}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item2.ventaCombustibleIdBus.busNumero}" >
+                        <f:facet name="header">
+                            <h:outputText value="N°Bus"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.ventaCombustibleIdBus.busNumero}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item2.ventaCombustibleIdBus.busIdUnidadNegocio.unidadNegocioIdOperadorTransporte.operadorTransporteNombre}" >
+                        <f:facet name="header">
+                            <h:outputText value="Operador"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.ventaCombustibleIdBus.busIdUnidadNegocio.unidadNegocioIdOperadorTransporte.operadorTransporteNombre}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item2.ventaCombustibleCantidad}" >
+                        <f:facet name="header">
+                            <h:outputText value="N° de Litros"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.ventaCombustibleCantidad}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item2.ventaCombustibleTotal}" style="text-align: center;" styleClass="clase2">
+                        <f:facet name="header">
+                            <h:outputText value="Total Venta"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item2.ventaCombustibleTotal}" >
+                            <f:convertNumber currencySymbol="$" />
+                        </h:outputLabel>                
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

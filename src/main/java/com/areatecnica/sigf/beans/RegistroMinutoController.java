@@ -229,7 +229,7 @@ public class RegistroMinutoController extends AbstractController<RegistroMinuto>
             configuration.setReport(report);
 
             AdhocColumn column = new AdhocColumn();
-            column.setName("numero");
+            column.setName("numero");            
 
             report.addColumn(column);
 

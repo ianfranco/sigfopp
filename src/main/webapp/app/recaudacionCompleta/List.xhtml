@@ -71,14 +71,14 @@
     <h:form id="GuiaListForm">
         <div class="ui-g">
             <div class="ui-g-12 ui-md-2">
-                <p:commandButton id="recaudacionGeneral" value="Guías" style="height: 50px;width: 150px;margin-top: 40px;" styleClass="btn btn-primary" actionListener="#{recaudacionCompletaController.prepareCreate}" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}" update=":GuiaCreateForm" oncomplete="PF('GuiaCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
-                <p:commandButton id="recaudacionCombustibleBoleta" value="Petroleo x N° Boleta" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" actionListener="#{recaudacionCompletaController.prepareCreateRecaudacionCombustible(event)}" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}" update=":RecaudacionCombustibleCreateForm" oncomplete="PF('RecaudacionCombustibleCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
-                <p:commandButton id="recaudacionCombustibleBus" value="Petroleo x N° Bus" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
-                <p:commandButton id="recaudacionMinuto" value="Minutos x N° Bus" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
-                <p:commandButton id="recaudacionExtra" value="Ingresos Extras" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}" actionListener="#{recaudacionCompletaController.prepareCreateRecaudacionExtra(event)}" update=":RecaudacionExtraCreateForm" oncomplete="PF('RecaudacionExtraCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
-                <p:commandButton id="ventaBoleto" value="Venta de Boleto" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
-                <p:commandButton id="deudasMinutos" value="Deudas de Minutos" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/>
-                <p:commandButton id="deudasPetroleo" value="Deudas de Petroleo" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.cajaRecaudacion}"/></div>
+                <p:commandButton id="recaudacionGeneral" value="Guías" style="height: 50px;width: 150px;margin-top: 40px;" styleClass="btn btn-primary" actionListener="#{recaudacionCompletaController.prepareCreate}" disabled="#{empty recaudacionCompletaController.columnModelItems}" update=":GuiaCreateForm" oncomplete="PF('GuiaCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                <p:commandButton id="recaudacionCombustibleBoleta" value="Petroleo x N° Boleta" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" actionListener="#{recaudacionCompletaController.prepareCreateRecaudacionCombustible(event)}" disabled="#{empty recaudacionCompletaController.columnModelItems}" update=":RecaudacionCombustibleCreateForm" oncomplete="PF('RecaudacionCombustibleCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                <p:commandButton id="recaudacionCombustibleBus" value="Petroleo x N° Bus" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.columnModelItems}"/>
+                <p:commandButton id="recaudacionMinuto" value="Minutos x N° Bus" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.columnModelItems}"/>
+                <p:commandButton id="recaudacionExtra" value="Ingresos Extras" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.columnModelItems}" actionListener="#{recaudacionCompletaController.prepareCreateRecaudacionExtra(event)}" update=":RecaudacionExtraCreateForm" oncomplete="PF('RecaudacionExtraCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                <p:commandButton id="ventaBoleto" value="Venta de Boleto" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.columnModelItems}"/>
+                <p:commandButton id="deudasMinutos" value="Deudas de Minutos" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.columnModelItems}" update=":deudasMinutosForm" oncomplete="PF('deudasMinutosDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()" />
+                <p:commandButton id="deudasPetroleo" value="Deudas de Petroleo" style="height: 50px;width: 150px;margin-top: 10px;" styleClass="btn btn-primary" disabled="#{empty recaudacionCompletaController.columnModelItems}" update=":deudasPetroleoForm" oncomplete="PF('deudasPetroleoDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/></div>
             <div class="ui-g-12 ui-md-10 ui-g-nopad">
                 <div class="ui-g-12">
                     Estado Caja a la fecha: 
@@ -196,7 +196,7 @@
                     </div>
 
                     <div class="ui-g">
-                        <div class="ui-g-12 ui-md-12">Phasellus faucibus purus volutpat mauris lacinia sodales. Ut sit amet sapien facilisis, commodo dui non, fringilla tellus. Quisque tempus facilisis nisi sodales finibus. Pellentesque neque orci, ullamcorper vitae ligula quis, dignissim euismod augue.</div>
+                        <div class="ui-g-12 ui-md-12">Nandu Tur S.A.</div>
 
                     </div>
                 </div>

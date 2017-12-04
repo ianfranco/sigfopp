@@ -49,12 +49,12 @@
                         <p:row>
                             <p:column style="font-weight: bold;">N° Conductor:</p:column>
                             <p:column style="font-weight: bold;">
-                                <p:selectOneMenu id="guiaIdTrabajador" value="#{recaudacionGeneralController.selected.recaudacionIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Conductor" converter="omnifaces.SelectItemsConverter">
+                                <p:selectOneMenu id="guiaIdTrabajador" value="#{recaudacionGeneralController.selected.recaudacionIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Conductor" converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{trabajadorController.items}"
                                                    var="guiaIdTrabajadorItem"
                                                    itemValue="#{guiaIdTrabajadorItem}"
-                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorApellidoPaterno} #{guiaIdTrabajadorItem.trabajadorApellidoMaterno}"
                                                    />
                                     <p:ajax event="valueChange" update="guiaIdTrabajadorNombre, okButton" global="false"/>
                                 </p:selectOneMenu>

@@ -24,7 +24,7 @@
                         </p:outputLabel>
 
                         <p:outputLabel value="Paga:" for="registroMinutoDesdeIdBus" />
-                        <p:selectOneMenu id="registroMinutoDesdeIdBus" value="#{registroMinutoController.selected.registroMinutoDesdeIdBus}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoDesdeIdBus}" converter="omnifaces.SelectItemsConverter">
+                        <p:selectOneMenu  id="registroMinutoDesdeIdBus" value="#{registroMinutoController.selected.registroMinutoDesdeIdBus}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoDesdeIdBus}" converter="omnifaces.SelectItemsConverter" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{registroMinutoController.pagaBusItems}"
                                            var="registroMinutoDesdeIdBusItem"
@@ -48,8 +48,7 @@
                         <p:outputLabel value="Total:" for="registroMinutoMonto" />
                         <p:inputNumber id="registroMinutoMonto" decimalPlaces="0" emptyValue="zero" symbol="$ " minValue="0" value="#{registroMinutoController.selected.registroMinutoMonto}" title="#{bundle.CreateRegistroMinutoTitle_registroMinutoMonto}" required="true" requiredMessage="#{bundle.CreateRegistroMinutoRequiredMessage_registroMinutoMonto}" onfocus="this.setSelectionRange(0, this.value.length)" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{registroMinutoController.saveNew}" value="#{bundle.Save}" update="display,:RegistroMinutoListForm:datalist,:growl" resetValues="true">
-                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    <p:commandButton actionListener="#{registroMinutoController.saveNew}" value="#{bundle.Save}" update="display,:RegistroMinutoListForm:datalist,:growl" resetValues="true">                        
                     </p:commandButton>
 
                     <p:commandButton value="Cerrar" oncomplete="PF('RegistroMinutoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>

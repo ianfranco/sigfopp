@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog widgetVar="deudasMinutosDialog" id="deudasMinutosDlg" modal="true" resizable="false" appendTo="@(body)" header="Buses c/Deudas de Petroleo" closeOnEscape="true">
+            <h:form id="deudasMinutosForm">
+                <p:dataTable id="datalist2"
+                             value="#{recaudacionCompletaController.deudasMinutosModel}"                     
+                             selection="#{recaudacionCompletaController.registroMinuto}"
+                             scrollHeight="500" 
+                             scrollable="true" 
+                             widgetVar="datalistWidget2"
+                             var="item"
+                             rowKey="#{item.registroMinutoId}"
+                             selectionMode="single"
+                             rowIndexVar="rowIndex"
+                             emptyMessage="No se han encontrado registros"                      
+                             style="padding-top: 10px;">
+
+                    <f:facet name="header">
+                        <h:outputText value="Buses c/Deudas de Minutos a la Fecha"/>
+                    </f:facet>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#"/>
+                        </f:facet>
+                        <h:outputLabel value="#{rowIndex+1}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.registroMinutoDesdeIdBus.busNumero}" filterBy="#{item.registroMinutoDesdeIdBus.busNumero}">
+                        <f:facet name="header">
+                            <h:outputText value="Paga"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.registroMinutoDesdeIdBus.busNumero}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.registroMinutoHastaIdBus.busNumero}" filterBy="#{item.registroMinutoHastaIdBus.busNumero}">
+                        <f:facet name="header">
+                            <h:outputText value="Recibe"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.registroMinutoHastaIdBus.busNumero}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.registroMinutoMonto}" filterBy="#{item.registroMinutoMonto}">
+                        <f:facet name="header">
+                            <h:outputText value="N° Minutos"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.registroMinutoMonto}"/>
+                    </p:column>
+
+
+                    <p:column sortBy="#{item.lastUpdate}" filterBy="#{item.lastUpdate}">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha/Hora Ingreso"/>
+                        </f:facet>
+                        <h:outputLabel value="#{item.lastUpdate}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputLabel>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

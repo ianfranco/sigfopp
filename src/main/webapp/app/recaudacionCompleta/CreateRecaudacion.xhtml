@@ -45,12 +45,12 @@
                         <p:row>
                             <p:column style="font-weight: bold;">N° Conductor:</p:column>
                             <p:column style="font-weight: bold;">
-                                <p:selectOneMenu id="guiaIdTrabajador" value="#{recaudacionCompletaController.selected.recaudacionIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Conductor" converter="omnifaces.SelectItemsConverter">
+                                <p:selectOneMenu id="guiaIdTrabajador" value="#{recaudacionCompletaController.selected.recaudacionIdTrabajador}" required="true" requiredMessage="Debe seleccionar al Conductor" converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                                     <f:selectItems value="#{trabajadorController.items}"
                                                    var="guiaIdTrabajadorItem"
                                                    itemValue="#{guiaIdTrabajadorItem}"
-                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorCodigo}"
+                                                   itemLabel="#{guiaIdTrabajadorItem.trabajadorApellidoPaterno} #{guiaIdTrabajadorItem.trabajadorApellidoMaterno}"
                                                    />
                                     <p:ajax event="valueChange" update="guiaIdTrabajadorNombre, okButton" global="false"/>
                                 </p:selectOneMenu>
@@ -102,7 +102,7 @@
                                                       filter="true" 
                                                       filterMatchMode="contains" 
                                                       style="width: 250px;"
-                                                      panelStyle="width:250px">
+                                                      panelStyle="width:250px" >
                                     <f:selectItems value="#{recaudacionCompletaController.registroMinutoItems}"
                                                    var="registroMinutoL"
                                                    itemValue="#{registroMinutoL}"
@@ -117,7 +117,7 @@
                             <p:column rowspan="1" style="font-weight: bold;">Total</p:column>
                             <p:column rowspan="1"><p:outputLabel value="$ #{recaudacionCompletaController.getFormatValue(recaudacionCompletaController.totalRecaudacionMinuto)}" id="guiaIdTotalRegistroMinuto" /></p:column>
                         </p:row>
-                      
+
                         <p:row>
                             <p:column  colspan="3" style="text-align: right;font-weight: bold;background: #e5e5e5;">
                                 Detalle Recaudación: 

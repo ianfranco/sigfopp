@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Trabajador.findAll", query = "SELECT t FROM Trabajador t")
-    , @NamedQuery(name = "Trabajador.findAllByCuenta", query = "SELECT t FROM Trabajador t WHERE t.trabajadorIdCuenta =:idCuenta ORDER BY t.trabajadorCodigo ASC")
+    , @NamedQuery(name = "Trabajador.findAllByCuenta", query = "SELECT t FROM Trabajador t WHERE t.trabajadorIdCuenta =:idCuenta ORDER BY t.trabajadorApellidoPaterno ASC")
     , @NamedQuery(name = "Trabajador.findDefaultTrabajador", query = "SELECT t FROM Trabajador t WHERE t.trabajadorCodigo =:trabajadorCodigo AND t.trabajadorIdCuenta =:trabajadorIdCuenta")
     , @NamedQuery(name = "Trabajador.findByTrabajadorId", query = "SELECT t FROM Trabajador t WHERE t.trabajadorId = :trabajadorId")
     , @NamedQuery(name = "Trabajador.findMaxCuenta", query = "SELECT t FROM Trabajador t WHERE t.trabajadorIdCuenta = :trabajadorIdCuenta ORDER BY t.trabajadorCodigo DESC")

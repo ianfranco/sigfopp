@@ -1040,7 +1040,7 @@ public class RecaudacionGeneralController extends AbstractCrudController<Recauda
     public void handleBusChange(ActionEvent event) {
         if (this.getSelected().getRecaudacionIdBus() != null) {
             this.setRegistroMinutoItems(null);
-            this.setSelectedMinutosHelper(null);
+            this.setSelectedMinutosHelper(new ArrayList<>());
             this.setVentaCombustibleItems(null);
             this.setSelectedPetroleoHelper(null);
 
@@ -1063,6 +1063,7 @@ public class RecaudacionGeneralController extends AbstractCrudController<Recauda
                         minuto.setRegistro(m);
                         minuto.setObservacion("$ " + decimalFormat.format(m.getRegistroMinutoMonto()) + "   N° Bus: " + m.getRegistroMinutoHastaIdBus().getBusNumero() + " - " + currentDate.format(m.getRegistroMinutoFechaMinuto()));
                         this.getRegistroMinutoItems().add(minuto);
+                        this.selectedMinutosHelper.add(minuto);
                     }
 
                 } else {

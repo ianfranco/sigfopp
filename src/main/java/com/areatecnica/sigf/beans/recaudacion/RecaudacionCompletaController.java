@@ -48,6 +48,8 @@ import com.areatecnica.sigf.models.MinutosHelper;
 import com.areatecnica.sigf.models.PetroleoHelper;
 import com.areatecnica.sigf.models.RecaudacionCombustibleDataModel;
 import com.areatecnica.sigf.models.RecaudacionDataModel;
+import com.areatecnica.sigf.models.RecaudacionMinutoDataModel;
+import com.areatecnica.sigf.models.RegistroMinutoDataModel;
 import com.areatecnica.sigf.models.VentaCombustibleModel;
 import com.areatecnica.sigf.util.CurrentDate;
 import java.io.IOException;
@@ -170,7 +172,9 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
     private IBusDao busDao;
 
     private RecaudacionCombustibleDataModel recaudacionCombustibleDataModel;
+    private RecaudacionMinutoDataModel recaudacionMinutoDataModel;
     private VentaCombustibleModel deudasModel;
+    private RegistroMinutoDataModel deudasMinutosModel;
 
     /*Objetos Auxiliares*/
     private RecaudacionCombustible recaudacionCombustible;
@@ -181,6 +185,7 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
     private CurrentDate currentDate = new CurrentDate();
     private CajaRecaudacion cajaRecaudacion;
     private VentaCombustible ventaCombustible;
+    private RegistroMinuto registroMinuto; 
 
     /*Suma*/
     private int totalRecaudacion;
@@ -634,6 +639,20 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
     public void setDeudasModel(VentaCombustibleModel deudasModel) {
         this.deudasModel = deudasModel;
     }
+    
+    /**
+     * @return the registroMinuto
+     */
+    public RegistroMinuto getRegistroMinuto() {
+        return registroMinuto;
+    }
+
+    /**
+     * @param registroMinuto the registroMinuto to set
+     */
+    public void setRegistroMinuto(RegistroMinuto registroMinuto) {
+        this.registroMinuto = registroMinuto;
+    }
 
     /**
      * @return the ventaCombustible
@@ -756,6 +775,20 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
 
     public String getFormatFecha(Date fecha) {
         return new SimpleDateFormat("dd/MM/yyyy").format(fecha);
+    }
+    
+    /**
+     * @return the deudasModel
+     */
+    public RegistroMinutoDataModel getDeudasMinutosModel() {
+        return deudasMinutosModel;
+    }
+
+    /**
+     * @param deudasModel the deudasModel to set
+     */
+    public void setDeudasMinutosModel(RegistroMinutoDataModel deudasMinutosModel) {
+        this.deudasMinutosModel = deudasMinutosModel;
     }
 
     /**
@@ -949,6 +982,8 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
         System.err.println("TAMAÑO DE footer:" + this.getResultsTotals().size());
 
         resumen();
+        loadDeudas();
+        loadDeudasMinutos();
     }
 
     public void loadGuia() {
@@ -965,6 +1000,18 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
                 }
             }
         }
+    }
+
+    public void loadDeudas() {
+        this.ventaCombustibleDao = new IVentaCombustibleDaoImpl();
+        //this.setDeudasItems((List<VentaCombustible>) this.ventaCombustibleDao.findByTerminalSinRecaudar(this.getCurrentUser().getUsuarioIdTerminal(), Boolean.FALSE));
+
+        this.setDeudasModel(new VentaCombustibleModel((List<VentaCombustible>) this.ventaCombustibleDao.findByTerminalSinRecaudar(this.getCurrentUser().getUsuarioIdTerminal(), Boolean.FALSE)));
+    }
+    
+    public void loadDeudasMinutos() {
+        this.registroMinutoDao = new IRegistroMinutoDaoImpl();        
+        this.setDeudasMinutosModel(new RegistroMinutoDataModel((List<RegistroMinuto>) this.registroMinutoDao.findByTerminalSinRecaudar(this.getCurrentUser().getUsuarioIdTerminal())));
     }
 
     @Override
@@ -1200,7 +1247,7 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
     public void handleBusChange(ActionEvent event) {
         if (this.getSelected().getRecaudacionIdBus() != null) {
             this.setRegistroMinutoItems(null);
-            this.setSelectedMinutosHelper(null);
+            this.setSelectedMinutosHelper(new ArrayList<>());
             this.setVentaCombustibleItems(null);
             this.setSelectedPetroleoHelper(null);
 
@@ -1220,9 +1267,11 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
                     for (RegistroMinuto m : minutosList) {
                         total = total + m.getRegistroMinutoMonto();
                         MinutosHelper minuto = new MinutosHelper();
+                        minuto.setTodos(Boolean.TRUE);
                         minuto.setRegistro(m);
                         minuto.setObservacion("$ " + decimalFormat.format(m.getRegistroMinutoMonto()) + "   N° Bus: " + m.getRegistroMinutoHastaIdBus().getBusNumero() + " - " + currentDate.format(m.getRegistroMinutoFechaMinuto()));
                         this.getRegistroMinutoItems().add(minuto);
+                        this.selectedMinutosHelper.add(minuto);
                     }
 
                 } else {
@@ -1231,7 +1280,7 @@ public class RecaudacionCompletaController extends AbstractCrudController<Recaud
                     MinutosHelper minuto = new MinutosHelper();
                     minuto.setRegistro(r);
                     minuto.setObservacion("$ " + decimalFormat.format(r.getRegistroMinutoMonto()) + "   N° Bus: " + r.getRegistroMinutoHastaIdBus().getBusNumero() + " - " + currentDate.format(r.getRegistroMinutoFechaMinuto()));
-                    minuto.setTodos(Boolean.FALSE);
+                    minuto.setTodos(Boolean.TRUE);
                     this.getRegistroMinutoItems().add(minuto);
 
                 }
